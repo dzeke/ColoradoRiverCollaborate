@@ -104,10 +104,11 @@ dfNames <- colnames(dfForecastErrors)
 dfForecastErrors$Error <- dfForecastErrors$final - dfForecastErrors$`Feb. 1 forecast`
 
 #Histogram -- frequency of annual errors
-ggplot(dfForecastErrors, aes(x=Error)) +
-  geom_histogram(color="darkmagenta", fill="magenta", binwidth = 1000) +
+ggplot(dfForecastErrors, aes(x=Error/1000)) +
+  geom_histogram(color="darkmagenta", fill="magenta", binwidth = 1) +
   
-  scale_x_continuous(limits = c(-5000,6000), breaks = seq(-5000,6000,by=1000)) +
+  scale_x_continuous(limits = c(-5,6), breaks = seq(-5,6,by=1), sec.axis = dup_axis(name="",breaks = c(-5,0,6), labels = c('Over Estimate', 'Accurate', 'Under Estimate'))) +
+#   scale_x_continuous(limits = c(-5,6), breaks = seq(-5,6,by=1)) +
   #scale_y_continuous(breaks = seq(0,11,by=1)) +
   
   labs(x="Feb. 1 Forecast Error\n(million acre feet per year)", y="Frequency\n(number of years)") +
