@@ -140,6 +140,7 @@ palBlueUse <- palBlues(9)
 
 # Set the fill color based on the District name
 #Create a data frame lookup table of colors
+
 dfDistrictColor <- data.frame(District = c(cAZDistrictsName[1:6,],cCADistrictsName[1:9,]),
                               State = c(rep("AZ",6),rep("CA",9)))
 #order the districts by name
@@ -254,4 +255,9 @@ ggplot() +
   theme(text = element_text(size=20),  legend.title = element_blank(), 
         legend.text=element_text(size=18)) #,
 
+### Show Figure 3 for year 2020 in table format
 
+#Concise Dataframe
+dfSeasConcise <- as.data.frame(dfAllDepletionSeas %>% select(State, District, Season, Year, SeasTotal) %>% filter(Year == 2026) %>% group_by(State, District, Year) %>% mutate(percent = SeasTotal/sum(SeasTotal)*100))
+
+view(dfSeasConcise)
