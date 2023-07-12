@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1581407293166.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "950544197",
+    "id" : "F7BBD64C",
+    "lastKnownWriteTime" : 1632331367,
+    "last_content_update" : 1632331367100,
+    "path" : "C:/Rosenberg/Work/USU/Research/ColoradoRiver/RCode/ColoradoRiverCoding2/ICS/ICS-Plots.R",
+    "project_path" : "ICS-Plots.R",
+    "properties" : {
+        "cursorPosition" : "393,32",
+        "scrollLine" : "374"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
