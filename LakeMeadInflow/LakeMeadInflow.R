@@ -1,5 +1,28 @@
-#####
-#     An examination of Lake Mead Inflow using USGS gaged and USBR Natural flow data
+####################
+#     Lake Mead Inflow
+#     Estimate Lake Mead inflow using 4 methods:
+#
+#       1. Add U.S. Geological Service data from stream gages 
+#
+#             A. Colorado River nr Peach Springs [9404200; https://waterdata.usgs.gov/monitoring-location/09404200/#parameterCode=00065&timeSeriesId=6324&period=P7D] (1990 to present)
+#             B. Virgin River at Littlefield [9415000; https://waterdata.usgs.gov/monitoring-location/09415000/#parameterCode=00065&period=P7D] (1930 to present)
+#             C. Las Vegas Wash Below LAKE LAS VEGAS NR BOULDER CITY, NV [09419800; https://waterdata.usgs.gov/monitoring-location/09419800/] (2002 to present)
+#
+#             Mead Inflow = A + B + C
+#
+#             All data in USGSInterveningFlowData.xlsx
+#
+#       2. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
+#
+#             A. Supplementary_file-WangSchmidt.xlsx => Tables => S18:X18
+#
+#
+#       3. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
+#
+#             A. 
+#
+#       4. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation
+#           Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
 #
 #     This code file modifies and updates a prior coding effort -- Grand Canyon Intervening flow available at https://github.com/dzeke/ColoradoRiverCoding/tree/main/GrandCanyonInterveningFlow
 #
