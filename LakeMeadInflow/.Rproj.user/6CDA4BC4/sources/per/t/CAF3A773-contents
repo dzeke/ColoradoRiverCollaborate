@@ -12,16 +12,11 @@
 #
 #             All data in USGSInterveningFlowData.xlsx
 #
-#       2. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
-#
-#             A. Supplementary_file-WangSchmidt.xlsx => Tables => S18:X18
-#
-#
-#       3. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
+#       2. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
 #
 #             A. 
 #
-#       4. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
+#       3. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
 #
 #             A. HDB Data Service (usbr.gov) - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
 #
@@ -36,6 +31,13 @@
 #                 as USBR-API-MeadData.json and USBR-API-MeadData.csv
 #
 #                 Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
+#
+#       4. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
+#
+#             A. Supplementary_file-WangSchmidt.xlsx => Tables => S18:W18
+#         
+#             IGNORE because these values pull from the same gage data as #1 with different definitions of the year (March to February)
+
 #
 #     This code file modifies and adds to a prior coding effort -- Grand Canyon Intervening flow available at https://github.com/dzeke/ColoradoRiverCoding/tree/main/GrandCanyonInterveningFlow
 #
@@ -104,6 +106,12 @@ if (!require(plyr)) {
   library(plyr) 
 }
 
+if (!require(stringr)) { 
+  install.packages("stringr", repo="http://cran.r-project.org")
+  library(stringr) 
+}
+
+
 if (!require(ggplot2)) { 
   install.packages("ggplot2", repo="http://cran.r-project.org")
   library(ggplot2) 
@@ -147,7 +155,7 @@ dfGCFlowsByYear$MeadInflowNat <- dfGCFlowsByYear$GCFlow + dfGCFlowsByYear$LeeFer
 
 
 ##############################
-###  1. Add U.S. Geological Service data from stream gages
+### Inflow Calc Method #1. Add U.S. Geological Service data from stream gages
 # Read in the USGS gaged data
 
 sExcelFileUSGSFlow <- 'USGSInterveningFlowData.xlsx'
@@ -170,8 +178,50 @@ dfGCFlowsUSGS <- dfGCFlowsUSGS %>% replace(is.na(.),0)
 dfGCFlowsUSGS$GCFlow <- dfGCFlowsUSGS$`Colorado River near Peach Springs` - dfGCFlowsUSGS$LeeFerryFlow + dfGCFlowsUSGS$`Virgin River at Littlefield`
 #Lake Mead inflow
 dfGCFlowsUSGS$MeadInflowUSGS <- dfGCFlowsUSGS$`Colorado River near Peach Springs` + dfGCFlowsUSGS$`Virgin River at Littlefield` + dfGCFlowsUSGS$LasVegasWash
+dfGCFlowsUSGS$Method <- "USGSgages"
 
-#Create
+##############################
+### Inflow Calc Method #2. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
+#
+#        A. file SingleTraceOut.xlsx
+#
+
+sExcelFileCRSS <- "SingleTraceOut.xlsx"
+dfCRSSOutput<- read_excel(sExcelFileCRSS, sheet = 'RunTest') #  range = "A1:E32")
+
+#Rename first column to Date
+cCRSSColNames <- colnames(dfCRSSOutput)
+cCRSSColNames[1] <- "CRSSDate"
+colnames(dfCRSSOutput) <- cCRSSColNames
+
+#Add a Water Year column
+dfCRSSOutput$ModelYear <- year(dfCRSSOutput$CRSSDate)
+dfCRSSOutput$Year <- dfCRSSOutput$ModelYear - 2022 + 1907
+dfCRSSOutput$Month <- month(dfCRSSOutput$CRSSDate)
+dfCRSSOutput$WaterYear <- ifelse(dfCRSSOutput$Month >= 10, dfCRSSOutput$Year + 1, dfCRSSOutput$Year)
+
+# Aggregate to year
+dfMeadInflowsCRSS <- dfCRSSOutput %>% dplyr::select(Year, Month, Mead.Inflow) %>% dplyr::group_by(Year) %>% dplyr::summarize(AnnualInflow = sum(Mead.Inflow))
+
+
+
+##############################
+### Inflow Calc Method #4. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
+# Read in the Water Balance from the Supplemental spreadsheet => Tables => S18:X18
+#
+# IGNORE because year definitions are different and draw on same gage data
+# 
+sExcelFileWangSchmidt <- "Supplementary_file-WangSchmidt.xlsx"
+dfMeadInflowsWSvals <- read_excel(sExcelFileWangSchmidt, sheet = 'Tables',  range = "S18:W18")
+dfMeadInflowsWSyears <- read_excel(sExcelFileWangSchmidt, sheet = 'Tables',  range = "S4:W4")
+
+#Read in values as headers. Reshape to long
+cWSvalColNames <- colnames(dfMeadInflowsWSvals)
+cWSyearsColNames <- colnames(dfMeadInflowsWSyears)
+# Make a new dataframe
+dfMeadInflowsWS <- data.frame(Year = cWSyearsColNames, Inflow = as.numeric(cWSvalColNames))
+#Extract Water year from Year variable
+dfMeadInflowsWS$WaterYear <- as.numeric(str_sub(dfMeadInflowsWS$Year,3,6)) + 1
 
 
 #Natural flow - Not used but preserve
