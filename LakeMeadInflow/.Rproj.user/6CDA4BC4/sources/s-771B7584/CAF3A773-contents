@@ -35,30 +35,15 @@
 #
 #                 as USBR-API-MeadData.json and USBR-API-MeadData.csv
 #
+#                 Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
 #
-#Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
+#     This code file modifies and adds to a prior coding effort -- Grand Canyon Intervening flow available at https://github.com/dzeke/ColoradoRiverCoding/tree/main/GrandCanyonInterveningFlow
 #
-#     This code file modifies and updates a prior coding effort -- Grand Canyon Intervening flow available at https://github.com/dzeke/ColoradoRiverCoding/tree/main/GrandCanyonInterveningFlow
-#
-#     Herein we use the same data to calculate Inflow to Lake Mead.
-#     
-#     Calculate Lake Mead Inflow as:
-#        From USBR Natural Flows:  Virgin, and Powell to Mead natural flows
-#     in the USBR Natural Flow database
-#
-#        From USGS gages: (Colorado River near Peach Springs [9404200] + Virign River at Littlefield [9415000] )
-#
-#     Produces 5 plots for each data set:
-#
-#       1. Time series
-#       2. Box and whiskers of flow
-#       3. Correlation with Lee Ferry Natural Flow
-#       4. and 5. Dotty plot of Salehabadi and Tarboton (2020) for each data set
-#
+#    
 #
 #     David E. Rosenberg
 #     May 10, 2021
-#     Updated August 14, 2023 to calculate Inflow to Lake Mead
+#     Updated August 18, 2023 to calculate Inflow to Lake Mead
 #     david.rosenberg@usu.edu
 
 #
@@ -163,7 +148,7 @@ dfGCFlowsByYear$MeadInflowNat <- dfGCFlowsByYear$GCFlow + dfGCFlowsByYear$LeeFer
 ### Read in the USGS gaged data
 
 sExcelFileUSGSFlow <- 'USGSInterveningFlowData.xlsx'
-dfGCFlowsUSGS <- read_excel(sExcelFileUSGSFlow, sheet = 'Combined',  range = "A1:D32")
+dfGCFlowsUSGS <- read_excel(sExcelFileUSGSFlow, sheet = 'Combined',  range = "A1:E32")
 cColNames <- colnames(dfGCFlowsUSGS)
 cColNames[1] <- "WaterYear"
 cColNames[2] <- "LeeFerryFlow"
