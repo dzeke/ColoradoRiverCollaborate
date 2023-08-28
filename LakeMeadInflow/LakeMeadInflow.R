@@ -21,8 +21,22 @@
 #
 #             A. 
 #
-#       4. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation
-#           Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
+#       4. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
+#
+#             A. HDB Data Service (usbr.gov) - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
+#
+#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=DY&t1=1990-01-01T00:00&t2=2023-08-28T00:00&table=R&mrid=0&format=csv
+#
+#                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
+#                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
+#                 the SDID's you will need are as follows: Evaporation (SDID=1776), Inflow (SDID=2091), Storage (SDID=1721), 
+#                 and Release (SDID=1874). From there you can select the timestep you want,
+#                  Instantaneous, Hourly, Daily, Monthly, as well as for what time span you want.
+#
+#                 as USBR-API-MeadData.json and USBR-API-MeadData.csv
+#
+#
+#Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
 #
 #     This code file modifies and updates a prior coding effort -- Grand Canyon Intervening flow available at https://github.com/dzeke/ColoradoRiverCoding/tree/main/GrandCanyonInterveningFlow
 #
