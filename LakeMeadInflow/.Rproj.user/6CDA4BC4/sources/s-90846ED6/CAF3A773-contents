@@ -134,6 +134,7 @@ rm(list = ls())  #Clear history
 
 #Labels for each method to use in grouping and plotting
 cMethods <- c("USGS gages", "USBR API", "CRSS", "Wang-Schmidt")
+cColors <- c("Blue", "Red", "Purple", "Black")
 
 # the Combined data frame will have the variables WaterYear, MeadInflow, Method
 
@@ -371,16 +372,21 @@ dfInflows <- rbind(dfInflows, dfMeadInflowsCRSS %>% select(WaterYear, MeadInflow
 # dfGCFDataToUse <- rbind(dfGCFDataToUse, dfGCFDataToUse2)
 
 
+#Subset of methods to plot
+cMethodsToPlot <- cMethods[1:2]
+cColorsToPlot <- cColors[1:2]
+dfInflowsToPlot <- dfInflows %>% filter(Method %in% cMethodsToPlot)
+
 #Plot as Time series
 
 #### Figure 1 - Time series
 
 ggplot() +
   #Data after 1989
-  geom_line(data = dfInflows %>% filter(Method %in% cMethods[1,2]), aes(x=WaterYear , y=MeadInflow, color=Method, linetype=Method), size=1.5) +
+  geom_line(data = dfInflowsToPlot, aes(x=WaterYear , y=MeadInflow, color=Method, linetype=Method), size=1.5) +
   theme_bw() +
   
-  scale_color_manual(values = c("Red", "Blue")) +
+  scale_color_manual(values = cColorsToPlot) +
   scale_linetype_manual(values = c("solid","longdash")) +
   
   #Make one combined legend
@@ -395,20 +401,18 @@ ggplot() +
 
 
 
-
 #### Figure 2 - Plot Mead Inflow as a box-and-whiskers
 #Plot as a box-and whiskers
 
 ggplot() +
-  #Data after 1989
-  geom_boxplot(data = dfGCFDataToUse %>% filter(WaterYear >= 1990), aes(x=Source , y=MeadInflow, fill=Source)) +
+  geom_boxplot(data = dfInflowsToPlot, aes(x=Method , y=MeadInflow, fill=Method)) +
   theme_bw() +
   
   #Data before 1990
-  geom_boxplot(data = dfGCFDataToUse %>% filter(WaterYear < 1990), aes(x="Before 1990 Natural Flow" , y=MeadInflow, fill="Before 1990 Natural Flow")) +
+  #geom_boxplot(data = dfGCFDataToUse %>% filter(WaterYear < 1990), aes(x="Before 1990 Natural Flow" , y=MeadInflow, fill="Before 1990 Natural Flow")) +
   
-  scale_x_discrete(labels = c("Natural Flow" = "Natural Flow\n(1990 to 2016)", "Before 1990 Natural Flow" = "Natural Flow\n(1905 to 1989)", "USGS" = "USGS\n(1990 to 2016)") ) +
-  scale_fill_manual(values = c("Pink", "Red", "Blue")) +
+  #scale_x_discrete(labels = c("Natural Flow" = "Natural Flow\n(1990 to 2016)", "Before 1990 Natural Flow" = "Natural Flow\n(1905 to 1989)", "USGS" = "USGS\n(1990 to 2016)") ) +
+  scale_fill_manual(values = cColorsToPlot) +
   
   theme_bw() +
   
@@ -418,24 +422,32 @@ ggplot() +
   theme(text = element_text(size=20), 
         legend.position = "none")
 
+#Reshape the data so Methods are in columns
+dfInflowsWide <- dcast(dfInflowsToPlot, WaterYear ~ Method, value.var = "MeadInflow")
+dfInflowsWide$Diff <-  dfInflowsWide$`USGS gages` - dfInflowsWide$`USBR API`
 
 #### Figure 3. Show the correlation between Mead Inflow and Lee Ferry Flow
 #
 ggplot() +
   #Points after 1990 in Blue and Red
-  geom_point(data = dfGCFDataToUse %>% filter(WaterYear >= 1990), aes(x= LeeFerryNaturalFlow, y=MeadInflow, color=Source, shape=Source), size=6) +
+  #geom_point(data = dfInflowsWide, aes(x= `USBR API`, y=`USGS gages`),  size = 6) + #color=Method shape=Method, size=6) +
+ 
+  geom_point(data = dfInflowsWide, aes(x= WaterYear, y=Diff),  size = 6) + #color=Method shape=Method, size=6) +
   
-  geom_point(data = dfGCFDataToUse %>% filter(WaterYear < 1990), aes(x= LeeFerryNaturalFlow, y=MeadInflow, color="Natural Flow pre 1990", shape="Natural Flow pre 1990"), size=6) +
+  #geom_point(data = dfGCFDataToUse %>% filter(WaterYear < 1990), aes(x= LeeFerryNaturalFlow, y=MeadInflow, color="Natural Flow pre 1990", shape="Natural Flow pre 1990"), size=6) +
 
-  scale_shape_manual(values=c(17,16,16), breaks = c("USGS","Natural Flow","Natural Flow pre 1990"), labels  = c("USGS (after 1990)","Natural Flow (after 1990)","Natural Flow (before 1990)")) +
+  #scale_shape_manual(values=c(17,16,16), breaks = c("USGS","Natural Flow","Natural Flow pre 1990"), labels  = c("USGS (after 1990)","Natural Flow (after 1990)","Natural Flow (before 1990)")) +
   
-  scale_color_manual(values=c("Blue","Red","Pink"), breaks = c("USGS","Natural Flow","Natural Flow pre 1990"), labels  = c("USGS (after 1990)","Natural Flow (after 1990)","Natural Flow (before 1990)")) +
+  #scale_color_manual(values=c("Blue","Red","Pink"), breaks = c("USGS","Natural Flow","Natural Flow pre 1990"), labels  = c("USGS (after 1990)","Natural Flow (after 1990)","Natural Flow (before 1990)")) +
+  
+  #Add 1:1 line
+  #geom_abline(intercept = 0, slope = 1, linetype = "dash", color = red, size = 1) +
   
   #Make one combined legend
   guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
   
   #facet_wrap( ~ Source) +
-  labs(x="Lake Mead Inflow\n(MAF per year)", y="Grand Canyon Intervening Flows\n(MAF per year)") +
+  labs(x="", y="Difference in Lake Mead Inflow\n(MAF per year)") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   
@@ -443,7 +455,7 @@ ggplot() +
   theme(text = element_text(size=20))
 
 ## Show the correlation matrix
-mCorr <- cor(as.data.frame(dfGCFDataToUse %>% filter(WaterYear >= 1990, Source == "Natural Flow") %>% select(LeeFerryNaturalFlow,GCFlow)))
+mCorr <- cor(as.data.frame(dfInflowsWide %>% select(`USGS gages`,`USBR API`)))
 print(paste("Correlation = ",round(mCorr[1,2],2)))
 
 
