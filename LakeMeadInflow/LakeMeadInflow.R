@@ -181,7 +181,7 @@ dfGCFlowsByYear$MeadInflowNat <- dfGCFlowsByYear$GCFlow + dfGCFlowsByYear$LeeFer
 # Read in the USGS gaged data
 
 sExcelFileUSGSFlow <- 'USGSInterveningFlowData.xlsx'
-dfGCFlowsUSGS <- read_excel(sExcelFileUSGSFlow, sheet = 'Combined',  range = "A1:E32")
+dfGCFlowsUSGS <- read_excel(sExcelFileUSGSFlow, sheet = 'Combined',  range = "A1:E34")
 cColNames <- colnames(dfGCFlowsUSGS)
 cColNames[1] <- "WaterYear"
 cColNames[2] <- "LeeFerryFlow"
@@ -426,7 +426,37 @@ ggplot() +
 dfInflowsWide <- dcast(dfInflowsToPlot, WaterYear ~ Method, value.var = "MeadInflow")
 dfInflowsWide$Diff <-  dfInflowsWide$`USGS gages` - dfInflowsWide$`USBR API`
 
-#### Figure 3. Show the correlation between Mead Inflow and Lee Ferry Flow
+#### Figure 3. Show the correlation between USGS and USBR
+#
+ggplot() +
+  
+  geom_point(data = dfInflowsWide, aes(x= `USBR API`, y=`USGS gages`),  size = 6) + #color=Method shape=Method, size=6) +
+  
+  #geom_point(data = dfInflowsWide, aes(x= WaterYear, y=Diff),  size = 6) + #color=Method shape=Method, size=6) +
+  
+  #geom_point(data = dfGCFDataToUse %>% filter(WaterYear < 1990), aes(x= LeeFerryNaturalFlow, y=MeadInflow, color="Natural Flow pre 1990", shape="Natural Flow pre 1990"), size=6) +
+  
+  #scale_shape_manual(values=c(17,16,16), breaks = c("USGS","Natural Flow","Natural Flow pre 1990"), labels  = c("USGS (after 1990)","Natural Flow (after 1990)","Natural Flow (before 1990)")) +
+  
+  #scale_color_manual(values=c("Blue","Red","Pink"), breaks = c("USGS","Natural Flow","Natural Flow pre 1990"), labels  = c("USGS (after 1990)","Natural Flow (after 1990)","Natural Flow (before 1990)")) +
+  
+  #Add 1:1 line
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
+  
+  #Make one combined legend
+  guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
+  
+  #facet_wrap( ~ Source) +
+  labs(x="", y="Difference in Lake Mead Inflow\n(MAF per year)") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  
+  theme_bw() +  
+  theme(text = element_text(size=20))
+
+
+
+#### Figure 4. Show the difference between USGS and USBR
 #
 ggplot() +
   #Points after 1990 in Blue and Red
