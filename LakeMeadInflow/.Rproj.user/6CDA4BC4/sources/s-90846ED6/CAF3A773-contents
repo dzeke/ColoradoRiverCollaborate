@@ -58,68 +58,84 @@
 
 rm(list = ls())  #Clear history
 
-# Load required libraies
-
-if (!require(tidyverse)) { 
-  install.packages("tidyverse", repos="http://cran.r-project.org") 
-  library(tidyverse) 
-}
-
-if (!require(readxl)) { 
-  install.packages("readxl", repos="http://cran.r-project.org") 
-  library(readxl) 
-}
-
-if (!require(RColorBrewer)) { 
-  install.packages("RColorBrewer",repos="http://cran.r-project.org") 
-  library(RColorBrewer) # 
-}
-
-if (!require(dplyr)) { 
-  install.packages("dplyr",repos="http://cran.r-project.org") 
-  library(dplyr) # 
-}
-
-if (!require(expss)) { 
-  install.packages("expss",repos="http://cran.r-project.org") 
-  library(expss) # 
-}
-
-if (!require(reshape2)) { 
-  install.packages("reshape2", repos="http://cran.r-project.org") 
-  library(reshape2) 
-}
-
-if (!require(pracma)) { 
-  install.packages("pracma", repos="http://cran.r-project.org") 
-  library(pracma) 
-}
-
-if (!require(lubridate)) { 
-  install.packages("lubridate", repos="http://cran.r-project.org") 
-  library(lubridate) 
-}
-
-if (!require(directlabels)) { 
-  install.packages("directlabels", repo="http://cran.r-project.org")
-  library(directlabels) 
-}
-
-if (!require(plyr)) { 
-  install.packages("plyr", repo="http://cran.r-project.org")
-  library(plyr) 
-}
-
-if (!require(stringr)) { 
-  install.packages("stringr", repo="http://cran.r-project.org")
-  library(stringr) 
-}
+#Load packages in one go
+  #List of packages
+  load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2")
+# Then we select only the packages that aren't currently installed.
+  install.lib <- load.lib[!load.lib %in% installed.packages()]
+# And finally we install the missing packages, including their dependency.
+  for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+  # After the installation process completes, we load all packages.
+  sapply(load.lib,require,character=TRUE)
 
 
-if (!require(ggplot2)) { 
-  install.packages("ggplot2", repo="http://cran.r-project.org")
-  library(ggplot2) 
-}
+# # Load required libraies
+# 
+# if (!require(tidyverse)) { 
+#   install.packages("tidyverse", repos="http://cran.r-project.org") 
+#   library(tidyverse) 
+# }
+# 
+# if (!require(readxl)) { 
+#   install.packages("readxl", repos="http://cran.r-project.org") 
+#   library(readxl) 
+# }
+# 
+# if (!require(RColorBrewer)) { 
+#   install.packages("RColorBrewer",repos="http://cran.r-project.org") 
+#   library(RColorBrewer) # 
+# }
+# 
+# if (!require(dplyr)) { 
+#   install.packages("dplyr",repos="http://cran.r-project.org") 
+#   library(dplyr) # 
+# }
+# 
+# if (!require(expss)) { 
+#   install.packages("expss",repos="http://cran.r-project.org") 
+#   library(expss) # 
+# }
+# 
+# if (!require(reshape2)) { 
+#   install.packages("reshape2", repos="http://cran.r-project.org") 
+#   library(reshape2) 
+# }
+# 
+# if (!require(pracma)) { 
+#   install.packages("pracma", repos="http://cran.r-project.org") 
+#   library(pracma) 
+# }
+# 
+# if (!require(lubridate)) { 
+#   install.packages("lubridate", repos="http://cran.r-project.org") 
+#   library(lubridate) 
+# }
+# 
+# if (!require(directlabels)) { 
+#   install.packages("directlabels", repo="http://cran.r-project.org")
+#   library(directlabels) 
+# }
+# 
+# if (!require(plyr)) { 
+#   install.packages("plyr", repo="http://cran.r-project.org")
+#   library(plyr) 
+# }
+# 
+# if (!require(stringr)) { 
+#   install.packages("stringr", repo="http://cran.r-project.org")
+#   library(stringr) 
+# }
+# 
+# 
+# if (!require(ggplot2)) { 
+#   install.packages("ggplot2", repo="http://cran.r-project.org")
+#   library(ggplot2) 
+# }
+
+#Labels for each method to use in grouping and plotting
+cMethods <- c("USGS gages", "USBR API", "CRSS", "Wang-Schmidt")
+
+# the Combined data frame will have the variables WaterYear, MeadInflow, Method
 
 
 ### Read in the Natural Flow data and convert it to annual flows
@@ -182,8 +198,8 @@ dfGCFlowsUSGS <- dfGCFlowsUSGS %>% replace(is.na(.),0)
 #Grand Canyon interveening flow
 dfGCFlowsUSGS$GCFlow <- dfGCFlowsUSGS$`Colorado River near Peach Springs` - dfGCFlowsUSGS$LeeFerryFlow + dfGCFlowsUSGS$`Virgin River at Littlefield`
 #Lake Mead inflow
-dfGCFlowsUSGS$MeadInflowUSGS <- dfGCFlowsUSGS$`Colorado River near Peach Springs` + dfGCFlowsUSGS$`Virgin River at Littlefield` + dfGCFlowsUSGS$LasVegasWash
-dfGCFlowsUSGS$Method <- "USGSgages"
+dfGCFlowsUSGS$MeadInflow <- dfGCFlowsUSGS$`Colorado River near Peach Springs` + dfGCFlowsUSGS$`Virgin River at Littlefield` + dfGCFlowsUSGS$LasVegasWash
+dfGCFlowsUSGS$Method <- cMethods[1]
 
 
 
@@ -263,8 +279,8 @@ dfUSBR_API_Agg <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("WaterYear" = "W
 
 #Now calculate the inflow from release, evaporation, and change in storage
 # Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
-dfUSBR_API_Agg$Inflow <- dfUSBR_API_Agg$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
-
+dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
+dfUSBR_API_Agg$Method <- cMethods[2]
 
 
 
@@ -289,8 +305,8 @@ dfCRSSOutput$Month <- month(dfCRSSOutput$CRSSDate)
 dfCRSSOutput$WaterYear <- ifelse(dfCRSSOutput$Month >= 10, dfCRSSOutput$Year + 1, dfCRSSOutput$Year)
 
 # Aggregate to year
-dfMeadInflowsCRSS <- dfCRSSOutput %>% dplyr::select(Year, Month, Mead.Inflow) %>% dplyr::group_by(Year) %>% dplyr::summarize(AnnualInflow = sum(Mead.Inflow))
-
+dfMeadInflowsCRSS <- dfCRSSOutput %>% dplyr::select(WaterYear, Month, Mead.Inflow) %>% dplyr::group_by(WaterYear) %>% dplyr::summarize(MeadInflow = sum(Mead.Inflow)/1e6)
+dfMeadInflowsCRSS$Method <- cMethods[3]
 
 
 
@@ -309,44 +325,59 @@ dfMeadInflowsWSyears <- read_excel(sExcelFileWangSchmidt, sheet = 'Tables',  ran
 cWSvalColNames <- colnames(dfMeadInflowsWSvals)
 cWSyearsColNames <- colnames(dfMeadInflowsWSyears)
 # Make a new dataframe
-dfMeadInflowsWS <- data.frame(Year = cWSyearsColNames, Inflow = as.numeric(cWSvalColNames))
+dfMeadInflowsWS <- data.frame(Year = cWSyearsColNames, MeadInflow = as.numeric(cWSvalColNames))
 #Extract Water year from Year variable
 dfMeadInflowsWS$WaterYear <- as.numeric(str_sub(dfMeadInflowsWS$Year,3,6)) + 1
 
+dfMeadInflowsWS$Method <- cMethods[4]
 
-#Natural flow - Not used but preserve
-dfGCFDataToUse <- dfGCFlowsByYear
-dfGCFDataToUse$GCFlow <- dfGCFDataToUse$GCFlow/1e6
-dfGCFDataToUse$MeadInflowNat <- dfGCFDataToUse$MeadInflowNat/1e6
-dfGCFDataToUse$LeeFerryNaturalFlow <- dfGCFDataToUse$LeeFerryNaturalFlow/1e6
-#Rename the MeadInflowNat column to MeadInflow for later use with rbind
-cColNames <- colnames(dfGCFDataToUse)
-cColNames[4] <- "MeadInflow"
-colnames(dfGCFDataToUse) <- cColNames
 
-dfGCFDataToUse$Source <- 'Natural Flow'
 
-#USGS data
-#Pull in the correct columns
-dfGCFDataToUse2 <- as.data.frame(dfGCFlowsUSGS[,c(1,5,6)])
-#Rename the 6th column MeadInflow
-dfGCFDataToUse2 <- dfGCFDataToUse2 %>% dplyr::rename(MeadInflow = MeadInflowUSGS)
-#Assign the Lee Ferry Natural Flow by year
-dfGCFDataToUse2 <- left_join(dfGCFDataToUse2, dfGCFDataToUse[,c("WaterYear","LeeFerryNaturalFlow")], by=c("WaterYear" = "WaterYear"))
-#Sort smallest year to largest year
-dfGCFDataToUse2 <- dfGCFDataToUse2[order(dfGCFDataToUse2$`WaterYear`),]
-dfGCFDataToUse2$Source <- 'USGS'
-#Swap the order of MeadInflow and LeeFerryNaturalFlow
-dfGCFDataToUse2 <- dfGCFDataToUse2 %>% dplyr::select(WaterYear, GCFlow, LeeFerryNaturalFlow, MeadInflow, Source)
+#########
+## Bind all the MeadInflow variables from the dataframes for the different methods
+## This dataframe will have the structure WaterYear, MeadInflow, Method
 
-#Bind the two data sets together
-dfGCFDataToUse <- rbind(dfGCFDataToUse, dfGCFDataToUse2)
+#Methods 1 and 2
+dfInflows <- rbind(dfGCFlowsUSGS %>% select(WaterYear, MeadInflow, Method), dfUSBR_API_Agg %>% select(WaterYear, MeadInflow, Method) )
+
+dfInflows <- rbind(dfInflows, dfMeadInflowsCRSS %>% select(WaterYear, MeadInflow, Method))
+
+# #Natural flow - Not used but preserve
+# dfGCFDataToUse <- dfGCFlowsByYear
+# dfGCFDataToUse$GCFlow <- dfGCFDataToUse$GCFlow/1e6
+# dfGCFDataToUse$MeadInflowNat <- dfGCFDataToUse$MeadInflowNat/1e6
+# dfGCFDataToUse$LeeFerryNaturalFlow <- dfGCFDataToUse$LeeFerryNaturalFlow/1e6
+# #Rename the MeadInflowNat column to MeadInflow for later use with rbind
+# cColNames <- colnames(dfGCFDataToUse)
+# cColNames[4] <- "MeadInflow"
+# colnames(dfGCFDataToUse) <- cColNames
+# 
+# dfGCFDataToUse$Source <- 'Natural Flow'
+# 
+# #USGS data
+# #Pull in the correct columns
+# dfGCFDataToUse2 <- as.data.frame(dfGCFlowsUSGS[,c(1,5,6)])
+# #Rename the 6th column MeadInflow
+# dfGCFDataToUse2 <- dfGCFDataToUse2 %>% dplyr::rename(MeadInflow = MeadInflowUSGS)
+# #Assign the Lee Ferry Natural Flow by year
+# dfGCFDataToUse2 <- left_join(dfGCFDataToUse2, dfGCFDataToUse[,c("WaterYear","LeeFerryNaturalFlow")], by=c("WaterYear" = "WaterYear"))
+# #Sort smallest year to largest year
+# dfGCFDataToUse2 <- dfGCFDataToUse2[order(dfGCFDataToUse2$`WaterYear`),]
+# dfGCFDataToUse2$Source <- 'USGS'
+# #Swap the order of MeadInflow and LeeFerryNaturalFlow
+# dfGCFDataToUse2 <- dfGCFDataToUse2 %>% dplyr::select(WaterYear, GCFlow, LeeFerryNaturalFlow, MeadInflow, Source)
+# 
+# #Bind the two data sets together
+# dfGCFDataToUse <- rbind(dfGCFDataToUse, dfGCFDataToUse2)
+
+
+#Plot as Time series
 
 #### Figure 1 - Time series
 
 ggplot() +
   #Data after 1989
-  geom_line(data = dfGCFDataToUse, aes(x=WaterYear , y=MeadInflow, color=Source, linetype=Source), size=1.5) +
+  geom_line(data = dfInflows %>% filter(Method %in% cMethods[1,2]), aes(x=WaterYear , y=MeadInflow, color=Method, linetype=Method), size=1.5) +
   theme_bw() +
   
   scale_color_manual(values = c("Red", "Blue")) +
@@ -357,7 +388,7 @@ ggplot() +
   
   theme_bw() +
   
-  labs(x="", y="Lake Mead Inflow(MAF per year)", color="") +
+  labs(x="", y="Lake Mead Inflow\n(MAF per year)", color="") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=20))
