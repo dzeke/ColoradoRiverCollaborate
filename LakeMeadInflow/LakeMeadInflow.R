@@ -1,5 +1,6 @@
 ####################
 #     Lake Mead Inflow
+#
 #     Estimate Lake Mead inflow using 4 methods:
 #
 #       1. Add U.S. Geological Service data from stream gages 
@@ -12,11 +13,8 @@
 #
 #             All data in USGSInterveningFlowData.xlsx
 #
-#       2. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
-#
-#             A. 
-#
-#       3. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
+#       
+#       2. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
 #
 #             A. HDB Data Service (usbr.gov) - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
 #
@@ -31,6 +29,12 @@
 #                 as USBR-API-MeadData.json and USBR-API-MeadData.csv
 #
 #                 Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
+
+#       3. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
+#
+#             A. Read from SingleTraceOut.xlsx
+#
+#      
 #
 #       4. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
 #
@@ -180,8 +184,20 @@ dfGCFlowsUSGS$GCFlow <- dfGCFlowsUSGS$`Colorado River near Peach Springs` - dfGC
 dfGCFlowsUSGS$MeadInflowUSGS <- dfGCFlowsUSGS$`Colorado River near Peach Springs` + dfGCFlowsUSGS$`Virgin River at Littlefield` + dfGCFlowsUSGS$LasVegasWash
 dfGCFlowsUSGS$Method <- "USGSgages"
 
+
 ##############################
 ### Inflow Calc Method #2. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
+#
+#        A. file SingleTraceOut.xlsx
+#
+
+sExcelFileCRSS <- "SingleTraceOut.xlsx"
+dfCRSSOutput<- read_excel(sExcelFileCRSS, sheet = 'RunTest') #  range = "A1:E32")
+
+
+
+##############################
+### Inflow Calc Method #3. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
 #
 #        A. file SingleTraceOut.xlsx
 #
@@ -202,6 +218,8 @@ dfCRSSOutput$WaterYear <- ifelse(dfCRSSOutput$Month >= 10, dfCRSSOutput$Year + 1
 
 # Aggregate to year
 dfMeadInflowsCRSS <- dfCRSSOutput %>% dplyr::select(Year, Month, Mead.Inflow) %>% dplyr::group_by(Year) %>% dplyr::summarize(AnnualInflow = sum(Mead.Inflow))
+
+
 
 
 
