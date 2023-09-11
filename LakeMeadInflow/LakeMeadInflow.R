@@ -377,6 +377,45 @@ cMethodsToPlot <- cMethods[1:2]
 cColorsToPlot <- cColors[1:2]
 dfInflowsToPlot <- dfInflows %>% filter(Method %in% cMethodsToPlot)
 
+#Load in the ICS data
+dfICSBalanceMelt <- read_csv(file = "dfICSBalanceMelt.csv", col_names = TRUE)
+
+cColNames <- unique(dfICSBalanceMelt$variable) 
+#Figure  - timeseries of bar plots of ICS balances
+palBlues <- brewer.pal(9, "Blues")
+
+ggplot() +
+  
+  geom_bar(data=dfICSBalanceMelt %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  
+  #geom_hline(yintercept = nMaxBalance$Total[2]/1e6, size = 2) +
+  #geom_line(data=dfMaxBalance, aes(color="Max Balance", y=MaxBal/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
+  scale_color_manual(name="Guide2", values=c("Black")) +
+  
+  scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
+  
+  #Secondary scale with total max balance
+  #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[2])/1e6, labels = c("Max Balance"))) +
+  
+  #Secondary scale with individual state max balances
+  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1)) #, sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
+  
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color=FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Intentionally Created Surplus\nAccount Balance\n(MAF)") +
+  theme(text = element_text(size=20),  legend.title = element_blank(), 
+        legend.text=element_text(size=18),
+        legend.position= c(0.1,0.80))
+
+
+
+
 #Plot as Time series
 
 #### Figure 1 - Time series
