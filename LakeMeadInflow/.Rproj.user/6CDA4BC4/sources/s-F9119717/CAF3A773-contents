@@ -133,7 +133,7 @@ rm(list = ls())  #Clear history
 # }
 
 #Labels for each method to use in grouping and plotting
-cMethods <- c("USGS gages", "USBR API", "CRSS", "Wang-Schmidt")
+cMethods <- c("USGS Gages", "USBR Application Program Interface", "CRSS", "Wang-Schmidt")
 cColors <- c("Blue", "Red", "Purple", "Black")
 
 # the Combined data frame will have the variables WaterYear, MeadInflow, Method
@@ -399,9 +399,21 @@ ggplot() +
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=20))
 
+### Figure 2 as histogram
 
+ggplot() +
+  geom_histogram(data = dfInflowsToPlot %>% filter(Method %in% cMethodsToPlot[1]), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Blue") +
+                   
+  
+  theme_bw() +
+  
+  labs(x="Lake Mead Inflow\n(MAF per year)", y="Number of Years") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  theme(text = element_text(size=20), 
+        legend.position = "none")
 
-#### Figure 2 - Plot Mead Inflow as a box-and-whiskers
+#### Figure 3 - Plot Mead Inflow as a box-and-whiskers
 #Plot as a box-and whiskers
 
 ggplot() +
@@ -426,7 +438,7 @@ ggplot() +
 dfInflowsWide <- dcast(dfInflowsToPlot, WaterYear ~ Method, value.var = "MeadInflow")
 dfInflowsWide$Diff <-  dfInflowsWide$`USGS gages` - dfInflowsWide$`USBR API`
 
-#### Figure 3. Show the correlation between USGS and USBR
+#### Figure 4. Show the correlation between USGS and USBR
 #
 ggplot() +
   
@@ -447,7 +459,7 @@ ggplot() +
   guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
   
   #facet_wrap( ~ Source) +
-  labs(x="", y="Difference in Lake Mead Inflow\n(MAF per year)") +
+  labs(x="USBR Back Calculation\n(MAF per year)", y="USGS Gages\n(MAF per year)") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   
@@ -456,7 +468,7 @@ ggplot() +
 
 
 
-#### Figure 4. Show the difference between USGS and USBR
+#### Figure 5. Show the difference between USGS and USBR
 #
 ggplot() +
   #Points after 1990 in Blue and Red
@@ -489,7 +501,7 @@ mCorr <- cor(as.data.frame(dfInflowsWide %>% select(`USGS gages`,`USBR API`)))
 print(paste("Correlation = ",round(mCorr[1,2],2)))
 
 
-#### Figures 4 and 5. Show the sequence average plot using Salehabadi code for Natural Flow data set and USGS data
+#### Figures 6 and 7. Show the sequence average plot using Salehabadi code for Natural Flow data set and USGS data
 
 ############################################################################################################
 ###### Sequence Average Plot (Dotty Plot)                                                             ######

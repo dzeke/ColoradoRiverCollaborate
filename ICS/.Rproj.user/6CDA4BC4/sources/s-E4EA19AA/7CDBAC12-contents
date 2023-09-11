@@ -1,3 +1,44 @@
+---
+title: "Voluntary Conservation Program for Lake Mead: Current Accounts and Observations"
+author: "David E. Rosenberg"
+date: "September 11, 2023"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Description
+
+This is an R Markdown document. The following plots show the current status of the voluntar, credited conservation program for Lake Mead. This program is defined by the 2007 Interim Guidelines and ammended by a 2019 agreement that adds mandatory conservation targets. In the voluntary conservation programs, states conserve water, store the water in Lake Mead, get credit, and withdraw the conserved water at a future date under certain restrictions. The mandatory conservation targets increase as Lake Mead level drops. Those targets can be met by converting previously conserved water in a conservation account or undertaking new conservation efforts.
+
+1. A stacked bar chart compares voluntary conservation account balances by state and year. These balances are compared to the overall and individual state max balances allowed by the 2007 Interim Guidelines and 2019 Drought Contigency Plan (DCP). 
+
+2. A stacked bar chart compares annual voluntary conservation efforts by state. Deposits are shown as positive and withdraws as negative. These deposits and withdrawals are compared to the maximum allowed amounts.
+
+3. A bar plot shows the the number of years water in the conservation account can be used to make the state's mandatory target before the conservation account is depleted for three lake levels. This ratio is the conservation account balance divided by the mandatory target. This ratio assumes there is no new voluntary conservation or withdraws during that time. The number of years fall as Lake Mead level drops and mandatory targets increase. 
+
+4. A bar plot shows the ratio of the conservation account withdrawal limit to the mandatory conservation target at three different Lake Mead water levels. If account withdrawal limits are enforced, this ratio represents the fraction of the mandatory conservation target the state could make from it's conservation account each year. This ratio assumes there is sufficient water in the conservation account.
+
+5. A bar plot shows the ratio of the conservation account deposit limit to the required mandatory conservation target at three different Lake Mead water levels. If deposit limits are enforced, this ratio shows how well a state can keep up year-to-year with its required mandatory conservation targets by continuing to conserve, add that water to it's conservation account, then transfer and use the conservation account water to meet it's mandatory conservation target. Conserving, adding to one's conservation account, and transfering to meet a mandatory conservation target is preferred to a new conservation. This approach is preferred because water conserved **this** year and credited to the conservation account can be used to meet this or **next** year's mandatory target. Should Lake Mead level rise during the year, the state retains access to its conserved water whereas new conservation is lost. 
+
+6. A bar plot shows each state's historical ability to meet mandatory conservation targets at three different Lake Mead water levels. Historical ability is the ratio of the largest annual deposit to a conservation account on record to the mandatory conservation target. The historical ability shows whether a state has historically conserved at the volume to meet it's mandatory conservation target. States below 100% have never before conserved at the level required by the DCP. They do not yet have a track record for water conservation.
+
+Data from USBR annual accounting reports: https://www.usbr.gov/lc/region/g4000/wtracct.html. Note most recent data is for 2022. 
+
+## Observations
+
+1. The water conservation accounting program for Lake Mead is popular and well used (Figures 1 and 2).
+2. As of 2022 Arizona, California, and Nevada have saved and deposited ~3.1 million acre feet (MAF) -- above the current 2.7 MAF maximum limit (Figure 1).
+3. The states should raise their individual and combined conservation account limits to more transparently represent situation with account balances larger than the limits. At the same time, the limit on conservation account balances must stay below Lake Mead's physical active storage so conserved water is recoverable.
+4. Arizona has yet to conserve water at the annual volumes required for it's mandatory conservation targets (Figures 3, 4, 5, 6). In contrast, California and Nevada already have a track record of conserving at the mandatory conservation targets.
+
+## Requested Citation
+David E. Rosenberg (2023), "Intentionally Created Surplus for Lake Mead: Current Accounts and Observations." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/master/ICS
+
+```{r ICSplot, echo=FALSE, warning=FALSE, message=FALSE}
+
 # ICS-Plots.r
 #
 # Make stacked bar graph of state Intentionally Created Surplus holdings by year
@@ -8,12 +49,11 @@
 # Updated June 23, 2020 to include annual deposits and withdraws as year-to-year differnces
 #
 # Updated April 4, 2021 to look at ICS to DCP conversion
-
+#
 # Updated June 10, 2021 to include 2020 data.
-
 #
 # David E. Rosenberg
-# June 6, 2021
+# June 10, 2021
 # 
 # Utah State University
 # david.rosenberg@usu.edu
@@ -73,10 +113,10 @@ if (!require(plyr)) {
   library(plyr) 
 }
 
-if (!require(ggplot)) { 
-  install.packages("ggPlot", repo="http://cran.r-project.org", dependencies = T)
-  library(ggplot) 
-}
+# if (!require(ggplot)) { 
+#   install.packages("ggPlot", repo="http://cran.r-project.org", dependencies = T)
+#   library(ggplot) 
+# }
 
 if (!require(stringr)) { 
   install.packages("stringr", repo="http://cran.r-project.org")
@@ -89,14 +129,24 @@ if (!require(stringr)) {
 
 # Read in state balances each year
 sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
-dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G17")
+dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G19")
 dfICStoDCP <- read_excel(sExcelFile, sheet = "ICStoDCP",  range = "A2:M14")
-dfLimits <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A23:F26")
+dfLimits <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
+#Read in max balance
+nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
+
+# #Read in max balance
+# nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
+# # Read in state balances each year
+# sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
+# dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G17")
+# dfICStoDCP <- read_excel(sExcelFile, sheet = "ICStoDCP",  range = "A2:M14")
+# dfLimits <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A23:F26")
 
 #Read in max balance
-nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A23:F26")
+#nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
 #create a data frame
-#dfMaxBalance <- data.frame(Year=dfICSBalance$Year, MaxBal =  nMaxBalance$Total[2])
+#dfMaxBalance <- data.frame(Year=dfICSBalance$Year, MaxBal = nMaxBalance$Total[2])
 
 #Read in max deposit per year
 dfMaxAnnualAmounts <- data.frame(Year=dfICSBalance$Year, MaxDeposit = nMaxBalance$Total[1], MaxWithdraw = nMaxBalance$Total[3])
@@ -104,7 +154,7 @@ dfMaxAnnualAmounts <- data.frame(Year=dfICSBalance$Year, MaxDeposit = nMaxBalanc
 cColNames <- colnames(dfICSBalance)
 
 #Melt the data so state columns become a variable
-dfICSBalanceMelt <- melt(data = dfICSBalance,id.vars = "Year", measure.vars = cColNames[1:4])
+dfICSBalanceMelt <- melt(data = dfICSBalance,id.vars = "Year", measure.vars = cColNames[1:3])
 
 #Calculate the Current ICS balance as a fraction of current Mead Storage
 # Data from: https://www.usbr.gov/lc/region/g4000/hourly/levels.html
@@ -112,32 +162,23 @@ nCurrMeadStorage <- 9934*1000  # May 1, 2021
 
 nCurrICSTotal <- dfICSBalanceMelt %>% filter(Year == 2019) %>% summarise(Total = sum(value))
 
-# #Lake Powell Unregulated inflow. Data from https://www.usbr.gov/uc/water/crsp/studies/images/PowellForecast.png
-# dfLakePowellNatural <- data.frame (Year = seq(2011,2020,by=1), LakePowellFlow = c(16, 5, 5, 10.3, 10.1, 9.7, 12, 5, 13, 5.9))
-# 
-# # Read in Paria flows each year
+#Lake Powell Unregulated inflow. Data from https://www.usbr.gov/uc/water/crsp/studies/images/PowellForecast.png
+dfLakePowellNatural <- data.frame (LakePowellFlow = c(16, 5, 5, 10.3, 10.1, 9.7, 12, 5, 13, 5.9))
+
+# Read in Paria flows each year
 # sExcelFile <- 'Paria10yearFlow.xlsx'
 # dfParia <- read_excel(sExcelFile, sheet = "Sheet1",  range = "N36:P58")
 # 
-# #Join the Lake Powell Natural and Paria data frames by year
-# dfLeeFerryNatural <- left_join(dfLakePowellNatural,dfParia,by = c("Year" = "Water Year"))
+# dfLakePowellNatural$LeeFerryFlow <- dfLakePowellNatural$LakePowellFlow + dfParia %>% filter(`Water Year` == 2011) %>% select(`10-year flow`)
 # 
-# dfLeeFerryNatural$LeeFerryFlow <- dfLeeFerryNatural$LakePowellFlow + dfLeeFerryNatural$`Flow (acre-feet)`/1e6
-  
-print("ICS balance as fraction of Mead storage")
+# mean(dfLakePowellNatural$LeeFerryFlow)
+
+print("Voluntary conservation account balance as fraction of Mead storage")
 print(sprintf("%.1f%%",nCurrICSTotal$Total/nCurrMeadStorage*100))
 
-print("Percent of Upper Colorado River Basin area of entire continential US area")
+print("Percent of Upper Colorado River Basin of entire continential US")
 print(sprintf("%.1f%%",109800/3119884*100))
 
-# print("Lake Powell Natural Flow 2011 to 2020 (maf per year)")
-# print(sprintf("%.1f", mean(dfLeeFerryNatural$LakePowellFlow)))
-# 
-# print("Paria flow 2011 to 2020 (maf per year)")
-# print(sprintf("%.3f", mean(dfLeeFerryNatural$`Flow (acre-feet)`/1e6)))
-# 
-# print("Lee Ferry Natural Flow 2011 to 2020 (maf per year)")
-# print(sprintf("%.1f", mean(dfLeeFerryNatural$LeeFerryFlow)))
 
 palBlues <- brewer.pal(9, "Blues")
 
@@ -147,7 +188,7 @@ cColNamesLimits <- colnames(dfLimits)
 dfLimitsMelt <- melt(data=dfLimits, id.vars="New levels with DCP", measure.vars = cColNamesLimits[2:5]) 
 dfMaxBalanceCum = dfLimitsMelt %>% filter(`New levels with DCP` == "Max Balance (AF)", variable != 'Total')
 #Reorder so Arizona is on top
-dfMaxBalanceCum$Order <- c(3,2,1)
+dfMaxBalanceCum$Order <- c(3,2,1,NA)
 dfMaxBalanceCum <- dfMaxBalanceCum[order(dfMaxBalanceCum$Order),]
 #Calculate the cumulative total
 dfMaxBalanceCum$CumVal <- cumsum(dfMaxBalanceCum$value)
@@ -155,10 +196,18 @@ dfMaxBalanceCum$CumVal <- cumsum(dfMaxBalanceCum$value)
 dfMaxBalanceCum$StateAsChar <- as.character(dfMaxBalanceCum$variable)
 dfMaxBalanceCum$StateAsChar[3] <- "Total/Arizona"
 
+#Write out the dataframe with ICS balances by year to CSV so can use later in other scripts
+write.csv(dfICSBalanceMelt, file = "dfICSBalanceMelt.csv")
+
+
+```
+
+# Figure 1. Lake Mead conservation account balances
+```{r ICSFig1, echo=FALSE, warning=FALSE, message=FALSE}
+
 ggplot() +
   
   geom_bar(data=dfICSBalanceMelt %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
-  
   geom_hline(yintercept = nMaxBalance$Total[2]/1e6, size = 2) +
   #geom_line(data=dfMaxBalance, aes(color="Max Balance", y=MaxBal/1e6,x=Year), size=2) +
   
@@ -171,7 +220,7 @@ ggplot() +
   #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[2])/1e6, labels = c("Max Balance"))) +
   
   #Secondary scale with individual state max balances
-  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
+  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "Maximum Balances", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
   
  
   guides(fill = guide_legend(keywidth = 1, keyheight = 1), color=FALSE) +
@@ -179,10 +228,15 @@ ggplot() +
   
   theme_bw() +
   
-  labs(x="", y="Intentionally Created Surplus\nAccount Balance\n(MAF)") +
+  labs(x="", y="Account Balance\n(MAF)") +
   theme(text = element_text(size=20),  legend.title = element_blank(), 
-          legend.text=element_text(size=18),
-          legend.position= c(0.1,0.80))
+          legend.text=element_text(size=14),
+          legend.position= c(0.2,0.75))
+
+```
+
+# Figure 2. Lake Mead conservation account deposits and withdrawals
+```{r ICSFig2, echo=FALSE, warning=FALSE, message=FALSE}
   
 
 #Plot #2. Stacked bar chart of deposits to ICS accounts by state by year
@@ -214,9 +268,15 @@ ggplot() +
   
   theme_bw() +
   
-  labs(x="", y="Deposit to Intentionally Created Surplus Account\n(MAF per year)") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
-        legend.position= c(1.075,0.5))
+  labs(x="", y="Transaction Amount\n(MAF per year)") +
+  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=14),
+        legend.position= c(1.25,0.5))
+
+
+```
+
+# Figure 3. Years 2020 conservation account balance can fund mandatory conservaton targets. Dashed red line indicates 2 years.
+```{r ICSFig3, echo=FALSE, warning=FALSE, message=FALSE}
 
 
 # Plot Years ICS balance can fund DCP target
@@ -226,9 +286,12 @@ cColNamesICStoDCP <- colnames(dfICStoDCP)
 
 dfICStoDCPMelt <- melt(data = dfICStoDCP,id.vars = "ElevationText", measure.vars = cColNamesICStoDCP[5:7])
 
-ggplot(data=dfICStoDCPMelt %>% filter((ElevationText == "1025 feet") | (ElevationText == "1045 feet") )) +
+ggplot(data=dfICStoDCPMelt %>% filter((ElevationText == "1025 feet") | (ElevationText == "1045 feet") | (ElevationText == "1090 feet") )) +
   
   geom_bar(aes(fill=variable,y=value,x=variable), position=position_dodge(), stat="identity") +
+  
+  #Add a horizontal line for 100%
+  geom_hline(yintercept = 2,linetype="dashed",color="red",size = 0.75) +
 
   scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNamesICStoDCP[5:7], labels = cColNames[1:3]) +
 
@@ -236,13 +299,21 @@ ggplot(data=dfICStoDCPMelt %>% filter((ElevationText == "1025 feet") | (Elevatio
 
   facet_wrap( ~ ElevationText) +
   
-  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
+   guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
 
   theme_bw() +
   
-  labs(x="", y="Years 2019 ICS balance can fund\nDCP target") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
-        legend.position= c(1.075,0.5))
+  labs(x="", y="Years 2020 conservation account\nbalance can fund\nmandatory targets") +
+  theme(text = element_text(size=18),  legend.title = element_blank(),
+  axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+  legend.text=element_text(size=18),
+        legend.position= "none")
+
+```
+
+# Figure 4. Ratio of conservation account max withdrawal limit to mandatory target. Dashed red line indicates max withdraw limit equals mandatory target.
+
+```{r ICSFig4, echo=FALSE, warning=FALSE, message=FALSE}
 
 
 ### Ratio of ICS max withdrawal to DCP target
@@ -252,6 +323,10 @@ ggplot(data=dfICStoDCPMeltMaxWithdrawal %>% filter((ElevationText == "1025 feet"
   
   geom_bar(aes(fill=variable,y=value,x=variable), position=position_dodge(), stat="identity") +
 
+   #Add a horizontal line for 100%
+  geom_hline(yintercept = 1,linetype="dashed",color="red",size = 0.75) +
+  
+  
   scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNamesICStoDCP[8:10], labels = cColNames[1:3]) +
 
   scale_x_discrete(labels = cColNames[1:3]) +
@@ -265,9 +340,15 @@ ggplot(data=dfICStoDCPMeltMaxWithdrawal %>% filter((ElevationText == "1025 feet"
   
   theme_bw() +
   
-  labs(x="", y="Ratio of ICS max withdrawal\nto DCP target") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
-        legend.position= c(1.075,0.5))
+  labs(x="", y="Ratio of max withdrawal from conservation\naccount to mandatory target") +
+  theme(text = element_text(size=18),  legend.title = element_blank(), legend.text=element_text(size=18),
+        legend.position= "none")
+
+
+```
+
+# Figure 5. Ratio of max conservation account deposit to mandatory target. Dashed red line (100%) indicates max deposit equals mandatory target.
+```{r ICSFig5, echo=FALSE, warning=FALSE, message=FALSE}
 
 
 ### Ratio of ICS max deposit to DCP target
@@ -277,10 +358,9 @@ ggplot(data=dfICStoDCPMeltMaxDeposit %>% filter((ElevationText == "1025 feet") |
   
   geom_bar(aes(fill=variable,y=value,x=variable), position=position_dodge(), stat="identity") +
   
+  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNamesICStoDCP[11:13], labels = cColNames[1:3]) +
   #Add a horizontal line for 100%
   geom_hline(yintercept = 1,linetype="dashed",color="red",size = 0.75) +
-  
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNamesICStoDCP[11:13], labels = cColNames[1:3]) +
   #scale_color_manual(name="Guide2", values=c("Black","Black")) +
   
   #scale_fill_continuous(name="Guide1",values = c(palBlues[6],palBlues[9])) +
@@ -296,16 +376,23 @@ ggplot(data=dfICStoDCPMeltMaxDeposit %>% filter((ElevationText == "1025 feet") |
   
   theme_bw() +
   
-  labs(x="", y="Ratio of ICS max deposit\nto DCP target") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
-        legend.position= c(1.075,0.5))
+  labs(x="", y="Ratio of conservation account max deposit\nto mandatory target") +
+  theme(text = element_text(size=18),  legend.title = element_blank(), legend.text=element_text(size=18),
+        legend.position= "none")
+
+
+```
+
+# Figure 6. Ratio of largest historical conservation account deposit to mandatory target
+## States less than 100% (dashed red line) have yet to conserve at the mandatory target.
+```{r ICSFig6, echo=FALSE, warning=FALSE, message=FALSE}
 
 
 ### Ratio of largest ICS deposit on record to DCP target
-# Get the maximum historical ICS contributions
+# Get the maximum historical ICS targets
 dfICSMaxDeposit <- dfICSDeposit %>% summarize(maxAZ = max(Arizona), maxCA = max(California), maxNV = max(Nevada))
-# Get the DCP contributions for 1045 and 1025 feet
-dfDCPcontribute <- dfICStoDCP %>% filter(`Mead Elevation (ft)` == 1045 | `Mead Elevation (ft)` == 1025 )
+# Get the DCP targets for 1045 and 1025 feet
+dfDCPcontribute <- dfICStoDCP %>% filter(`Mead Elevation (ft)` == 1090 | `Mead Elevation (ft)` == 1045 | `Mead Elevation (ft)` == 1025 )
 #Join the two data frames
 dfICStoDCPRatio <- dfDCPcontribute
 dfICStoDCPRatio$ICSAZ <- dfICSMaxDeposit$maxAZ
@@ -345,11 +432,16 @@ ggplot(data=dfICStoDCPRatioMelt ) +
   
   theme_bw() +
   
-  labs(x="", y="Conservation Capacity\n(ratio of largest ICS deposit to DCP contribution)") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
-        legend.position= c(1.075,0.5))
+  labs(x="", y="Conservation History\n(ratio of largest historical conservation account\ndeposit to mandatory target)") +
+  theme(text = element_text(size=16),  legend.title = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+        legend.text=element_text(size=16),
+        legend.position= "none")
 
+```
 
+# Figure 7. Years to draw down conservation account balance to zero at maximum withdraw limit. Dashed red line indicates 1 year.
+```{r ICSFig7, echo=FALSE, warning=FALSE, message=FALSE}
 
 #### Number of years to draw down account balance considering max withdraw limit. Dashed red line (100%) indicates balance equals withdraw limit.
 #Pull the ICS balance and max withdraw data from the data frames
@@ -384,12 +476,13 @@ ggplot(data=dfICSBalanceCalcCast ) +
   #scale_x_continuous(breaks=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2),labels=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2)) +
   #scale_y_continuous(labels = scales::percent) + 
   
-   guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = "none") +
+   #guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = "none") +
   
   
   theme_bw() +
   
-  labs(x="", y="Years to Draw Down Conservation\nAccount") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
+  labs(x="", y="Years") +
+  theme(text = element_text(size=16),  legend.title = element_blank(), legend.text=element_text(size=16),
         legend.position= "none")
 
+```
