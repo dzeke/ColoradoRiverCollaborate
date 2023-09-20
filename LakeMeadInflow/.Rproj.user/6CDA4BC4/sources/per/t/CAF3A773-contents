@@ -141,8 +141,8 @@ rm(list = ls())  #Clear history
   }  
   
 #Labels for each method to use in grouping and plotting
-cMethods <- c("USGS Gages", "USBR Application Program Interface", "CRSS", "Wang-Schmidt")
-cColors <- c("Blue", "Red", "Purple", "Black")
+cMethods <- c("USGS Gages", "USBR Application Program Interface", "USBR with Evap from Table", "CRSS", "Wang-Schmidt")
+cColors <- c("Blue", "Red", "Pink", "Purple", "Black")
 
 # the Combined data frame will have the variables WaterYear, MeadInflow, Method
 
@@ -288,8 +288,16 @@ dfUSBR_API_Agg <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("WaterYear" = "W
 
 #Now calculate the inflow from release, evaporation, and change in storage
 # Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
+# Use API evaporation data
 dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
 dfUSBR_API_Agg$Method <- cMethods[2]
+
+#Use Evaporation table look up from storage
+#Create a new data frame
+dfUSBR_FromEvapTable <- dfUSBR_API_Agg
+dfUSBR_FromEvapTable$MeadInflow <- dfUSBR_FromEvapTable$DeltaStorage +  dfUSBR_FromEvapTable$Release +  dfUSBR_FromEvapTable$EvaporationFromTable
+dfUSBR_FromEvapTable$Method <- cMethods[3]
+
 
 ##Compare API Evaporation to Evaporation vs Volume curve
 #Read in the evaporation vs storage data from dfMeadEvap
@@ -356,7 +364,7 @@ dfCRSSOutput$WaterYear <- ifelse(dfCRSSOutput$Month >= 10, dfCRSSOutput$Year + 1
 
 # Aggregate to year
 dfMeadInflowsCRSS <- dfCRSSOutput %>% dplyr::select(WaterYear, Month, Mead.Inflow) %>% dplyr::group_by(WaterYear) %>% dplyr::summarize(MeadInflow = sum(Mead.Inflow)/1e6)
-dfMeadInflowsCRSS$Method <- cMethods[3]
+dfMeadInflowsCRSS$Method <- cMethods[4]
 
 
 
@@ -379,7 +387,7 @@ dfMeadInflowsWS <- data.frame(Year = cWSyearsColNames, MeadInflow = as.numeric(c
 #Extract Water year from Year variable
 dfMeadInflowsWS$WaterYear <- as.numeric(str_sub(dfMeadInflowsWS$Year,3,6)) + 1
 
-dfMeadInflowsWS$Method <- cMethods[4]
+dfMeadInflowsWS$Method <- cMethods[5]
 
 
 
@@ -389,8 +397,13 @@ dfMeadInflowsWS$Method <- cMethods[4]
 
 #Methods 1 and 2
 dfInflows <- rbind(dfGCFlowsUSGS %>% select(WaterYear, MeadInflow, Method), dfUSBR_API_Agg %>% select(WaterYear, MeadInflow, Method) )
-
+#Add Method with evap from table
+dfInflows <- rbind(dfInflows, dfUSBR_FromEvapTable %>% select(WaterYear, MeadInflow, Method))
+#Add CRSS method
 dfInflows <- rbind(dfInflows, dfMeadInflowsCRSS %>% select(WaterYear, MeadInflow, Method))
+
+#Compare inflow values
+dfInflowCompare <- dcast(dfInflows, WaterYear ~ Method, value.var = "MeadInflow")
 
 # #Natural flow - Not used but preserve
 # dfGCFDataToUse <- dfGCFlowsByYear
@@ -422,8 +435,8 @@ dfInflows <- rbind(dfInflows, dfMeadInflowsCRSS %>% select(WaterYear, MeadInflow
 
 
 #Subset of methods to plot
-cMethodsToPlot <- cMethods[1:2]
-cColorsToPlot <- cColors[1:2]
+cMethodsToPlot <- cMethods[1:3]
+cColorsToPlot <- cColors[1:3]
 dfInflowsToPlot <- dfInflows %>% filter(Method %in% cMethodsToPlot)
 
 #Load in the ICS data
@@ -475,7 +488,7 @@ ggplot() +
   theme_bw() +
   
   scale_color_manual(values = cColorsToPlot) +
-  scale_linetype_manual(values = c("solid","longdash")) +
+  scale_linetype_manual(values = c("solid","dotdash", "longdash")) +
   
   #Make one combined legend
   guides(color = guide_legend(""), linetype = guide_legend("")) +
