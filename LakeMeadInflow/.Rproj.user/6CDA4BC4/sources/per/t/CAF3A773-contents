@@ -41,7 +41,16 @@
 #             More specifically, use the csv file dfMeadEvap.csv in EvapData subfolder. This dataframe is expored by the code in ../EvapCalcs folder.
 #
 #             Explanation of contents of dfMeadEvap.csv:
-#               A. 
+#               A. Elevation - Lake Mead elevation in feet
+#               B. Live storage - storage volume above minimum power pool in acre-feet
+#               C. Total storage - storage volume at minimum power pool + Live storage in acre-feet
+#               D. Area - area of reservoir pool at live storage volume in acres
+#               E. EvapVolMax - evaporated volume acre-feet estimated from mid point of evaporation rate
+#               F. EvapVolMaxUp - evaporated volume in acre-feet estimated from upper bound of evaporation rate
+#               G. EvapVolMaxLo - evaporated volume in acre-feet estimated from lower bound of evaporation rate
+#
+#             Note: E, F, and G represent a range of evaporated volumes estimated from a range of evaporation rates.
+
 #
 #       4. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
 #
