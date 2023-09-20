@@ -561,6 +561,8 @@ dfPoolsUse$Label[6] <- "Powell Rated Power"
 
 dfPoolsUse$LabelBr <- str_replace_all(dfPoolsUse$Label," ","\n")
 
+#Write dfMeadEvap Data frame to csv file so can use in other scripts
+write.csv(dfMeadEvap, "dfMeadEvap.csv")
 
 ggplot() +
   #Central lines of evap

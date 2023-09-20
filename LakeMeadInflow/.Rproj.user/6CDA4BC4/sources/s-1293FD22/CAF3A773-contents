@@ -400,7 +400,7 @@ ggplot() +
   #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[2])/1e6, labels = c("Max Balance"))) +
   
   #Secondary scale with individual state max balances
-  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1)) #, sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
+  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1)) + #, sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
   
   
   guides(fill = guide_legend(keywidth = 1, keyheight = 1), color=FALSE) +
@@ -475,13 +475,13 @@ ggplot() +
 
 #Reshape the data so Methods are in columns
 dfInflowsWide <- dcast(dfInflowsToPlot, WaterYear ~ Method, value.var = "MeadInflow")
-dfInflowsWide$Diff <-  dfInflowsWide$`USGS gages` - dfInflowsWide$`USBR API`
+dfInflowsWide$Diff <-  dfInflowsWide$`USGS Gages` - dfInflowsWide$`USBR Application Program Interface`
 
 #### Figure 4. Show the correlation between USGS and USBR
 #
 ggplot() +
   
-  geom_point(data = dfInflowsWide, aes(x= `USBR API`, y=`USGS gages`),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),  size = 6) + #color=Method shape=Method, size=6) +
   
   #geom_point(data = dfInflowsWide, aes(x= WaterYear, y=Diff),  size = 6) + #color=Method shape=Method, size=6) +
   
@@ -511,7 +511,7 @@ ggplot() +
 #
 ggplot() +
   #Points after 1990 in Blue and Red
-  #geom_point(data = dfInflowsWide, aes(x= `USBR API`, y=`USGS gages`),  size = 6) + #color=Method shape=Method, size=6) +
+  #geom_point(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),  size = 6) + #color=Method shape=Method, size=6) +
  
   geom_point(data = dfInflowsWide, aes(x= WaterYear, y=Diff),  size = 6) + #color=Method shape=Method, size=6) +
   
