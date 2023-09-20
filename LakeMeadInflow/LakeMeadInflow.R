@@ -16,7 +16,7 @@
 #       
 #       2. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
 #
-#             A. HDB Data Service (usbr.gov) - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
+#             Use the HDB Data Service (usbr.gov) for all values - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
 #
 #                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=DY&t1=1990-01-01T00:00&t2=2023-08-28T00:00&table=R&mrid=0&format=csv
 #
@@ -29,8 +29,21 @@
 #                 as USBR-API-MeadData.json and USBR-API-MeadData.csv
 #
 #                 Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
-
-#       3. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
+#
+#       3. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
+#
+#            Use the HDB Data Service (usbr.gov) for Storage, Release, and Nevada Diversion.
+#
+#                 API query same as for method 2.
+#
+#            Estimate evaporation from USBR storage volume and evaporation-storage relationship developed in prior work (see folder EvapCalcs)
+#
+#             More specifically, use the csv file dfMeadEvap.csv in EvapData subfolder. This dataframe is expored by the code in ../EvapCalcs folder.
+#
+#             Explanation of contents of dfMeadEvap.csv:
+#               A. 
+#
+#       4. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
 #
 #             A. Read from SingleTraceOut.xlsx
 #
