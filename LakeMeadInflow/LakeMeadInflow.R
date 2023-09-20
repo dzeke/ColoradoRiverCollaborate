@@ -305,6 +305,11 @@ ggplot() +
   
   geom_point(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
   
+  #Add error bars to data points
+  #Mead
+  geom_errorbar(data=dfUSBR_API_Agg, aes(x=Evaporation,ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
+                position=position_dodge(0.2), color="black", show.legend = FALSE) +
+  
   #Add 1:1 line
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
   
