@@ -132,6 +132,14 @@ rm(list = ls())  #Clear history
 #   library(ggplot2) 
 # }
 
+  # New function interpNA to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
+  interpNA <- function(x, y, xi = x, ...) {
+    yi <- rep(NA, length(xi));
+    sel <- which(xi >= range(x)[1] & xi <= range(x)[2]);
+    yi[sel] <- interp1(x = x, y = y, xi = xi[sel], ...);
+    return(yi);
+  }  
+  
 #Labels for each method to use in grouping and plotting
 cMethods <- c("USGS Gages", "USBR Application Program Interface", "CRSS", "Wang-Schmidt")
 cColors <- c("Blue", "Red", "Purple", "Black")
@@ -283,6 +291,42 @@ dfUSBR_API_Agg <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("WaterYear" = "W
 dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
 dfUSBR_API_Agg$Method <- cMethods[2]
 
+##Compare API Evaporation to Evaporation vs Volume curve
+#Read in the evaporation vs storage data from dfMeadEvap
+
+dfMeadEvap <- read.csv(file = "EvapData/dfMeadEvap.csv", header = TRUE)
+#Interpolate middle Evaporation from Mead Storage - Evap data
+dfUSBR_API_Agg$EvaporationFromTable <- interpNA(xi = dfUSBR_API_Agg$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMax/1e6)
+#Interpolate range of Evap 
+dfUSBR_API_Agg$EvaporationRange <- interpNA(xi = dfUSBR_API_Agg$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxUp/1e6) - interpNA(xi = dfUSBR_API_Agg$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxLo/1e6)
+
+#Plot API Evaporation vs Table Look up
+ggplot() +
+  
+  geom_point(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
+  
+  #Add 1:1 line
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
+  
+  #Add linear regression line
+  geom_smooth(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
+              method = "lm",
+              formula = y ~ x,
+              geom = "smooth") + 
+  #Add regression equation to plot
+  stat_regline_equation(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
+                        label.x= mean(dfUSBR_API_Agg$Evaporation), label.y=mean(dfUSBR_API_Agg$EvaporationFromTable), size = 6) +
+  
+  #Make one combined legend
+  guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
+  
+  #facet_wrap( ~ Source) +
+  labs(x="Evaporation USBR API\n(MAF per year)", y="Evaporation from Table\n(MAF per year)") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  
+  theme_bw() +  
+  theme(text = element_text(size=20))
 
 
 ##############################
@@ -501,7 +545,7 @@ ggplot() +
               geom = "smooth") + 
   #Add regression equation to plot
   stat_regline_equation(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),
-                          label.x=9, label.y=13) +
+                          label.x=9, label.y=13, size = 6) +
   
   #Make one combined legend
   guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
