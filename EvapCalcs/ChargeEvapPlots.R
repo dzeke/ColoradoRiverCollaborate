@@ -563,6 +563,8 @@ dfPoolsUse$LabelBr <- str_replace_all(dfPoolsUse$Label," ","\n")
 
 #Write dfMeadEvap Data frame to csv file so can use in other scripts
 write.csv(dfMeadEvap, "dfMeadEvap.csv")
+#Write dfPowellEvap Data frame to csv file so can use in other scripts
+write.csv(dfPowellEvap, "dfPowellEvap.csv")
 
 ggplot() +
   #Central lines of evap
