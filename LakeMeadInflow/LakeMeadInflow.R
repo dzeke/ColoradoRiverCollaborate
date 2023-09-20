@@ -60,7 +60,7 @@ rm(list = ls())  #Clear history
 
 #Load packages in one go
   #List of packages
-  load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2")
+  load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr")
 # Then we select only the packages that aren't currently installed.
   install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
@@ -494,6 +494,15 @@ ggplot() +
   #Add 1:1 line
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
   
+  #Add linear regression line
+  geom_smooth(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),
+              method = "lm",
+              formula = y ~ x,
+              geom = "smooth") + 
+  #Add regression equation to plot
+  stat_regline_equation(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),
+                          label.x=9, label.y=13) +
+  
   #Make one combined legend
   guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
   
@@ -536,7 +545,7 @@ ggplot() +
   theme(text = element_text(size=20))
 
 ## Show the correlation matrix
-mCorr <- cor(as.data.frame(dfInflowsWide %>% select(`USGS gages`,`USBR API`)))
+mCorr <- cor(as.data.frame(dfInflowsWide %>% filter(WaterYear >= 2005, WaterYear < 2023) %>%  select(`USGS Gages`,`USBR Application Program Interface`) ))
 print(paste("Correlation = ",round(mCorr[1,2],2)))
 
 
