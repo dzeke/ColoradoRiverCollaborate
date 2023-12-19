@@ -468,6 +468,8 @@ cColNames <- unique(dfICSBalanceMelt$variable)
 #Figure  - timeseries of bar plots of ICS balances
 palBlues <- brewer.pal(9, "Blues")
 
+# Plot ICS account balances over time
+
 ggplot() +
   
   geom_bar(data=dfICSBalanceMelt %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
@@ -535,6 +537,54 @@ ggplot() +
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=20), 
         legend.position = "none")
+
+#Plot Inflow, Evaporation Table Look up, and Available water
+ggplot() +
+  
+  #Evaporation
+  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
+  
+  #Add error bars to data points
+  #Mead
+  
+  geom_errorbar(data=dfUSBR_API_Agg, aes(x=WaterYear, ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
+                position=position_dodge(0.2), color="black", show.legend = FALSE) +
+  #Inflow
+  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow),  size = 6) + #color=Method shape=Method, size=6) +
+  
+  #Available water = Inflow - evaporation
+  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation),  size = 6) + #color=Method shape=Method, size=6) +
+  
+  
+  #Add 1:1 line
+  #geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
+  
+  #Add linear regression line
+  #geom_smooth(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
+   #           method = "lm",
+   #           formula = y ~ x,
+  #            geom = "smooth") + 
+  #Add regression equation to plot
+  #stat_regline_equation(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
+  #                      label.x= mean(dfUSBR_API_Agg$Evaporation), label.y=mean(dfUSBR_API_Agg$EvaporationFromTable), size = 6) +
+  
+  # Set x-axis limits
+  xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
+
+  #Make one combined legend
+  guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
+  
+  #facet_wrap( ~ Source) +
+  labs(x="", y="Volume\n(MAF per year)") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  
+  theme_bw() +  
+  theme(text = element_text(size=20))
+
+
+
+
 
 #### Figure 3 - Plot Mead Inflow as a box-and-whiskers
 #Plot as a box-and whiskers
