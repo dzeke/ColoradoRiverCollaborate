@@ -159,6 +159,8 @@ dfMaxBalanceCum$StateAsChar[3] <- "Total/Arizona"
 
 #Write out the dataframe with ICS balances by year to CSV so can use later in other scripts
 write.csv(dfICSBalanceMelt, file = "dfICSBalanceMelt.csv")
+write.csv(dfICSDepositMelt, file = "dfICSDepositMelt.csv")
+write.csv(dfICSDeposit, file = "dfICSDeposit.csv")
 
  #Figure 1 - timeseries of bar plots of ICS balances
 
@@ -200,6 +202,7 @@ dfICSDeposit <- data.frame(-diff(as.matrix(dfICSBalance)))
 dfICSDeposit$Year <- dfICSBalance$Year[1:nrow(dfICSDeposit)]
 #Melt the data so state columns become a variable
 dfICSDepositMelt <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cColNames[1:3])
+write.csv(dfICSDeposit, file = "dfICSDeposit.csv")
 
 ggplot() +
   

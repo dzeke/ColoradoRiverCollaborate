@@ -461,8 +461,13 @@ cMethodsToPlot <- cMethods[1:3]
 cColorsToPlot <- cColors[1:3]
 dfInflowsToPlot <- dfInflows %>% filter(Method %in% cMethodsToPlot)
 
+##### Compare ICS deposits to available water
+#####
 #Load in the ICS data
 dfICSBalanceMelt <- read_csv(file = "dfICSBalanceMelt.csv", col_names = TRUE)
+dfICSDeposit <- read_csv(file = "dfICSDeposit.csv", col_names = TRUE)
+dfICSDepositMelt <- read_csv(file = "dfICSDepositMelt.csv", col_names = TRUE)
+
 
 cColNames <- unique(dfICSBalanceMelt$variable) 
 #Figure  - timeseries of bar plots of ICS balances
@@ -480,7 +485,7 @@ ggplot() +
   scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
   scale_color_manual(name="Guide2", values=c("Black")) +
   
-  scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
+  #scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
   
   #Secondary scale with total max balance
   #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[2])/1e6, labels = c("Max Balance"))) +
@@ -499,6 +504,30 @@ ggplot() +
         legend.text=element_text(size=18),
         legend.position= c(0.1,0.80))
 
+#Plot ICS deposits over time
+ggplot() +
+  
+  geom_bar(data=dfICSDepositMelt, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  #geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
+  #geom_line(data=dfMaxAnnualAmounts, aes(color="Max Withdrawal", y=-MaxWithdraw/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
+  scale_color_manual(name="Guide2", values=c("Black","Black")) +
+  
+  scale_x_continuous(breaks=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2),labels=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2)) +
+  #scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[1],-nMaxBalance$Total[3])/1e6, labels = c("Max Deposit","Max Withdraw"))) +
+  
+  #scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), limits = c(0,as.numeric(dfMaxStor %>% filter(Reservoir %in% c("Mead")) %>% select(Volume))),
+  #                  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfMeadPoolsPlot$stor_maf, labels = dfMeadPoolsPlot$label)) +
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Deposit to Intentionally Created Surplus Account\n(MAF per year)") +
+  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
+        legend.position= c(1.075,0.5))
 
 
 
