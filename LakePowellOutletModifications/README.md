@@ -4,7 +4,8 @@ This folder explores the implications of Reclamation's March 26, 2024 Technical 
 new Interim Operating Guidance for Glen Canyon Dam during Low Reservoir Levels at Lake Powell. The purpose of the Decision Paper is to establish prudent operating guidance to address the
 potential for negative consequences associated with the long-term operation of the river outlet works at Glen Canyon Dam at low reservoir levels.
 
-Reclamation established the new guidance due to concernss of potential damage to the river outlet works at Lake Powell levels below the Minimum Power Pool (elevation 3,490 feet; )tThe concerns include 
+Reclamation established the new guidance due to concerns of potential damage to the river outlet works at Lake Powell levels
+below the Minimum Power Pool (elevation 3,490 feet; 3.3 million acre-feet of active storage). 
 
 The Excel file:
 1. Reproduces Table 1 in the memo - Design Maximum Flow and Interim Maximum Flow for reservoir water surface elevations.
