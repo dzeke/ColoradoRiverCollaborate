@@ -96,7 +96,7 @@ dfICStoDCP <- read_excel(sExcelFile, sheet = "ICStoDCP",  range = "A2:M14")
 dfLimits <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
 
 #Read in max balance
-nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
+nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A26:F29")
 #create a data frame
 #dfMaxBalance <- data.frame(Year=dfICSBalance$Year, MaxBal =  nMaxBalance$Total[2])
 

@@ -129,11 +129,11 @@ if (!require(stringr)) {
 
 # Read in state balances each year
 sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
-dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G19")
+dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G20")
 dfICStoDCP <- read_excel(sExcelFile, sheet = "ICStoDCP",  range = "A2:M14")
-dfLimits <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
+dfLimits <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A26:F29")
 #Read in max balance
-nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
+nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A26:F29")
 
 # #Read in max balance
 # nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
