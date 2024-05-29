@@ -1,6 +1,6 @@
-# CombinedPowellMead.R
+# LakeMeadStorageICS.R
 #
-# Plots that show the combined storage of Lake Powell and Lake Mead.
+# Plots that show Lake Mead Storage and Water Conservation Account (ICS) Balances.
 #
 # 1. Import the reservoir elevation-volume curves
 # 2. Import historical reservoir storage data
@@ -10,7 +10,7 @@
 # Please report bugs/feedback to me (contact info below)
 #
 # David E. Rosenberg
-# July 6, 2021
+# May 29, 2024
 # Utah State University
 # david.rosenberg@usu.edu
 
@@ -202,30 +202,30 @@ dfJointStorageTab$Combined <- dfJointStorage$MeadStorage + dfJointStorage$Powell
 #################################################
 
 # Combined, Powell, and Mead on one plot
-ggplot() +
-  #Powell storage
-  geom_line(data=dfJointStorage,aes(x=DateAsValue,y=PowellStorage, color="Powell"), size=2) +
-  #Mead Storage
-  geom_line(data=dfJointStorage,aes(x=DateAsValue,y=MeadStorage, color="Mead"), size=2) +
-  #Combined Storage
-  geom_line(data=dfJointStorage,aes(x=DateAsValue,y=MeadStorage+PowellStorage, color="Combined"), size=2) +
-  scale_color_manual(values = c("purple","red","blue"), breaks=c("Combined", "Powell", "Mead")) +
-  #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
-  scale_y_continuous(breaks = seq(0,50,by=10),labels=seq(0,50,by=10)) +
-  scale_x_date(limits= c(as.Date("1968-01-01"), as.Date("2030-01-01"))) +
-  
-  
-  #    scale_y_continuous(breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]),labels=c(0,5.98,9.6,12.2,dfMaxStor[2,2]),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]), labels = c(895,1025,1075,1105,1218.8))) +
-  #scale_x_discrete(breaks=cMonths, labels= cMonthsLabels) +
-  #scale_x_continuous(breaks=seq(1960,2020,by=10), labels= seq(1960,2020,by=10)) +
-  
-  
-  #scale_fill_manual(breaks=c(1:6),values = palBlues[2:7]) + #,labels = variable) + 
-  theme_bw() +
-  #coord_fixed() +
-  labs(x="", y="Active Storage (MAF)", color = "Reservoir") +
-  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
-  #theme(text = element_text(size=20), legend.text=element_text(size=16)
+# ggplot() +
+#   #Powell storage
+#   geom_line(data=dfJointStorage,aes(x=DateAsValue,y=PowellStorage, color="Powell"), size=2) +
+#   #Mead Storage
+#   geom_line(data=dfJointStorage,aes(x=DateAsValue,y=MeadStorage, color="Mead"), size=2) +
+#   #Combined Storage
+#   geom_line(data=dfJointStorage,aes(x=DateAsValue,y=MeadStorage+PowellStorage, color="Combined"), size=2) +
+#   scale_color_manual(values = c("purple","red","blue"), breaks=c("Combined", "Powell", "Mead")) +
+#   #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
+#   scale_y_continuous(breaks = seq(0,50,by=10),labels=seq(0,50,by=10)) +
+#   scale_x_date(limits= c(as.Date("1968-01-01"), as.Date("2030-01-01"))) +
+#   
+#   
+#   #    scale_y_continuous(breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]),labels=c(0,5.98,9.6,12.2,dfMaxStor[2,2]),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]), labels = c(895,1025,1075,1105,1218.8))) +
+#   #scale_x_discrete(breaks=cMonths, labels= cMonthsLabels) +
+#   #scale_x_continuous(breaks=seq(1960,2020,by=10), labels= seq(1960,2020,by=10)) +
+#   
+#   
+#   #scale_fill_manual(breaks=c(1:6),values = palBlues[2:7]) + #,labels = variable) + 
+#   theme_bw() +
+#   #coord_fixed() +
+#   labs(x="", y="Active Storage (MAF)", color = "Reservoir") +
+#   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
+#   #theme(text = element_text(size=20), legend.text=element_text(size=16)
 
 
 ### Combined plot for proposal that shows:
@@ -343,57 +343,57 @@ dfJointStorageStackMelt$variable <- factor(dfJointStorageStackMelt$variable, lev
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
 
-ggplot() +
-  #Combined Storage
-  #As area
-  geom_area(data=dfJointStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
-  #As line
-  geom_line(data=dfJointStorageStack %>% filter(Year <= nMaxYearResData),aes(x=DateAsValue,y=MeadStorage+PowellStorage, color="Combined"), size=2, color = "Black") +
-  #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
-  
-  #lines for max capacity and protect elevation
-  geom_hline(data=dfKeyVolumes, aes(yintercept = Volume), linetype="longdash", size=1) +
-  #lines for Interim Guidelines and Expiry
-  geom_vline(data=dfKeyDates, aes(xintercept = Date), linetype = "dashed", size=1, color = pReds[9]) +
-
-  #Labels for the areas
-  geom_text(data=dfKeyTraceLabels %>% filter(Label != dfKeyTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 6, fontface="bold") +
-  geom_text(data=dfKeyTraceLabels %>% filter(Label == dfKeyTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 4.5, fontface="bold", color = pBlues[5]) +
- 
-  #Arrow Lake Mead conservation account label
-  geom_curve(data = dfKeyTraceLabels %>% filter(Label == dfKeyTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), xend = as.Date(sprintf("%.0f-02-01",nMaxYearResData+1)), y=20.5, yend = 13), curvature = -0.5, color = pBlues[5], size = 1.0, arrow = arrow(length = unit(0.03, "npc"))) +
-  
-  
-  #Label what is next
-  #geom_text(data = dfEndArrows %>% filter(Label == "Recover?"), aes(x= MidDate, y = Ystart, label = "Recover?\nStabilize?\nDraw down?"), size = 5, color = "Black") +
-  #Label the arrows
-  #geom_text(data = dfEndArrows, aes(x = Xstart, y = (Ystart+Yend)/2 + Yoffset, label = Label, angle = Angle), size = 5, color = "Black", hjust = 0) +
-  
-  #geom_segment(aes(x=as.Date("2022-01-01"), xend=as.Date("2025-01-01"), y=12, yend = 14, colour = palBlues[7], arrow = arrow())) +
-  
-  
-    
-  #Scales
-  scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
-  #scale_y_continuous(limits = c(0,NA)) +
-  # secondary axis is not working
-  # scale_y_continuous(limits = c(0,NA), sec_axis(~. +0, name = "", breaks = dfKeyVolumes$Volume, labels = dfKeyVolumes$Volume)) +
-  #Secondary axis as percent
-  scale_y_continuous(limits = c(0,NA), sec.axis = sec_axis(~ . /nCapacityCombined*100, name = "Percent of Combined Capacity", breaks = seq(0,100,by=25), labels = sprintf("%d%%", seq(0,100,by=25)))) +
-  
-  scale_fill_manual(values=c(pReds[3], pBlues[3], pBlues[5], pBlues[5], pBlues[7])) +
-  
-  #    scale_y_continuous(breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]),labels=c(0,5.98,9.6,12.2,dfMaxStor[2,2]),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]), labels = c(895,1025,1075,1105,1218.8))) +
-  #scale_x_discrete(breaks=cMonths, labels= cMonthsLabels) +
-  #scale_x_continuous(breaks=seq(1960,2020,by=10), labels= seq(1960,2020,by=10)) +
-  
-  
-  #scale_fill_manual(breaks=c(1:6),values = palBlues[2:7]) + #,labels = variable) + 
-  theme_bw() +
-  #coord_fixed() +
-  labs(x="", y="Combined Active Storage\n(MAF)", color = "") +
-  theme(text = element_text(size=20), legend.title=element_blank(), legend.position ="none")
-#theme(text = element_text(size=20), legend.text=element_text(size=16)
+# ggplot() +
+#   #Combined Storage
+#   #As area
+#   geom_area(data=dfJointStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
+#   #As line
+#   geom_line(data=dfJointStorageStack %>% filter(Year <= nMaxYearResData),aes(x=DateAsValue,y=MeadStorage+PowellStorage, color="Combined"), size=2, color = "Black") +
+#   #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
+#   
+#   #lines for max capacity and protect elevation
+#   geom_hline(data=dfKeyVolumes, aes(yintercept = Volume), linetype="longdash", size=1) +
+#   #lines for Interim Guidelines and Expiry
+#   geom_vline(data=dfKeyDates, aes(xintercept = Date), linetype = "dashed", size=1, color = pReds[9]) +
+# 
+#   #Labels for the areas
+#   geom_text(data=dfKeyTraceLabels %>% filter(Label != dfKeyTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 6, fontface="bold") +
+#   geom_text(data=dfKeyTraceLabels %>% filter(Label == dfKeyTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 4.5, fontface="bold", color = pBlues[5]) +
+#  
+#   #Arrow Lake Mead conservation account label
+#   geom_curve(data = dfKeyTraceLabels %>% filter(Label == dfKeyTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), xend = as.Date(sprintf("%.0f-02-01",nMaxYearResData+1)), y=20.5, yend = 13), curvature = -0.5, color = pBlues[5], size = 1.0, arrow = arrow(length = unit(0.03, "npc"))) +
+#   
+#   
+#   #Label what is next
+#   #geom_text(data = dfEndArrows %>% filter(Label == "Recover?"), aes(x= MidDate, y = Ystart, label = "Recover?\nStabilize?\nDraw down?"), size = 5, color = "Black") +
+#   #Label the arrows
+#   #geom_text(data = dfEndArrows, aes(x = Xstart, y = (Ystart+Yend)/2 + Yoffset, label = Label, angle = Angle), size = 5, color = "Black", hjust = 0) +
+#   
+#   #geom_segment(aes(x=as.Date("2022-01-01"), xend=as.Date("2025-01-01"), y=12, yend = 14, colour = palBlues[7], arrow = arrow())) +
+#   
+#   
+#     
+#   #Scales
+#   scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
+#   #scale_y_continuous(limits = c(0,NA)) +
+#   # secondary axis is not working
+#   # scale_y_continuous(limits = c(0,NA), sec_axis(~. +0, name = "", breaks = dfKeyVolumes$Volume, labels = dfKeyVolumes$Volume)) +
+#   #Secondary axis as percent
+#   scale_y_continuous(limits = c(0,NA), sec.axis = sec_axis(~ . /nCapacityCombined*100, name = "Percent of Combined Capacity", breaks = seq(0,100,by=25), labels = sprintf("%d%%", seq(0,100,by=25)))) +
+#   
+#   scale_fill_manual(values=c(pReds[3], pBlues[3], pBlues[5], pBlues[5], pBlues[7])) +
+#   
+#   #    scale_y_continuous(breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]),labels=c(0,5.98,9.6,12.2,dfMaxStor[2,2]),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]), labels = c(895,1025,1075,1105,1218.8))) +
+#   #scale_x_discrete(breaks=cMonths, labels= cMonthsLabels) +
+#   #scale_x_continuous(breaks=seq(1960,2020,by=10), labels= seq(1960,2020,by=10)) +
+#   
+#   
+#   #scale_fill_manual(breaks=c(1:6),values = palBlues[2:7]) + #,labels = variable) + 
+#   theme_bw() +
+#   #coord_fixed() +
+#   labs(x="", y="Combined Active Storage\n(MAF)", color = "") +
+#   theme(text = element_text(size=20), legend.title=element_blank(), legend.position ="none")
+# #theme(text = element_text(size=20), legend.text=element_text(size=16)
 
 
 #####################
@@ -410,7 +410,9 @@ dfAccounts <- data.frame(Name = c("Capacity", "Negotiate", "Mexico", "UpperBasin
 
 
 #Filter out the last record
-dfJointStorageFlexStack <- dfJointStorage %>% filter(Year == nDataYearMax, month == nMonthLast)
+#dfJointStorageFlexStack <- dfJointStorage %>% filter(Year == nDataYearMax, month == nMonthLast)
+dfJointStorageFlexStack <- dfJointStorage %>% filter(Year == nDataYearMax, month.x == nMonthLast)
+
 #Drop the final 2 columns
 dfJointStorageFlexStack <- dfJointStorageFlexStack[ !(names(dfJointStorageFlexStack) %in% c("LowerBasinConserve", "MexicoConserve"))]
 

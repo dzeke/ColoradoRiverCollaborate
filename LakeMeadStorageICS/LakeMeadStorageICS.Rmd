@@ -27,9 +27,9 @@ Data are from:
 ## Requested Citation
 David E. Rosenberg (2021), "Lake Mead Storage and Water Conservation Account Balances." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadStorageICS.
 
-```{r CombinedPlot1, echo=FALSE, warning=FALSE, message=FALSE}
+```{r LakeMeadStorageICS1, echo=FALSE, warning=FALSE, message=FALSE}
 
-# CombinedPowellMead.R
+# LakeMeadStorageICS.R
 #
 # Plots that show the combined storage of Lake Powell and Lake Mead.
 #
@@ -41,7 +41,7 @@ David E. Rosenberg (2021), "Lake Mead Storage and Water Conservation Account Bal
 # Please report bugs/feedback to me (contact info below)
 #
 # David E. Rosenberg
-# July 6, 2021
+# May 29, 2024
 # Utah State University
 # david.rosenberg@usu.edu
 
