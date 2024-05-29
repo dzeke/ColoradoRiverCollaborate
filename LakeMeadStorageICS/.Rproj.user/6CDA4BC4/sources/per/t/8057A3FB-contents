@@ -659,7 +659,7 @@ pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
 
 ggplot() +
-  #Combined Storage
+  #Lake Mead Storage and Water Conservation Account balances as stacked area plot
   #As area
   geom_area(data=dfMeadStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
   #As line
