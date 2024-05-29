@@ -506,19 +506,121 @@ dfJointStorageFlexStackMelt$variable <- factor(dfJointStorageFlexStackMelt$varia
 # #theme(text = element_text(size=20), legend.text=element_text(size=16)
 
 ###################################################
-#### PLOT for MEAD
+#### PLOT for MEAD Storage and Water Conservation Account Balances
+###All the input data
 
-#Data frame of key elevations
-nProtectMead <- dfProtectLevel$Volume[2]/1e6
-nCapacityMead <- dfMaxStor$Volume[2]
+## Read elevation-storage data in from Excel
+sExcelFile <- 'MeadDroughtContingencyPlan.xlsx'
+dfMeadElevStor <- read_excel(sExcelFile, sheet = "Mead-Elevation-Area",  range = "A4:D676")
+
+## Read in ICS account balance data
+sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
+dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G17")
+nMaxYearICSData <- max(dfICSBalance$Year)
+#Register the largest year. Right now one larger than ICS
+nMaxYearResData <- nMaxYearICSData + 1
+
+## Data frame of key elevations
+nMeadProtectElevation <- 1020
+nProtectMead <- interpNA(xi = nMeadProtectElevation, x= dfMeadElevStor$`Elevation (ft)`, y=dfMeadElevStor$`Live Storage (ac-ft)`)
+nCapacityMead <- 25.9
+
 dfKeyMeadVolumes <- data.frame(Volume = c(nProtectMead, nCapacityMead ), Label = c("Protect","Capacity"))
-#Data frame of key traces
+
+## Data frame of key dates
+dfKeyDates <- data.frame(Date = as.Date(c("2007-01-01", "2026-01-01")), Label = c("Interim\nGuidelines", "Guidelines\nExpire"))
+
+## Data frame of key Mead traces
 dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Conservation\nAccounts", "Deficit Mindset"),
                                Volume = c(nProtectMead/2, 8.5, 12, 20), xPosition = rep(2007 + (nMaxYearResData - 2007)/2,4),
                                Size = c(6, 6, 5, 6))
 
 #Adjust the position of the MX+LB conservation accounts
 dfKeyMeadTraceLabels$xPosition[3] <- (2026 + nMaxYearResData + 0.825 )/2
+
+## Mead Storage data
+sMeadHistoricalFile <- 'MeadLevelMar2022.xlsx'
+# Read in the historical Mead data
+dfMeadHistorical <- read_excel(sMeadHistoricalFile)
+
+#Convert cross-tabulated Mead months into timeseries
+dfMeadHist <- melt(dfMeadHistorical, id.vars = c("Year"))
+dfMeadHist$BeginOfMonStr <- paste(dfMeadHist$Year,dfMeadHist$variable,"1",sep="-")
+dfMeadHist$BeginOfMon <- as.Date(dfMeadHist$BeginOfMonStr, "%Y-%b-%d")
+dfMeadHist$BeginNextMon <- dfMeadHist$BeginOfMon %m+% months(1)
+#Filter out NAs
+dfMeadHist <- dfMeadHist %>% filter(!is.na(dfMeadHist$value))
+#Convert the text values to numerics
+dfMeadHist$value <- as.numeric(dfMeadHist$value)
+#Filter out low storages below min
+dfMeadHist <- dfMeadHist %>% filter(dfMeadHist$value > min(dfMeadElevStor$`Elevation (ft)`))
+dfMeadHist$Stor <- interp1(xi = dfMeadHist$value,y=dfMeadElevStor$`Live Storage (ac-ft)`,x=dfMeadElevStor$`Elevation (ft)`, method="linear")
+
+#Interpolate Powell storage from level to check
+dtStart <- as.Date("1963-12-22")
+dfPowellHist <- dfPowellHistorical[15:714,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
+#Convert date text to date value
+dfPowellHist$DateAsValueError <- as.Date(dfPowellHist$Date,"%d-%b-%y")
+#Apparently R breaks the century at an odd place
+#Coerce the years after 2030 (really 1930) to be in prior century (as.Date conversion error)
+dfPowellHist$Year <- as.numeric(format(dfPowellHist$DateAsValueError,"%Y"))
+dfPowellHist$DateAsValue <- dfPowellHist$DateAsValueError
+#dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] <- dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] %m-% months(12*100)
+#dfPowellHist$StorCheck <- interp1(xi = dfPowellHist$Elevation..feet.,y=dfPowellElevStor$`Live Storage (ac-ft)`,x=dfPowellElevStor$`Elevation (ft)`, method="linear")
+#dfPowellHist$StorDiff <- dfPowellHist$Storage..af. - dfPowellHist$StorCheck
+
+#Merge the Mead and Powell Storage Time series
+dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage..af.","Total.Release..cfs.")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
+#Rename columns so they are easier to distinquish
+dfJointStorage$PowellStorage <- dfJointStorage$Storage..af./1000000
+dfJointStorage$PowellRelease <- dfJointStorage$Total.Release..cfs.
+dfJointStorage$MeadStorage <- dfJointStorage$Stor/1000000
+#dfJointStorage$DateAsValue <- as.Date(dfJointStorage$Date,"%d-%b-%y")
+#Remove the old columns
+dfJointStorage <- dfJointStorage[, !names(dfJointStorage) %in% c("Storage..af.","Total.Release..cfs.","Stor")]
+#Add a column for decade
+dfJointStorage$decade <- round_any(as.numeric(format(dfJointStorage$DateAsValue,"%Y")),10,f=floor)
+#dfJointStorage$DecadeAsClass <- dfJointStorage %>% mutate(category=cut(decade, breaks=seq(1960,2020,by=10), labels=seq(1960,2020,by=10)))
+
+#Calculate the annual volume drop from each October 1
+#Calculate month
+dfJointStorage$month <- month(dfJointStorage$DateAsValue)
+
+#Filter Octobers to calculate annual lake drop
+dfJointStorageAnnual <- dfJointStorage %>% filter(month == 10)
+
+#Calculate the difference for Lake Powell
+Temp <- data.table(dfJointStorageAnnual %>% select(Year, PowellStorage))
+Temp <- Temp[, list(Year, PowellStorage,PowellDiff=diff(PowellStorage))]
+#Merge back into the data frame
+dfJointStorageAnnual <- merge(dfJointStorageAnnual,Temp %>% select(Year,PowellDiff), by = c("Year" = "Year"))
+
+#Calculate the difference for Lake Mead
+Temp <- data.table(dfJointStorageAnnual %>% select(Year, MeadStorage))
+Temp <- Temp[, list(Year, MeadStorage,MeadDiff=diff(MeadStorage))]
+#Merge back into the data frame
+dfJointStorageAnnual <- merge(dfJointStorageAnnual,Temp %>% select(Year,MeadDiff), by = c("Year" = "Year"))
+
+
+#Allow to go one more year
+dfJointStorageClean <- dfJointStorage[,2:ncol(dfJointStorage)] %>% filter(Year <= nMaxYearResData)
+
+dfJointStorageClean[is.na(dfJointStorageClean)] <- 0
+dfTemp <- dfJointStorage %>% filter(Year <= nMaxYearResData) %>% select(DateAsValue)
+dfJointStorageClean$DateAsValue <- dfTemp$DateAsValue
+
+#Add rows for years 2022 to 2030 with all zeros
+dfYearsAdd <- data.frame(Year = seq(nMaxYearResData+1, nMaxYearICSData + 10, by = 1))
+dfJointStorageZeros <- dfJointStorageClean[1,1:(ncol(dfJointStorageClean)-1)]
+dfJointStorageZeros[1, ] <- 0
+dfJointStorageZeros <- as.data.frame(lapply(dfJointStorageZeros,  rep, nrow(dfYearsAdd)))
+dfJointStorageZeros$Year <- dfYearsAdd$Year
+#Calculate a date
+dfJointStorageZeros$DateAsValue <- as.Date(sprintf("%.0f-01-01", dfJointStorageZeros$Year))
+#Bind to the Clean data frame
+dfJointStorageClean <- rbind(dfJointStorageClean, dfJointStorageZeros)
+
+
 
 ## Data for the stacked plot
 #New data frame for area
@@ -540,7 +642,10 @@ dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, level
 #Read in the levels from CSV
 dfMeadPoolsPlot2 <- read.csv("dfMeadPoolsPlot2.csv",header=TRUE)
 
-
+#Get the color palettes
+#Get the blue color bar
+pBlues <- brewer.pal(9,"Blues")
+pReds <- brewer.pal(9,"Reds")
 
 ggplot() +
   #Combined Storage
