@@ -628,8 +628,11 @@ dfJointStorageClean$DateAsValue <- dfTemp$DateAsValue
 
 #Add rows for years 2022 to 2030 with all zeros
 dfYearsAdd <- data.frame(Year = seq(nMaxYearResData+1, nMaxYearICSData + 10, by = 1))
-dfJointStorageZeros <- dfJointStorageClean[1,1:(ncol(dfJointStorageClean)-1)]
-dfJointStorageZeros[1, ] <- 0
+#dfJointStorageZeros <- dfJointStorageClean[1,1:(ncol(dfJointStorageClean)-1)]
+dfJointStorageZeros <- dfJointStorageClean[1, ]
+dfJointStorageZeros$MeadStorage <- 0
+dfJointStorageZeros$Stor <- 0
+
 dfJointStorageZeros <- as.data.frame(lapply(dfJointStorageZeros,  rep, nrow(dfYearsAdd)))
 dfJointStorageZeros$Year <- dfYearsAdd$Year
 #Calculate a date
