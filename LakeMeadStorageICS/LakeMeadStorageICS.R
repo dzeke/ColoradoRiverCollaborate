@@ -519,10 +519,34 @@ dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G17")
 nMaxYearICSData <- max(dfICSBalance$Year)
 #Register the largest year. Right now one larger than ICS
 nMaxYearResData <- nMaxYearICSData + 1
+ 
+#Duplicate the largest year and set the year to largest value plus 1
+dfICSBalance <- rbind(dfICSBalance, dfICSBalance %>% filter(Year == nMaxYearICSData) %>% mutate(Year = nMaxYearICSData+1))
+#Order by decreasing year
+dfICSBalance <- dfICSBalance[order(-dfICSBalance$Year),]
+#Turn time into a index by month. Year 1 = 1, Year 2 = 13
+dfICSBalance$MonthIndex <- 12*(dfICSBalance$Year - dfICSBalance$Year[nrow(dfICSBalance)]) + 12
+
+#Turn the ICS year into monthly
+dfICSmonths = expand.grid(Year = unique(dfICSBalance$Year), month = 1:12)
+dfICSmonths$MonthIndex <- 12*(dfICSmonths$Year - dfICSmonths$Year[nrow(dfICSmonths)]) + dfICSmonths$month
+#Filter off first year but keep last month
+dfICSmonths <- dfICSmonths %>% filter(dfICSmonths$MonthIndex >= 12)
+#Calculate a date
+dfICSmonths$Date <- as.Date(sprintf("%d-%d-01",dfICSmonths$Year, dfICSmonths$month))
+
+#Interpolate Lower Basin conservation account balances by Month
+dfICSmonths$LowerBasinConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalance$MonthIndex, y = dfICSBalance$Total, method="linear" )
+#Interpolate Mexico conservation account balance by Month
+dfICSmonths$MexicoConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalance$MonthIndex, y = dfICSBalance$Mexico, method="linear" )
+
+#Set values above the max ICS date to zero
+dfICSmonths[dfICSmonths$Year > nMaxYearICSData, c("LowerBasinConserve", "MexicoConserve")] <- 0
+
 
 ## Data frame of key elevations
 nMeadProtectElevation <- 1020
-nProtectMead <- interpNA(xi = nMeadProtectElevation, x= dfMeadElevStor$`Elevation (ft)`, y=dfMeadElevStor$`Live Storage (ac-ft)`)
+nProtectMead <- interpNA(xi = nMeadProtectElevation, x= dfMeadElevStor$`Elevation (ft)`, y=dfMeadElevStor$`Live Storage (ac-ft)`) / 1e6
 nCapacityMead <- 25.9
 
 dfKeyMeadVolumes <- data.frame(Volume = c(nProtectMead, nCapacityMead ), Label = c("Protect","Capacity"))
