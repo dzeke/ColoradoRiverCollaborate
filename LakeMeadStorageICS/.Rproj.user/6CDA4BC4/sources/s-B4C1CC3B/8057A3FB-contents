@@ -605,14 +605,14 @@ dfPowellHist$DateAsValue <- dfPowellHist$DateAsValueError
 #dfPowellHist$StorDiff <- dfPowellHist$Storage..af. - dfPowellHist$StorCheck
 
 #Merge the Mead and Powell Storage Time series
-dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage..af.","Total.Release..cfs.")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
-
 dfJointStorage <- dfMeadHist
 
 #Rename columns so they are easier to distinquish
 #dfJointStorage$PowellStorage <- dfJointStorage$Storage..af./1000000
 #dfJointStorage$PowellRelease <- dfJointStorage$Total.Release..cfs.
 dfJointStorage$MeadStorage <- dfJointStorage$Stor/1000000
+#dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage..af.","Total.Release..cfs.")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
+
 dfJointStorage$Date <- dfJointStorage$BeginOfMon
 dfJointStorage$DateAsValue <- as.Date(dfJointStorage$Date,"%d-%b-%y")
 #Remove the old columns
@@ -625,21 +625,11 @@ dfJointStorage$decade <- round_any(as.numeric(format(dfJointStorage$DateAsValue,
 #Calculate month
 dfJointStorage$month <- month(dfJointStorage$DateAsValue)
 
-#Filter Octobers to calculate annual lake drop
-dfJointStorageAnnual <- dfJointStorage %>% filter(month == 10)
-
-#Calculate the difference for Lake Powell
-#Temp <- data.table(dfJointStorageAnnual %>% select(Year, PowellStorage))
-#Temp <- Temp[, list(Year, PowellStorage,PowellDiff=diff(PowellStorage))]
-#Merge back into the data frame
-#dfJointStorageAnnual <- merge(dfJointStorageAnnual,Temp %>% select(Year,PowellDiff), by = c("Year" = "Year"))
-
-#Calculate the difference for Lake Mead
-Temp <- data.table(dfJointStorageAnnual %>% select(Year, MeadStorage))
-Temp <- Temp[, list(Year, MeadStorage,MeadDiff=diff(MeadStorage))]
-#Merge back into the data frame
-dfJointStorageAnnual <- merge(dfJointStorageAnnual,Temp %>% select(Year,MeadDiff), by = c("Year" = "Year"))
-
+#Left join the ICS data to the joint storage data to get the entire date range
+dfJointStorage <- left_join(dfJointStorage, dfICSmonths, by=c("DateAsValue" = "Date"))
+#Convert NAs to zeros
+dfJointStorage$Year <- year(dfJointStorage$DateAsValue)
+#dfJointStorageClean <- dfJointStorage[,2:ncol(dfJointStorage)] %>% filter(Year <= nMaxYearICSData)
 
 #Allow to go one more year
 #dfJointStorageClean <- dfJointStorage[,2:ncol(dfJointStorage)] %>% filter(Year <= nMaxYearResData)
@@ -654,6 +644,7 @@ dfJointStorageClean$DateAsValue <- dfTemp$DateAsValue
 dfYearsAdd <- data.frame(Year = seq(nMaxYearResData+1, nMaxYearICSData + 10, by = 1))
 #dfJointStorageZeros <- dfJointStorageClean[1,1:(ncol(dfJointStorageClean)-1)]
 dfJointStorageZeros <- dfJointStorageClean[1, ]
+#dfJointStorageZeros <- 0
 dfJointStorageZeros$MeadStorage <- 0
 dfJointStorageZeros$Stor <- 0
 
