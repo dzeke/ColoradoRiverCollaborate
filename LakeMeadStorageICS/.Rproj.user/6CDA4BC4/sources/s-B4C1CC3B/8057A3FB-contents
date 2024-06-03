@@ -582,13 +582,17 @@ dfPowellHist$DateAsValue <- dfPowellHist$DateAsValueError
 
 #Merge the Mead and Powell Storage Time series
 dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage..af.","Total.Release..cfs.")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
+
+dfJointStorage <- dfMeadHist
+
 #Rename columns so they are easier to distinquish
-dfJointStorage$PowellStorage <- dfJointStorage$Storage..af./1000000
-dfJointStorage$PowellRelease <- dfJointStorage$Total.Release..cfs.
+#dfJointStorage$PowellStorage <- dfJointStorage$Storage..af./1000000
+#dfJointStorage$PowellRelease <- dfJointStorage$Total.Release..cfs.
 dfJointStorage$MeadStorage <- dfJointStorage$Stor/1000000
-#dfJointStorage$DateAsValue <- as.Date(dfJointStorage$Date,"%d-%b-%y")
+dfJointStorage$Date <- dfJointStorage$BeginOfMon
+dfJointStorage$DateAsValue <- as.Date(dfJointStorage$Date,"%d-%b-%y")
 #Remove the old columns
-dfJointStorage <- dfJointStorage[, !names(dfJointStorage) %in% c("Storage..af.","Total.Release..cfs.","Stor")]
+#dfJointStorage <- dfJointStorage[, !names(dfJointStorage) %in% c("Storage..af.","Total.Release..cfs.","Stor")]
 #Add a column for decade
 dfJointStorage$decade <- round_any(as.numeric(format(dfJointStorage$DateAsValue,"%Y")),10,f=floor)
 #dfJointStorage$DecadeAsClass <- dfJointStorage %>% mutate(category=cut(decade, breaks=seq(1960,2020,by=10), labels=seq(1960,2020,by=10)))
@@ -601,10 +605,10 @@ dfJointStorage$month <- month(dfJointStorage$DateAsValue)
 dfJointStorageAnnual <- dfJointStorage %>% filter(month == 10)
 
 #Calculate the difference for Lake Powell
-Temp <- data.table(dfJointStorageAnnual %>% select(Year, PowellStorage))
-Temp <- Temp[, list(Year, PowellStorage,PowellDiff=diff(PowellStorage))]
+#Temp <- data.table(dfJointStorageAnnual %>% select(Year, PowellStorage))
+#Temp <- Temp[, list(Year, PowellStorage,PowellDiff=diff(PowellStorage))]
 #Merge back into the data frame
-dfJointStorageAnnual <- merge(dfJointStorageAnnual,Temp %>% select(Year,PowellDiff), by = c("Year" = "Year"))
+#dfJointStorageAnnual <- merge(dfJointStorageAnnual,Temp %>% select(Year,PowellDiff), by = c("Year" = "Year"))
 
 #Calculate the difference for Lake Mead
 Temp <- data.table(dfJointStorageAnnual %>% select(Year, MeadStorage))
@@ -614,7 +618,9 @@ dfJointStorageAnnual <- merge(dfJointStorageAnnual,Temp %>% select(Year,MeadDiff
 
 
 #Allow to go one more year
-dfJointStorageClean <- dfJointStorage[,2:ncol(dfJointStorage)] %>% filter(Year <= nMaxYearResData)
+#dfJointStorageClean <- dfJointStorage[,2:ncol(dfJointStorage)] %>% filter(Year <= nMaxYearResData)
+dfJointStorageClean <- dfJointStorage %>% filter(Year <= nMaxYearResData)
+
 
 dfJointStorageClean[is.na(dfJointStorageClean)] <- 0
 dfTemp <- dfJointStorage %>% filter(Year <= nMaxYearResData) %>% select(DateAsValue)
@@ -630,8 +636,6 @@ dfJointStorageZeros$Year <- dfYearsAdd$Year
 dfJointStorageZeros$DateAsValue <- as.Date(sprintf("%.0f-01-01", dfJointStorageZeros$Year))
 #Bind to the Clean data frame
 dfJointStorageClean <- rbind(dfJointStorageClean, dfJointStorageZeros)
-
-
 
 ## Data for the stacked plot
 #New data frame for area
