@@ -138,23 +138,10 @@ dfKeyMeadVolumes <- data.frame(Volume = c(nProtectMead, nCapacityMead ), Label =
 dfKeyDates <- data.frame(Date = as.Date(c("2007-01-01", "2027-01-01")), Label = c("Interim\nGuidelines", "Guidelines\nExpire"))
 
 ## Data frame of key Mead traces
-dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Conservation\nAccounts"),
-                               Volume = c(nProtectMead/2, 8.5, 12), xPosition = rep(2007 + (nMaxYearResData - 2007)/2,3),
+dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Water\nConservation\nAccounts"),
+                               Volume = c(nProtectMead/2, 8, 15), xPosition = c(2012, 2012, 2020),
                                Size = c(6, 6, 5))
 
-#Adjust the position of the MX+LB conservation accounts
-dfKeyMeadTraceLabels$xPosition[3] <- (2027 + nMaxYearResData + 0.825 )/2
-
-## Powell Storage Data
-#dfPowellElevStor <- read_excel(sExcelFile, sheet = 'Powell-Elevation-Area',  range = "A4:D689")
-#sPowellHistoricalFile <- 'PowellDataUSBRMar2022-Try2.csv'
-
-# Read in the historical Powell data
-# dfPowellHistorical <- read.csv(file=sPowellHistoricalFile, 
-#                              header=TRUE, 
-#                                
-#                                stringsAsFactors=FALSE,
-#                                sep=",")
 
 ## Mead Storage data
 sMeadHistoricalFile <- 'MeadLevelApril2024.xlsx'
@@ -240,17 +227,26 @@ dfJointStorageClean <- rbind(dfJointStorageClean, dfJointStorageZeros)
 #New data frame for area
 dfMeadStorageStack <- dfJointStorageClean
 
-dfMeadStorageStack$TotalConserve <-dfMeadStorageStack$LowerBasin + dfMeadStorageStack$Mexico
+# Stack as protect => Public Pool => Water Conservation Account balance => Reservoir volume
 dfMeadStorageStack$Protect <- nProtectMead
 dfMeadStorageStack$LowerBasin <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$LowerBasinConserve/1e6, 0)
 dfMeadStorageStack$Mexico <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$MexicoConserve/1e6, 0)
-dfMeadStorageStack$AvailableWater <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$MeadStorage - dfMeadStorageStack$Protect - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico, 0)
-#dfMeadStorageStack$Capacity <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, nCapacityMead - dfMeadStorageStack$AvailableWater - dfMeadStorageStack$Protect - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico, 0)
+dfMeadStorageStack$PublicPool <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$MeadStorage - dfMeadStorageStack$Protect - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico, 0)
+
+# If the public pool is less than zero, lower the protect volume
+dfMeadStorageStack$Protect <- ifelse(dfMeadStorageStack$PublicPool < 0, dfMeadStorageStack$Protect + dfMeadStorageStack$PublicPool,dfMeadStorageStack$Protect )
+# Set negative public pool values to 0
+dfMeadStorageStack$PublicPool = ifelse(dfMeadStorageStack$PublicPool < 0, 0,dfMeadStorageStack$PublicPool )
+# Set public pool values for year nMaxYearResData to zero
+dfMeadStorageStack$PublicPool = ifelse(dfMeadStorageStack$Year >= nMaxYearResData, 0, dfMeadStorageStack$PublicPool)
+
+#Calculate the Lake Mead pool level absent the water conservation program
+dfMeadStorageStack$MeadLevelWithoutICS <- dfMeadStorageStack$MeadStorage - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico
 
 #Melt the data
-dfMeadStorageStackMelt <- melt(dfMeadStorageStack, id.vars = c("DateAsValue"), measure.vars = c("Protect","LowerBasin", "Mexico", "AvailableWater"))
+dfMeadStorageStackMelt <- melt(dfMeadStorageStack, id.vars = c("DateAsValue"), measure.vars = c("Protect","PublicPool", "LowerBasin", "Mexico"))
 #Specify the order of the variables
-dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, levels=c("Capacity","AvailableWater", "Mexico", "LowerBasin", "Protect"))
+dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, levels=c("Mexico", "LowerBasin", "PublicPool", "Protect"))
 
 #Read in the levels from CSV
 dfMeadPoolsPlot2 <- read.csv("dfMeadPoolsPlot2.csv",header=TRUE)
@@ -264,9 +260,10 @@ ggplot() +
   #Lake Mead Storage and Water Conservation Account balances as stacked area plot
   #As area
   geom_area(data=dfMeadStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
-  #As line
+  #Reservoir level as line
   geom_line(data=dfMeadStorageStack %>% filter(Year < nMaxYearResData + 1),aes(x=DateAsValue,y=MeadStorage, color="Combined"), size=2, color = "Black") +
-  #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
+  #Reservoir level without ICS program
+  geom_line(data=dfMeadStorageStack %>% filter(Year <= nMaxYearICSData),aes(x=DateAsValue,y=MeadLevelWithoutICS, color="Combined"), size=1, color = "Black") + #, linetype = "twodash") +
   
   #lines for max capacity and protect elevation
   geom_hline(data=dfKeyMeadVolumes, aes(yintercept = Volume), linetype="longdash", size=1) +
@@ -290,7 +287,7 @@ ggplot() +
 
   
   #Scales
-  scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
+  scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), date_breaks = "4 year", date_labels = "%Y", sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
   #scale_y_continuous(limits = c(0,NA)) +
   # secondary axis is not working
   # scale_y_continuous(limits = c(0,NA), sec_axis(~. +0, name = "", breaks = dfKeyVolumes$Volume, labels = dfKeyVolumes$Volume)) +
@@ -301,7 +298,7 @@ ggplot() +
   scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadPoolsPlot2$stor_maf, labels = dfMeadPoolsPlot2$label)) +
   
   
-  scale_fill_manual(values=c(pBlues[3], pBlues[5], pBlues[5], pBlues[7])) +
+  scale_fill_manual(values=c(pBlues[3], pBlues[3], pBlues[5], pBlues[7])) +
   
   #    scale_y_continuous(breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]),labels=c(0,5.98,9.6,12.2,dfMaxStor[2,2]),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]), labels = c(895,1025,1075,1105,1218.8))) +
   #scale_x_discrete(breaks=cMonths, labels= cMonthsLabels) +
