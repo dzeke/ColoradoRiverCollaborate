@@ -263,7 +263,7 @@ ggplot() +
   #Reservoir level as line
   geom_line(data=dfMeadStorageStack %>% filter(Year < nMaxYearResData + 1),aes(x=DateAsValue,y=MeadStorage, color="Combined"), size=2, color = "Black") +
   #Reservoir level without ICS program
-  geom_line(data=dfMeadStorageStack %>% filter(Year <= nMaxYearICSData),aes(x=DateAsValue,y=MeadLevelWithoutICS, color="Combined"), size=1, color = "Black") + #, linetype = "twodash") +
+  geom_line(data=dfMeadStorageStack %>% filter(Year <= nMaxYearICSData),aes(x=DateAsValue,y=MeadLevelWithoutICS, color="Combined"), size=1, color = "Black", linetype = "twodash") +
   
   #lines for max capacity and protect elevation
   geom_hline(data=dfKeyMeadVolumes, aes(yintercept = Volume), linetype="longdash", size=1) +
@@ -272,7 +272,7 @@ ggplot() +
   
   #Labels for the areas
   geom_text(data=dfKeyMeadTraceLabels %>% filter(Label != dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 6, fontface="bold") +
-  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label == dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 5, fontface="bold", color = pBlues[5]) +
+  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label == dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 5, fontface="bold", color = pBlues[3]) +
   
   #Arrow Lake Mead conservation account label
   #geom_curve(data = dfKeyTraceLabels %>% filter(Label == dfKeyTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), xend = as.Date(sprintf("%.0f-02-01",nMaxYearResData+1)), y=10.5, yend = 7), curvature = -0.5, color = pBlues[5], size = 1.0, arrow = arrow(length = unit(0.03, "npc"))) +
