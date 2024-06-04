@@ -98,7 +98,7 @@ dfMeadElevStor <- read_excel(sExcelFile, sheet = "Mead-Elevation-Area",  range =
 
 ## Read in ICS account balance data
 sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
-dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G17")
+dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G20")
 nMaxYearICSData <- max(dfICSBalance$Year)
 #Register the largest year. Right now one larger than ICS
 nMaxYearResData <- nMaxYearICSData + 1
@@ -135,29 +135,29 @@ nCapacityMead <- 25.9
 dfKeyMeadVolumes <- data.frame(Volume = c(nProtectMead, nCapacityMead ), Label = c("Protect","Capacity"))
 
 ## Data frame of key dates
-dfKeyDates <- data.frame(Date = as.Date(c("2007-01-01", "2026-01-01")), Label = c("Interim\nGuidelines", "Guidelines\nExpire"))
+dfKeyDates <- data.frame(Date = as.Date(c("2007-01-01", "2027-01-01")), Label = c("Interim\nGuidelines", "Guidelines\nExpire"))
 
 ## Data frame of key Mead traces
-dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Conservation\nAccounts", "Deficit Mindset"),
-                               Volume = c(nProtectMead/2, 8.5, 12, 20), xPosition = rep(2007 + (nMaxYearResData - 2007)/2,4),
-                               Size = c(6, 6, 5, 6))
+dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Conservation\nAccounts"),
+                               Volume = c(nProtectMead/2, 8.5, 12), xPosition = rep(2007 + (nMaxYearResData - 2007)/2,3),
+                               Size = c(6, 6, 5))
 
 #Adjust the position of the MX+LB conservation accounts
-dfKeyMeadTraceLabels$xPosition[3] <- (2026 + nMaxYearResData + 0.825 )/2
+dfKeyMeadTraceLabels$xPosition[3] <- (2027 + nMaxYearResData + 0.825 )/2
 
 ## Powell Storage Data
-dfPowellElevStor <- read_excel(sExcelFile, sheet = 'Powell-Elevation-Area',  range = "A4:D689")
-sPowellHistoricalFile <- 'PowellDataUSBRMar2022-Try2.csv'
+#dfPowellElevStor <- read_excel(sExcelFile, sheet = 'Powell-Elevation-Area',  range = "A4:D689")
+#sPowellHistoricalFile <- 'PowellDataUSBRMar2022-Try2.csv'
 
 # Read in the historical Powell data
-dfPowellHistorical <- read.csv(file=sPowellHistoricalFile, 
-                               header=TRUE, 
-                               
-                               stringsAsFactors=FALSE,
-                               sep=",")
+# dfPowellHistorical <- read.csv(file=sPowellHistoricalFile, 
+#                              header=TRUE, 
+#                                
+#                                stringsAsFactors=FALSE,
+#                                sep=",")
 
 ## Mead Storage data
-sMeadHistoricalFile <- 'MeadLevelMar2022.xlsx'
+sMeadHistoricalFile <- 'MeadLevelApril2024.xlsx'
 # Read in the historical Mead data
 dfMeadHistorical <- read_excel(sMeadHistoricalFile)
 
@@ -174,17 +174,17 @@ dfMeadHist$value <- as.numeric(dfMeadHist$value)
 dfMeadHist <- dfMeadHist %>% filter(dfMeadHist$value > min(dfMeadElevStor$`Elevation (ft)`))
 dfMeadHist$Stor <- interp1(xi = dfMeadHist$value,y=dfMeadElevStor$`Live Storage (ac-ft)`,x=dfMeadElevStor$`Elevation (ft)`, method="linear")
 
-#Interpolate Powell storage from level to check
-dtStart <- as.Date("1963-12-22")
-dfPowellHist <- dfPowellHistorical[15:714,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
-#Convert date text to date value
-dfPowellHist$DateAsValueError <- as.Date(dfPowellHist$Date,"%d-%b-%y")
-#Apparently R breaks the century at an odd place
-#Coerce the years after 2030 (really 1930) to be in prior century (as.Date conversion error)
-dfPowellHist$Year <- as.numeric(format(dfPowellHist$DateAsValueError,"%Y"))
-dfPowellHist$DateAsValue <- dfPowellHist$DateAsValueError
-#dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] <- dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] %m-% months(12*100)
-#dfPowellHist$StorCheck <- interp1(xi = dfPowellHist$Elevation..feet.,y=dfPowellElevStor$`Live Storage (ac-ft)`,x=dfPowellElevStor$`Elevation (ft)`, method="linear")
+# #Interpolate Powell storage from level to check
+# dtStart <- as.Date("1963-12-22")
+# dfPowellHist <- dfPowellHistorical[15:714,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
+# #Convert date text to date value
+# dfPowellHist$DateAsValueError <- as.Date(dfPowellHist$Date,"%d-%b-%y")
+# #Apparently R breaks the century at an odd place
+# #Coerce the years after 2030 (really 1930) to be in prior century (as.Date conversion error)
+# dfPowellHist$Year <- as.numeric(format(dfPowellHist$DateAsValueError,"%Y"))
+# dfPowellHist$DateAsValue <- dfPowellHist$DateAsValueError
+# #dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] <- dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] %m-% months(12*100)
+# #dfPowellHist$StorCheck <- interp1(xi = dfPowellHist$Elevation..feet.,y=dfPowellElevStor$`Live Storage (ac-ft)`,x=dfPowellElevStor$`Elevation (ft)`, method="linear")
 #dfPowellHist$StorDiff <- dfPowellHist$Storage..af. - dfPowellHist$StorCheck
 
 #Merge the Mead and Powell Storage Time series
@@ -198,8 +198,6 @@ dfJointStorage$MeadStorage <- dfJointStorage$Stor/1000000
 
 dfJointStorage$Date <- dfJointStorage$BeginOfMon
 dfJointStorage$DateAsValue <- as.Date(dfJointStorage$Date,"%d-%b-%y")
-#Remove the old columns
-#dfJointStorage <- dfJointStorage[, !names(dfJointStorage) %in% c("Storage..af.","Total.Release..cfs.","Stor")]
 #Add a column for decade
 dfJointStorage$decade <- round_any(as.numeric(format(dfJointStorage$DateAsValue,"%Y")),10,f=floor)
 #dfJointStorage$DecadeAsClass <- dfJointStorage %>% mutate(category=cut(decade, breaks=seq(1960,2020,by=10), labels=seq(1960,2020,by=10)))
@@ -242,18 +240,17 @@ dfJointStorageClean <- rbind(dfJointStorageClean, dfJointStorageZeros)
 #New data frame for area
 dfMeadStorageStack <- dfJointStorageClean
 
+dfMeadStorageStack$TotalConserve <-dfMeadStorageStack$LowerBasin + dfMeadStorageStack$Mexico
 dfMeadStorageStack$Protect <- nProtectMead
 dfMeadStorageStack$LowerBasin <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$LowerBasinConserve/1e6, 0)
 dfMeadStorageStack$Mexico <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$MexicoConserve/1e6, 0)
 dfMeadStorageStack$AvailableWater <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$MeadStorage - dfMeadStorageStack$Protect - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico, 0)
-dfMeadStorageStack$Capacity <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, nCapacityMead - dfMeadStorageStack$AvailableWater - dfMeadStorageStack$Protect - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico, 0)
+#dfMeadStorageStack$Capacity <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, nCapacityMead - dfMeadStorageStack$AvailableWater - dfMeadStorageStack$Protect - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico, 0)
 
 #Melt the data
-dfMeadStorageStackMelt <- melt(dfMeadStorageStack, id.vars = c("DateAsValue"), measure.vars = c("Protect","LowerBasin", "Mexico", "AvailableWater", "Capacity"))
+dfMeadStorageStackMelt <- melt(dfMeadStorageStack, id.vars = c("DateAsValue"), measure.vars = c("Protect","LowerBasin", "Mexico", "AvailableWater"))
 #Specify the order of the variables
 dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, levels=c("Capacity","AvailableWater", "Mexico", "LowerBasin", "Protect"))
-
-
 
 #Read in the levels from CSV
 dfMeadPoolsPlot2 <- read.csv("dfMeadPoolsPlot2.csv",header=TRUE)
@@ -304,7 +301,7 @@ ggplot() +
   scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadPoolsPlot2$stor_maf, labels = dfMeadPoolsPlot2$label)) +
   
   
-  scale_fill_manual(values=c(pReds[3], pBlues[3], pBlues[5], pBlues[5], pBlues[7])) +
+  scale_fill_manual(values=c(pBlues[3], pBlues[5], pBlues[5], pBlues[7])) +
   
   #    scale_y_continuous(breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]),labels=c(0,5.98,9.6,12.2,dfMaxStor[2,2]),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]), labels = c(895,1025,1075,1105,1218.8))) +
   #scale_x_discrete(breaks=cMonths, labels= cMonthsLabels) +
