@@ -571,11 +571,18 @@ ggplot() +
 ###########################
 #### Plot inflow, available water, and ICS deposits as area plot
 
+#Calculate Total ICS deposits
+
+dfICSDeposit$TotalDeposit <- ifelse(dfICSDeposit$Arizona > 0, dfICSDeposit$Arizona, 0) +
+  ifelse(dfICSDeposit$California > 0, dfICSDeposit$California, 0) +
+  ifelse(dfICSDeposit$Nevada > 0, dfICSDeposit$Nevada, 0)
+
 ggplot() +
   
   #Inflow
   geom_area(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow, color = "Inflow", fill="Inflow")) + #color=Method shape=Method, size=6) +
   
+  geom_area(data = dfICSDeposit, aes(x=Year, y = TotalDeposit, color = "ICS Deposit", fill = "ICSDeposit"))
   #Available water = Inflow - evaporation
   geom_area(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation, color = "Available Water", fill="Available Water")) + #color=Method shape=Method, size=6) +
   
