@@ -567,6 +567,48 @@ ggplot() +
   theme(text = element_text(size=20), 
         legend.position = "none")
 
+
+###########################
+#### Plot inflow, available water, and ICS deposits as area plot
+
+ggplot() +
+  
+  #Inflow
+  geom_area(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow, color = "Inflow", fill="Inflow")) + #color=Method shape=Method, size=6) +
+  
+  #Available water = Inflow - evaporation
+  geom_area(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation, color = "Available Water", fill="Available Water")) + #color=Method shape=Method, size=6) +
+  
+  #Add line for 9.0 maf
+  geom_hline(yintercept = 9, color="red", linetype = "dashed") +
+  #Add 1:1 line
+  #geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
+  
+  #Add linear regression line
+  #geom_smooth(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
+  #           method = "lm",
+  #           formula = y ~ x,
+  #            geom = "smooth") + 
+  #Add regression equation to plot
+  #stat_regline_equation(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
+  #                      label.x= mean(dfUSBR_API_Agg$Evaporation), label.y=mean(dfUSBR_API_Agg$EvaporationFromTable), size = 6) +
+
+# Set x-axis limits
+xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
+  
+  #Make one combined legend
+  guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
+  
+  #facet_wrap( ~ Source) +
+  labs(x="", y="Volume\n(MAF per year)") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  
+  theme_bw() +  
+  theme(text = element_text(size=20))
+
+
+
 #Plot Inflow, Evaporation Table Look up, and Available water
 ggplot() +
   
@@ -579,12 +621,13 @@ ggplot() +
   geom_errorbar(data=dfUSBR_API_Agg, aes(x=WaterYear, ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
                 position=position_dodge(0.2), color="black", show.legend = FALSE) +
   #Inflow
-  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow, color = "orange"), size = 6) + #color=Method shape=Method, size=6) +
   
   #Available water = Inflow - evaporation
-  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation, color = "red"),  size = 6) + #color=Method shape=Method, size=6) +
   
-  
+  #Add line for 9.0 maf
+  geom_hline(yintercept = 9, color="red", linetype = "dashed") +
   #Add 1:1 line
   #geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
   
