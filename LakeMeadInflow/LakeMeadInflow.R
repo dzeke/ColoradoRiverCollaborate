@@ -540,18 +540,20 @@ ggplot() +
   #Inflow
   geom_area(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow, color = "Inflow", fill="Inflow")) + #color=Method shape=Method, size=6) +
   
-  geom_area(data = dfICSDeposit, aes(x=Year, y = TotalDeposit, color = "ICS Deposit", fill = "ICSDeposit"))
   #Available water = Inflow - evaporation
   geom_area(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation, color = "Available Water", fill="Available Water")) + #color=Method shape=Method, size=6) +
+
+  geom_point(data = dfICSDeposit, aes(x=Year, y = 9 - TotalDeposit/1e6, color = "ICS Deposit", fill = "ICSDeposit"), size = 6) +
   
   #Add line for 9.0 maf
-  geom_hline(yintercept = 9, color="red", linetype = "dashed") +
+  geom_hline(yintercept = 9, color="red", linetype = "dashed", size = 2) +
 
   # Set x-axis limits
   xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
+  #ylim(7, 13) +
   
   #Make one combined legend
-  guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
+  guides(color = guide_legend(""), fill = guide_legend("")) +
   
   #facet_wrap( ~ Source) +
   labs(x="", y="Volume\n(MAF per year)") +
