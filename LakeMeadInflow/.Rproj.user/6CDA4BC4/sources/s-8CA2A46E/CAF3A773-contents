@@ -546,17 +546,6 @@ ggplot() +
   
   #Add line for 9.0 maf
   geom_hline(yintercept = 9, color="red", linetype = "dashed") +
-  #Add 1:1 line
-  #geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
-  
-  #Add linear regression line
-  #geom_smooth(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
-  #           method = "lm",
-  #           formula = y ~ x,
-  #            geom = "smooth") + 
-  #Add regression equation to plot
-  #stat_regline_equation(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
-  #                      label.x= mean(dfUSBR_API_Agg$Evaporation), label.y=mean(dfUSBR_API_Agg$EvaporationFromTable), size = 6) +
 
   # Set x-axis limits
   xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
@@ -581,7 +570,7 @@ ggplot() +
 ggplot() +
   
   #Evaporation
-  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = EvaporationFromTable, color = "Evaporation"), shape = 15, size = 6) + #color=Method shape=Method, size=6) +
   
   #Add error bars to data points
   #Mead
@@ -589,25 +578,16 @@ ggplot() +
   geom_errorbar(data=dfUSBR_API_Agg, aes(x=WaterYear, ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
                 position=position_dodge(0.2), color="black", show.legend = FALSE) +
   #Inflow
-  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow, color = "orange"), size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow, color = "Inflow"), shape = 16, size = 6) + #color=Method shape=Method, size=6) +
   
   #Available water = Inflow - evaporation
-  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation, color = "red"),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation, color = "Available Water"),  shape = 17,  size = 6) + #color=Method shape=Method, size=6) +
   
   #Add line for 9.0 maf
   geom_hline(yintercept = 9, color="red", linetype = "dashed") +
-  #Add 1:1 line
-  #geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
   
-  #Add linear regression line
-  #geom_smooth(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
-   #           method = "lm",
-   #           formula = y ~ x,
-  #            geom = "smooth") + 
-  #Add regression equation to plot
-  #stat_regline_equation(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
-  #                      label.x= mean(dfUSBR_API_Agg$Evaporation), label.y=mean(dfUSBR_API_Agg$EvaporationFromTable), size = 6) +
-  
+  scale_fill_manual(values = cColorsToPlot) +
+
   # Set x-axis limits
   xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
 
