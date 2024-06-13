@@ -90,71 +90,7 @@ rm(list = ls())  #Clear history
   # After the installation process completes, we load all packages.
   sapply(load.lib,require,character=TRUE)
 
-
-# # Load required libraies
-# 
-# if (!require(tidyverse)) { 
-#   install.packages("tidyverse", repos="http://cran.r-project.org") 
-#   library(tidyverse) 
-# }
-# 
-# if (!require(readxl)) { 
-#   install.packages("readxl", repos="http://cran.r-project.org") 
-#   library(readxl) 
-# }
-# 
-# if (!require(RColorBrewer)) { 
-#   install.packages("RColorBrewer",repos="http://cran.r-project.org") 
-#   library(RColorBrewer) # 
-# }
-# 
-# if (!require(dplyr)) { 
-#   install.packages("dplyr",repos="http://cran.r-project.org") 
-#   library(dplyr) # 
-# }
-# 
-# if (!require(expss)) { 
-#   install.packages("expss",repos="http://cran.r-project.org") 
-#   library(expss) # 
-# }
-# 
-# if (!require(reshape2)) { 
-#   install.packages("reshape2", repos="http://cran.r-project.org") 
-#   library(reshape2) 
-# }
-# 
-# if (!require(pracma)) { 
-#   install.packages("pracma", repos="http://cran.r-project.org") 
-#   library(pracma) 
-# }
-# 
-# if (!require(lubridate)) { 
-#   install.packages("lubridate", repos="http://cran.r-project.org") 
-#   library(lubridate) 
-# }
-# 
-# if (!require(directlabels)) { 
-#   install.packages("directlabels", repo="http://cran.r-project.org")
-#   library(directlabels) 
-# }
-# 
-# if (!require(plyr)) { 
-#   install.packages("plyr", repo="http://cran.r-project.org")
-#   library(plyr) 
-# }
-# 
-# if (!require(stringr)) { 
-#   install.packages("stringr", repo="http://cran.r-project.org")
-#   library(stringr) 
-# }
-# 
-# 
-# if (!require(ggplot2)) { 
-#   install.packages("ggplot2", repo="http://cran.r-project.org")
-#   library(ggplot2) 
-# }
-
-  # New function interpNA to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
+# New function interpNA to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
   interpNA <- function(x, y, xi = x, ...) {
     yi <- rep(NA, length(xi));
     sel <- which(xi >= range(x)[1] & xi <= range(x)[2]);
@@ -330,7 +266,11 @@ dfUSBR_API_Agg$EvaporationFromTable <- interpNA(xi = dfUSBR_API_Agg$Storage, x= 
 #Interpolate range of Evap 
 dfUSBR_API_Agg$EvaporationRange <- interpNA(xi = dfUSBR_API_Agg$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxUp/1e6) - interpNA(xi = dfUSBR_API_Agg$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxLo/1e6)
 
-#Plot API Evaporation vs Table Look up
+##############
+###   FIGURE 1
+###   Plot API Evaporation vs Table Look up
+###############
+
 ggplot() +
   
   geom_point(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
@@ -473,7 +413,11 @@ cColNames <- unique(dfICSBalanceMelt$variable)
 #Figure  - timeseries of bar plots of ICS balances
 palBlues <- brewer.pal(9, "Blues")
 
-# Plot ICS account balances over time
+
+##############
+###   FIGURE 2
+###   Plot ICS account balances over time
+###############
 
 ggplot() +
   
@@ -504,7 +448,12 @@ ggplot() +
         legend.text=element_text(size=18),
         legend.position= c(0.1,0.80))
 
-#Plot ICS deposits over time
+
+##############
+###   FIGURE 3
+###   Plot ICS deposits over time
+###############
+
 ggplot() +
   
   geom_bar(data=dfICSDepositMelt, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
@@ -530,10 +479,11 @@ ggplot() +
         legend.position= c(1.075,0.5))
 
 
+##############
+###   FIGURE 4
+###   Plot Inflow by different methods as Time series
+###############
 
-#Plot as Time series
-
-#### Figure 1 - Time series
 
 ggplot() +
   #Data after 1989
@@ -553,7 +503,12 @@ ggplot() +
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=20))
 
-### Figure 2 as histogram
+
+##############
+###   FIGURE 5
+###   Plot Inflow as histogram
+###############
+
 
 ggplot() +
   geom_histogram(data = dfInflowsToPlot %>% filter(Method %in% cMethodsToPlot[1]), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Blue") +
@@ -568,10 +523,13 @@ ggplot() +
         legend.position = "none")
 
 
-###########################
-#### Plot inflow, available water, and ICS deposits as area plot
 
-#Calculate Total ICS deposits
+##############
+###   FIGURE 6
+###   Plot inflow, available water, and ICS deposits as area plot
+###############
+
+#Calculate Total ICS deposits each year (sum of positive values)
 
 dfICSDeposit$TotalDeposit <- ifelse(dfICSDeposit$Arizona > 0, dfICSDeposit$Arizona, 0) +
   ifelse(dfICSDeposit$California > 0, dfICSDeposit$California, 0) +
@@ -600,8 +558,8 @@ ggplot() +
   #stat_regline_equation(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
   #                      label.x= mean(dfUSBR_API_Agg$Evaporation), label.y=mean(dfUSBR_API_Agg$EvaporationFromTable), size = 6) +
 
-# Set x-axis limits
-xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
+  # Set x-axis limits
+  xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
   
   #Make one combined legend
   guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
@@ -615,8 +573,11 @@ xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
   theme(text = element_text(size=20))
 
 
+##############
+###   FIGURE 7
+###   Plot Inflow, Evaporation Table Look up, and Available water
+###############
 
-#Plot Inflow, Evaporation Table Look up, and Available water
 ggplot() +
   
   #Evaporation
@@ -662,11 +623,10 @@ ggplot() +
   theme(text = element_text(size=20))
 
 
-
-
-
-#### Figure 3 - Plot Mead Inflow as a box-and-whiskers
-#Plot as a box-and whiskers
+#################
+###   FIGURE 8
+###   Plot Mead Inflow as a box-and-whisker by different methods
+#################
 
 ggplot() +
   geom_boxplot(data = dfInflowsToPlot, aes(x=Method , y=MeadInflow, fill=Method)) +
@@ -690,8 +650,12 @@ ggplot() +
 dfInflowsWide <- dcast(dfInflowsToPlot, WaterYear ~ Method, value.var = "MeadInflow")
 dfInflowsWide$Diff <-  dfInflowsWide$`USGS Gages` - dfInflowsWide$`USBR Application Program Interface`
 
-#### Figure 4. Show the correlation between USGS and USBR
-#
+
+#################
+###   FIGURE 9
+###   Show the correlation between USGS and USBR estimates of inflow
+#################
+
 ggplot() +
   
   geom_point(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),  size = 6) + #color=Method shape=Method, size=6) +
@@ -728,9 +692,11 @@ ggplot() +
   theme(text = element_text(size=20))
 
 
+#################
+###   FIGURE 10
+###   Show the difference between USGS and USBR methods to estimate inflow
+#################
 
-#### Figure 5. Show the difference between USGS and USBR
-#
 ggplot() +
   #Points after 1990 in Blue and Red
   #geom_point(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),  size = 6) + #color=Method shape=Method, size=6) +
@@ -760,6 +726,9 @@ ggplot() +
 ## Show the correlation matrix
 mCorr <- cor(as.data.frame(dfInflowsWide %>% filter(WaterYear >= 2005, WaterYear < 2023) %>%  select(`USGS Gages`,`USBR Application Program Interface`) ))
 print(paste("Correlation = ",round(mCorr[1,2],2)))
+
+
+# Not working beyond here
 
 
 #### Figures 6 and 7. Show the sequence average plot using Salehabadi code for Natural Flow data set and USGS data
