@@ -577,31 +577,31 @@ dfICSCountMelt <- melt(data = dfInflowICS, id.vars = c("WaterYear"), measure.var
 
 ggplot() +
   
-  #Inflow
-  geom_area(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow, color = "Inflow", fill="Inflow")) + #color=Method shape=Method, size=6) +
+  #Inflow as line
+    geom_line(data = dfInflowICS, aes(x= WaterYear, y = MeadInflow - lHistorialAllocation, color = "Inflow"), size = 2) + #color=Method shape=Method, size=6) +
   
-  #Available water = Inflow - evaporation
-  geom_area(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation, color = "Available Water", fill="Available Water")) + #color=Method shape=Method, size=6) +
-
-  geom_point(data = dfICSDeposit, aes(x=Year, y = 9 - TotalDeposit/1e6, color = "ICS Deposit", fill = "ICSDeposit"), size = 6) +
-
-  ###geom_bar(data=dfICSBalanceMelt %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  #Available water as line
+    geom_line(data = dfInflowICS, aes(x= WaterYear, y = AvailableWater - lHistorialAllocation, color = "Available Water"), size = 2) + #color=Method shape=Method, size=6) +
   
-  ###scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
+  # ICS counts as stacked bar
+  geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=WaterYear),position="stack", stat="identity") +
+  
+  #scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cNamesInflowICS[(nNumCols-1):nNumCols]) +
   ###scale_color_manual(name="Guide2", values=c("Black")) +
   
   #Add line for 9.0 maf
-  geom_hline(yintercept = 9, color="red", linetype = "dashed", size = 2) +
+  geom_hline(yintercept = lHistorialAllocation - lHistorialAllocation, color="black", linetype = "longdash", size = 1.5) +
 
   # Set x-axis limits
   xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
-  #ylim(7, 13) +
+  # Set the y-axis limits and breaks
+  scale_y_continuous(breaks=seq(-3,4,1), labels=seq(-3,4,1) + lHistorialAllocation) +
   
   #Make one combined legend
   guides(color = guide_legend(""), fill = guide_legend("")) +
   
   #facet_wrap( ~ Source) +
-  labs(x="", y="Volume\n(MAF per year)") +
+  labs(x="", y="Volume\n(million acre-feet per year)") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   
