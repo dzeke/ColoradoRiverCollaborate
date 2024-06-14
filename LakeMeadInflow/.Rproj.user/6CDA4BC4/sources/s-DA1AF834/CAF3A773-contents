@@ -512,7 +512,8 @@ ggplot() +
 
 ggplot() +
   geom_histogram(data = dfInflowsToPlot %>% filter(Method %in% cMethodsToPlot[1]), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Blue") +
-                   
+  #geom_histogram(data = dfInflowsToPlot %>% filter(Method %in% cMethodsToPlot[2]), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Red") +
+  
   
   theme_bw() +
   
@@ -526,14 +527,53 @@ ggplot() +
 
 ##############
 ###   FIGURE 6
-###   Plot inflow, available water, and ICS deposits as area plot
+###   Plot inflow, available water, and ICS deposits as stacked area and stacked bar plots
+###    Area for Inflow, Evaporation, Available Water
+###    Bar for portion of ICS deposits to count/not count when there was sufficient available water 
 ###############
 
-#Calculate Total ICS deposits each year (sum of positive values)
+lHistorialAllocation <- 9 # Historical allocations for California, Nevada, Arizone, and Mexico
+                          # Baseline to calculate values to show in figure
+## Join the Inflow and ICS dataframes
+dfInflowICS <- left_join(dfUSBR_API_Agg, dfICSDeposit, by = c("WaterYear" = "Year"))
 
-dfICSDeposit$TotalDeposit <- ifelse(dfICSDeposit$Arizona > 0, dfICSDeposit$Arizona, 0) +
-  ifelse(dfICSDeposit$California > 0, dfICSDeposit$California, 0) +
-  ifelse(dfICSDeposit$Nevada > 0, dfICSDeposit$Nevada, 0)
+#Convert ICS values to million-acre feet
+dfInflowICS$Arizona <- dfInflowICS$Arizona / 1e6
+dfInflowICS$California <- dfInflowICS$California / 1e6
+dfInflowICS$Nevada <- dfInflowICS$Nevada / 1e6
+dfInflowICS$Mexico <- dfInflowICS$Mexico / 1e6
+
+#Calculate Total ICS deposits each year (sum of positive values)
+dfInflowICS$TotalDeposit <- ifelse(dfInflowICS$Arizona > 0, dfInflowICS$Arizona, 0) +
+  ifelse(dfInflowICS$California > 0, dfInflowICS$California, 0) +
+  ifelse(dfInflowICS$Nevada > 0, dfInflowICS$Nevada, 0)
+
+#Calculate available water as inflow minus evaporation
+dfInflowICS$AvailableWater <- 0
+dfInflowICS$AvailableWater <- dfInflowICS$MeadInflow - dfInflowICS$Evaporation
+
+# Calculate the ICS deposits to count when there was sufficient available water
+# There are 3 cases:
+#   1. Available water greater than historical allocations => Count all ICS deposits
+#   2. Available water between historical allocation and ICS amount => Count part of the ICS deposit
+#   3. Available water less than historical allocation minus ICS deposits => Count none
+dfInflowICS$CountICSDeposit <- 
+      # Case 1
+      ifelse(dfInflowICS$AvailableWater >= lHistorialAllocation, dfInflowICS$TotalDeposit, 0) +
+      # Case 2
+      ifelse((dfInflowICS$AvailableWater < lHistorialAllocation) & (dfInflowICS$AvailableWater >= lHistorialAllocation - dfInflowICS$TotalDeposit), dfInflowICS$TotalDeposit - (lHistorialAllocation - dfInflowICS$AvailableWater), 0) +
+      # Case 3
+      ifelse(dfInflowICS$AvailableWater <= lHistorialAllocation - dfInflowICS$TotalDeposit, 0, 0)
+  
+# Calculate the ICS deposit not to count as difference between the TotalDeposit and Deposit counted
+dfInflowICS$NotCountICSDeposit <- dfInflowICS$TotalDeposit - dfInflowICS$CountICSDeposit
+
+#Melt the CountICSDeposit and NotCount columns into a new dataframe to plot as a stacked bar
+cNamesInflowICS <- colnames(dfInflowICS)
+nNumCols <- length(cNamesInflowICS)
+
+dfICSCountMelt <- melt(data = dfInflowICS, id.vars = c("WaterYear"), measure.vars = cNamesInflowICS[(nNumCols-1):nNumCols])
+
 
 ggplot() +
   
@@ -544,6 +584,11 @@ ggplot() +
   geom_area(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation, color = "Available Water", fill="Available Water")) + #color=Method shape=Method, size=6) +
 
   geom_point(data = dfICSDeposit, aes(x=Year, y = 9 - TotalDeposit/1e6, color = "ICS Deposit", fill = "ICSDeposit"), size = 6) +
+
+  ###geom_bar(data=dfICSBalanceMelt %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  
+  ###scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
+  ###scale_color_manual(name="Guide2", values=c("Black")) +
   
   #Add line for 9.0 maf
   geom_hline(yintercept = 9, color="red", linetype = "dashed", size = 2) +
