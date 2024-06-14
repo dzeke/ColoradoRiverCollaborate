@@ -586,7 +586,7 @@ ggplot() +
   # ICS counts as stacked bar
   geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=WaterYear),position="stack", stat="identity") +
   
-  #scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cNamesInflowICS[(nNumCols-1):nNumCols]) +
+  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cNamesInflowICS[(nNumCols-1):nNumCols]) +
   ###scale_color_manual(name="Guide2", values=c("Black")) +
   
   #Add line for 9.0 maf

@@ -35,7 +35,7 @@ Data from USBR annual accounting reports: https://www.usbr.gov/lc/region/g4000/w
 4. Arizona has yet to conserve water at the annual volumes required for it's mandatory conservation targets (Figures 3, 4, 5, 6). In contrast, California and Nevada already have a track record of conserving at the mandatory conservation targets.
 
 ## Requested Citation
-David E. Rosenberg (2023), "Intentionally Created Surplus for Lake Mead: Current Accounts and Observations." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/master/ICS
+David E. Rosenberg (2024), "Intentionally Created Surplus for Lake Mead: Current Accounts and Observations." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/master/ICS
 
 ```{r ICSplot, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -129,11 +129,11 @@ if (!require(stringr)) {
 
 # Read in state balances each year
 sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
-dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G20")
+dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G23")
 dfICStoDCP <- read_excel(sExcelFile, sheet = "ICStoDCP",  range = "A2:M14")
-dfLimits <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A26:F29")
+dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A1:F4")
 #Read in max balance
-nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A26:F29")
+nMaxBalance <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
 
 # #Read in max balance
 # nMaxBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "A25:F28")
