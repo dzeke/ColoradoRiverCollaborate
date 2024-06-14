@@ -131,7 +131,7 @@ if (!require(stringr)) {
 sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
 dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G23")
 dfICStoDCP <- read_excel(sExcelFile, sheet = "ICStoDCP",  range = "A2:M14")
-dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A1:F4")
+dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
 #Read in max balance
 nMaxBalance <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
 
