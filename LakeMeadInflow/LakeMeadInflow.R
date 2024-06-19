@@ -412,6 +412,7 @@ dfICSDepositMelt <- read_csv(file = "dfICSDepositMelt.csv", col_names = TRUE)
 cColNames <- unique(dfICSBalanceMelt$variable) 
 #Figure  - timeseries of bar plots of ICS balances
 palBlues <- brewer.pal(9, "Blues")
+palReds <- brewer.pal(9, "Reds")
 
 
 ##############
@@ -517,7 +518,7 @@ ggplot() +
   
   theme_bw() +
   
-  labs(x="Lake Mead Inflow\n(MAF per year)", y="Number of Years") +
+  labs(x="Lake Mead Inflow\n(USGS Gages)\n(MAF per year)", y="Number of Years") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=20), 
@@ -552,6 +553,9 @@ dfInflowICS$TotalDeposit <- ifelse(dfInflowICS$Arizona > 0, dfInflowICS$Arizona,
 dfInflowICS$AvailableWater <- 0
 dfInflowICS$AvailableWater <- dfInflowICS$MeadInflow - dfInflowICS$Evaporation
 
+#Replace NAs with zeros
+dfInflowICS$TotalDeposit <- replace_na(dfInflowICS$TotalDeposit,0)
+
 # Calculate the ICS deposits to count when there was sufficient available water
 # There are 3 cases:
 #   1. Available water greater than historical allocations => Count all ICS deposits
@@ -568,6 +572,10 @@ dfInflowICS$CountICSDeposit <-
 # Calculate the ICS deposit not to count as difference between the TotalDeposit and Deposit counted
 dfInflowICS$NotCountICSDeposit <- dfInflowICS$TotalDeposit - dfInflowICS$CountICSDeposit
 
+sprintf("Total conservation credits all years: %.1f maf", sum(dfInflowICS$TotalDeposit))
+sprintf("Conservation credits with sufficient available water: %.1f maf", sum(dfInflowICS$CountICSDeposit))
+sprintf("Conservation credits with insufficient available water: %.1f maf", sum(dfInflowICS$NotCountICSDeposit))
+
 #Melt the CountICSDeposit and NotCount columns into a new dataframe to plot as a stacked bar
 cNamesInflowICS <- colnames(dfInflowICS)
 nNumCols <- length(cNamesInflowICS)
@@ -577,18 +585,22 @@ dfICSCountMelt <- melt(data = dfInflowICS, id.vars = c("WaterYear"), measure.var
 
 ggplot() +
   
+  #Ribbon from Inflow to available water
+  geom_ribbon(data = dfInflowICS, aes(x = WaterYear, max = MeadInflow - lHistorialAllocation, min = AvailableWater - lHistorialAllocation, fill="grey")) +
+  
   #Inflow as line
-    geom_line(data = dfInflowICS, aes(x= WaterYear, y = MeadInflow - lHistorialAllocation, color = "Inflow"), size = 2) + #color=Method shape=Method, size=6) +
+  geom_line(data = dfInflowICS, aes(x= WaterYear, y = MeadInflow - lHistorialAllocation, color = "Inflow"), size = 1) + #color=Method shape=Method, size=6) +
   
   #Available water as line
-    geom_line(data = dfInflowICS, aes(x= WaterYear, y = AvailableWater - lHistorialAllocation, color = "Available Water"), size = 2) + #color=Method shape=Method, size=6) +
+    geom_line(data = dfInflowICS, aes(x= WaterYear, y = AvailableWater - lHistorialAllocation, color = "Available Water"), size = 1) + #color=Method shape=Method, size=6) +
   
   # ICS counts as stacked bar
   geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=WaterYear),position="stack", stat="identity") +
   
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cNamesInflowICS[(nNumCols-1):nNumCols]) +
+  scale_fill_manual(name="Guide1",values = c(palBlues[7],palBlues[9],palBlues[9]),breaks=cNamesInflowICS[(nNumCols-1):nNumCols], labels = c("Water was available for conservation credit", "Insufficient water was available")) +
   ###scale_color_manual(name="Guide2", values=c("Black")) +
   
+  scale_color_manual(name="Guide2", values = c(palBlues[5], palBlues[3])) +
   #Add line for 9.0 maf
   geom_hline(yintercept = lHistorialAllocation - lHistorialAllocation, color="black", linetype = "longdash", size = 1.5) +
 
