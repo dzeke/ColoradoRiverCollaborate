@@ -3,9 +3,9 @@
     "path": "C:/Rosenberg/Work/USU/Research/ColoradoRiver/RCode/ColoradoRiverCollaborate/LakeMeadInflow/LakeMeadInflow.R",
     "project_path": "LakeMeadInflow.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "4207037345",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1692042708398.0,
     "source_on_save": false,
     "relative_order": 1,
@@ -13,14 +13,14 @@
         "source_window_id": "",
         "Source": "Source",
         "cursorPosition": "626,0",
-        "scrollLine": "623"
+        "scrollLine": "610"
     },
     "folds": "",
-    "lastKnownWriteTime": 1718838022,
+    "lastKnownWriteTime": 1718840254,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1718838924266,
+    "last_content_update": 1718840254970,
     "read_only": false,
     "read_only_alternatives": []
 }

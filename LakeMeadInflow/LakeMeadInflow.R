@@ -413,6 +413,7 @@ cColNames <- unique(dfICSBalanceMelt$variable)
 #Figure  - timeseries of bar plots of ICS balances
 palBlues <- brewer.pal(9, "Blues")
 palReds <- brewer.pal(9, "Reds")
+palGreys <- brewer.pal(9, "Greys")
 
 
 ##############
@@ -535,6 +536,9 @@ ggplot() +
 
 lHistorialAllocation <- 9 # Historical allocations for California, Nevada, Arizone, and Mexico
                           # Baseline to calculate values to show in figure
+lBaselinePlot <- 6   # Baseline value on plot from where bars for ICS deposits will show
+
+
 ## Join the Inflow and ICS dataframes
 dfInflowICS <- left_join(dfUSBR_API_Agg, dfICSDeposit, by = c("WaterYear" = "Year"))
 
@@ -573,8 +577,8 @@ dfInflowICS$CountICSDeposit <-
 dfInflowICS$NotCountICSDeposit <- dfInflowICS$TotalDeposit - dfInflowICS$CountICSDeposit
 
 sprintf("Total conservation credits all years: %.1f maf", sum(dfInflowICS$TotalDeposit))
-sprintf("Conservation credits with sufficient available water: %.1f maf", sum(dfInflowICS$CountICSDeposit))
-sprintf("Conservation credits with insufficient available water: %.1f maf", sum(dfInflowICS$NotCountICSDeposit))
+sCreditTotals <- c(sprintf("Conservation credits with\nsufficient available water:\n%.1f maf", sum(dfInflowICS$CountICSDeposit)),
+        sprintf("Credits with insufficient\navailable water:\n%.1f maf", sum(dfInflowICS$NotCountICSDeposit)))
 
 #Melt the CountICSDeposit and NotCount columns into a new dataframe to plot as a stacked bar
 cNamesInflowICS <- colnames(dfInflowICS)
@@ -586,28 +590,28 @@ dfICSCountMelt <- melt(data = dfInflowICS, id.vars = c("WaterYear"), measure.var
 ggplot() +
   
   #Ribbon from Inflow to available water
-  geom_ribbon(data = dfInflowICS, aes(x = WaterYear, max = MeadInflow - lHistorialAllocation, min = AvailableWater - lHistorialAllocation, fill="grey")) +
+  geom_ribbon(data = dfInflowICS, aes(x = WaterYear, max = MeadInflow - lBaselinePlot, min = AvailableWater - lBaselinePlot, fill="Evaporation")) +
   
   #Inflow as line
-  geom_line(data = dfInflowICS, aes(x= WaterYear, y = MeadInflow - lHistorialAllocation, color = "Inflow"), size = 1) + #color=Method shape=Method, size=6) +
+  geom_line(data = dfInflowICS, aes(x= WaterYear, y = MeadInflow - lBaselinePlot, color = "Inflow"), size = 1) + #color=Method shape=Method, size=6) +
   
   #Available water as line
-    geom_line(data = dfInflowICS, aes(x= WaterYear, y = AvailableWater - lHistorialAllocation, color = "Available Water"), size = 1) + #color=Method shape=Method, size=6) +
+    geom_line(data = dfInflowICS, aes(x= WaterYear, y = AvailableWater - lBaselinePlot, color = "Available Water"), size = 1) + #color=Method shape=Method, size=6) +
   
   # ICS counts as stacked bar
   geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=WaterYear),position="stack", stat="identity") +
   
-  scale_fill_manual(name="Guide1",values = c(palReds[7],palReds[9],palReds[9]),breaks=cNamesInflowICS[(nNumCols-1):nNumCols], labels = c("Water was available for conservation credit", "Insufficient water was available")) +
+  scale_fill_manual(name="Guide1",values = c(palGreys[3], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(3, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
   ###scale_color_manual(name="Guide2", values=c("Black")) +
   
-  scale_color_manual(name="Guide2", values = c(palBlues[5], palBlues[7])) +
+  scale_color_manual(name="Guide2", values = c(palBlues[7], palBlues[9])) +
   #Add line for 9.0 maf
-  geom_hline(yintercept = lHistorialAllocation - lHistorialAllocation, color="black", linetype = "longdash", size = 1.5) +
+  geom_hline(yintercept = lHistorialAllocation - lBaselinePlot, color="black", linetype = "longdash", size = 1.5) +
 
   # Set x-axis limits
   xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
   # Set the y-axis limits and breaks
-  scale_y_continuous(breaks=seq(-3,4,1), labels=seq(-3,4,1) + lHistorialAllocation) +
+  scale_y_continuous(breaks=seq(-1,7,1), labels=c(1,0,seq(1,7,1) + lBaselinePlot)) +
   
   #Make one combined legend
   guides(color = guide_legend(""), fill = guide_legend("")) +
