@@ -597,10 +597,10 @@ ggplot() +
   # ICS counts as stacked bar
   geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=WaterYear),position="stack", stat="identity") +
   
-  scale_fill_manual(name="Guide1",values = c(palBlues[7],palBlues[9],palBlues[9]),breaks=cNamesInflowICS[(nNumCols-1):nNumCols], labels = c("Water was available for conservation credit", "Insufficient water was available")) +
+  scale_fill_manual(name="Guide1",values = c(palReds[7],palReds[9],palReds[9]),breaks=cNamesInflowICS[(nNumCols-1):nNumCols], labels = c("Water was available for conservation credit", "Insufficient water was available")) +
   ###scale_color_manual(name="Guide2", values=c("Black")) +
   
-  scale_color_manual(name="Guide2", values = c(palBlues[5], palBlues[3])) +
+  scale_color_manual(name="Guide2", values = c(palBlues[5], palBlues[7])) +
   #Add line for 9.0 maf
   geom_hline(yintercept = lHistorialAllocation - lHistorialAllocation, color="black", linetype = "longdash", size = 1.5) +
 
