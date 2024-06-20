@@ -22,77 +22,22 @@
 
 rm(list = ls())  #Clear history
 
-# Load required libraies
-
-if (!require(tidyverse)) { 
-  install.packages("tidyverse", repos="https://cran.cnr.berkeley.edu/", verbose = TRUE) 
-  library(tidyverse) 
-}
-
-if (!require(readxl)) { 
-  install.packages("readxl", repos="http://cran.r-project.org") 
-  library(readxl) 
-}
-
-  
-if (!require(RColorBrewer)) { 
-  install.packages("RColorBrewer",repos="http://cran.r-project.org") 
-  library(RColorBrewer) # 
-}
-
-if (!require(dplyr)) { 
-  install.packages("dplyr",repos="http://cran.r-project.org") 
-  library(dplyr) # 
-}
-
-if (!require(expss)) { 
-  install.packages("expss",repos="http://cran.r-project.org") 
-  library(expss) # 
-}
-
-if (!require(reshape2)) { 
-  install.packages("reshape2", repos="http://cran.r-project.org") 
-  library(reshape2) 
-}
-
-if (!require(pracma)) { 
-  install.packages("pracma", repos="http://cran.r-project.org") 
-  library(pracma) 
-}
-
-if (!require(lubridate)) { 
-  install.packages("lubridate", repos="http://cran.r-project.org") 
-  library(lubridate) 
-}
-
-if (!require(directlabels)) { 
-  install.packages("directlabels", repo="http://cran.r-project.org")
-  library(directlabels) 
-}
-
-if (!require(plyr)) { 
-  install.packages("plyr", repo="http://cran.r-project.org")
-  library(plyr) 
-}
-
-if (!require(ggplot)) { 
-  install.packages("ggPlot", repo="http://cran.r-project.org", dependencies = T)
-  library(ggplot) 
-}
-
-if (!require(stringr)) { 
-  install.packages("stringr", repo="http://cran.r-project.org")
-  library(stringr) 
-}
-
+#Load packages in one go
+#List of packages
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr")
+# Then we select only the packages that aren't currently installed.
+install.lib <- load.lib[!load.lib %in% installed.packages()]
+# And finally we install the missing packages, including their dependency.
+for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+# After the installation process completes, we load all packages.
+sapply(load.lib,require,character=TRUE)
 
 
 # Load Data
 
 # Read in state balances each year
 sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
-dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G23")
-dfICStoDCP <- read_excel(sExcelFile, sheet = "ICStoDCP",  range = "A2:M14")
+dfICSBalance <- read_excel(sExcelFile, sheet = "Balances",  range = "A1:M18")
 dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
 
 #Read in max balance
@@ -106,40 +51,20 @@ dfMaxAnnualAmounts <- data.frame(Year=dfICSBalance$Year, MaxDeposit = nMaxBalanc
 cColNames <- colnames(dfICSBalance)
 
 #Melt the data so state columns become a variable
-dfICSBalanceMelt <- melt(data = dfICSBalance,id.vars = "Year", measure.vars = cColNames[1:4])
+dfICSBalanceMelt <- melt(data = dfICSBalance,id.vars = "Year", measure.vars = cColNames[2:5])
 
 #Calculate the Current ICS balance as a fraction of current Mead Storage
 # Data from: https://www.usbr.gov/lc/region/g4000/hourly/levels.html
 nCurrMeadStorage <- 9934*1000  # May 1, 2021
 
-nCurrICSTotal <- dfICSBalanceMelt %>% filter(Year == 2019) %>% summarise(Total = sum(value))
+nCurrICSTotal <- dfICSBalanceMelt %>% filter(Year == 2023) %>% summarise(Total = sum(value))
 
-# #Lake Powell Unregulated inflow. Data from https://www.usbr.gov/uc/water/crsp/studies/images/PowellForecast.png
-# dfLakePowellNatural <- data.frame (Year = seq(2011,2020,by=1), LakePowellFlow = c(16, 5, 5, 10.3, 10.1, 9.7, 12, 5, 13, 5.9))
-# 
-# # Read in Paria flows each year
-# sExcelFile <- 'Paria10yearFlow.xlsx'
-# dfParia <- read_excel(sExcelFile, sheet = "Sheet1",  range = "N36:P58")
-# 
-# #Join the Lake Powell Natural and Paria data frames by year
-# dfLeeFerryNatural <- left_join(dfLakePowellNatural,dfParia,by = c("Year" = "Water Year"))
-# 
-# dfLeeFerryNatural$LeeFerryFlow <- dfLeeFerryNatural$LakePowellFlow + dfLeeFerryNatural$`Flow (acre-feet)`/1e6
-  
+
 print("ICS balance as fraction of Mead storage")
 print(sprintf("%.1f%%",nCurrICSTotal$Total/nCurrMeadStorage*100))
 
 print("Percent of Upper Colorado River Basin area of entire continential US area")
 print(sprintf("%.1f%%",109800/3119884*100))
-
-# print("Lake Powell Natural Flow 2011 to 2020 (maf per year)")
-# print(sprintf("%.1f", mean(dfLeeFerryNatural$LakePowellFlow)))
-# 
-# print("Paria flow 2011 to 2020 (maf per year)")
-# print(sprintf("%.3f", mean(dfLeeFerryNatural$`Flow (acre-feet)`/1e6)))
-# 
-# print("Lee Ferry Natural Flow 2011 to 2020 (maf per year)")
-# print(sprintf("%.1f", mean(dfLeeFerryNatural$LeeFerryFlow)))
 
 palBlues <- brewer.pal(9, "Blues")
 
@@ -149,7 +74,7 @@ cColNamesLimits <- colnames(dfLimits)
 dfLimitsMelt <- melt(data=dfLimits, id.vars="New levels with DCP", measure.vars = cColNamesLimits[2:5]) 
 dfMaxBalanceCum = dfLimitsMelt %>% filter(`New levels with DCP` == "Max Balance (AF)", variable != 'Total')
 #Reorder so Arizona is on top
-dfMaxBalanceCum$Order <- c(3,2,1)
+dfMaxBalanceCum$Order <- c(3,2,1,4)
 dfMaxBalanceCum <- dfMaxBalanceCum[order(dfMaxBalanceCum$Order),]
 #Calculate the cumulative total
 dfMaxBalanceCum$CumVal <- cumsum(dfMaxBalanceCum$value)
@@ -159,8 +84,8 @@ dfMaxBalanceCum$StateAsChar[3] <- "Total/Arizona"
 
 #Write out the dataframe with ICS balances by year to CSV so can use later in other scripts
 write.csv(dfICSBalanceMelt, file = "dfICSBalanceMelt.csv")
-write.csv(dfICSDepositMelt, file = "dfICSDepositMelt.csv")
-write.csv(dfICSDeposit, file = "dfICSDeposit.csv")
+#write.csv(dfICSDepositMelt, file = "dfICSDepositMelt.csv")
+#write.csv(dfICSDeposit, file = "dfICSDeposit.csv")
 
  #Figure 1 - timeseries of bar plots of ICS balances
 
@@ -171,7 +96,7 @@ ggplot() +
   geom_hline(yintercept = nMaxBalance$Total[2]/1e6, size = 2) +
   #geom_line(data=dfMaxBalance, aes(color="Max Balance", y=MaxBal/1e6,x=Year), size=2) +
   
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
+  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[2:4]) +
   scale_color_manual(name="Guide2", values=c("Black")) +
   
   scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
@@ -188,7 +113,7 @@ ggplot() +
   
   theme_bw() +
   
-  labs(x="", y="Intentionally Created Surplus\nAccount Balance\n(MAF)") +
+  labs(x="", y="Lake Mead Water Conservation\nAccount Balance\n(MAF)") +
   theme(text = element_text(size=20),  legend.title = element_blank(), 
           legend.text=element_text(size=18),
           legend.position= c(0.1,0.80))
@@ -197,12 +122,14 @@ ggplot() +
 #Plot #2. Stacked bar chart of deposits to ICS accounts by state by year
 
 #Calcualte deposits each year the differences by year
-dfICSDeposit <- data.frame(-diff(as.matrix(dfICSBalance)))
+dfICSDeposit <- data.frame(-diff(as.matrix(dfICSBalance %>% select(Arizona,California,Nevada,Mexico,Total...6,Year))))
 #Put the correct year back in
 dfICSDeposit$Year <- dfICSBalance$Year[1:nrow(dfICSDeposit)]
 #Melt the data so state columns become a variable
-dfICSDepositMelt <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cColNames[1:3])
+dfICSDepositMelt <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cColNames[2:4])
+
 write.csv(dfICSDeposit, file = "dfICSDeposit.csv")
+write.csv(dfICSDepositMelt, file = "dfICSDepositMelt.csv")
 
 ggplot() +
   
@@ -210,11 +137,11 @@ ggplot() +
   geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
   geom_line(data=dfMaxAnnualAmounts, aes(color="Max Withdrawal", y=-MaxWithdraw/1e6,x=Year), size=2) +
   
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
+  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[2:4]) +
   scale_color_manual(name="Guide2", values=c("Black","Black")) +
   
   scale_x_continuous(breaks=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2),labels=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2)) +
-  scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[1],-nMaxBalance$Total[3])/1e6, labels = c("Max Deposit","Max Withdraw"))) +
+  scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[1],-nMaxBalance$Total[3])/1e6, labels = c("Max Credit","Max Debit"))) +
   
   #scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), limits = c(0,as.numeric(dfMaxStor %>% filter(Reservoir %in% c("Mead")) %>% select(Volume))),
   #                  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfMeadPoolsPlot$stor_maf, labels = dfMeadPoolsPlot$label)) +
@@ -224,7 +151,7 @@ ggplot() +
   
   theme_bw() +
   
-  labs(x="", y="Deposit to Intentionally Created Surplus Account\n(MAF per year)") +
+  labs(x="", y="Credits and Debits to\nLake Mead Water Conservation Accounts\n(MAF per year)") +
   theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
         legend.position= c(1.075,0.5))
 
