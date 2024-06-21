@@ -175,7 +175,7 @@ dfGCFlowsUSGS$Method <- cMethods[1]
 #
 #             A. HDB Data Service (usbr.gov) - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
 #
-#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=DY&t1=1990-01-01T00:00&t2=2023-08-28T00:00&table=R&mrid=0&format=csv
+#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=DY&t1=1990-01-01T00:00&t2=2024-06-20T00:00&table=R&mrid=0&format=csv
 #
 #                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
 #                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
@@ -190,9 +190,12 @@ dfGCFlowsUSGS$Method <- cMethods[1]
 #
 #                 Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
 
-
+## From downloaded CSV file
 sExcelFileUSBRAPI <- "USBR-API-MeadData.csv"
 dfUSBR_API<- read_csv(sExcelFileUSBRAPI, skip = 6) 
+
+## Direct from API - not working
+#dfUSBR_API <- read_csv("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1970-01-01T00:00&t2=2024-06-20T00:00&table=R&mrid=0&format=csv")
 
 #Turn the SDID Code # into meaningful variable names
 dfSDIDcode <- data.frame(code = c(1776, 2091, 1721, 1874),
