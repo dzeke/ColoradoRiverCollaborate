@@ -37,7 +37,7 @@ sapply(load.lib,require,character=TRUE)
 
 # Read in state balances each year
 sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
-dfICSBalance <- read_excel(sExcelFile, sheet = "Balances",  range = "A1:M18")
+dfICSBalance <- read_excel(sExcelFile, sheet = "Balances",  range = "A1:G18")
 dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
 
 #Read in max balance
@@ -122,7 +122,7 @@ ggplot() +
 #Plot #2. Stacked bar chart of deposits to ICS accounts by state by year
 
 #Calcualte deposits each year the differences by year
-dfICSDeposit <- data.frame(-diff(as.matrix(dfICSBalance %>% select(Arizona,California,Nevada,Mexico,Total...6,Year))))
+dfICSDeposit <- data.frame(diff(as.matrix(dfICSBalance %>% select(Arizona,California,Nevada,Mexico,Total,Year))))
 #Put the correct year back in
 dfICSDeposit$Year <- dfICSBalance$Year[1:nrow(dfICSDeposit)]
 #Melt the data so state columns become a variable
@@ -156,6 +156,8 @@ ggplot() +
         legend.position= c(1.075,0.5))
 
 
+
+#### Additional Plots
 # Plot Years ICS balance can fund DCP target
 # Ratio of ICS balance to DCP target (Years)
 dfICStoDCP$ElevationText <- paste(dfICStoDCP$`Mead Elevation (ft)`, "feet")
