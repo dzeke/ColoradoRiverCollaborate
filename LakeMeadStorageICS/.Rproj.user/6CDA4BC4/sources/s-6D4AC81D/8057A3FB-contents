@@ -10,71 +10,22 @@
 # Please report bugs/feedback to me (contact info below)
 #
 # David E. Rosenberg
-# May 29, 2024
+# June 21, 2024
 # Utah State University
 # david.rosenberg@usu.edu
 
 rm(list = ls())  #Clear history
 
 # Load required libraies
-
-if (!require(tidyverse)) { 
-  install.packages("tidyverse", repos="http://cran.r-project.org") 
-  library(tidyverse) 
-}
-
-if (!require(readxl)) { 
-  install.packages("readxl", repos="http://cran.r-project.org") 
-  library(readxl) 
-}
-
-  
-if (!require(RColorBrewer)) { 
-  install.packages("RColorBrewer",repos="http://cran.r-project.org") 
-  library(RColorBrewer) # 
-}
-
-if (!require(dplyr)) { 
-  install.packages("dplyr",repos="http://cran.r-project.org") 
-  library(dplyr) # 
-}
-
-if (!require(expss)) { 
-  install.packages("expss",repos="http://cran.r-project.org") 
-  library(expss) # 
-}
-
-if (!require(reshape2)) { 
-  install.packages("reshape2", repos="http://cran.r-project.org") 
-  library(reshape2) 
-}
-
-if (!require(pracma)) { 
-  install.packages("pracma", repos="http://cran.r-project.org") 
-  library(pracma) 
-}
-
-if (!require(lubridate)) { 
-  install.packages("lubridate", repos="http://cran.r-project.org") 
-  library(lubridate) 
-}
-
-if (!require(directlabels)) { 
-  install.packages("directlabels", repo="http://cran.r-project.org")
-  library(directlabels) 
-}
-
-
-if (!require(plyr)) { 
-  install.packages("plyr", repo="http://cran.r-project.org")
-  library(plyr) 
-}
-
-if (!require(ggrepel)) { 
-  devtools::install_github("slowkow/ggrepel")
-  library(ggrepel) 
-}
-
+#Load packages in one go
+#List of packages
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr")
+# Then we select only the packages that aren't currently installed.
+install.lib <- load.lib[!load.lib %in% installed.packages()]
+# And finally we install the missing packages, including their dependency.
+for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+# After the installation process completes, we load all packages.
+sapply(load.lib,require,character=TRUE)
 
 
 # New function interpNA to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
@@ -84,9 +35,6 @@ interpNA <- function(x, y, xi = x, ...) {
   yi[sel] <- interp1(x = x, y = y, xi = xi[sel], ...);
   return(yi);
 }
-
-
- 
 
 ###################################################
 #### PLOT for MEAD Storage and Water Conservation Account Balances
@@ -98,9 +46,10 @@ dfMeadElevStor <- read_excel(sExcelFile, sheet = "Mead-Elevation-Area",  range =
 
 ## Read in ICS account balance data
 sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
-dfICSBalance <- read_excel(sExcelFile, sheet = "Sheet1",  range = "B6:G20")
+dfICSBalance <- read_excel(sExcelFile, sheet = "Balances")
+#Save the most recent year of ICS data
 nMaxYearICSData <- max(dfICSBalance$Year)
-#Register the largest year. Right now one larger than ICS
+#Register the largest year of reservoir data. Right now one larger than ICS
 nMaxYearResData <- nMaxYearICSData + 1
  
 #Duplicate the largest year and set the year to largest value plus 1
@@ -160,19 +109,6 @@ dfMeadHist$value <- as.numeric(dfMeadHist$value)
 #Filter out low storages below min
 dfMeadHist <- dfMeadHist %>% filter(dfMeadHist$value > min(dfMeadElevStor$`Elevation (ft)`))
 dfMeadHist$Stor <- interp1(xi = dfMeadHist$value,y=dfMeadElevStor$`Live Storage (ac-ft)`,x=dfMeadElevStor$`Elevation (ft)`, method="linear")
-
-# #Interpolate Powell storage from level to check
-# dtStart <- as.Date("1963-12-22")
-# dfPowellHist <- dfPowellHistorical[15:714,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
-# #Convert date text to date value
-# dfPowellHist$DateAsValueError <- as.Date(dfPowellHist$Date,"%d-%b-%y")
-# #Apparently R breaks the century at an odd place
-# #Coerce the years after 2030 (really 1930) to be in prior century (as.Date conversion error)
-# dfPowellHist$Year <- as.numeric(format(dfPowellHist$DateAsValueError,"%Y"))
-# dfPowellHist$DateAsValue <- dfPowellHist$DateAsValueError
-# #dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] <- dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] %m-% months(12*100)
-# #dfPowellHist$StorCheck <- interp1(xi = dfPowellHist$Elevation..feet.,y=dfPowellElevStor$`Live Storage (ac-ft)`,x=dfPowellElevStor$`Elevation (ft)`, method="linear")
-#dfPowellHist$StorDiff <- dfPowellHist$Storage..af. - dfPowellHist$StorCheck
 
 #Merge the Mead and Powell Storage Time series
 dfJointStorage <- dfMeadHist
