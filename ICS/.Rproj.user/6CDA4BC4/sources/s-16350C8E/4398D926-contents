@@ -37,7 +37,7 @@ sapply(load.lib,require,character=TRUE)
 
 # Read in state balances each year
 sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
-dfICSBalance <- read_excel(sExcelFile, sheet = "Balances",  range = "A1:G18")
+dfICSBalance <- read_excel(sExcelFile, sheet = "Balances")
 dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
 
 #Read in max balance
