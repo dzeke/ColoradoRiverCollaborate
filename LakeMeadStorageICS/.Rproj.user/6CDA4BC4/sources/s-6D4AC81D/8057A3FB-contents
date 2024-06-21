@@ -16,7 +16,6 @@
 
 rm(list = ls())  #Clear history
 
-# Load required libraies
 #Load packages in one go
 #List of packages
 load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr")
@@ -88,7 +87,7 @@ dfKeyDates <- data.frame(Date = as.Date(c("2007-01-01", "2027-01-01")), Label = 
 
 ## Data frame of key Mead traces
 dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Water\nConservation\nAccounts"),
-                               Volume = c(nProtectMead/2, 8, 15), xPosition = c(2012, 2012, 2020),
+                               Volume = c(nProtectMead/2, 8, 11.5), xPosition = c(2012, 2012, 2023),
                                Size = c(6, 6, 5))
 
 
@@ -207,29 +206,12 @@ ggplot() +
   geom_vline(data=dfKeyDates, aes(xintercept = Date), linetype = "dashed", size=1, color = pReds[9]) +
   
   #Labels for the areas
-  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label != dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 6, fontface="bold") +
-  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label == dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 5, fontface="bold", color = pBlues[3]) +
-  
-  #Arrow Lake Mead conservation account label
-  #geom_curve(data = dfKeyTraceLabels %>% filter(Label == dfKeyTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), xend = as.Date(sprintf("%.0f-02-01",nMaxYearResData+1)), y=10.5, yend = 7), curvature = -0.5, color = pBlues[5], size = 1.0, arrow = arrow(length = unit(0.03, "npc"))) +
-  
-  
-  #Label what is next
-  #geom_text(data = dfEndArrows %>% filter(Label == "Recover?"), aes(x= MidDate, y = Ystart, label = "Recover?\nStabilize?\nDraw down?"), size = 5, color = "Black") +
-  #Label the arrows
-  #geom_text(data = dfEndArrows, aes(x = Xstart, y = (Ystart+Yend)/2 + Yoffset, label = Label, angle = Angle), size = 5, color = "Black", hjust = 0) +
-  
-  #geom_segment(aes(x=as.Date("2022-01-01"), xend=as.Date("2025-01-01"), y=12, yend = 14, colour = palBlues[7], arrow = arrow())) +
-
+#  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label != dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 6, fontface="bold") +
+#  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label == dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 5, fontface="bold", color = pBlues[3]) +
+  geom_text(data=dfKeyMeadTraceLabels, aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 6, fontface="bold") +
   
   #Scales
   scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), date_breaks = "4 year", date_labels = "%Y", sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
-  #scale_y_continuous(limits = c(0,NA)) +
-  # secondary axis is not working
-  # scale_y_continuous(limits = c(0,NA), sec_axis(~. +0, name = "", breaks = dfKeyVolumes$Volume, labels = dfKeyVolumes$Volume)) +
-  #Secondary axis as percent
-  #scale_y_continuous(limits = c(0,NA), sec.axis = sec_axis(~ . /nCapacityMead*100, name = "Percent of Capacity", breaks = seq(0,100,by=25), labels = sprintf("%d%%", seq(0,100,by=25)))) +
-
   #Secondary axis as Mead level
   scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadPoolsPlot2$stor_maf, labels = dfMeadPoolsPlot2$label)) +
   
