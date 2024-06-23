@@ -18,7 +18,7 @@
 #
 #             Use the HDB Data Service (usbr.gov) for all values - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
 #
-#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=DY&t1=1990-01-01T00:00&t2=2023-08-28T00:00&table=R&mrid=0&format=csv
+#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-01T00:00&table=R&mrid=0&format=csv
 #
 #                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
 #                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
@@ -175,7 +175,11 @@ dfGCFlowsUSGS$Method <- cMethods[1]
 #
 #             A. HDB Data Service (usbr.gov) - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
 #
-#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=DY&t1=1990-01-01T00:00&t2=2024-06-20T00:00&table=R&mrid=0&format=csv
+#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-20T00:00&table=R&mrid=0&format=csv
+#
+#                 This returns a webpage -- all on a single line -- that looks like this:
+#
+#                     <HTML><HEAD><TITLE>Bureau of Reclamation HDB Data</TITLE></HEAD><BODY><PRE>        DATETIME,     SDI_1776,     SDI_2091,     SDI_1721,     SDI_1874<BR>01/01/2022 00:00, 25036.660109, 733181.246590,   8969839.40, 10400.87768820<BR>02/01/2022 00:00, 22864.126967, 597592.564890,   8945556.40, 10631.16369050<BR>03/01/2022 00:00, 24622.34449940, 615768.845410,      8536485, 16421.73790320<BR>04/01/2022 00:00, 32571.66147670, 532451.073110,   8025536.60, 17262.50277780<BR> ....<BR>05/01/2024 00:00, 43219.74224840, 621530.394980,   8969054.80, 16139.41935480</PRE></BODY></HTML>  
 #
 #                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
 #                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
@@ -196,6 +200,24 @@ dfUSBR_API<- read_csv(sExcelFileUSBRAPI, skip = 6)
 
 ## Direct from API - not working
 #dfUSBR_API <- read_csv("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1970-01-01T00:00&t2=2024-06-20T00:00&table=R&mrid=0&format=csv")
+
+### Follow web-scraping post at https://tim-tiefenbach.de/post/2023-web-scraping/
+##
+##
+
+library(rvest)
+library(tidyr)
+
+#Monthly data from 2022 to 2024
+usbr_url <- "https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-01T00:00&table=R&mrid=0&format=html"
+
+usbr_MeadData <- read_html(usbr_url)
+
+pkg_data <- usbr_MeadData |>
+  html_element("table") |>
+  html_table()
+
+dfUSBR_API <- data.frame(pkg_data)
 
 #Turn the SDID Code # into meaningful variable names
 dfSDIDcode <- data.frame(code = c(1776, 2091, 1721, 1874),
