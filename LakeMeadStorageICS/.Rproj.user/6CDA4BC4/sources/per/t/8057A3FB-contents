@@ -18,7 +18,7 @@ rm(list = ls())  #Clear history
 
 #Load packages in one go
 #List of packages
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr")
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "rvest", "tidyr")
 # Then we select only the packages that aren't currently installed.
 install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
@@ -91,7 +91,7 @@ dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Water\nC
                                Size = c(6, 6, 5))
 
 
-## Mead Storage data
+### Load Mead Storage data from cross-tabulated Excel file with year as rows and months as columns
 sMeadHistoricalFile <- 'MeadLevelApril2024.xlsx'
 # Read in the historical Mead data
 dfMeadHistorical <- read_excel(sMeadHistoricalFile)
@@ -119,7 +119,48 @@ dfJointStorage$MeadStorage <- dfJointStorage$Stor/1000000
 #dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage..af.","Total.Release..cfs.")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
 
 dfJointStorage$Date <- dfJointStorage$BeginOfMon
-dfJointStorage$DateAsValue <- as.Date(dfJointStorage$Date,"%d-%b-%y")
+
+#### Load the Mead data from the USBR API
+# 1990 to Present
+
+#Dynamically read to the current date
+CurrDate <- as.Date(Sys.Date())
+cYear <- year(CurrDate)
+cMonth <- month(CurrDate)
+
+#Calculate the prior month
+if (cMonth == 1) {
+  # We want December of the prior year
+  sDate <- sprintf("%d-%d-01", cYear-1, 12)
+  } else {
+  # We take the prior month of the same year
+  sDate <- sprintf("%d-%d-01", cYear, cMonth - 1)
+}
+
+#Construct the USBR API call by reading data up to the prior month
+usbr_url <- paste0("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1990-01-01T00:00&t2=", sDate, "T00:00&table=R&mrid=0&format=html")
+
+usbr_MeadData <- read_html(usbr_url)
+
+pkg_data <- usbr_MeadData |>
+  html_element("table") |>
+  html_table()
+
+dfUSBR_API <- data.frame(pkg_data)
+
+#Turn the SDID Code # into meaningful variable names
+dfSDIDcode <- data.frame(code = c(1776, 2091, 1721, 1874),
+                         Field = c("Evaporation", "Inflow", "Storage", "Release"),
+                         Units = c("acre-feet", "??", "acre-feet", "cfs"))
+
+cSDID <- colnames(dfUSBR_API)
+cSDID[2:5] <-dfSDIDcode$Field
+colnames(dfUSBR_API) <- cSDID
+
+dfJointStorage <- dfUSBR_API
+
+### This statement not converting date as string to data as value correctly
+dfJointStorage$DateAsValue <- as.Date(dfJointStorage$DATETIME, "%b/%d/%y")
 #Add a column for decade
 dfJointStorage$decade <- round_any(as.numeric(format(dfJointStorage$DateAsValue,"%Y")),10,f=floor)
 #dfJointStorage$DecadeAsClass <- dfJointStorage %>% mutate(category=cut(decade, breaks=seq(1960,2020,by=10), labels=seq(1960,2020,by=10)))
