@@ -1,7 +1,7 @@
 ---
 title: "Lake Mead Storage and Water Conservation Accounts Plots"
 author: "David E. Rosenberg"
-date: "May 29, 2024"
+date: "June 24, 2024"
 output: pdf_document
 ---
 
@@ -19,13 +19,15 @@ Data are from:
 
 1. Storage elevation curves for Lake Powell and Lake Mead: Colorado River Simulation System (Wheeler et al 2019). MeadDroughtContingencyPlan.xlsx.
 
-2. Lake Mead storage: USBR (2024). "LAKE MEAD AT HOOVER DAM, END OF MONTH ELEVATION (FEET)". Lower COlorado River Operations, U.S. Buruea of Reclamation https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html (MeadLevelApril2024.xlsx).
+2. Lake Mead Storage read in from USBR Application Programming Interface (API) 
+
+Lake Mead storage: USBR (2024). "LAKE MEAD AT HOOVER DAM, END OF MONTH ELEVATION (FEET)". Lower COlorado River Operations, U.S. Buruea of Reclamation https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html (MeadLevelApril2024.xlsx).
 
 3. Lake Mead conservation account balances : USBR (2020). "Boulder Canyon Operatoins Office - Program and Activites: Water Accounting Reports".  https://www.usbr.gov/lc/region/g4000/wtracct.html. (IntentionallyCreatedSurplus-Summary.xlsx)
 
 
 ## Requested Citation
-David E. Rosenberg (2021), "Lake Mead Storage and Water Conservation Account Balances." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadStorageICS.
+David E. Rosenberg (2024), "Lake Mead Storage and Water Conservation Account Balances." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadStorageICS.
 
 ```{r LakeMeadStorageICS1, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -49,63 +51,15 @@ rm(list = ls())  #Clear history
 
 # Load required libraies
 
-if (!require(tidyverse)) { 
-  install.packages("tidyverse", repos="http://cran.r-project.org") 
-  library(tidyverse) 
-}
-
-if (!require(readxl)) { 
-  install.packages("readxl", repos="http://cran.r-project.org") 
-  library(readxl) 
-}
-
-  
-if (!require(RColorBrewer)) { 
-  install.packages("RColorBrewer",repos="http://cran.r-project.org") 
-  library(RColorBrewer) # 
-}
-
-if (!require(dplyr)) { 
-  install.packages("dplyr",repos="http://cran.r-project.org") 
-  library(dplyr) # 
-}
-
-if (!require(expss)) { 
-  install.packages("expss",repos="http://cran.r-project.org") 
-  library(expss) # 
-}
-
-if (!require(reshape2)) { 
-  install.packages("reshape2", repos="http://cran.r-project.org") 
-  library(reshape2) 
-}
-
-if (!require(pracma)) { 
-  install.packages("pracma", repos="http://cran.r-project.org") 
-  library(pracma) 
-}
-
-if (!require(lubridate)) { 
-  install.packages("lubridate", repos="http://cran.r-project.org") 
-  library(lubridate) 
-}
-
-if (!require(directlabels)) { 
-  install.packages("directlabels", repo="http://cran.r-project.org")
-  library(directlabels) 
-}
-
-
-if (!require(plyr)) { 
-  install.packages("plyr", repo="http://cran.r-project.org")
-  library(plyr) 
-}
-
-if (!require(ggrepel)) { 
-  devtools::install_github("slowkow/ggrepel")
-  library(ggrepel) 
-}
-
+#Load packages in one go
+#List of packages
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "rvest", "tidyr")
+# Then we select only the packages that aren't currently installed.
+install.lib <- load.lib[!load.lib %in% installed.packages()]
+# And finally we install the missing packages, including their dependency.
+for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+# After the installation process completes, we load all packages.
+sapply(load.lib,require,character=TRUE)
 
 
 # New function interpNA to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
@@ -117,6 +71,9 @@ interpNA <- function(x, y, xi = x, ...) {
 }
 
 
+###################################################
+#### PLOT for MEAD Storage and Water Conservation Account Balances
+###All the input data
 
 ###This reservoir data comes from CRSS. It was exported to Excel.
 

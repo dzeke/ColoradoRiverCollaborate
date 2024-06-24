@@ -24,7 +24,8 @@
 #                     Returns an HTML page all on one line that looks like this:
 #
 #                     <HTML><HEAD><TITLE>Bureau of Reclamation HDB Data</TITLE></HEAD><BODY><TABLE BORDER=1><TR><TH>        DATETIME</TH><TH>     SDI_1776</TH><TH>     SDI_2091</TH><TH>     SDI_1721</TH><TH>     SDI_1874</TH></TR><TR><TD>01/01/2022 00:00</TD><TD> 25036.660109</TD><TD> 733181.246590</TD><TD>   8969839.40</TD><TD> 10400.87768820</TD></TR><TR><TD>02/01/2022 00:00</TD><TD> 22864.126967</TD><TD> 597592.564890</TD><TD>   8945556.40</TD><TD> 10631.16369050</TD></TR> .... <TR><TD>05/01/2024 00:00</TD><TD> 43219.74224840</TD><TD> 621530.394980</TD><TD>   8969054.80</TD><TD> 16139.41935480</TD></TR></TABLE></BODY></HTML>
-
+#
+#					Scrape and parse the html page using the rvest and tidyr packages			
 #
 #                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
 #                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,

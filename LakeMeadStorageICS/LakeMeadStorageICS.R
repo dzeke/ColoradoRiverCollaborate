@@ -39,7 +39,7 @@ interpNA <- function(x, y, xi = x, ...) {
 #### PLOT for MEAD Storage and Water Conservation Account Balances
 ###All the input data
 
-## Read elevation-storage data in from Excel
+## Read elevation-storage data in from Excel which came from CRSS
 sExcelFile <- 'MeadDroughtContingencyPlan.xlsx'
 dfMeadElevStor <- read_excel(sExcelFile, sheet = "Mead-Elevation-Area",  range = "A4:D676")
 
@@ -90,7 +90,7 @@ dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Water\nC
                                Volume = c(nProtectMead/2, 8, 11.5), xPosition = c(2012, 2012, 2023),
                                Size = c(6, 6, 5))
 
-
+##### Uncomment this section if wish to read in Mead Elevation data from Excel file
 # ### Load Mead Storage data from cross-tabulated Excel file with year as rows and months as columns
 # sMeadHistoricalFile <- 'MeadLevelApril2024.xlsx'
 # # Read in the historical Mead data
@@ -120,8 +120,25 @@ dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Water\nC
 # 
 # dfJointStorage$Date <- dfJointStorage$BeginOfMon
 
-#### Load the Mead data from the USBR API
+############# Load the Mead data from the USBR API
 # 1990 to Present
+#
+#             Use the HDB Data Service (usbr.gov) for all values - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
+#
+#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-01T00:00&table=R&mrid=0&format=html
+#
+#                     Read in monthly data and print to html table. 
+#                     Returns an HTML page all on one line that looks like this:
+#
+#                     <HTML><HEAD><TITLE>Bureau of Reclamation HDB Data</TITLE></HEAD><BODY><TABLE BORDER=1><TR><TH>        DATETIME</TH><TH>     SDI_1776</TH><TH>     SDI_2091</TH><TH>     SDI_1721</TH><TH>     SDI_1874</TH></TR><TR><TD>01/01/2022 00:00</TD><TD> 25036.660109</TD><TD> 733181.246590</TD><TD>   8969839.40</TD><TD> 10400.87768820</TD></TR><TR><TD>02/01/2022 00:00</TD><TD> 22864.126967</TD><TD> 597592.564890</TD><TD>   8945556.40</TD><TD> 10631.16369050</TD></TR> .... <TR><TD>05/01/2024 00:00</TD><TD> 43219.74224840</TD><TD> 621530.394980</TD><TD>   8969054.80</TD><TD> 16139.41935480</TD></TR></TABLE></BODY></HTML>
+#
+#					Scrape and parse the html page using the rvest and tidyr packages			
+#
+#                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
+#                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
+#                 the SDID's you will need are as follows: Evaporation (SDID=1776), Inflow (SDID=2091), Storage (SDID=1721), 
+#                 and Release (SDID=1874). From there you can select the timestep you want,
+#                  Instantaneous, Hourly, Daily, Monthly, as well as for what time span you want.
 
 #Dynamically read to the current date
 CurrDate <- as.Date(Sys.Date())
