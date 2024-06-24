@@ -231,6 +231,8 @@ dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, level
 
 #Read in the levels from CSV
 dfMeadPoolsPlot2 <- read.csv("dfMeadPoolsPlot2.csv",header=TRUE)
+# Add SNWA Intake to the third label at Mead Elevation 1,000 ft
+#dfMeadPoolsPlot2$label[3] <- paste0(dfMeadPoolsPlot2$label[3],"\nSNWA Intake #2")
 
 #Get the color palettes
 #Get the blue color bar

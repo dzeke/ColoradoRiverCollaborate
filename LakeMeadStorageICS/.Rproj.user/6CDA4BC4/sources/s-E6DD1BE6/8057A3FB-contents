@@ -91,34 +91,34 @@ dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Water\nC
                                Size = c(6, 6, 5))
 
 
-### Load Mead Storage data from cross-tabulated Excel file with year as rows and months as columns
-sMeadHistoricalFile <- 'MeadLevelApril2024.xlsx'
-# Read in the historical Mead data
-dfMeadHistorical <- read_excel(sMeadHistoricalFile)
-
-#Convert cross-tabulated Mead months into timeseries
-dfMeadHist <- melt(dfMeadHistorical, id.vars = c("Year"))
-dfMeadHist$BeginOfMonStr <- paste(dfMeadHist$Year,dfMeadHist$variable,"1",sep="-")
-dfMeadHist$BeginOfMon <- as.Date(dfMeadHist$BeginOfMonStr, "%Y-%b-%d")
-dfMeadHist$BeginNextMon <- dfMeadHist$BeginOfMon %m+% months(1)
-#Filter out NAs
-dfMeadHist <- dfMeadHist %>% filter(!is.na(dfMeadHist$value))
-#Convert the text values to numerics
-dfMeadHist$value <- as.numeric(dfMeadHist$value)
-#Filter out low storages below min
-dfMeadHist <- dfMeadHist %>% filter(dfMeadHist$value > min(dfMeadElevStor$`Elevation (ft)`))
-dfMeadHist$Stor <- interp1(xi = dfMeadHist$value,y=dfMeadElevStor$`Live Storage (ac-ft)`,x=dfMeadElevStor$`Elevation (ft)`, method="linear")
-
-#Merge the Mead and Powell Storage Time series
-dfJointStorage <- dfMeadHist
-
-#Rename columns so they are easier to distinquish
-#dfJointStorage$PowellStorage <- dfJointStorage$Storage..af./1000000
-#dfJointStorage$PowellRelease <- dfJointStorage$Total.Release..cfs.
-dfJointStorage$MeadStorage <- dfJointStorage$Stor/1000000
-#dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage..af.","Total.Release..cfs.")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
-
-dfJointStorage$Date <- dfJointStorage$BeginOfMon
+# ### Load Mead Storage data from cross-tabulated Excel file with year as rows and months as columns
+# sMeadHistoricalFile <- 'MeadLevelApril2024.xlsx'
+# # Read in the historical Mead data
+# dfMeadHistorical <- read_excel(sMeadHistoricalFile)
+# 
+# #Convert cross-tabulated Mead months into timeseries
+# dfMeadHist <- melt(dfMeadHistorical, id.vars = c("Year"))
+# dfMeadHist$BeginOfMonStr <- paste(dfMeadHist$Year,dfMeadHist$variable,"1",sep="-")
+# dfMeadHist$BeginOfMon <- as.Date(dfMeadHist$BeginOfMonStr, "%Y-%b-%d")
+# dfMeadHist$BeginNextMon <- dfMeadHist$BeginOfMon %m+% months(1)
+# #Filter out NAs
+# dfMeadHist <- dfMeadHist %>% filter(!is.na(dfMeadHist$value))
+# #Convert the text values to numerics
+# dfMeadHist$value <- as.numeric(dfMeadHist$value)
+# #Filter out low storages below min
+# dfMeadHist <- dfMeadHist %>% filter(dfMeadHist$value > min(dfMeadElevStor$`Elevation (ft)`))
+# dfMeadHist$Stor <- interp1(xi = dfMeadHist$value,y=dfMeadElevStor$`Live Storage (ac-ft)`,x=dfMeadElevStor$`Elevation (ft)`, method="linear")
+# 
+# #Merge the Mead and Powell Storage Time series
+# dfJointStorage <- dfMeadHist
+# 
+# #Rename columns so they are easier to distinquish
+# #dfJointStorage$PowellStorage <- dfJointStorage$Storage..af./1000000
+# #dfJointStorage$PowellRelease <- dfJointStorage$Total.Release..cfs.
+# dfJointStorage$MeadStorage <- dfJointStorage$Stor/1000000
+# #dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage..af.","Total.Release..cfs.")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
+# 
+# dfJointStorage$Date <- dfJointStorage$BeginOfMon
 
 #### Load the Mead data from the USBR API
 # 1990 to Present
@@ -147,6 +147,9 @@ pkg_data <- usbr_MeadData |>
   html_table()
 
 dfUSBR_API <- data.frame(pkg_data)
+
+#Save the API data to csv to improve reproducibility and in case no internet
+write.csv(dfUSBR_API, "dfUSBR_API.csv")
 
 #Turn the SDID Code # into meaningful variable names
 dfSDIDcode <- data.frame(code = c(1776, 2091, 1721, 1874),
@@ -231,6 +234,8 @@ dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, level
 
 #Read in the levels from CSV
 dfMeadPoolsPlot2 <- read.csv("dfMeadPoolsPlot2.csv",header=TRUE)
+# Add SNWA Intake to the third label at Mead Elevation 1,000 ft
+#dfMeadPoolsPlot2$label[3] <- paste0(dfMeadPoolsPlot2$label[3],"\nSNWA Intake #2")
 
 #Get the color palettes
 #Get the blue color bar
