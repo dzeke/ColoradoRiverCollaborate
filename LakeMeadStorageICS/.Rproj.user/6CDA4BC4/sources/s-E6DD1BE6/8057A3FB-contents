@@ -160,7 +160,7 @@ colnames(dfUSBR_API) <- cSDID
 dfJointStorage <- dfUSBR_API
 
 ### This statement not converting date as string to data as value correctly
-dfJointStorage$DateAsValue <- as.Date(dfJointStorage$DATETIME, "%b/%d/%y")
+dfJointStorage$DateAsValue <- as.Date(dfJointStorage$DATETIME, "%m/%d/%Y %H:%M")
 #Add a column for decade
 dfJointStorage$decade <- round_any(as.numeric(format(dfJointStorage$DateAsValue,"%Y")),10,f=floor)
 #dfJointStorage$DecadeAsClass <- dfJointStorage %>% mutate(category=cut(decade, breaks=seq(1960,2020,by=10), labels=seq(1960,2020,by=10)))
@@ -183,8 +183,11 @@ dfJointStorageClean <- dfJointStorage %>% filter(Year <= nMaxYearResData)
 dfJointStorageClean[is.na(dfJointStorageClean)] <- 0
 dfTemp <- dfJointStorage %>% filter(Year <= nMaxYearResData) %>% select(DateAsValue)
 dfJointStorageClean$DateAsValue <- dfTemp$DateAsValue
+dfJointStorageClean$MeadStorage <- dfJointStorageClean$Storage / 1e6
+dfJointStorageClean$Stor <- dfJointStorageClean$MeadStorage
 
-#Add rows for years 2022 to 2030 with all zeros
+
+#Add rows for years until 2030 with all zeros
 dfYearsAdd <- data.frame(Year = seq(nMaxYearResData+1, nMaxYearICSData + 10, by = 1))
 #dfJointStorageZeros <- dfJointStorageClean[1,1:(ncol(dfJointStorageClean)-1)]
 dfJointStorageZeros <- dfJointStorageClean[1, ]
@@ -218,6 +221,8 @@ dfMeadStorageStack$PublicPool = ifelse(dfMeadStorageStack$Year >= nMaxYearResDat
 
 #Calculate the Lake Mead pool level absent the water conservation program
 dfMeadStorageStack$MeadLevelWithoutICS <- dfMeadStorageStack$MeadStorage - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico
+dfMeadStorageStack$MeadLevelWithoutICS <- dfMeadStorageStack$Storage / 1e6 - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico
+
 
 #Melt the data
 dfMeadStorageStackMelt <- melt(dfMeadStorageStack, id.vars = c("DateAsValue"), measure.vars = c("Protect","PublicPool", "LowerBasin", "Mexico"))
