@@ -24,7 +24,8 @@
 #                     Returns an HTML page all on one line that looks like this:
 #
 #                     <HTML><HEAD><TITLE>Bureau of Reclamation HDB Data</TITLE></HEAD><BODY><TABLE BORDER=1><TR><TH>        DATETIME</TH><TH>     SDI_1776</TH><TH>     SDI_2091</TH><TH>     SDI_1721</TH><TH>     SDI_1874</TH></TR><TR><TD>01/01/2022 00:00</TD><TD> 25036.660109</TD><TD> 733181.246590</TD><TD>   8969839.40</TD><TD> 10400.87768820</TD></TR><TR><TD>02/01/2022 00:00</TD><TD> 22864.126967</TD><TD> 597592.564890</TD><TD>   8945556.40</TD><TD> 10631.16369050</TD></TR> .... <TR><TD>05/01/2024 00:00</TD><TD> 43219.74224840</TD><TD> 621530.394980</TD><TD>   8969054.80</TD><TD> 16139.41935480</TD></TR></TABLE></BODY></HTML>
-
+#
+#					Scrape and parse the html page using the rvest and tidyr packages			
 #
 #                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
 #                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
@@ -58,13 +59,15 @@
 #             Note: E, F, and G represent a range of evaporated volumes estimated from a range of evaporation rates.
 
 #
-#       4. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
+#         4. Inflow data provided from the same USBR Application Programming Interface
+#
+#         5. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
 #
 #             A. Read from SingleTraceOut.xlsx
 #
 #      
 #
-#       4. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
+#       6. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
 #
 #             A. Supplementary_file-WangSchmidt.xlsx => Tables => S18:W18
 #         
@@ -105,8 +108,8 @@ rm(list = ls())  #Clear history
   }  
   
 #Labels for each method to use in grouping and plotting
-cMethods <- c("USGS Gages", "USBR Application Program Interface", "USBR with Evap from Table", "CRSS", "Wang-Schmidt")
-cColors <- c("Blue", "Red", "Pink", "Purple", "Black")
+cMethods <- c("USGS Gages", "USBR Application Program Interface", "USBR with Evap from Table", "USBR API - Inflow", "CRSS", "Wang-Schmidt")
+cColors <- c("Blue", "Red", "Pink", "Purple", "Bronw", "Black")
 
 # the Combined data frame will have the variables WaterYear, MeadInflow, Method
 
@@ -204,8 +207,22 @@ dfGCFlowsUSGS$Method <- cMethods[1]
 ## Direct from API - not working
 #dfUSBR_API <- read_csv("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1970-01-01T00:00&t2=2024-06-20T00:00&table=R&mrid=0&format=csv")
 
-#Monthly data from 2022 to 2024
-usbr_url <- "https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-01T00:00&table=R&mrid=0&format=html"
+#Dynamically read to the current date
+CurrDate <- as.Date(Sys.Date())
+cYear <- year(CurrDate)
+cMonth <- month(CurrDate)
+
+#Calculate the prior month
+if (cMonth == 1) {
+  # We want December of the prior year
+  sDate <- sprintf("%d-%d-01", cYear-1, 12)
+} else {
+  # We take the prior month of the same year
+  sDate <- sprintf("%d-%d-01", cYear, cMonth - 1)
+}
+
+#Construct the USBR API call by reading data up to the prior month
+usbr_url <- paste0("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1990-01-01T00:00&t2=", sDate, "T00:00&table=R&mrid=0&format=html")
 
 usbr_MeadData <- read_html(usbr_url)
 
@@ -213,7 +230,11 @@ pkg_data <- usbr_MeadData |>
   html_element("table") |>
   html_table()
 
+#Convert acre-feet to million acre-feet
 dfUSBR_API <- data.frame(pkg_data)
+
+#Save the API data to csv to improve reproducibility and in case no internet
+write.csv(dfUSBR_API, "dfUSBR_API.csv")
 
 #Turn the SDID Code # into meaningful variable names
 dfSDIDcode <- data.frame(code = c(1776, 2091, 1721, 1874),
@@ -224,9 +245,6 @@ cSDID <- colnames(dfUSBR_API)
 cSDID[2:5] <-dfSDIDcode$Field
 colnames(dfUSBR_API) <- cSDID
 
-#Inflow is NaN for all time. So ignore the inflow variable
-dfUSBR_API <- dfUSBR_API[, c(1:2,4:5)]
-
 #Convert DATETIME to time series format R understands
 dfUSBR_API$Date <- as.Date(dfUSBR_API$DATETIME, "%m/%d/%Y %h:%m")
 dfUSBR_API$Date <- mdy_hm(dfUSBR_API$DATETIME)
@@ -235,13 +253,12 @@ dfUSBR_API$Date <- mdy_hm(dfUSBR_API$DATETIME)
 dfUSBR_API$Month <- month(dfUSBR_API$Date)
 dfUSBR_API$Year <- year(dfUSBR_API$Date)
 dfUSBR_API$Day <- day(dfUSBR_API$Date)
+dfUSBR_API$DaysInMonth <- days_in_month(dfUSBR_API$Date)
+#Conversions to million acre-feet
 
-#### NEED TO CONTINUE HERE ###############
-############################
-
-#Convert cfs per day to million acre-feet per day
-dfUSBR_API$Release <- dfUSBR_API$Release * 1.983 / 1e6
-#Convert acre-feet to million acre-feet
+#Convert average cfs per month to million acre-feet per month 
+dfUSBR_API$Inflow <- dfUSBR_API$Inflow / 1e6
+dfUSBR_API$Release <- dfUSBR_API$Release * 1.983 * dfUSBR_API$DaysInMonth / 1e6
 dfUSBR_API$Evaporation <- dfUSBR_API$Evaporation / 1e6
 dfUSBR_API$Storage <- dfUSBR_API$Storage / 1e6
 
@@ -260,7 +277,7 @@ dfUSBR_Stor <- dfUSBR_API2 %>% select(WaterYear, Month, Day, Storage ) %>% filte
 #Calculate the difference
 dfUSBR_Stor$DeltaStorage <- c(diff(dfUSBR_Stor$Storage),0)
 #Aggregate to Month and Year
-dfUSBR_API_Agg <- dfUSBR_API2 %>% dplyr::group_by(WaterYear) %>% dplyr::summarise(Evaporation = sum(Evaporation), Release = sum(Release))
+dfUSBR_API_Agg <- dfUSBR_API2 %>% dplyr::group_by(WaterYear) %>% dplyr::summarise(Evaporation = sum(Evaporation), Release = sum(Release), Inflow = sum(Inflow))
 
 #Aggregate to Month and Year
 #dfUSBR_API_Agg <- dfUSBR_API2 %>% dplyr::group_by(WaterYear, Month) %>% dplyr::summarise(Evaporation = sum(Evaporation), Release = sum(Release))
@@ -274,11 +291,15 @@ dfUSBR_API_Agg <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("WaterYear" = "W
 dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
 dfUSBR_API_Agg$Method <- cMethods[2]
 
+########## WORKING DOWN TO HERE
+
+
 #Use Evaporation table look up from storage
 #Create a new data frame
 dfUSBR_FromEvapTable <- dfUSBR_API_Agg
 dfUSBR_FromEvapTable$MeadInflow <- dfUSBR_FromEvapTable$DeltaStorage +  dfUSBR_FromEvapTable$Release +  dfUSBR_FromEvapTable$EvaporationFromTable
 dfUSBR_FromEvapTable$Method <- cMethods[3]
+
 
 
 ##Compare API Evaporation to Evaporation vs Volume curve
