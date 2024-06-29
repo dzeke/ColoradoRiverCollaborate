@@ -14,18 +14,10 @@
 #             All data in USGSInterveningFlowData.xlsx
 #
 #       
-#       2. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
+#       2. Inflow data provided from the USBR Application Programming Interface. Note this inflow data only goes from January 2015 to present.
 #
-#             Use the HDB Data Service (usbr.gov) for all values - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
-#
-#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-01T00:00&table=R&mrid=0&format=html
-#
-#                     Read in monthly data and print to html table. 
-#                     Returns an HTML page all on one line that looks like this:
-#
-#                     <HTML><HEAD><TITLE>Bureau of Reclamation HDB Data</TITLE></HEAD><BODY><TABLE BORDER=1><TR><TH>        DATETIME</TH><TH>     SDI_1776</TH><TH>     SDI_2091</TH><TH>     SDI_1721</TH><TH>     SDI_1874</TH></TR><TR><TD>01/01/2022 00:00</TD><TD> 25036.660109</TD><TD> 733181.246590</TD><TD>   8969839.40</TD><TD> 10400.87768820</TD></TR><TR><TD>02/01/2022 00:00</TD><TD> 22864.126967</TD><TD> 597592.564890</TD><TD>   8945556.40</TD><TD> 10631.16369050</TD></TR> .... <TR><TD>05/01/2024 00:00</TD><TD> 43219.74224840</TD><TD> 621530.394980</TD><TD>   8969054.80</TD><TD> 16139.41935480</TD></TR></TABLE></BODY></HTML>
-#
-#					Scrape and parse the html page using the rvest and tidyr packages			
+#             Use the HDB Data Service (usbr.gov) for Lake Mead inflow, evaporation, storage, and release.
+#                 https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
 #
 #                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
 #                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
@@ -33,19 +25,39 @@
 #                 and Release (SDID=1874). From there you can select the timestep you want,
 #                  Instantaneous, Hourly, Daily, Monthly, as well as for what time span you want.
 #
-#                 as USBR-API-MeadData.json and USBR-API-MeadData.csv
+#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-01T00:00&table=R&mrid=0&format=html
 #
-#                 Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
+# `                   This query dynamically builds the end date as most recent month with full data.`
+#                      
+#                 Returns an HTML page all on one line that looks like this:
+#
+#                     <HTML><HEAD><TITLE>Bureau of Reclamation HDB Data</TITLE></HEAD><BODY><TABLE BORDER=1><TR><TH>        DATETIME</TH><TH>     SDI_1776</TH><TH>     SDI_2091</TH><TH>     SDI_1721</TH><TH>     SDI_1874</TH></TR><TR><TD>01/01/2022 00:00</TD><TD> 25036.660109</TD><TD> 733181.246590</TD><TD>   8969839.40</TD><TD> 10400.87768820</TD></TR><TR><TD>02/01/2022 00:00</TD><TD> 22864.126967</TD><TD> 597592.564890</TD><TD>   8945556.40</TD><TD> 10631.16369050</TD></TR> .... <TR><TD>05/01/2024 00:00</TD><TD> 43219.74224840</TD><TD> 621530.394980</TD><TD>   8969054.80</TD><TD> 16139.41935480</TD></TR></TABLE></BODY></HTML>
+#
+#					        Scrape and parse the html page using the rvest and tidyr packages. Turn into a data frame.
+#
+#
 #
 #       3. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
 #
-#            Use the HDB Data Service (usbr.gov) for Storage, Release, and Nevada Diversion.
+#             Uses the same Reclamation API data for method #2.
 #
-#                 API query same as for method 2.
+#               Lake Mead Inflow = [Change in Storage] + [Release] +[Nevada Diversion] + [Evaporation]
+#
+#             More specifically
+#
+#               Lake Mead Inflow = [Storage in Period (t + 1)] - Storage in Period t] + [Release in period t] + [Nevada Diversion in period t] + [Evaporation in period t]
+#
+#       4. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
+#
+#           Here we use evaporation data from elevation-storag-area relationship from Colorado River Simulation System (CRSS) model
+#
+#           Again use the HDB Data Service (usbr.gov) for Storage, Release, and Nevada Diversion.
+#
+#                 Same API query as for method 2.
 #
 #            Estimate evaporation from USBR storage volume and evaporation-storage relationship developed in prior work (see folder EvapCalcs)
 #
-#             More specifically, use the csv file dfMeadEvap.csv in EvapData subfolder. This dataframe is expored by the code in ../EvapCalcs folder.
+#             More specifically, use the csv file dfMeadEvap.csv in EvapData subfolder. This dataframe is exported by the code in ../EvapCalcs folder.
 #
 #             Explanation of contents of dfMeadEvap.csv:
 #               A. Elevation - Lake Mead elevation in feet
@@ -57,17 +69,15 @@
 #               G. EvapVolMaxLo - evaporated volume in acre-feet estimated from lower bound of evaporation rate
 #
 #             Note: E, F, and G represent a range of evaporated volumes estimated from a range of evaporation rates.
-
-#
-#         4. Inflow data provided from the same USBR Application Programming Interface
+#         
 #
 #         5. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
 #
-#             A. Read from SingleTraceOut.xlsx
+#             A. Read from SingleTraceOut.xlsx  [[Not used in Code]]
 #
 #      
 #
-#       6. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
+#         6. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
 #
 #             A. Supplementary_file-WangSchmidt.xlsx => Tables => S18:W18
 #         
@@ -80,7 +90,7 @@
 #
 #     David E. Rosenberg
 #     May 10, 2021
-#     Updated August 18, 2023 to calculate Inflow to Lake Mead
+#     Updated June 28, 2024 to calculate Inflow to Lake Mead
 #     david.rosenberg@usu.edu
 
 #
@@ -108,8 +118,8 @@ rm(list = ls())  #Clear history
   }  
   
 #Labels for each method to use in grouping and plotting
-cMethods <- c("USGS Gages", "USBR Application Program Interface", "USBR with Evap from Table", "USBR API - Inflow", "CRSS", "Wang-Schmidt")
-cColors <- c("Blue", "Red", "Pink", "Purple", "Bronw", "Black")
+cMethods <- c("USGS Gages", "USBR API Inflow", "USBR API Back Calc", "USBR Back Calc\nwith Evap from Table", "CRSS", "Wang-Schmidt")
+cColors <- c("Blue", "Red", "Pink", "Purple", "Brown", "Black")
 
 # the Combined data frame will have the variables WaterYear, MeadInflow, Method
 
@@ -178,14 +188,11 @@ dfGCFlowsUSGS$MeadInflow <- dfGCFlowsUSGS$`Colorado River near Peach Springs` + 
 dfGCFlowsUSGS$Method <- cMethods[1]
 
 
-
-#################################
-#       Inflow Calc Method #2. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
+##############
+#   2. Inflow data provided from the USBR Application Programming Interface. Note this inflow data only goes from January 2015 to present.
 #
-#             A. HDB Data Service (usbr.gov) - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
-#
-#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-20T00:00&table=R&mrid=0&format=csv
-#
+#             Use the HDB Data Service (usbr.gov) for Lake Mead inflow, evaporation, storage, and release.
+#                 https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
 #
 #                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
 #                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
@@ -193,26 +200,28 @@ dfGCFlowsUSGS$Method <- cMethods[1]
 #                 and Release (SDID=1874). From there you can select the timestep you want,
 #                  Instantaneous, Hourly, Daily, Monthly, as well as for what time span you want.
 #
-#                 as USBR-API-MeadData.json and USBR-API-MeadData.csv
+#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-01T00:00&table=R&mrid=0&format=html
 #
-#                 Note: this method ignores Southern Nevada Water Authority diversions and return flow. This net depletion
-#                       is on the order of 0.1 to 0.2 million acre-feet per year.
+# `                   This query dynamically builds the end date as most recent month with full data.`
+#                      
+#                 Returns an HTML page all on one line that looks like this:
 #
-#                 Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
+#                     <HTML><HEAD><TITLE>Bureau of Reclamation HDB Data</TITLE></HEAD><BODY><TABLE BORDER=1><TR><TH>        DATETIME</TH><TH>     SDI_1776</TH><TH>     SDI_2091</TH><TH>     SDI_1721</TH><TH>     SDI_1874</TH></TR><TR><TD>01/01/2022 00:00</TD><TD> 25036.660109</TD><TD> 733181.246590</TD><TD>   8969839.40</TD><TD> 10400.87768820</TD></TR><TR><TD>02/01/2022 00:00</TD><TD> 22864.126967</TD><TD> 597592.564890</TD><TD>   8945556.40</TD><TD> 10631.16369050</TD></TR> .... <TR><TD>05/01/2024 00:00</TD><TD> 43219.74224840</TD><TD> 621530.394980</TD><TD>   8969054.80</TD><TD> 16139.41935480</TD></TR></TABLE></BODY></HTML>
+#
+#					        Scrape and parse the html page using the rvest and tidyr packages. Turn into a data frame.
 
-## From downloaded CSV file
-#sExcelFileUSBRAPI <- "USBR-API-MeadData.csv"
-#dfUSBR_API<- read_csv(sExcelFileUSBRAPI, skip = 6) 
+##
+##Old Code to downloaded from CSV file
+##sExcelFileUSBRAPI <- "USBR-API-MeadData.csv"
+##dfUSBR_API<- read_csv(sExcelFileUSBRAPI, skip = 6) 
+##
 
-## Direct from API - not working
-#dfUSBR_API <- read_csv("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1970-01-01T00:00&t2=2024-06-20T00:00&table=R&mrid=0&format=csv")
-
-#Dynamically read to the current date
+# Dynamically read to the current date
 CurrDate <- as.Date(Sys.Date())
 cYear <- year(CurrDate)
 cMonth <- month(CurrDate)
 
-#Calculate the prior month
+# Calculate the prior month
 if (cMonth == 1) {
   # We want December of the prior year
   sDate <- sprintf("%d-%d-01", cYear-1, 12)
@@ -221,19 +230,20 @@ if (cMonth == 1) {
   sDate <- sprintf("%d-%d-01", cYear, cMonth - 1)
 }
 
-#Construct the USBR API call by reading data up to the prior month
+# Construct the USBR API call by reading data up to the prior month
 usbr_url <- paste0("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1990-01-01T00:00&t2=", sDate, "T00:00&table=R&mrid=0&format=html")
 
+# Use the "rvest" and "tidyr" packages
 usbr_MeadData <- read_html(usbr_url)
 
 pkg_data <- usbr_MeadData |>
   html_element("table") |>
   html_table()
 
-#Convert acre-feet to million acre-feet
+# Convert acre-feet to million acre-feet
 dfUSBR_API <- data.frame(pkg_data)
 
-#Save the API data to csv to improve reproducibility and in case no internet
+# Save the API data to csv to improve reproducibility and in case no internet
 write.csv(dfUSBR_API, "dfUSBR_API.csv")
 
 #Turn the SDID Code # into meaningful variable names
@@ -289,7 +299,35 @@ dfUSBR_API_Agg <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("WaterYear" = "W
 # Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
 # Use API evaporation data
 dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
-dfUSBR_API_Agg$Method <- cMethods[2]
+dfUSBR_API_Agg$Method <- cMethods[3]
+
+
+#################################
+#       Inflow Calc Method #3. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
+#
+#             A. HDB Data Service (usbr.gov) - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
+#
+#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-20T00:00&table=R&mrid=0&format=csv
+#
+#
+#                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
+#                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
+#                 the SDID's you will need are as follows: Evaporation (SDID=1776), Inflow (SDID=2091), Storage (SDID=1721), 
+#                 and Release (SDID=1874). From there you can select the timestep you want,
+#                  Instantaneous, Hourly, Daily, Monthly, as well as for what time span you want.
+#
+#                 as USBR-API-MeadData.json and USBR-API-MeadData.csv
+#
+#                 Note: this method ignores Southern Nevada Water Authority diversions and return flow. This net depletion
+#                       is on the order of 0.1 to 0.2 million acre-feet per year.
+#
+#                 Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
+
+
+
+## Direct from API - not working
+#dfUSBR_API <- read_csv("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1970-01-01T00:00&t2=2024-06-20T00:00&table=R&mrid=0&format=csv")
+
 
 ########## WORKING DOWN TO HERE
 
