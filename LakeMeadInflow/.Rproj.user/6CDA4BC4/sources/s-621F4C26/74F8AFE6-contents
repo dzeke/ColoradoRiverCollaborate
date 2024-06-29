@@ -295,17 +295,14 @@ dfUSBR_Stor <- dfUSBR_API2 %>% select(Year, Month, Day, Storage ) %>% filter(Mon
 #Calculate the difference
 dfUSBR_Stor$DeltaStorage <- c(diff(dfUSBR_Stor$Storage),0)
 
-#Aggregate to Month and Year
-#dfUSBR_API_Agg <- dfUSBR_API2 %>% dplyr::group_by(WaterYear, Month) %>% dplyr::summarise(Evaporation = sum(Evaporation), Release = sum(Release))
-
 #Join the annual delta storage to the annual release and evaporation data
-dfUSBR_API_Agg <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("WaterYear" = "WaterYear"))
+dfUSBR_API_Agg_BackCalc <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("Year" = "Year"))
 
 #Now calculate the inflow from release, evaporation, and change in storage
 # Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
 # Use API evaporation data
-dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
-dfUSBR_API_Agg$Method <- cMethods[3]
+dfUSBR_API_Agg_BackCalc$MeadInflow <- dfUSBR_API_Agg_BackCalc$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
+dfUSBR_API_Agg_BackCalc$Method <- cMethods[3]
 
 
 ########## WORKING DOWN TO HERE
