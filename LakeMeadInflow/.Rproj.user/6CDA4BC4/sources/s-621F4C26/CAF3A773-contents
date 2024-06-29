@@ -264,30 +264,36 @@ dfUSBR_API$Month <- month(dfUSBR_API$Date)
 dfUSBR_API$Year <- year(dfUSBR_API$Date)
 dfUSBR_API$Day <- day(dfUSBR_API$Date)
 dfUSBR_API$DaysInMonth <- days_in_month(dfUSBR_API$Date)
-#Conversions to million acre-feet
 
-#Convert average cfs per month to million acre-feet per month 
+# Conversions to million acre-feet
 dfUSBR_API$Inflow <- dfUSBR_API$Inflow / 1e6
-dfUSBR_API$Release <- dfUSBR_API$Release * 1.983 * dfUSBR_API$DaysInMonth / 1e6
 dfUSBR_API$Evaporation <- dfUSBR_API$Evaporation / 1e6
 dfUSBR_API$Storage <- dfUSBR_API$Storage / 1e6
+
+# Convert average cfs per month to million acre-feet per month 
+dfUSBR_API$Release <- dfUSBR_API$Release * 1.983 * dfUSBR_API$DaysInMonth / 1e6
 
 #Calculate water year
 dfUSBR_API$WaterYear <- ifelse(dfUSBR_API$Month >= 10, dfUSBR_API$Year + 1, dfUSBR_API$Year)
 
-#Filter out rows with NaN - Evaporation at early months and years
-dfUSBR_API2 <- na.omit(dfUSBR_API) # We will come back and fill in the evaporation using an evap rate and the storage-area curve 
+# Set inflows for before Aug 1996 to NA because those numbers are crap
+dfUSBR_API2 <- dfUSBR_API
+dfUSBR_API2$Inflow[dfUSBR_API$Year <= 1996] <- NA
 
-#Filter out years < 2004 because some months have NAs for Evap
-dfUSBR_API2 <- dfUSBR_API2 %>% filter(WaterYear > 2004)
+# Aggregate to Month and Year
+dfUSBR_API_Agg <- dfUSBR_API2 %>% dplyr::group_by(Year) %>% dplyr::summarise(Evaporation = sum(Evaporation), Release = sum(Release), Inflow = sum(Inflow))
+dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$Inflow
+
+###############################
+#       Inflow Calc Method #3. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (1990 to present)
+#
+#             Again use the Reclamation Application Program Interface 
 
 #Pick the first day of October as day to take storage for the year
-dfUSBR_Stor <- dfUSBR_API2 %>% select(WaterYear, Month, Day, Storage ) %>% filter(Month == 10, Day == 1)
+dfUSBR_Stor <- dfUSBR_API2 %>% select(Year, Month, Day, Storage ) %>% filter(Month == 1, Day == 1)
 
 #Calculate the difference
 dfUSBR_Stor$DeltaStorage <- c(diff(dfUSBR_Stor$Storage),0)
-#Aggregate to Month and Year
-dfUSBR_API_Agg <- dfUSBR_API2 %>% dplyr::group_by(WaterYear) %>% dplyr::summarise(Evaporation = sum(Evaporation), Release = sum(Release), Inflow = sum(Inflow))
 
 #Aggregate to Month and Year
 #dfUSBR_API_Agg <- dfUSBR_API2 %>% dplyr::group_by(WaterYear, Month) %>% dplyr::summarise(Evaporation = sum(Evaporation), Release = sum(Release))
@@ -300,33 +306,6 @@ dfUSBR_API_Agg <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("WaterYear" = "W
 # Use API evaporation data
 dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
 dfUSBR_API_Agg$Method <- cMethods[3]
-
-
-#################################
-#       Inflow Calc Method #3. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
-#
-#             A. HDB Data Service (usbr.gov) - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
-#
-#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-20T00:00&table=R&mrid=0&format=csv
-#
-#
-#                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
-#                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
-#                 the SDID's you will need are as follows: Evaporation (SDID=1776), Inflow (SDID=2091), Storage (SDID=1721), 
-#                 and Release (SDID=1874). From there you can select the timestep you want,
-#                  Instantaneous, Hourly, Daily, Monthly, as well as for what time span you want.
-#
-#                 as USBR-API-MeadData.json and USBR-API-MeadData.csv
-#
-#                 Note: this method ignores Southern Nevada Water Authority diversions and return flow. This net depletion
-#                       is on the order of 0.1 to 0.2 million acre-feet per year.
-#
-#                 Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
-
-
-
-## Direct from API - not working
-#dfUSBR_API <- read_csv("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1970-01-01T00:00&t2=2024-06-20T00:00&table=R&mrid=0&format=csv")
 
 
 ########## WORKING DOWN TO HERE
