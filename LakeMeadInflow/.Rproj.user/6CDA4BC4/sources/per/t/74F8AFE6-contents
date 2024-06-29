@@ -148,12 +148,12 @@ dfGCFlows$WaterYear <- ifelse(dfGCFlows$Month >= 10,dfGCFlows$Year,dfGCFlows$Yea
 
 
 #Convert to Water Year and sum by water year
-dfGCFlowsByYear <- aggregate(dfGCFlows$Total, by=list(Category=dfGCFlows$WaterYear), FUN=sum)
-dfLeeFerryByYear <- aggregate(dfGCFlows$`HistoricalNaturalFlow.AboveLeesFerry`, by=list(Category=dfGCFlows$WaterYear), FUN=sum)
+dfGCFlowsByYear <- aggregate(dfGCFlows$Total, by=list(Category=dfGCFlows$Year), FUN=sum)
+dfLeeFerryByYear <- aggregate(dfGCFlows$`HistoricalNaturalFlow.AboveLeesFerry`, by=list(Category=dfGCFlows$Year), FUN=sum)
 
 #Change the Names
-colnames(dfGCFlowsByYear) <- c("WaterYear","GCFlow")
-colnames(dfLeeFerryByYear) <- c("WaterYear", "LeeFerryNaturalFlow")
+colnames(dfGCFlowsByYear) <- c("Year","GCFlow")
+colnames(dfLeeFerryByYear) <- c("Year", "LeeFerryNaturalFlow")
 dfGCFlowsByYear$LeeFerryNaturalFlow <- dfLeeFerryByYear$LeeFerryNaturalFlow
 
 #Calculate Lake Mead Inflow as sum of GCFlow and Lee Ferry Natural Flow
@@ -165,10 +165,13 @@ dfGCFlowsByYear$MeadInflowNat <- dfGCFlowsByYear$GCFlow + dfGCFlowsByYear$LeeFer
 ### Inflow Calc Method #1. Add U.S. Geological Service data from stream gages
 # Read in the USGS gaged data
 
+##### Need to change to calendar year
+##### Read in data from API
+
 sExcelFileUSGSFlow <- 'USGSInterveningFlowData.xlsx'
 dfGCFlowsUSGS <- read_excel(sExcelFileUSGSFlow, sheet = 'Combined',  range = "A1:E34")
 cColNames <- colnames(dfGCFlowsUSGS)
-cColNames[1] <- "WaterYear"
+cColNames[1] <- "Year"
 cColNames[2] <- "LeeFerryFlow"
 cColNames[5] <- "LasVegasWash"
 colnames(dfGCFlowsUSGS) <- cColNames
@@ -278,11 +281,12 @@ dfUSBR_API$WaterYear <- ifelse(dfUSBR_API$Month >= 10, dfUSBR_API$Year + 1, dfUS
 
 # Set inflows for before Aug 1996 to NA because those numbers are crap
 dfUSBR_API2 <- dfUSBR_API
-dfUSBR_API2$Inflow[dfUSBR_API$Year <= 1996] <- NA
+dfUSBR_API2$Inflow[dfUSBR_API$Year <= 2014] <- NA
 
 # Aggregate to Month and Year
 dfUSBR_API_Agg <- dfUSBR_API2 %>% dplyr::group_by(Year) %>% dplyr::summarise(Evaporation = sum(Evaporation), Release = sum(Release), Inflow = sum(Inflow))
 dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$Inflow
+dfUSBR_API_Agg$Method <- cMethods[2]
 
 ###############################
 #       Inflow Calc Method #3. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (1990 to present)
@@ -295,64 +299,66 @@ dfUSBR_Stor <- dfUSBR_API2 %>% select(Year, Month, Day, Storage ) %>% filter(Mon
 #Calculate the difference
 dfUSBR_Stor$DeltaStorage <- c(diff(dfUSBR_Stor$Storage),0)
 
-#Aggregate to Month and Year
-#dfUSBR_API_Agg <- dfUSBR_API2 %>% dplyr::group_by(WaterYear, Month) %>% dplyr::summarise(Evaporation = sum(Evaporation), Release = sum(Release))
-
 #Join the annual delta storage to the annual release and evaporation data
-dfUSBR_API_Agg <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("WaterYear" = "WaterYear"))
+dfUSBR_API_Agg_BackCalc <- left_join(dfUSBR_API_Agg, dfUSBR_Stor, by = c("Year" = "Year"))
 
 #Now calculate the inflow from release, evaporation, and change in storage
 # Lake Mead Inflow = [Change in Storage] + [Release] + [Nevada Diversion] + [Evaporation]
 # Use API evaporation data
-dfUSBR_API_Agg$MeadInflow <- dfUSBR_API_Agg$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
-dfUSBR_API_Agg$Method <- cMethods[3]
+dfUSBR_API_Agg_BackCalc$MeadInflow <- dfUSBR_API_Agg_BackCalc$DeltaStorage +  dfUSBR_API_Agg$Release +  dfUSBR_API_Agg$Evaporation
+dfUSBR_API_Agg_BackCalc$Method <- cMethods[3]
 
 
-########## WORKING DOWN TO HERE
+########################
+# Method #4. Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake Mead evaporation (2004 to present)
+#
+#           Here we use evaporation data from elevation-storag-area relationship from Colorado River Simulation System (CRSS) model
+# Use Evaporation table look up from storage
 
+#### NOTE: need to move from annual to monthly evap calculation
+# Create a new data frame
+dfUSBR_FromEvapTable <- dfUSBR_API_Agg_BackCalc
 
-#Use Evaporation table look up from storage
-#Create a new data frame
-dfUSBR_FromEvapTable <- dfUSBR_API_Agg
+dfMeadEvap <- read.csv(file = "EvapData/dfMeadEvap.csv", header = TRUE)
+#Interpolate middle Evaporation from Mead Storage - Evap data
+dfUSBR_FromEvapTable$EvaporationFromTable <- interpNA(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMax/1e6)
+#Interpolate range of Evap 
+dfUSBR_FromEvapTable$EvaporationRange <- interpNA(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxUp/1e6) - interpNA(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxLo/1e6)
+
 dfUSBR_FromEvapTable$MeadInflow <- dfUSBR_FromEvapTable$DeltaStorage +  dfUSBR_FromEvapTable$Release +  dfUSBR_FromEvapTable$EvaporationFromTable
-dfUSBR_FromEvapTable$Method <- cMethods[3]
+dfUSBR_FromEvapTable$Method <- cMethods[4]
 
 
 
 ##Compare API Evaporation to Evaporation vs Volume curve
 #Read in the evaporation vs storage data from dfMeadEvap
 
-dfMeadEvap <- read.csv(file = "EvapData/dfMeadEvap.csv", header = TRUE)
-#Interpolate middle Evaporation from Mead Storage - Evap data
-dfUSBR_API_Agg$EvaporationFromTable <- interpNA(xi = dfUSBR_API_Agg$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMax/1e6)
-#Interpolate range of Evap 
-dfUSBR_API_Agg$EvaporationRange <- interpNA(xi = dfUSBR_API_Agg$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxUp/1e6) - interpNA(xi = dfUSBR_API_Agg$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxLo/1e6)
 
 ##############
 ###   FIGURE 1
 ###   Plot API Evaporation vs Table Look up
-###############
+#############
 
 ggplot() +
   
-  geom_point(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
   
   #Add error bars to data points
   #Mead
-  geom_errorbar(data=dfUSBR_API_Agg, aes(x=Evaporation,ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
+  geom_errorbar(data=dfUSBR_FromEvapTable, aes(x=Evaporation,ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
                 position=position_dodge(0.2), color="black", show.legend = FALSE) +
   
   #Add 1:1 line
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
   
   #Add linear regression line
-  geom_smooth(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
+  geom_smooth(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),
               method = "lm",
               formula = y ~ x,
               geom = "smooth") + 
   #Add regression equation to plot
-  stat_regline_equation(data = dfUSBR_API_Agg, aes(x= Evaporation, y = EvaporationFromTable),
-                        label.x= mean(dfUSBR_API_Agg$Evaporation), label.y=mean(dfUSBR_API_Agg$EvaporationFromTable), size = 6) +
+  stat_regline_equation(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),
+                        label.x= mean(dfUSBR_FromEvapTable$Evaporation), label.y=mean(dfUSBR_FromEvapTable$EvaporationFromTable), size = 6) +
   
   #Make one combined legend
   guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
@@ -364,10 +370,12 @@ ggplot() +
   
   theme_bw() +  
   theme(text = element_text(size=20))
+##
+
 
 
 ##############################
-### Inflow Calc Method #3. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
+### Inflow Calc Method #5. Lake Mead.Inflow slot from Colorado River Simulation System (CRSS) historical trace (1907 to present)
 #
 #        A. file SingleTraceOut.xlsx
 #
@@ -394,7 +402,7 @@ dfMeadInflowsCRSS$Method <- cMethods[4]
 
 
 ##############################
-### Inflow Calc Method #4. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
+### Inflow Calc Method #6. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
 # Read in the Water Balance from the Supplemental spreadsheet => Tables => S18:X18
 #
 # IGNORE because year definitions are different and draw on same gage data
@@ -411,7 +419,7 @@ dfMeadInflowsWS <- data.frame(Year = cWSyearsColNames, MeadInflow = as.numeric(c
 #Extract Water year from Year variable
 dfMeadInflowsWS$WaterYear <- as.numeric(str_sub(dfMeadInflowsWS$Year,3,6)) + 1
 
-dfMeadInflowsWS$Method <- cMethods[5]
+dfMeadInflowsWS$Method <- cMethods[6]
 
 
 
@@ -420,7 +428,7 @@ dfMeadInflowsWS$Method <- cMethods[5]
 ## This dataframe will have the structure WaterYear, MeadInflow, Method
 
 #Methods 1 and 2
-dfInflows <- rbind(dfGCFlowsUSGS %>% select(WaterYear, MeadInflow, Method), dfUSBR_API_Agg %>% select(WaterYear, MeadInflow, Method) )
+dfInflows <- rbind(dfGCFlowsUSGS %>% select(Year, MeadInflow, Method), dfUSBR_API_Agg %>% select(Year, MeadInflow, Method) )
 #Add Method with evap from table
 dfInflows <- rbind(dfInflows, dfUSBR_FromEvapTable %>% select(WaterYear, MeadInflow, Method))
 #Add CRSS method
