@@ -431,12 +431,15 @@ dfMeadInflowsWS$Method <- cMethods[6]
 dfInflows <- rbind(dfGCFlowsUSGS %>% select(Year, MeadInflow, Method), dfUSBR_API_Agg %>% select(Year, MeadInflow, Method) )
 # Add Method 3 from API back calc
 dfInflows <- rbind(dfInflows, dfUSBR_API_Agg_BackCalc %>% select(Year, MeadInflow, Method))
-#Add Method 4 with evap from table
+# Add Method 4 with evap from table
 dfInflows <- rbind(dfInflows, dfUSBR_FromEvapTable %>% select(Year, MeadInflow, Method))
-#Add CRSS method
+
+# Ignore methods 5 and 6
+# Add CRSS method
 #dfInflows <- rbind(dfInflows, dfMeadInflowsCRSS %>% select(WaterYear, MeadInflow, Method))
+
 #Compare inflow values
-dfInflowCompare <- dcast(dfInflows, WaterYear ~ Method, value.var = "MeadInflow")
+dfInflowCompare <- dcast(dfInflows, Year ~ Method, value.var = "MeadInflow")
 
 # #Natural flow - Not used but preserve
 # dfGCFDataToUse <- dfGCFlowsByYear
@@ -468,8 +471,8 @@ dfInflowCompare <- dcast(dfInflows, WaterYear ~ Method, value.var = "MeadInflow"
 
 
 #Subset of methods to plot
-cMethodsToPlot <- cMethods[1:3]
-cColorsToPlot <- cColors[1:3]
+cMethodsToPlot <- cMethods[1:4]
+cColorsToPlot <- cColors[1:4]
 dfInflowsToPlot <- dfInflows %>% filter(Method %in% cMethodsToPlot)
 
 ##### Compare ICS deposits to available water
@@ -560,11 +563,11 @@ ggplot() +
 
 ggplot() +
   #Data after 1989
-  geom_line(data = dfInflowsToPlot, aes(x=WaterYear , y=MeadInflow, color=Method, linetype=Method), size=1.5) +
+  geom_line(data = dfInflowsToPlot, aes(x=Year , y=MeadInflow, color=Method, linetype=Method), size=1.5) +
   theme_bw() +
   
   scale_color_manual(values = cColorsToPlot) +
-  scale_linetype_manual(values = c("solid","dotdash", "longdash")) +
+  scale_linetype_manual(values = c("solid", "dotdash", "longdash", "dashed")) +
   
   #Make one combined legend
   guides(color = guide_legend(""), linetype = guide_legend("")) +
