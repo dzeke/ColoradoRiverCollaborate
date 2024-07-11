@@ -396,7 +396,7 @@ dfCRSSOutput$WaterYear <- ifelse(dfCRSSOutput$Month >= 10, dfCRSSOutput$Year + 1
 
 # Aggregate to year
 dfMeadInflowsCRSS <- dfCRSSOutput %>% dplyr::select(WaterYear, Month, Mead.Inflow) %>% dplyr::group_by(WaterYear) %>% dplyr::summarize(MeadInflow = sum(Mead.Inflow)/1e6)
-dfMeadInflowsCRSS$Method <- cMethods[4]
+dfMeadInflowsCRSS$Method <- cMethods[5]
 
 
 
@@ -427,13 +427,14 @@ dfMeadInflowsWS$Method <- cMethods[6]
 ## Bind all the MeadInflow variables from the dataframes for the different methods
 ## This dataframe will have the structure WaterYear, MeadInflow, Method
 
-#Methods 1 and 2
+# Methods 1 and 2
 dfInflows <- rbind(dfGCFlowsUSGS %>% select(Year, MeadInflow, Method), dfUSBR_API_Agg %>% select(Year, MeadInflow, Method) )
-#Add Method with evap from table
-dfInflows <- rbind(dfInflows, dfUSBR_FromEvapTable %>% select(WaterYear, MeadInflow, Method))
+# Add Method 3 from API back calc
+dfInflows <- rbind(dfInflows, dfUSBR_API_Agg_BackCalc %>% select(Year, MeadInflow, Method))
+#Add Method 4 with evap from table
+dfInflows <- rbind(dfInflows, dfUSBR_FromEvapTable %>% select(Year, MeadInflow, Method))
 #Add CRSS method
-dfInflows <- rbind(dfInflows, dfMeadInflowsCRSS %>% select(WaterYear, MeadInflow, Method))
-
+#dfInflows <- rbind(dfInflows, dfMeadInflowsCRSS %>% select(WaterYear, MeadInflow, Method))
 #Compare inflow values
 dfInflowCompare <- dcast(dfInflows, WaterYear ~ Method, value.var = "MeadInflow")
 
