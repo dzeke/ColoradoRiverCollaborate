@@ -9,7 +9,7 @@
 #             B. Virgin River at Littlefield [9415000; https://waterdata.usgs.gov/monitoring-location/09415000/#parameterCode=00065&period=P7D] (1930 to present)
 #             C. Las Vegas Wash Below LAKE LAS VEGAS NR BOULDER CITY, NV [09419800; https://waterdata.usgs.gov/monitoring-location/09419800/] (2002 to present)
 #
-#             Mead Inflow = A + B + C
+#             Mead Inflow = A + B + C    
 #
 #             All data in USGSInterveningFlowData.xlsx
 #
@@ -101,7 +101,7 @@ rm(list = ls())  #Clear history
 
 #Load packages in one go
   #List of packages
-  load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "rvest", "tidyr")
+  load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "rvest", "tidyr", "dataRetrieval")
 # Then we select only the packages that aren't currently installed.
   install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
@@ -168,6 +168,64 @@ dfGCFlowsByYear$MeadInflowNat <- dfGCFlowsByYear$GCFlow + dfGCFlowsByYear$LeeFer
 ##### Need to change to calendar year
 ##### Read in data from API
 
+# Retrieve data
+# Dynamically read to the current date
+CurrDate <- as.Date(Sys.Date())
+cYear <- year(CurrDate)
+cMonth <- month(CurrDate)
+
+# Calculate the prior month
+if (cMonth == 1) {
+  # We want December of the prior year
+  sDate <- sprintf("%d-%d-01", cYear-1, 12)
+} else {
+  # We take the prior month of the same year
+  sDate <- sprintf("%d-%d-01", cYear, cMonth - 1)
+}
+
+
+siteNumbers <- c("09404200", "09415000", "09419800")
+parameterCd <- "00060" # Discharge in cfs
+start.date <- "2000-01-01"
+end.date <- sDate
+
+for(site in siteNumbers){
+  site_info <- readNWISsite(site) 
+  dataTemp <- readNWISdata(siteNumbers = site, parameterCd = parameterCd, startDate = start.date, endDate = end.date)
+  dataTemp$StationName <- site_info$station_nm
+
+    if(site == siteNumbers[1]) {
+    data <- dataTemp
+    }
+  else {
+    data <- rbind(data,dataTemp)
+    }
+  }
+#Rename the data column to a useful name
+cColHeaders <- colnames(data)
+cColHeaders[4] <- "Flow.cfs"
+colnames(data) <- cColHeaders
+data$date <- as.Date(data$dateTime)
+data$Flow.acft <- 1.983 * data$Flow.cfs
+# Replace NAs with 0s
+data$Flow.acft <- data$Flow.acft %>% replace(is.na(.), 0)
+# Cast so each stream gage is a column
+dfInflowsWide <- dcast(data, date ~ StationName, value.var = "Flow.acft")
+dfInflowsWide$MeadInflow <- dfInflowsWide$`COLORADO RVR ABV DIAMOND CREEK NR PEACH SPRINGS AZ` + dfInflowsWide$`LV WASH BLW LAKE LAS VEGAS NR BOULDER CITY, NV` + dfInflowsWide$`VIRGIN RV AT LITTLEFIELD, AZ`
+dfInflowsWide$Year <- year(dfInflowsWide$date)
+
+dfGCFFlowsUSGS <- dfInflowsWide %>% dplyr::group_by(Year) %>% dplyr::summarise(MeadInflow = sum(MeadInflow))
+
+dfGCFFlowsUSGS$Method <- cMethods[1]
+
+ggplot(data=dfGCFFlowsUSGS) +
+  geom_line(aes(x = Year, y = MeadInflow))
+
+
+
+
+
+####### Code to Read in water year data from Excel file
 sExcelFileUSGSFlow <- 'USGSInterveningFlowData.xlsx'
 dfGCFlowsUSGS <- read_excel(sExcelFileUSGSFlow, sheet = 'Combined',  range = "A1:E34")
 cColNames <- colnames(dfGCFlowsUSGS)
@@ -219,19 +277,7 @@ dfGCFlowsUSGS$Method <- cMethods[1]
 ##dfUSBR_API<- read_csv(sExcelFileUSBRAPI, skip = 6) 
 ##
 
-# Dynamically read to the current date
-CurrDate <- as.Date(Sys.Date())
-cYear <- year(CurrDate)
-cMonth <- month(CurrDate)
 
-# Calculate the prior month
-if (cMonth == 1) {
-  # We want December of the prior year
-  sDate <- sprintf("%d-%d-01", cYear-1, 12)
-} else {
-  # We take the prior month of the same year
-  sDate <- sprintf("%d-%d-01", cYear, cMonth - 1)
-}
 
 # Construct the USBR API call by reading data up to the prior month
 usbr_url <- paste0("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1990-01-01T00:00&t2=", sDate, "T00:00&table=R&mrid=0&format=html")
@@ -428,7 +474,7 @@ dfMeadInflowsWS$Method <- cMethods[6]
 ## This dataframe will have the structure WaterYear, MeadInflow, Method
 
 # Methods 1 and 2
-dfInflows <- rbind(dfGCFlowsUSGS %>% select(Year, MeadInflow, Method), dfUSBR_API_Agg %>% select(Year, MeadInflow, Method) )
+dfInflows <- rbind(dfGCFFlowsUSGS %>% select(Year, MeadInflow, Method), dfUSBR_API_Agg %>% select(Year, MeadInflow, Method) )
 # Add Method 3 from API back calc
 dfInflows <- rbind(dfInflows, dfUSBR_API_Agg_BackCalc %>% select(Year, MeadInflow, Method))
 # Add Method 4 with evap from table
@@ -567,7 +613,7 @@ ggplot() +
   theme_bw() +
   
   scale_color_manual(values = cColorsToPlot) +
-  scale_linetype_manual(values = c("solid","dotdash", "longdash")) +
+  scale_linetype_manual(values = c("solid", "dotdash", "longdash", "dashed")) +
   
   #Make one combined legend
   guides(color = guide_legend(""), linetype = guide_legend("")) +
