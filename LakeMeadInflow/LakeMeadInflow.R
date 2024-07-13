@@ -186,7 +186,7 @@ if (cMonth == 1) {
 
 siteNumbers <- c("09404200", "09415000", "09419800")
 parameterCd <- "00060" # Discharge in cfs
-start.date <- "2000-01-01"
+start.date <- "1990-01-01"
 end.date <- sDate
 
 for(site in siteNumbers){
@@ -207,10 +207,11 @@ cColHeaders[4] <- "Flow.cfs"
 colnames(data) <- cColHeaders
 data$date <- as.Date(data$dateTime)
 data$Flow.acft <- 1.983 * data$Flow.cfs
-# Replace NAs with 0s
-data$Flow.acft <- data$Flow.acft %>% replace(is.na(.), 0)
 # Cast so each stream gage is a column
 dfInflowsWide <- dcast(data, date ~ StationName, value.var = "Flow.acft")
+# Replace NAs with 0s
+dfInflowsWide <- dfInflowsWide %>% replace(is.na(.), 0)
+
 dfInflowsWide$MeadInflow <- dfInflowsWide$`COLORADO RVR ABV DIAMOND CREEK NR PEACH SPRINGS AZ` + dfInflowsWide$`LV WASH BLW LAKE LAS VEGAS NR BOULDER CITY, NV` + dfInflowsWide$`VIRGIN RV AT LITTLEFIELD, AZ`
 dfInflowsWide$Year <- year(dfInflowsWide$date)
 
