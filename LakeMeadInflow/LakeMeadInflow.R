@@ -124,41 +124,41 @@ cColors <- c("Blue", "Red", "Pink", "Purple", "Brown", "Black")
 # the Combined data frame will have the variables WaterYear, MeadInflow, Method
 
 
-### Read in the Natural Flow data and convert it to annual flows
-# Note used in calc of Mead Inflow. But keep anyway for backward compatibility
-sExcelFileGrandCanyonFlow <- 'HistoricalNaturalFlow.xlsx'
-dfGCFlows <- read_excel(sExcelFileGrandCanyonFlow, sheet = 'Total Natural Flow',  range = "U1:Z1324")
-dfGCDates <- read_excel(sExcelFileGrandCanyonFlow, sheet = 'Total Natural Flow',  range = "A1:A1324")
-
-#Merge and combine into one Data frame
-dfGCFlows$Date <- dfGCDates$`Natural Flow And Salt Calc model Object.Slot`
-
-#Calculate Grand Canyon Tributary flows as sum of Paria, Little Colorado River, Virgin, and intervening flows
-#Just tribs (without intervening)
-#dfGCFlows$Total <- dfGCFlows$`CoRivPowellToVirgin:PariaGains.LocalInflow` + dfGCFlows$`CoRivPowellToVirgin:LittleCoR.LocalInflow` + 
-#                          dfGCFlows$VirginRiver.Inflow
-
-#Tribs + Gains above Hoover
-dfGCFlows$Total <- dfGCFlows$`CoRivPowellToVirgin:PariaGains.LocalInflow` + dfGCFlows$`CoRivPowellToVirgin:LittleCoR.LocalInflow` + 
-  dfGCFlows$VirginRiver.Inflow + dfGCFlows$`CoRivVirginToMead:GainsAboveHoover.LocalInflow` - dfGCFlows$`CoRivPowellToVirgin:GainsAboveGC.LocalInflow`
-
-dfGCFlows$Year <- year(dfGCFlows$Date)
-dfGCFlows$Month <- month(as.Date(dfGCFlows$Date,"%Y-%m-%d"))
-dfGCFlows$WaterYear <- ifelse(dfGCFlows$Month >= 10,dfGCFlows$Year,dfGCFlows$Year + 1)
-
-
-#Convert to Water Year and sum by water year
-dfGCFlowsByYear <- aggregate(dfGCFlows$Total, by=list(Category=dfGCFlows$Year), FUN=sum)
-dfLeeFerryByYear <- aggregate(dfGCFlows$`HistoricalNaturalFlow.AboveLeesFerry`, by=list(Category=dfGCFlows$Year), FUN=sum)
-
-#Change the Names
-colnames(dfGCFlowsByYear) <- c("Year","GCFlow")
-colnames(dfLeeFerryByYear) <- c("Year", "LeeFerryNaturalFlow")
-dfGCFlowsByYear$LeeFerryNaturalFlow <- dfLeeFerryByYear$LeeFerryNaturalFlow
-
-#Calculate Lake Mead Inflow as sum of GCFlow and Lee Ferry Natural Flow
-dfGCFlowsByYear$MeadInflowNat <- dfGCFlowsByYear$GCFlow + dfGCFlowsByYear$LeeFerryNaturalFlow
-
+# ### Read in the Natural Flow data and convert it to annual flows
+# # Note used in calc of Mead Inflow. But keep anyway for backward compatibility
+# sExcelFileGrandCanyonFlow <- 'HistoricalNaturalFlow.xlsx'
+# dfGCFlows <- read_excel(sExcelFileGrandCanyonFlow, sheet = 'Total Natural Flow',  range = "U1:Z1324")
+# dfGCDates <- read_excel(sExcelFileGrandCanyonFlow, sheet = 'Total Natural Flow',  range = "A1:A1324")
+# 
+# #Merge and combine into one Data frame
+# dfGCFlows$Date <- dfGCDates$`Natural Flow And Salt Calc model Object.Slot`
+# 
+# #Calculate Grand Canyon Tributary flows as sum of Paria, Little Colorado River, Virgin, and intervening flows
+# #Just tribs (without intervening)
+# #dfGCFlows$Total <- dfGCFlows$`CoRivPowellToVirgin:PariaGains.LocalInflow` + dfGCFlows$`CoRivPowellToVirgin:LittleCoR.LocalInflow` + 
+# #                          dfGCFlows$VirginRiver.Inflow
+# 
+# #Tribs + Gains above Hoover
+# dfGCFlows$Total <- dfGCFlows$`CoRivPowellToVirgin:PariaGains.LocalInflow` + dfGCFlows$`CoRivPowellToVirgin:LittleCoR.LocalInflow` + 
+#   dfGCFlows$VirginRiver.Inflow + dfGCFlows$`CoRivVirginToMead:GainsAboveHoover.LocalInflow` - dfGCFlows$`CoRivPowellToVirgin:GainsAboveGC.LocalInflow`
+# 
+# dfGCFlows$Year <- year(dfGCFlows$Date)
+# dfGCFlows$Month <- month(as.Date(dfGCFlows$Date,"%Y-%m-%d"))
+# dfGCFlows$WaterYear <- ifelse(dfGCFlows$Month >= 10,dfGCFlows$Year,dfGCFlows$Year + 1)
+# 
+# 
+# #Convert to Water Year and sum by water year
+# dfGCFlowsByYear <- aggregate(dfGCFlows$Total, by=list(Category=dfGCFlows$Year), FUN=sum)
+# dfLeeFerryByYear <- aggregate(dfGCFlows$`HistoricalNaturalFlow.AboveLeesFerry`, by=list(Category=dfGCFlows$Year), FUN=sum)
+# 
+# #Change the Names
+# colnames(dfGCFlowsByYear) <- c("Year","GCFlow")
+# colnames(dfLeeFerryByYear) <- c("Year", "LeeFerryNaturalFlow")
+# dfGCFlowsByYear$LeeFerryNaturalFlow <- dfLeeFerryByYear$LeeFerryNaturalFlow
+# 
+# #Calculate Lake Mead Inflow as sum of GCFlow and Lee Ferry Natural Flow
+# dfGCFlowsByYear$MeadInflowNat <- dfGCFlowsByYear$GCFlow + dfGCFlowsByYear$LeeFerryNaturalFlow
+# 
 
 
 ##############################
@@ -214,7 +214,7 @@ dfInflowsWide <- dcast(data, date ~ StationName, value.var = "Flow.acft")
 dfInflowsWide$MeadInflow <- dfInflowsWide$`COLORADO RVR ABV DIAMOND CREEK NR PEACH SPRINGS AZ` + dfInflowsWide$`LV WASH BLW LAKE LAS VEGAS NR BOULDER CITY, NV` + dfInflowsWide$`VIRGIN RV AT LITTLEFIELD, AZ`
 dfInflowsWide$Year <- year(dfInflowsWide$date)
 
-dfGCFFlowsUSGS <- dfInflowsWide %>% dplyr::group_by(Year) %>% dplyr::summarise(MeadInflow = sum(MeadInflow))
+dfGCFFlowsUSGS <- dfInflowsWide %>% dplyr::group_by(Year) %>% dplyr::summarise(MeadInflow = sum(MeadInflow)/1e6)
 
 dfGCFFlowsUSGS$Method <- cMethods[1]
 
@@ -223,30 +223,28 @@ ggplot(data=dfGCFFlowsUSGS) +
 
 
 
-
-
-####### Code to Read in water year data from Excel file
-sExcelFileUSGSFlow <- 'USGSInterveningFlowData.xlsx'
-dfGCFlowsUSGS <- read_excel(sExcelFileUSGSFlow, sheet = 'Combined',  range = "A1:E34")
-cColNames <- colnames(dfGCFlowsUSGS)
-cColNames[1] <- "Year"
-cColNames[2] <- "LeeFerryFlow"
-cColNames[5] <- "LasVegasWash"
-colnames(dfGCFlowsUSGS) <- cColNames
-
-#Remove rows with NaN
-#dfGCFlowsUSGS <- na.omit(dfGCFlowsUSGS)
-
-# Replace NAs with zeros
-# Note calc less than 2002 assumes Las Vegas wash is zero 
-dfGCFlowsUSGS <- dfGCFlowsUSGS %>% replace(is.na(.),0)
-
-#Calculate the total
-#Grand Canyon interveening flow
-dfGCFlowsUSGS$GCFlow <- dfGCFlowsUSGS$`Colorado River near Peach Springs` - dfGCFlowsUSGS$LeeFerryFlow + dfGCFlowsUSGS$`Virgin River at Littlefield`
-#Lake Mead inflow
-dfGCFlowsUSGS$MeadInflow <- dfGCFlowsUSGS$`Colorado River near Peach Springs` + dfGCFlowsUSGS$`Virgin River at Littlefield` + dfGCFlowsUSGS$LasVegasWash
-dfGCFlowsUSGS$Method <- cMethods[1]
+# ####### Code to Read in water year data from Excel file
+# sExcelFileUSGSFlow <- 'USGSInterveningFlowData.xlsx'
+# dfGCFlowsUSGS <- read_excel(sExcelFileUSGSFlow, sheet = 'Combined',  range = "A1:E34")
+# cColNames <- colnames(dfGCFlowsUSGS)
+# cColNames[1] <- "Year"
+# cColNames[2] <- "LeeFerryFlow"
+# cColNames[5] <- "LasVegasWash"
+# colnames(dfGCFlowsUSGS) <- cColNames
+# 
+# #Remove rows with NaN
+# #dfGCFlowsUSGS <- na.omit(dfGCFlowsUSGS)
+# 
+# # Replace NAs with zeros
+# # Note calc less than 2002 assumes Las Vegas wash is zero 
+# dfGCFlowsUSGS <- dfGCFlowsUSGS %>% replace(is.na(.),0)
+# 
+# #Calculate the total
+# #Grand Canyon interveening flow
+# dfGCFlowsUSGS$GCFlow <- dfGCFlowsUSGS$`Colorado River near Peach Springs` - dfGCFlowsUSGS$LeeFerryFlow + dfGCFlowsUSGS$`Virgin River at Littlefield`
+# #Lake Mead inflow
+# dfGCFlowsUSGS$MeadInflow <- dfGCFlowsUSGS$`Colorado River near Peach Springs` + dfGCFlowsUSGS$`Virgin River at Littlefield` + dfGCFlowsUSGS$LasVegasWash
+# dfGCFlowsUSGS$Method <- cMethods[1]
 
 
 ##############
@@ -373,51 +371,6 @@ dfUSBR_FromEvapTable$EvaporationRange <- interpNA(xi = dfUSBR_FromEvapTable$Stor
 
 dfUSBR_FromEvapTable$MeadInflow <- dfUSBR_FromEvapTable$DeltaStorage +  dfUSBR_FromEvapTable$Release +  dfUSBR_FromEvapTable$EvaporationFromTable
 dfUSBR_FromEvapTable$Method <- cMethods[4]
-
-
-
-##Compare API Evaporation to Evaporation vs Volume curve
-#Read in the evaporation vs storage data from dfMeadEvap
-
-
-##############
-###   FIGURE 1
-###   Plot API Evaporation vs Table Look up
-#############
-
-ggplot() +
-  
-  geom_point(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
-  
-  #Add error bars to data points
-  #Mead
-  geom_errorbar(data=dfUSBR_FromEvapTable, aes(x=Evaporation,ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
-                position=position_dodge(0.2), color="black", show.legend = FALSE) +
-  
-  #Add 1:1 line
-  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
-  
-  #Add linear regression line
-  geom_smooth(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),
-              method = "lm",
-              formula = y ~ x,
-              geom = "smooth") + 
-  #Add regression equation to plot
-  stat_regline_equation(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),
-                        label.x= mean(dfUSBR_FromEvapTable$Evaporation), label.y=mean(dfUSBR_FromEvapTable$EvaporationFromTable), size = 6) +
-  
-  #Make one combined legend
-  guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
-  
-  #facet_wrap( ~ Source) +
-  labs(x="Evaporation USBR API\n(MAF per year)", y="Evaporation from Table\n(MAF per year)") +
-  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
-  #      legend.position = c(0.8,0.7))
-  
-  theme_bw() +  
-  theme(text = element_text(size=20))
-##
-
 
 
 ##############################
@@ -660,7 +613,7 @@ lBaselinePlot <- 6   # Baseline value on plot from where bars for ICS deposits w
 
 
 ## Join the Inflow and ICS dataframes
-dfInflowICS <- left_join(dfUSBR_API_Agg, dfICSDeposit, by = c("WaterYear" = "Year"))
+dfInflowICS <- left_join(dfUSBR_API_Agg, dfICSDeposit, by = c("Year" = "Year"))
 
 #Convert ICS values to million-acre feet
 dfInflowICS$Arizona <- dfInflowICS$Arizona / 1e6
@@ -885,6 +838,51 @@ ggplot() +
   
   theme_bw() +  
   theme(text = element_text(size=20))
+
+##Compare API Evaporation to Evaporation vs Volume curve
+#Read in the evaporation vs storage data from dfMeadEvap
+
+
+##############
+###   FIGURE 1
+###   Plot API Evaporation vs Table Look up
+#############
+
+ggplot() +
+  
+  geom_point(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
+  
+  #Add error bars to data points
+  #Mead
+  geom_errorbar(data=dfUSBR_FromEvapTable, aes(x=Evaporation,ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
+                position=position_dodge(0.2), color="black", show.legend = FALSE) +
+  
+  #Add 1:1 line
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
+  
+  #Add linear regression line
+  geom_smooth(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),
+              method = "lm",
+              formula = y ~ x,
+              geom = "smooth") + 
+  #Add regression equation to plot
+  stat_regline_equation(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),
+                        label.x= mean(dfUSBR_FromEvapTable$Evaporation), label.y=mean(dfUSBR_FromEvapTable$EvaporationFromTable), size = 6) +
+  
+  #Make one combined legend
+  guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
+  
+  #facet_wrap( ~ Source) +
+  labs(x="Evaporation USBR API\n(MAF per year)", y="Evaporation from Table\n(MAF per year)") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  
+  theme_bw() +  
+  theme(text = element_text(size=20))
+##
+
+
+
 
 ## Show the correlation matrix
 mCorr <- cor(as.data.frame(dfInflowsWide %>% filter(WaterYear >= 2005, WaterYear < 2023) %>%  select(`USGS Gages`,`USBR Application Program Interface`) ))
