@@ -30,11 +30,10 @@ Open the file **[ICS-Plots.pdf](https://github.com/dzeke/ColoradoRiverCoding/raw
 1. **dfICSBalanceDepositMelt.csv** - Comma separated values file of water conservation program account deposits and withdraws (narrow version) read in from the IntentionallyCreatedSurplusSummary.xlsx file. Used for reproducibility and in other programming efforts that require ICS data.
 
 ## Requested Citation
-David E. Rosenberg (2024). "Lake Mead Water Conservation Program (ntentionally Created Surplus)". Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCoding/tree/main/GrandCanyonInterveningFlow.
+David E. Rosenberg (2024). "Lake Mead Water Conservation Program (Intentionally Created Surplus)". Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/ICS
 
 ## References
 1. USBR. (2019). "Agreement Concerning Colorado River Drought Contingency Management and Operations." U.S. Bureau of Reclamation, Washington, DC. https://www.usbr.gov/dcp/finaldocs.html
 1. USBR. (2007). "Record of Decision: Colorado River Interim Guidelines for Lower Basin Shortages and Coordinated Operations for Lakes Powell and Mead." U.S. Bureau of Reclamation. https://www.usbr.gov/lc/region/programs/strategies/RecordofDecision.pdf.
-1. USBR (2024). "Boulder Canyon Operations Office - Pro-
-gram and Activities: Water Accounting Reports". https://www.usbr.gov/lc/region/g4000/wtracct.
+1. USBR (2024). "Boulder Canyon Operations Office - Program and Activities: Water Accounting Reports". https://www.usbr.gov/lc/region/g4000/wtracct.
 html. These annual reports are aggregated in the Excel file **IntentionallyCreatedSurplus-Summary.xlsx**.
