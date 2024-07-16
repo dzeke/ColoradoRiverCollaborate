@@ -715,18 +715,18 @@ ggplot() +
 ggplot() +
   
   #Evaporation
-  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = EvaporationFromTable, color = "Evaporation"), shape = 15, size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_FromEvapTable, aes(x = Year, y = Evaporation, color = "Evaporation"), shape = 15, size = 6) + #color=Method shape=Method, size=6) +
   
   #Add error bars to data points
   #Mead
   
-  geom_errorbar(data=dfUSBR_API_Agg, aes(x=WaterYear, ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
+  geom_errorbar(data=dfUSBR_FromEvapTable, aes(x=Year, ymin=Evaporation - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
                 position=position_dodge(0.2), color="black", show.legend = FALSE) +
   #Inflow
-  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow, color = "Inflow"), shape = 16, size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_FromEvapTable, aes(x = Year, y = MeadInflow, color = "Inflow"), shape = 16, size = 6) + #color=Method shape=Method, size=6) +
   
   #Available water = Inflow - evaporation
-  geom_point(data = dfUSBR_API_Agg, aes(x= WaterYear, y = MeadInflow - Evaporation, color = "Available Water"),  shape = 17,  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_FromEvapTable, aes(x = Year, y = MeadInflow - Evaporation, color = "Available Water"),  shape = 17,  size = 6) + #color=Method shape=Method, size=6) +
   
   #Add line for 9.0 maf
   geom_hline(yintercept = 9, color="red", linetype = "dashed") +
@@ -734,7 +734,7 @@ ggplot() +
   scale_fill_manual(values = cColorsToPlot) +
 
   # Set x-axis limits
-  xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
+  xlim(min(dfUSBR_API_Agg$Year),max(dfUSBR_API_Agg$Year)) +
 
   #Make one combined legend
   guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
@@ -783,7 +783,7 @@ dfInflowsWide$Diff <-  dfInflowsWide$`USGS Gages` - dfInflowsWide$`USBR Applicat
 
 ggplot() +
   
-  geom_point(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Inflow`, y=`USGS Gages`),  size = 6) + #color=Method shape=Method, size=6) +
   
   #geom_point(data = dfInflowsWide, aes(x= WaterYear, y=Diff),  size = 6) + #color=Method shape=Method, size=6) +
   
@@ -797,12 +797,12 @@ ggplot() +
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
   
   #Add linear regression line
-  geom_smooth(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),
+  geom_smooth(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Inflow`, y=`USGS Gages`),
               method = "lm",
               formula = y ~ x,
               geom = "smooth") + 
   #Add regression equation to plot
-  stat_regline_equation(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),
+  stat_regline_equation(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Inflow`, y=`USGS Gages`),
                           label.x=9, label.y=13, size = 6) +
   
   #Make one combined legend
@@ -826,7 +826,7 @@ ggplot() +
   #Points after 1990 in Blue and Red
   #geom_point(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),  size = 6) + #color=Method shape=Method, size=6) +
  
-  geom_point(data = dfInflowsWide, aes(x= WaterYear, y=Diff),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfInflowCompare, aes(x= WaterYear, y=Diff),  size = 6) + #color=Method shape=Method, size=6) +
   
   #geom_point(data = dfGCFDataToUse %>% filter(WaterYear < 1990), aes(x= LeeFerryNaturalFlow, y=MeadInflow, color="Natural Flow pre 1990", shape="Natural Flow pre 1990"), size=6) +
 
@@ -859,23 +859,23 @@ ggplot() +
 
 ggplot() +
   
-  geom_point(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfUSBR_FromEvapTable %>% filter(Year < cYear), aes(x= Evaporation, y = EvaporationFromTable),  size = 6) + #color=Method shape=Method, size=6) +
   
   #Add error bars to data points
   #Mead
-  geom_errorbar(data=dfUSBR_FromEvapTable, aes(x=Evaporation,ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
+  geom_errorbar(data=dfUSBR_FromEvapTable %>% filter(Year < cYear), aes(x=Evaporation,ymin=EvaporationFromTable - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
                 position=position_dodge(0.2), color="black", show.legend = FALSE) +
   
   #Add 1:1 line
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
   
   #Add linear regression line
-  geom_smooth(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),
+  geom_smooth(data = dfUSBR_FromEvapTable %>% filter(Year < cYear), aes(x= Evaporation, y = EvaporationFromTable),
               method = "lm",
               formula = y ~ x,
               geom = "smooth") + 
   #Add regression equation to plot
-  stat_regline_equation(data = dfUSBR_FromEvapTable, aes(x= Evaporation, y = EvaporationFromTable),
+  stat_regline_equation(data = dfUSBR_FromEvapTable %>% filter(Year < cYear), aes(x= Evaporation, y = EvaporationFromTable),
                         label.x= mean(dfUSBR_FromEvapTable$Evaporation), label.y=mean(dfUSBR_FromEvapTable$EvaporationFromTable), size = 6) +
   
   #Make one combined legend
