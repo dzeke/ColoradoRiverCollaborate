@@ -1,10 +1,20 @@
-# Grand Canyon Intervening Flow (Lees Ferry to Lake Mead)
+# Lake Mead Inflow
 
-Here I use the USBR **Natural Flow Database (1907 to 2016)** and **USGS data (1990 to present)** to show Grand Canyon Intervening Flows from Lake Powell to Lake Mead. This analysis
-includes variations in flows, correlations to Lee Ferry natural flows, and sequence average values using the method of Salehabadi and Tarboton (2020).
+This folder contains the data/model/code/directions to estimate inflow to Lake Mead. There are 4 methods and each method gives different values.
+
+1. From U.S.G.S. stream gages (1990 to Present)
+1.1. Colorado River nr Peach Springs [9404200; https://waterdata.usgs.gov/monitoring-location/09404200/#parameterCode=00065&timeSeriesId=6324&period=P7D] (1990 to present)
+1.1. Virgin River at Littlefield [9415000; https://waterdata.usgs.gov/monitoring-location/09415000/#parameterCode=00065&period=P7D] (1930 to present)
+1.1. Las Vegas Wash Below LAKE LAS VEGAS NR BOULDER CITY, NV [09419800; https://waterdata.usgs.gov/monitoring-location/09419800/] (2002 to present)
+1. From Reclamation Application Programming Interface (2015 to present).
+1. Backcalculating from Lake Mead Release, Storage, and evaporation data retrieved via the Reclamation Application Programming Interface (Method #2).
+1. Backcalculating from Lake Mead Release, Storage, and evaporation estimated from lake level using pan coefficients.
+
+The code produces figures that compare the inflow values across the method.
+The code produces a figure that shows Inflow, Evaporation, Available Water, and Water Conservation Program deposits for which there was sufficient available water.
 
 ## View Results
-Open the file **[GrandCanyonTribFlow.pdf](https://raw.githubusercontent.com/dzeke/ColoradoRiverCoding/main/GrandCanyonInterveningFlow/GrandCanyonTribFlow.pdf)** to view results and read n explanation of how results were generated.
+Open the file **LakeMeadInflow.pdf**.
 
 ## Requirements to Run
 * R version 4.1.1. Download from https://cran.r-project.org/.
@@ -12,16 +22,16 @@ Open the file **[GrandCanyonTribFlow.pdf](https://raw.githubusercontent.com/dzek
 
 ## Directions to Generate Results
 1. Download and install R and RStudio (see requirements)
-1. Within this subfolder, open the **GrandCanyonInterveningFlow.Rproject** file. R Studio should open.
-1. Select the **GrandCanyonTribFlow.Rmd** tab (R markdown file) within R Studio.
+1. Within this subfolder, open the **LakeMeadInflow.Rproject** file. R Studio should open.
+1. Select the **LakeMeadInflow.Rmd** tab (R markdown file) within R Studio.
 1. Just below the tab, click the **Knit** button.
-1. The code will run and generate the file **GrandCanyonTribFlow.pdf**. Open the pdf file to view results.
+1. The code will run and generate the file **LakeMeadInflow.pdf**. Open the pdf file to view results.
 
 ## Explanation of Contents
 1. **SalehabadiEtAl-SequenceAverage** - Folder with code of sequence averaging method. Downloaded from Salehabadi and Tarboton (2020). Code from SeqAvePlot.R was modified and moved in **GrandCanyonTribFlow.Rmd** and **GrandCanyonInterveneFlow.r** files to work with the USGS and Natural flow datasets.
-1. **GrandCanyonTribFlow.Rmd** - R markdown file with code to knit (run) to generate primary output file **GrandCanyonTribFlow.pdf**.
-1. **GrandCanyonInterveneFlow.r** - R file with same code as **GrandCanyonTribFlow.Rmd** but pushes results to console. Use for testing code.
-1. **GrandCanyonInterveningFlow.Rproject** - R project file. Use to open the project.
+1. **LakeMeadInflow.Rmd** - R markdown file with code to knit (run) to generate primary output file **GrandCanyonTribFlow.pdf**.
+1. **LakeMeadInflow.r** - R file with same code as **GrandCanyonTribFlow.Rmd** but pushes results to console. Use for testing code.
+1. **LakeMeadInflow.Rproject** - R project file. Use to open the project.
 1. **HistoricalNaturalFlow.xlsx** - Excel file with monthly natural flow data from Prairie et al (2020). Only monthly sheet retained. See readme worksheet for more information.
 1. **Supplementary_file-WangSchmidt.xlsx** - The excel file from Wang and Schmidt (2020) that compares USGS and Natural flow data for their period of analysis. See readme worksheet for more info.
 1. **USGSInterveningFlowData.xlsx** - Excel data with USGS data for Colorado River near Peach Springs [9404200], Colorado River at Lees Feery [9382000], and Virign River at Littlefield [9415000] downloaded from USGS data service.
