@@ -613,12 +613,12 @@ ggplot() +
 ###    Bar for portion of ICS deposits to count/not count when there was sufficient available water 
 ###############
 
-lHistorialAllocation <- 9 # Historical allocations for California, Nevada, Arizone, and Mexico
+lHistorialAllocation <- 9 # Historical allocations for California, Nevada, Arizona, and Mexico
                           # Baseline to calculate values to show in figure
 lBaselinePlot <- 6   # Baseline value on plot from where bars for ICS deposits will show
 
 # Inflow method to use
-cMethodUse <- cMethods[1]
+cMethodUse <- cMethods[4]
 
 ## Join the Inflow and ICS dataframes
 dfInflowICS <- left_join(dfInflows %>% filter(Method == cMethodUse, Year < cYear), dfICSDeposit, by = c("Year" = "Year"))
