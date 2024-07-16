@@ -308,10 +308,11 @@ ggplot() +
   #As area
   geom_area(data=dfMeadStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
   #Reservoir level as line
-  geom_line(data=dfMeadStorageStack %>% filter(Year < nMaxYearResData + 1),aes(x=DateAsValue,y=MeadStorage, color="Combined"), size=1, color = "Black") +
-  #Reservoir level without ICS program
-  geom_line(data=dfMeadStorageStack %>% filter(Year <= nMaxYearICSData),aes(x=DateAsValue,y=MeadLevelWithoutICS, color="Combined"), size=1, color = "Black", linetype = "twodash") +
+    geom_line(data=dfMeadStorageStack %>% filter(Year <= nMaxYearICSData),aes(x=DateAsValue,y=MeadLevelWithoutICS, color="Combined"), size=1, color = pReds[6], linetype = "twodash") +
   
+    geom_line(data=dfMeadStorageStack %>% filter(Year < nMaxYearResData + 1),aes(x=DateAsValue,y=MeadStorage, color="Combined"), size=1, color = "Black") +
+  #Reservoir level without ICS program
+
   #lines for max capacity and protect elevation
   geom_hline(data=dfKeyMeadVolumes, aes(yintercept = Volume), linetype="longdash", size=1) +
   #lines for Interim Guidelines and Expiry

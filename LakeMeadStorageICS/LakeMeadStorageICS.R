@@ -263,10 +263,10 @@ ggplot() +
   #Lake Mead Storage and Water Conservation Account balances as stacked area plot
   #As area
   geom_area(data=dfMeadStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
-  #Reservoir level as line
-  geom_line(data=dfMeadStorageStack %>% filter(Year < nMaxYearResData + 1),aes(x=DateAsValue,y=MeadStorage, color="Combined"), size=2, color = "Black") +
   #Reservoir level without ICS program
-  geom_line(data=dfMeadStorageStack %>% filter(Year <= nMaxYearICSData),aes(x=DateAsValue,y=MeadLevelWithoutICS, color="Combined"), size=1, color = "Black", linetype = "twodash") +
+  geom_line(data=dfMeadStorageStack %>% filter(Year <= nMaxYearICSData),aes(x=DateAsValue,y=MeadLevelWithoutICS, color="Combined"), size=1, color = pReds[6], linetype = "twodash") +
+  #Reservoir level as line
+  geom_line(data=dfMeadStorageStack %>% filter(Year < nMaxYearResData + 1),aes(x=DateAsValue,y=MeadStorage, color="Combined"), size=1, color = "Black") +
   
   #lines for max capacity and protect elevation
   geom_hline(data=dfKeyMeadVolumes, aes(yintercept = Volume), linetype="longdash", size=1) +
@@ -276,7 +276,7 @@ ggplot() +
   #Labels for the areas
 #  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label != dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 6, fontface="bold") +
 #  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label == dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 5, fontface="bold", color = pBlues[3]) +
-  geom_text(data=dfKeyMeadTraceLabels, aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 6, fontface="bold") +
+  geom_text(data=dfKeyMeadTraceLabels, aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 4, fontface="bold") +
   
   #Scales
   scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), date_breaks = "4 year", date_labels = "%Y", sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
@@ -295,5 +295,5 @@ ggplot() +
   theme_bw() +
   #coord_fixed() +
   labs(x="", y="Active Storage\n(MAF)", color = "") +
-  theme(text = element_text(size=20), legend.title=element_blank(), legend.position ="none")
+  theme(text = element_text(size=14), legend.title=element_blank(), legend.position ="none")
 #theme(text = element_text(size=20), legend.text=element_text(size=16)
