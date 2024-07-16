@@ -567,7 +567,7 @@ ggplot() +
 
 ggplot() +
   #Data after 1989
-  geom_line(data = dfInflowsToPlot, aes(x=Year , y=MeadInflow, color=Method, linetype=Method), size=1.5) +
+  geom_line(data = dfInflowsToPlot %>% filter(Year < cYear), aes(x=Year , y=MeadInflow, color=Method, linetype=Method), size=1.5) +
   theme_bw() +
   
   scale_color_manual(values = cColorsToPlot) +
@@ -591,13 +591,14 @@ ggplot() +
 
 
 ggplot() +
-  geom_histogram(data = dfInflowsToPlot %>% filter(Method %in% cMethodsToPlot[1]), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Blue") +
+  geom_histogram(data = dfInflowsToPlot %>% filter(Year < cYear), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Blue") +
   #geom_histogram(data = dfInflowsToPlot %>% filter(Method %in% cMethodsToPlot[2]), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Red") +
   
+  facet_grid(. ~ Method) +
   
   theme_bw() +
   
-  labs(x="Lake Mead Inflow\n(USGS Gages)\n(MAF per year)", y="Number of Years") +
+  labs(x="Lake Mead Inflow\n(MAF per year)", y="Number of Years") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=20), 
@@ -616,10 +617,13 @@ lHistorialAllocation <- 9 # Historical allocations for California, Nevada, Arizo
                           # Baseline to calculate values to show in figure
 lBaselinePlot <- 6   # Baseline value on plot from where bars for ICS deposits will show
 
+# Inflow method to use
+cMethodUse <- cMethods[1]
 
 ## Join the Inflow and ICS dataframes
-dfInflowICS <- left_join(dfUSBR_API_Agg, dfICSDeposit, by = c("Year" = "Year"))
-
+dfInflowICS <- left_join(dfInflows %>% filter(Method == cMethodUse, Year < cYear), dfICSDeposit, by = c("Year" = "Year"))
+## Joint the Inflow, ICS, and evaporation data frames
+dfInflowICS <- left_join(dfInflowICS, dfUSBR_API_Agg %>% select(Year, Evaporation) %>% filter(Year < cYear), by = c("Year" = "Year"))
 #Convert ICS values to million-acre feet
 dfInflowICS$Arizona <- dfInflowICS$Arizona / 1e6
 dfInflowICS$California <- dfInflowICS$California / 1e6
@@ -655,44 +659,44 @@ dfInflowICS$CountICSDeposit <-
 dfInflowICS$NotCountICSDeposit <- dfInflowICS$TotalDeposit - dfInflowICS$CountICSDeposit
 
 sprintf("Total conservation credits all years: %.1f maf", sum(dfInflowICS$TotalDeposit))
-sCreditTotals <- c(sprintf("Conservation credits with\nsufficient available water:\n%.1f maf", sum(dfInflowICS$CountICSDeposit)),
-        sprintf("Credits with insufficient\navailable water:\n%.1f maf", sum(dfInflowICS$NotCountICSDeposit)))
+sCreditTotals <- c(sprintf("Sufficient available water:\n%.1f maf", sum(dfInflowICS$CountICSDeposit)),
+        sprintf("Insufficient\navailable water:\n%.1f maf", sum(dfInflowICS$NotCountICSDeposit)))
 
 #Melt the CountICSDeposit and NotCount columns into a new dataframe to plot as a stacked bar
 cNamesInflowICS <- colnames(dfInflowICS)
 nNumCols <- length(cNamesInflowICS)
 
-dfICSCountMelt <- melt(data = dfInflowICS, id.vars = c("WaterYear"), measure.vars = cNamesInflowICS[(nNumCols-1):nNumCols])
+dfICSCountMelt <- melt(data = dfInflowICS, id.vars = c("Year"), measure.vars = cNamesInflowICS[(nNumCols-1):nNumCols])
 
 
 ggplot() +
   
   #Ribbon from Inflow to available water
-  geom_ribbon(data = dfInflowICS, aes(x = WaterYear, max = MeadInflow - lBaselinePlot, min = AvailableWater - lBaselinePlot, fill="Evaporation")) +
+  geom_ribbon(data = dfInflowICS, aes(x = Year, max = MeadInflow - lBaselinePlot, min = AvailableWater - lBaselinePlot, fill="Evaporation")) +
   
   #Inflow as line
-  geom_line(data = dfInflowICS, aes(x= WaterYear, y = MeadInflow - lBaselinePlot, color = "Inflow"), size = 1) + #color=Method shape=Method, size=6) +
+  geom_line(data = dfInflowICS, aes(x= Year, y = MeadInflow - lBaselinePlot, color = "Inflow"), size = 1) + #color=Method shape=Method, size=6) +
   
   #Available water as line
-    geom_line(data = dfInflowICS, aes(x= WaterYear, y = AvailableWater - lBaselinePlot, color = "Available Water"), size = 1) + #color=Method shape=Method, size=6) +
+    geom_line(data = dfInflowICS, aes(x= Year, y = AvailableWater - lBaselinePlot, color = "Available Water"), size = 1) + #color=Method shape=Method, size=6) +
   
   # ICS counts as stacked bar
-  geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=WaterYear),position="stack", stat="identity") +
+  geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=Year),position="stack", stat="identity") +
   
-  scale_fill_manual(name="Guide1",values = c(palGreys[3], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(3, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
+  scale_fill_manual(name="Guide1",values = c(palGreys[1], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(3, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
   ###scale_color_manual(name="Guide2", values=c("Black")) +
   
-  scale_color_manual(name="Guide2", values = c(palBlues[7], palBlues[9])) +
+  scale_color_manual(name="Guide2", values = c(palBlues[7], palBlues[9]), labels = c("Available Water", paste0("Inflow (", cMethodsToPlot,")"))) +
   #Add line for 9.0 maf
   geom_hline(yintercept = lHistorialAllocation - lBaselinePlot, color="black", linetype = "longdash", size = 1.5) +
 
   # Set x-axis limits
-  xlim(min(dfUSBR_API_Agg$WaterYear),max(dfUSBR_API_Agg$WaterYear)) +
+  xlim(min(dfUSBR_API_Agg$Year),max(dfUSBR_API_Agg$Year)) +
   # Set the y-axis limits and breaks
   scale_y_continuous(breaks=seq(-1,7,1), labels=c(1,0,seq(1,7,1) + lBaselinePlot)) +
   
   #Make one combined legend
-  guides(color = guide_legend(""), fill = guide_legend("")) +
+  guides(color = guide_legend(""), fill = guide_legend("Conservation Credits")) +
   
   #facet_wrap( ~ Source) +
   labs(x="", y="Volume\n(million acre-feet per year)") +
