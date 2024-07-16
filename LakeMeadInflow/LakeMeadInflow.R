@@ -195,20 +195,24 @@ for(site in siteNumbers){
   dataTemp$StationName <- site_info$station_nm
 
     if(site == siteNumbers[1]) {
-    data <- dataTemp
+    dataUSGS <- dataTemp
     }
   else {
-    data <- rbind(data,dataTemp)
+    dataUSGS <- rbind(dataUSGS, dataTemp)
     }
   }
+
+# Save the API data to csv to improve reproducibility and in case no internet
+write.csv(dataUSGS, "USGSFlowData-MeadInflow.csv")
+
 #Rename the data column to a useful name
-cColHeaders <- colnames(data)
+cColHeaders <- colnames(dataUSGS)
 cColHeaders[4] <- "Flow.cfs"
-colnames(data) <- cColHeaders
-data$date <- as.Date(data$dateTime)
-data$Flow.acft <- 1.983 * data$Flow.cfs
+colnames(dataUSGS) <- cColHeaders
+dataUSGS$date <- as.Date(dataUSGS$dateTime)
+dataUSGS$Flow.acft <- 1.983 * data$Flow.cfs
 # Cast so each stream gage is a column
-dfInflowsWide <- dcast(data, date ~ StationName, value.var = "Flow.acft")
+dfInflowsWide <- dcast(dataUSGS, date ~ StationName, value.var = "Flow.acft")
 # Replace NAs with 0s
 dfInflowsWide <- dfInflowsWide %>% replace(is.na(.), 0)
 
@@ -219,7 +223,7 @@ dfGCFFlowsUSGS <- dfInflowsWide %>% dplyr::group_by(Year) %>% dplyr::summarise(M
 
 dfGCFFlowsUSGS$Method <- cMethods[1]
 
-ggplot(data=dfGCFFlowsUSGS) +
+ggplot(data=dfGCFFlowsUSGS %>% filter(Year < cYear)) +
   geom_line(aes(x = Year, y = MeadInflow))
 
 
@@ -845,7 +849,7 @@ ggplot() +
 
 
 ##############
-###   FIGURE 1
+###   FIGURE 11
 ###   Plot API Evaporation vs Table Look up
 #############
 
@@ -883,14 +887,11 @@ ggplot() +
 ##
 
 
-
+# Not working beyond here
 
 ## Show the correlation matrix
 mCorr <- cor(as.data.frame(dfInflowsWide %>% filter(WaterYear >= 2005, WaterYear < 2023) %>%  select(`USGS Gages`,`USBR Application Program Interface`) ))
 print(paste("Correlation = ",round(mCorr[1,2],2)))
-
-
-# Not working beyond here
 
 
 #### Figures 6 and 7. Show the sequence average plot using Salehabadi code for Natural Flow data set and USGS data
