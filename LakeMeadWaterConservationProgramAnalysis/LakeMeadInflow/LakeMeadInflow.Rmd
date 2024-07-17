@@ -47,47 +47,33 @@ Figure 1. A stacked area plot of Lake Mead storage shows the division between La
 ## Requested Citation
 David E. Rosenberg (2024), "Lake Mead Storage and Water Conservation Account Balances." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadStorageICS.
 
-```{r LakeMeadStorageICS1, echo=FALSE, warning=FALSE, message=FALSE}
-
-# LakeMeadStorageICS.R
-#
-# Plots that show the combined storage of Lake Powell and Lake Mead.
-#
-# 1. Import the reservoir elevation-volume curves
-# 2. Import historical reservoir storage data
-# 3. Import the conservation account data for Lake Mead
-#
-# This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
-# Please report bugs/feedback to me (contact info below)
-#
-# David E. Rosenberg
-# May 29, 2024
-# Utah State University
-# david.rosenberg@usu.edu
+```{r LakeMeadInflow1, echo=FALSE, warning=FALSE, message=FALSE}
 
 rm(list = ls())  #Clear history
 
-# Load required libraies
-
 #Load packages in one go
-#List of packages
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "rvest", "tidyr")
+  #List of packages
+  load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "rvest", "tidyr", "dataRetrieval")
 # Then we select only the packages that aren't currently installed.
-install.lib <- load.lib[!load.lib %in% installed.packages()]
+  install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
-for(lib in install.lib) install.packages(lib,dependencies=TRUE)
-# After the installation process completes, we load all packages.
-sapply(load.lib,require,character=TRUE)
-
+  for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+  # After the installation process completes, we load all packages.
+  sapply(load.lib,require,character=TRUE)
 
 # New function interpNA to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
-interpNA <- function(x, y, xi = x, ...) {
-  yi <- rep(NA, length(xi));
-  sel <- which(xi >= range(x)[1] & xi <= range(x)[2]);
-  yi[sel] <- interp1(x = x, y = y, xi = xi[sel], ...);
-  return(yi);
-}
+  interpNA <- function(x, y, xi = x, ...) {
+    yi <- rep(NA, length(xi));
+    sel <- which(xi >= range(x)[1] & xi <= range(x)[2]);
+    yi[sel] <- interp1(x = x, y = y, xi = xi[sel], ...);
+    return(yi);
+  }  
+  
+#Labels for each method to use in grouping and plotting
+cMethods <- c("USGS Gages", "USBR API Inflow", "USBR API Back Calc", "USBR Back Calc\nwith Evap from Table", "CRSS", "Wang-Schmidt")
+cColors <- c("Blue", "Red", "Pink", "Purple", "Brown", "Black")
 
+# the Combined data frame will have the variables WaterYear, MeadInflow, Method
 
 ###################################################
 #### PLOT for MEAD Storage and Water Conservation Account Balances

@@ -121,7 +121,7 @@ rm(list = ls())  #Clear history
 cMethods <- c("USGS Gages", "USBR API Inflow", "USBR API Back Calc", "USBR Back Calc\nwith Evap from Table", "CRSS", "Wang-Schmidt")
 cColors <- c("Blue", "Red", "Pink", "Purple", "Brown", "Black")
 
-# the Combined data frame will have the variables WaterYear, MeadInflow, Method
+# the Combined data frame will have the variables Year, MeadInflow, Method
 
 
 # ### Read in the Natural Flow data and convert it to annual flows
