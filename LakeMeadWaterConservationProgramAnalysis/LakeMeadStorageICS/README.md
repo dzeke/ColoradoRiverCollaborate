@@ -14,8 +14,7 @@ July 16, 2024
 Utah State University
 
 ## Requested Citation
-David E. Rosenberg (2024), "Lake Mead Storage and Water Conservation Account Balances." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadStorageICS.
-
+David E. Rosenberg (2024), "Lake Mead Storage and Water Conservation Account Balances: ." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterConservationProgramAnalysis/LakeMeadStorageICS
 ## Requirements
 * R version 4.1.1. Download from https://cran.r-project.org/.
 * R Studio 1.1.456. Download from https://www.rstudio.com/.
@@ -31,6 +30,7 @@ bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:
 1. **MeadDroughtContingencyPlan.xlsx** - Spreadsheet with Mead and Powell reservoir storage-area-elevation data from CRSS and drought contingency plan schedule (cutbacks vs. Lake Mead elevation)
 1. **IntentionallyCreatedSurplus-Summary.xlsx** - Lake Mead conservation account balances : USBR (2023). “Boulder Canyon Operatoins Office - Program and Activites: Water Accounting Reports”. https://www.usbr.gov/lc/region/g4000/wtracct.html.
 1. **MeadLevelApril2024.xlsx** - Excel file of monthly Lake Mead elevations. Use if USBR API is not working or no internet service. See LakeMeadStorageICS.r line 131 to turn on code to read levels from this file.
+1. **LakeMeadStorageICS-Figure3.png** - png file of Figure 3.
 
 ## Directions to Use
 1. Download and install R and RStudio (see requirements). 
