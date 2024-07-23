@@ -11,25 +11,27 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Description
 
-This is an R Markdown document. The following plots show the current status of the voluntary, credited water conservation program for Lake Mead. The plots support the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
+This is an R Markdown document. Plots Lake Mead water conservation account balances, deposits/withdraws, limits, and other data for the Lake Mead water conservation program. 
 
-The water conservation program is defined by the 2007 Interim Guidelines and amended by a 2019 agreement that adds mandatory water conservation amounts. In the voluntary conservation programs, states reduce use from their historical allocations, leave the conserved water in Lake Mead, and withdraw the conserved water at a future date under certain restrictions. The water mandatory conservation targets increase as Lake Mead level drops. Those targets can be met by converting previously conserved water in a conservation account or undertaking new conservation efforts.
+Within the Colorado River basin, the Lake Mead water conservation program is called Intentionally Created Surplus (ICS) program for Lake Mead. The program is defined in the 2007 Interim Guidelines and 2019 Drought Contingency Plans (Reclamation, 2007; 2019). In the voluntary conservation program, states reduce use from their historical allocations, leave the conserved water in Lake Mead, and withdraw the conserved water at a future date under certain restrictions. 
 
-1. A stacked bar chart compares voluntary conservation account balances by state and year. These balances are compared to the overall and individual state max balances allowed by the 2007 Interim Guidelines and 2019 Drought Contingency Plan (DCP). 
+The plots also compare the water account balances to withdraw limits and mandatory conservation targets. The plots support the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
 
-2. A stacked bar chart compares annual voluntary water conservation efforts by state. Credits are shown as positive and withdraws as negative. These credits and debits are compared to the maximum allowed amounts.
+## Figures
 
-Additional Figures
+Figure 1. A stacked bar chart compares voluntary conservation account balances by state and year. These balances are compared to the overall and individual state max balances allowed by the 2007 Interim Guidelines and 2019 Drought Contingency Plan (DCP). 
 
-3. A bar plot shows the the number of years water in the conservation account can be used to make the state's mandatory target before the conservation account is depleted for three lake levels. This ratio is the conservation account balance divided by the mandatory target. This ratio assumes there is no new voluntary conservation or withdraws during that time. The number of years fall as Lake Mead level drops and mandatory targets increase. 
+Figure 2 A stacked bar chart compares annual voluntary water conservation efforts by state. Credits are shown as positive and withdraws as negative. These credits and debits are compared to the maximum allowed amounts.
 
-4. A bar plot shows the ratio of the conservation account withdrawal limit to the mandatory conservation target at three different Lake Mead water levels. If account withdrawal limits are enforced, this ratio represents the fraction of the mandatory conservation target the state could make from it's conservation account each year. This ratio assumes there is sufficient water in the conservation account.
+Additional Figures - see ICS-Plots.r file.
 
-5. A bar plot shows the ratio of the conservation account deposit limit to the required mandatory conservation target at three different Lake Mead water levels. If deposit limits are enforced, this ratio shows how well a state can keep up year-to-year with its required mandatory conservation targets by continuing to conserve, add that water to it's conservation account, then transfer and use the conservation account water to meet it's mandatory conservation target. Conserving, adding to one's conservation account, and transfering to meet a mandatory conservation target is preferred to a new conservation. This approach is preferred because water conserved **this** year and credited to the conservation account can be used to meet this or **next** year's mandatory target. Should Lake Mead level rise during the year, the state retains access to its conserved water whereas new conservation is lost. 
 
-6. A bar plot shows each state's historical ability to meet mandatory conservation targets at three different Lake Mead water levels. Historical ability is the ratio of the largest annual deposit to a conservation account on record to the mandatory conservation target. The historical ability shows whether a state has historically conserved at the volume to meet it's mandatory conservation target. States below 100% have never before conserved at the level required by the DCP. They do not yet have a track record for water conservation.
+## Data and References
 
-Data from USBR annual accounting reports: https://www.usbr.gov/lc/region/g4000/wtracct.html. Note most recent data is for 2023. 
+1. USBR. (2019). "Agreement Concerning Colorado River Drought Contingency Management and Operations." U.S. Bureau of Reclamation, Washington, DC. https://www.usbr.gov/dcp/finaldocs.html
+1. USBR. (2007). "Record of Decision: Colorado River Interim Guidelines for Lower Basin Shortages and Coordinated Operations for Lakes Powell and Mead." U.S. Bureau of Reclamation. https://www.usbr.gov/lc/region/programs/strategies/RecordofDecision.pdf.
+1. USBR (2024). "Boulder Canyon Operations Office - Program and Activities: Water Accounting Reports". https://www.usbr.gov/lc/region/g4000/wtracct.
+html. These annual reports are aggregated in the Excel file **IntentionallyCreatedSurplus-Summary.xlsx**from USBR annual accounting reports: https://www.usbr.gov/lc/region/g4000/wtracct.html. Note most recent data is for 2023. 
 
 ## Observations
 
