@@ -210,7 +210,7 @@ cColHeaders <- colnames(dataUSGS)
 cColHeaders[4] <- "Flow.cfs"
 colnames(dataUSGS) <- cColHeaders
 dataUSGS$date <- as.Date(dataUSGS$dateTime)
-dataUSGS$Flow.acft <- 1.983 * data$Flow.cfs
+dataUSGS$Flow.acft <- 1.983 * dataUSGS$Flow.cfs
 # Cast so each stream gage is a column
 dfInflowsWide <- dcast(dataUSGS, date ~ StationName, value.var = "Flow.acft")
 # Replace NAs with 0s
