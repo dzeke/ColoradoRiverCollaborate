@@ -84,12 +84,12 @@ dfMaxBalanceCum$StateAsChar[3] <- "Total/Arizona"
 
 #Write out the dataframe with ICS balances by year to CSV so can use later in other scripts
 write.csv(dfICSBalanceMelt, file = "dfICSBalanceMelt.csv")
-#write.csv(dfICSDepositMelt, file = "dfICSDepositMelt.csv")
-#write.csv(dfICSDeposit, file = "dfICSDeposit.csv")
 
- #Figure 1 - timeseries of bar plots of ICS balances
+lFontSize <- 20
 
-ggplot() +
+#Figure 1 - timeseries of bar plots of ICS balances
+
+fig1 <- ggplot() +
   
   geom_bar(data=dfICSBalanceMelt %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
   
@@ -114,12 +114,15 @@ ggplot() +
   theme_bw() +
   
   labs(x="", y="Lake Mead Water Conservation\nAccount Balance\n(MAF)") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), 
-          legend.text=element_text(size=18),
-          legend.position= c(0.1,0.80))
+  theme(text = element_text(size=lFontSize),  legend.title = element_blank(), 
+          legend.text=element_text(size=lFontSize - 2),
+          legend.position= c(0.2,0.80))
   
+fig1
+ggsave("ICS-Figure1.png",fig1)
 
-#Plot #2. Stacked bar chart of deposits to ICS accounts by state by year
+###########
+### Plot #2. Stacked bar chart of deposits to ICS accounts by state by year
 
 #Calcualte deposits each year the differences by year
 dfICSDeposit <- data.frame(diff(as.matrix(dfICSBalance %>% select(Arizona,California,Nevada,Mexico,Total,Year))))
@@ -131,7 +134,7 @@ dfICSDepositMelt <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cC
 write.csv(dfICSDeposit, file = "dfICSDeposit.csv")
 write.csv(dfICSDepositMelt, file = "dfICSDepositMelt.csv")
 
-ggplot() +
+fig2 <- ggplot() +
   
   geom_bar(data=dfICSDepositMelt, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
   geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
@@ -152,10 +155,14 @@ ggplot() +
   theme_bw() +
   
   labs(x="", y="Credits and Debits to\nLake Mead Water Conservation Accounts\n(MAF per year)") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
+  theme(text = element_text(size=lFontSize - 4),  
+        axis.text.y = element_text(size = lFontSize - 4),
+        legend.title = element_blank(),
+        legend.text=element_text(size=lFontSize - 6),
         legend.position= c(1.075,0.5))
 
-
+fig2
+ggsave("ICS-Figure2.png", fig2)
 
 #### Additional Plots
 # Plot Years ICS balance can fund DCP target
