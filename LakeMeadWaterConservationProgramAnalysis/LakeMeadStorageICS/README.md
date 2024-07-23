@@ -1,9 +1,10 @@
 # Lake Mead Storage and Water Conservation Account Balances
 
-Generates a plot of Lake Mead storage and water conservation account balances over time. See file **LakeMeadStorageICS.pdf** for full metadata.
-Within the Colorado River basin, the Lake Mead water conservation program is called the "Intentionally Created Surplus" program
-and defined in the 2007 Interim Guidelines and 2019 Drought Contingency Plans.
+Generates a plot of Lake Mead Storage, Water Conservation Program Account Balances, anticipated Lake Mead storage if the water conservation program did not exist, and reservoir protection elevation. See file **LakeMeadStorageICS.pdf** for full metadata.
 
+Within the Colorado River basin, the Lake Mead water conservation program is called Intentionally Created Surplus (ICS) program for Lake Mead. This program is defined in the 2007 Interim Guidelines and 2019 Drought Contingency Plans (Reclamation, 2007; 2019). 
+
+In the voluntary conservation program, states reduce use from their historical allocations, leave the conserved water in Lake Mead, and withdraw the conserved water at a future date under certain restrictions.
 Dr. David Rosenberg
 
 david.rosenberg@usu.edu

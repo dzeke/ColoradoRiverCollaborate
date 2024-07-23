@@ -1,16 +1,19 @@
 # LakeMeadStorageICS.R
 #
-# Plots that show Lake Mead Storage and Water Conservation Account (ICS) Balances.
+# Generates a stacked line plot that show Lake Mead Storage, Water Conservation Account (ICS) Balance, and reservoir protection elevation over time.
+# The plot also shows a line of the anticipated Lake Mead storage volume were the Water Conservation Program not exist (states continued withdraws at their historical allocations).
 #
 # 1. Import the reservoir elevation-volume curves
-# 2. Import historical reservoir storage data
-# 3. Import the conservation account data for Lake Mead
+# 2. Import the water conservation account data for Lake Mead
+# 3. Import historical reservoir storage data
+
+# The plots support the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
 #
 # This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
 # Please report bugs/feedback to me (contact info below)
 #
 # David E. Rosenberg
-# June 21, 2024
+# July 23, 2024
 # Utah State University
 # david.rosenberg@usu.edu
 

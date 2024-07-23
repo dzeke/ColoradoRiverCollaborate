@@ -1,7 +1,7 @@
 ---
 title: "Lake Mead Storage and Water Conservation Accounts Plots"
 author: "David E. Rosenberg"
-date: "June 24, 2024"
+date: "July 23, 2024"
 output: pdf_document
 ---
 
@@ -11,11 +11,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Description
 
-This is an R Markdown document. This document shows a plot of Lake Mead Storage and Water Account Balances (ICS) over time. The purpose is to show the anticipated Lake Mead storage/elevation without the water conservation program.
+This is an R Markdown document. This document shows a plot of Lake Mead Storage, Water Conservation Program Account Balances, anticipated Lake Mead storage if the water conservation program did not exist, and reservoir protection elevation.
 
-Figure 1. A stacked area plot of Lake Mead storage shows the division between Lake volume, water conservation account balances, anticipated storage absent the water conservation program, and protection volume .
+Within the Colorado River basin, the Lake Mead water conservation program is called Intentionally Created Surplus (ICS) program for Lake Mead. This program is defined in the 2007 Interim Guidelines and 2019 Drought Contingency Plans (Reclamation, 2007; 2019). 
 
-Data are from: 
+In the voluntary conservation program, states reduce use from their historical allocations, leave the conserved water in Lake Mead, and withdraw the conserved water at a future date under certain restrictions.
+
+## Figures
+
+Figure 1. A stacked area plot of Lake Mead storage shows the division between Lake volume, water conservation account balances, anticipated storage absent the water conservation program, and protection volume.
+
+## Data Sources
 
 1. Storage elevation curve for Lake Mead: Colorado River Simulation System (Wheeler et al 2019). MeadDroughtContingencyPlan.xlsx.
 
@@ -23,12 +29,10 @@ Data are from:
 #
 #                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-01T00:00&table=R&mrid=0&format=html
 
-
 3. Lake Mead conservation account balances: USBR (2023). "Boulder Canyon Operations Office - Program and Activities: Water Accounting Reports".  https://www.usbr.gov/lc/region/g4000/wtracct.html. These annual reports are aggregated in the Excel file IntentionallyCreatedSurplus-Summary.xlsx.
 
-
 ## Requested Citation
-David E. Rosenberg (2024), "Lake Mead Storage and Water Conservation Account Balances." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadStorageICS.
+David E. Rosenberg (2024), "Lake Mead Storage and Water Conservation Account Balances: ." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterConservationProgramAnalysis/LakeMeadStorageICS
 
 ```{r LakeMeadStorageICS1, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -297,6 +301,8 @@ dfMeadPoolsPlot2 <- read.csv("dfMeadPoolsPlot2.csv",header=TRUE)
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
 
+lFontSize = 12
+
 
 ```
 
@@ -340,4 +346,4 @@ ggplot() +
   theme_bw() +
   #coord_fixed() +
   labs(x="", y="Active Storage\n(MAF)", color = "") +
-  theme(text = element_text(size=10), legend.title=element_blank(), legend.position ="none")
+  theme(text = element_text(size= lFontSize), legend.title=element_blank(), legend.position ="none")
