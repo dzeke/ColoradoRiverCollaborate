@@ -259,7 +259,9 @@ dfMeadPoolsPlot2 <- read.csv("dfMeadPoolsPlot2.csv",header=TRUE)
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
 
-ggplot() +
+lFontSize = 14
+
+fig3 <- ggplot() +
   #Lake Mead Storage and Water Conservation Account balances as stacked area plot
   #As area
   geom_area(data=dfMeadStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
@@ -295,5 +297,9 @@ ggplot() +
   theme_bw() +
   #coord_fixed() +
   labs(x="", y="Active Storage\n(MAF)", color = "") +
-  theme(text = element_text(size=14), legend.title=element_blank(), legend.position ="none")
-#theme(text = element_text(size=20), legend.text=element_text(size=16)
+  theme(text = element_text(size=lFontSize),  legend.title = element_blank(), 
+        legend.text=element_text(size=lFontSize - 2),
+        legend.position = "none")
+
+fig3
+ggsave("LakeMeadStorageICS-Figure3.png", fig3)
