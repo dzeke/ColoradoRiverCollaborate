@@ -127,7 +127,7 @@ dfMaxBalanceCum$StateAsChar[3] <- "Total/Arizona"
 #Write out the dataframe with ICS balances by year to CSV so can use later in other scripts
 write.csv(dfICSBalanceMelt, file = "dfICSBalanceMelt.csv")
 
-lFontSize <- 20
+lFontSize <- 14
 
 ```
 
@@ -174,26 +174,30 @@ fig1
 ```{r ICSFig2, echo=FALSE, warning=FALSE, message=FALSE}
   
 
-#Plot #2. Stacked bar chart of deposits to ICS accounts by state by year
+###########
+### Plot #2. Stacked bar chart of deposits to ICS accounts by state by year
 
 #Calcualte deposits each year the differences by year
-dfICSDeposit <- data.frame(-diff(as.matrix(dfICSBalance)))
+dfICSDeposit <- data.frame(diff(as.matrix(dfICSBalance %>% select(Arizona,California,Nevada,Mexico,Total,Year))))
 #Put the correct year back in
 dfICSDeposit$Year <- dfICSBalance$Year[1:nrow(dfICSDeposit)]
 #Melt the data so state columns become a variable
-dfICSDepositMelt <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cColNames[1:3])
+dfICSDepositMelt <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cColNames[2:4])
 
-ggplot() +
+write.csv(dfICSDeposit, file = "dfICSDeposit.csv")
+write.csv(dfICSDepositMelt, file = "dfICSDepositMelt.csv")
+
+fig2 <- ggplot() +
   
   geom_bar(data=dfICSDepositMelt, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
   geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
   geom_line(data=dfMaxAnnualAmounts, aes(color="Max Withdrawal", y=-MaxWithdraw/1e6,x=Year), size=2) +
   
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
+  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[2:4]) +
   scale_color_manual(name="Guide2", values=c("Black","Black")) +
   
   scale_x_continuous(breaks=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2),labels=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2)) +
-  scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[1],-nMaxBalance$Total[3])/1e6, labels = c("Max Deposit","Max Withdraw"))) +
+  scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[1],-nMaxBalance$Total[3])/1e6, labels = c("Max Credit","Max Debit"))) +
   
   #scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), limits = c(0,as.numeric(dfMaxStor %>% filter(Reservoir %in% c("Mead")) %>% select(Volume))),
   #                  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfMeadPoolsPlot$stor_maf, labels = dfMeadPoolsPlot$label)) +
@@ -203,221 +207,14 @@ ggplot() +
   
   theme_bw() +
   
-  labs(x="", y="Transaction Amount\n(MAF per year)") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=14),
-        legend.position= c(1.25,0.5))
+  labs(x="", y="Credits and Debits to\nLake Mead Water Conservation Accounts\n(MAF per year)") +
+  theme(text = element_text(size=lFontSize ),  
+        axis.text.y = element_text(size = lFontSize),
+        legend.title = element_blank(),
+        legend.text=element_text(size=lFontSize - 2),
+        legend.position= c(1.1,0.6))
 
-
-```
-
-# Figure 3. Years 2020 conservation account balance can fund mandatory conservaton targets. Dashed red line indicates 2 years.
-```{r ICSFig3, echo=FALSE, warning=FALSE, message=FALSE}
-
-
-# Plot Years ICS balance can fund DCP target
-# Ratio of ICS balance to DCP target (Years)
-dfICStoDCP$ElevationText <- paste(dfICStoDCP$`Mead Elevation (ft)`, "feet")
-cColNamesICStoDCP <- colnames(dfICStoDCP)
-
-dfICStoDCPMelt <- melt(data = dfICStoDCP,id.vars = "ElevationText", measure.vars = cColNamesICStoDCP[5:7])
-
-ggplot(data=dfICStoDCPMelt %>% filter((ElevationText == "1025 feet") | (ElevationText == "1045 feet") | (ElevationText == "1090 feet") )) +
-  
-  geom_bar(aes(fill=variable,y=value,x=variable), position=position_dodge(), stat="identity") +
-  
-  #Add a horizontal line for 100%
-  geom_hline(yintercept = 2,linetype="dashed",color="red",size = 0.75) +
-
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNamesICStoDCP[5:7], labels = cColNames[1:3]) +
-
-  scale_x_discrete(labels = cColNames[1:3]) +
-
-  facet_wrap( ~ ElevationText) +
-  
-   guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
-
-  theme_bw() +
-  
-  labs(x="", y="Years 2020 conservation account\nbalance can fund\nmandatory targets") +
-  theme(text = element_text(size=18),  legend.title = element_blank(),
-  axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-  legend.text=element_text(size=18),
-        legend.position= "none")
-
-```
-
-# Figure 4. Ratio of conservation account max withdrawal limit to mandatory target. Dashed red line indicates max withdraw limit equals mandatory target.
-
-```{r ICSFig4, echo=FALSE, warning=FALSE, message=FALSE}
-
-
-### Ratio of ICS max withdrawal to DCP target
-dfICStoDCPMeltMaxWithdrawal <- melt(data = dfICStoDCP,id.vars = "ElevationText", measure.vars = cColNamesICStoDCP[8:10])
-
-ggplot(data=dfICStoDCPMeltMaxWithdrawal %>% filter((ElevationText == "1025 feet") | (ElevationText == "1045 feet") )) +
-  
-  geom_bar(aes(fill=variable,y=value,x=variable), position=position_dodge(), stat="identity") +
-
-   #Add a horizontal line for 100%
-  geom_hline(yintercept = 1,linetype="dashed",color="red",size = 0.75) +
-  
-  
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNamesICStoDCP[8:10], labels = cColNames[1:3]) +
-
-  scale_x_discrete(labels = cColNames[1:3]) +
-
-  scale_y_continuous(labels = scales::percent) + 
- 
-  facet_wrap( ~ ElevationText) +
-  
-  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
-  
-  
-  theme_bw() +
-  
-  labs(x="", y="Ratio of max withdrawal from conservation\naccount to mandatory target") +
-  theme(text = element_text(size=18),  legend.title = element_blank(), legend.text=element_text(size=18),
-        legend.position= "none")
-
-
-```
-
-# Figure 5. Ratio of max conservation account deposit to mandatory target. Dashed red line (100%) indicates max deposit equals mandatory target.
-```{r ICSFig5, echo=FALSE, warning=FALSE, message=FALSE}
-
-
-### Ratio of ICS max deposit to DCP target
-dfICStoDCPMeltMaxDeposit <- melt(data = dfICStoDCP,id.vars = "ElevationText", measure.vars = cColNamesICStoDCP[11:13])
-
-ggplot(data=dfICStoDCPMeltMaxDeposit %>% filter((ElevationText == "1025 feet") | (ElevationText == "1045 feet") )) +
-  
-  geom_bar(aes(fill=variable,y=value,x=variable), position=position_dodge(), stat="identity") +
-  
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNamesICStoDCP[11:13], labels = cColNames[1:3]) +
-  #Add a horizontal line for 100%
-  geom_hline(yintercept = 1,linetype="dashed",color="red",size = 0.75) +
-  #scale_color_manual(name="Guide2", values=c("Black","Black")) +
-  
-  #scale_fill_continuous(name="Guide1",values = c(palBlues[6],palBlues[9])) +
-  
-  scale_x_discrete(labels = cColNames[1:3]) +
-  #scale_x_continuous(breaks=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2),labels=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2)) +
-  scale_y_continuous(labels = scales::percent) + 
-  
-  facet_wrap( ~ ElevationText) +
-  
-  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
-  
-  
-  theme_bw() +
-  
-  labs(x="", y="Ratio of conservation account max deposit\nto mandatory target") +
-  theme(text = element_text(size=18),  legend.title = element_blank(), legend.text=element_text(size=18),
-        legend.position= "none")
-
-
-```
-
-# Figure 6. Ratio of largest historical conservation account deposit to mandatory target
-## States less than 100% (dashed red line) have yet to conserve at the mandatory target.
-```{r ICSFig6, echo=FALSE, warning=FALSE, message=FALSE}
-
-
-### Ratio of largest ICS deposit on record to DCP target
-# Get the maximum historical ICS targets
-dfICSMaxDeposit <- dfICSDeposit %>% summarize(maxAZ = max(Arizona), maxCA = max(California), maxNV = max(Nevada))
-# Get the DCP targets for 1045 and 1025 feet
-dfDCPcontribute <- dfICStoDCP %>% filter(`Mead Elevation (ft)` == 1090 | `Mead Elevation (ft)` == 1045 | `Mead Elevation (ft)` == 1025 )
-#Join the two data frames
-dfICStoDCPRatio <- dfDCPcontribute
-dfICStoDCPRatio$ICSAZ <- dfICSMaxDeposit$maxAZ
-dfICStoDCPRatio$ICSCA <- dfICSMaxDeposit$maxCA
-dfICStoDCPRatio$ICSNV <- dfICSMaxDeposit$maxNV
-
-dfICStoDCPRatio$AZratio <- dfICStoDCPRatio$ICSAZ / dfICStoDCPRatio$`DCP-AZ Reduction (ac-ft)`
-dfICStoDCPRatio$CAratio <- dfICStoDCPRatio$ICSCA / dfICStoDCPRatio$`DCP-CA Reduction (ac-ft)`
-dfICStoDCPRatio$NVratio <- dfICStoDCPRatio$ICSNV / dfICStoDCPRatio$`DCP-NV Reduction (ac-ft)`
-dfICStoDCPRatio$ElevationText <- paste(dfICStoDCPRatio$`Mead Elevation (ft)`," feet")
-
-cNamesRatio <- colnames(dfICStoDCPRatio)
-dfICStoDCPRatioMelt <- melt(data = dfICStoDCPRatio,id.vars = "ElevationText", measure.vars = cNamesRatio[18:20])
-
-
-
-ggplot(data=dfICStoDCPRatioMelt ) +
-  
-  geom_bar(aes(fill=variable,y=value,x=variable), position=position_dodge(), stat="identity") +
-  
-  #Add a horizontal line for 100%
-  geom_hline(yintercept = 1,linetype="dashed",color="red",size = 0.75) +
-  
-    scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cNamesRatio[18:20], labels = cColNames[1:3]) +
-  #scale_color_manual(name="Guide2", values=c("Black","Black")) +
-  
-  #scale_fill_continuous(name="Guide1",values = c(palBlues[6],palBlues[9])) +
-  
-  scale_x_discrete(labels = cColNames[1:3]) +
-  #scale_x_continuous(breaks=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2),labels=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2)) +
-  scale_y_continuous(labels = scales::percent) + 
-  
-  facet_wrap( ~ ElevationText) +
-  
-  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
-  
-  
-  theme_bw() +
-  
-  labs(x="", y="Conservation History\n(ratio of largest historical conservation account\ndeposit to mandatory target)") +
-  theme(text = element_text(size=16),  legend.title = element_blank(),
-        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-        legend.text=element_text(size=16),
-        legend.position= "none")
-
-```
-
-# Figure 7. Years to draw down conservation account balance to zero at maximum withdraw limit. Dashed red line indicates 1 year.
-```{r ICSFig7, echo=FALSE, warning=FALSE, message=FALSE}
-
-#### Number of years to draw down account balance considering max withdraw limit. Dashed red line (100%) indicates balance equals withdraw limit.
-#Pull the ICS balance and max withdraw data from the data frames
-dfICSBalanceCalc <- dfICSBalance %>% filter(Year == 2020) %>% select(Arizona, California, Nevada)
-dfICSBalanceCalc$RowName <- "Account Balance"
-dfLimitsTemp<- dfLimits[3,] %>% select(Arizona, California, Nevada)
-dfLimitsTemp$RowName <- "Max Withdraw"
-
-#Combine the data frames
-dfICSBalanceCalc <- rbind(dfICSBalanceCalc, dfLimitsTemp)
-#Pivot the rows/columns
-dfICSBalanceCalcMelt <- melt(data = dfICSBalanceCalc, id.vars = "RowName", measure.vars = c("Arizona", "California", "Nevada"))
-#Cast back so Row Name is a column
-dfICSBalanceCalcCast <- dcast(data = dfICSBalanceCalcMelt, variable ~ RowName )
-
-#Calculate the years to draw down account at max withdraw
-dfICSBalanceCalcCast$YearsToDrawDown <- dfICSBalanceCalcCast$`Account Balance` / dfICSBalanceCalcCast$`Max Withdraw`
-
-ggplot(data=dfICSBalanceCalcCast ) +
-  
-  geom_bar(aes(fill=variable,y=YearsToDrawDown,x=variable), position=position_dodge(), stat="identity") +
-  
-  #Add a horizontal line for 100%
-  geom_hline(yintercept = 1,linetype="dashed",color="red",size = 0.75) +
-  
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9])) +
-  #scale_color_manual(name="Guide2", values=c("Black","Black")) +
-  
-  #scale_fill_continuous(name="Guide1",values = c(palBlues[6],palBlues[9])) +
-  
-  scale_x_discrete(labels = cColNames[1:3]) +
-  #scale_x_continuous(breaks=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2),labels=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2)) +
-  #scale_y_continuous(labels = scales::percent) + 
-  
-   #guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = "none") +
-  
-  
-  theme_bw() +
-  
-  labs(x="", y="Years") +
-  theme(text = element_text(size=16),  legend.title = element_blank(), legend.text=element_text(size=16),
-        legend.position= "none")
+fig2
+ggsave("ICS-Figure2.png", fig2)
 
 ```
