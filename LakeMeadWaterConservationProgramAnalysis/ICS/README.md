@@ -1,11 +1,16 @@
 # Lake Mead Water Conservation Program (Intentionally Created Surplus; ICS) for Lake Mead
 
 Plots water conservation account balances, deposits/withdraws, limits, and other data for the Lake Mead water conservation program. 
-Within the Colorado River basin, the Lake Mead water conservation program is called Intentionally Created Surplus (ICS) program for Lake Mead. This program is defined in the 2007 Interim Guidelines and 2019 Drought Contingency Plans (Reclamation, 2007; 2019). Also compares the ICS account balances to
-withdraw limits and mandatory conservation targets .
+Within the Colorado River basin, the Lake Mead water conservation program is called Intentionally Created Surplus (ICS) program for Lake Mead. This program is defined in the 2007 Interim Guidelines and 2019 Drought Contingency Plans (Reclamation, 2007; 2019). 
+
+In the voluntary conservation program, states reduce use from their historical allocations, leave the conserved water in Lake Mead, and withdraw the conserved water at a future date under certain restrictions.
+
+The plots compare the water conservation account balances to withdraw limits and mandatory conservation targets. The plots support the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
+
+Program data are compiled from annual water accounting reports (Reclamation, 2024).
 
 ## View Results
-Open the file **[ICS-Plots.pdf](https://github.com/dzeke/ColoradoRiverCoding/raw/main/ICS/ICS-Plots.pdf)** to view results and read n explanation of how results were generated.
+Open the file **[ICS-Plots.pdf](https://github.com/dzeke/ColoradoRiverCoding/raw/main/ICS/ICS-Plots.pdf)** to view results and read an explanation of how results were generated.
 
 ## Requirements to Run
 * R version 4.1.1. Download from https://cran.r-project.org/.
@@ -28,12 +33,15 @@ Open the file **[ICS-Plots.pdf](https://github.com/dzeke/ColoradoRiverCoding/raw
 1. **dfICSBalanceMelt.csv** - Comma separated values file of water conservation program account balances read in from the IntentionallyCreatedSurplusSummary.xlsx file. Used for reproducibility and in other programming efforts that require ICS data.
 1. **dfICSDeposit.csv** - Comma separated values file of water conservation program account deposits and withdraws (wide version) read in from the IntentionallyCreatedSurplusSummary.xlsx file. Used for reproducibility and in other programming efforts that require ICS data.
 1. **dfICSBalanceDepositMelt.csv** - Comma separated values file of water conservation program account deposits and withdraws (narrow version) read in from the IntentionallyCreatedSurplusSummary.xlsx file. Used for reproducibility and in other programming efforts that require ICS data.
+1. **ICS-Figure1.png** - A png file of Figure 1.
+1. **ICS-Figure2.png** - A png file of Figure 2.
 
 ## Requested Citation
 David E. Rosenberg (2024), “Lake Mead Storage and Water Conservation Account Balances.” Utah
-State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadStorageICS.
+State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCoding/raw/main/ICS/.
+
 ## References
-1. USBR. (2019). "Agreement Concerning Colorado River Drought Contingency Management and Operations." U.S. Bureau of Reclamation, Washington, DC. https://www.usbr.gov/dcp/finaldocs.html
-1. USBR. (2007). "Record of Decision: Colorado River Interim Guidelines for Lower Basin Shortages and Coordinated Operations for Lakes Powell and Mead." U.S. Bureau of Reclamation. https://www.usbr.gov/lc/region/programs/strategies/RecordofDecision.pdf.
-1. USBR (2024). "Boulder Canyon Operations Office - Program and Activities: Water Accounting Reports". https://www.usbr.gov/lc/region/g4000/wtracct.
+1. Reclamation (2019). "Agreement Concerning Colorado River Drought Contingency Management and Operations." U.S. Bureau of Reclamation, Washington, DC. https://www.usbr.gov/dcp/finaldocs.html
+1. Reclamation (2007). "Record of Decision: Colorado River Interim Guidelines for Lower Basin Shortages and Coordinated Operations for Lakes Powell and Mead." U.S. Bureau of Reclamation. https://www.usbr.gov/lc/region/programs/strategies/RecordofDecision.pdf.
+1. Reclamation (2024). "Boulder Canyon Operations Office - Program and Activities: Water Accounting Reports". https://www.usbr.gov/lc/region/g4000/wtracct.
 html. These annual reports are aggregated in the Excel file **IntentionallyCreatedSurplus-Summary.xlsx**.
