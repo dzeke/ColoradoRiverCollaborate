@@ -783,33 +783,43 @@ dfInflowsWide$Diff <-  dfInflowsWide$`USGS Gages` - dfInflowsWide$`USBR Applicat
 
 ggplot() +
   
-  geom_point(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Inflow`, y=`USGS Gages`),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Back Calc`, y=`USGS Gages`, color = 'API Back Calc'),  size = 5) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Inflow`, y=`USGS Gages`, color = 'API Inflow'),  size = 5) + #color=Method shape=Method, size=6) +
   
-  #geom_point(data = dfInflowsWide, aes(x= WaterYear, y=Diff),  size = 6) + #color=Method shape=Method, size=6) +
-  
-  #geom_point(data = dfGCFDataToUse %>% filter(WaterYear < 1990), aes(x= LeeFerryNaturalFlow, y=MeadInflow, color="Natural Flow pre 1990", shape="Natural Flow pre 1990"), size=6) +
-  
-  #scale_shape_manual(values=c(17,16,16), breaks = c("USGS","Natural Flow","Natural Flow pre 1990"), labels  = c("USGS (after 1990)","Natural Flow (after 1990)","Natural Flow (before 1990)")) +
-  
-  #scale_color_manual(values=c("Blue","Red","Pink"), breaks = c("USGS","Natural Flow","Natural Flow pre 1990"), labels  = c("USGS (after 1990)","Natural Flow (after 1990)","Natural Flow (before 1990)")) +
-  
+
   #Add 1:1 line
-  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red", size = 1) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black", size = 1) +
   
-  #Add linear regression line
-  geom_smooth(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Inflow`, y=`USGS Gages`),
+  #Add linear regression line for Reclamation API Inflow
+  geom_smooth(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Inflow`, y=`USGS Gages`, color = 'API Inflow'),
               method = "lm",
               formula = y ~ x,
               geom = "smooth") + 
-  #Add regression equation to plot
-  stat_regline_equation(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Inflow`, y=`USGS Gages`),
-                          label.x=9, label.y=13, size = 6) +
+  
+  #Add regression equation for Reclamation API Inflow to plot
+  stat_regline_equation(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Inflow`, y=`USGS Gages`, color = 'API Inflow'),
+                        label.x=8.5, label.y=12, size = 5, ) +
+  
+  #Add linear regression line for Reclamation API Back Calculation
+  geom_smooth(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Back Calc`, y=`USGS Gages`, color = "API Back Calc"),
+              method = "lm",
+              formula = y ~ x,
+              geom = "smooth") + 
+
+  #Add regression equation for Reclamation API Back Calculation to plot
+  stat_regline_equation(data = dfInflowCompare %>% filter(Year < cYear), aes(x= `USBR API Back Calc`, y=`USGS Gages`, color = "API Back Calc" ),
+                        label.x=12, label.y=10.5, size = 5) +
+  
+  #scale_shape_manual(values=c(17,16,16), breaks = c("USGS","Natural Flow","Natural Flow pre 1990"), labels  = c("USGS (after 1990)","Natural Flow (after 1990)","Natural Flow (before 1990)")) +
+  
+  scale_color_manual(values=c("Blue","Red"), breaks = c('API Inflow', 'API Back Calc')) +
+  
   
   #Make one combined legend
   guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
   
   #facet_wrap( ~ Source) +
-  labs(x="USBR Back Calculation\n(MAF per year)", y="USGS Gages\n(MAF per year)") +
+  labs(x="Reclamation\n(MAF per year)", y="USGS Gages\n(MAF per year)") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   
@@ -898,7 +908,7 @@ mCorr <- cor(as.data.frame(dfInflowsWide %>% filter(WaterYear >= 2005, WaterYear
 print(paste("Correlation = ",round(mCorr[1,2],2)))
 
 
-#### Figures 6 and 7. Show the sequence average plot using Salehabadi code for Natural Flow data set and USGS data
+#### Additional Figures. Show the sequence average plot using Salehabadi code for Natural Flow data set and USGS data
 
 ############################################################################################################
 ###### Sequence Average Plot (Dotty Plot)                                                             ######
