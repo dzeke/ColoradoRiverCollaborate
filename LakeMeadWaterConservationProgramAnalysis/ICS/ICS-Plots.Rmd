@@ -212,7 +212,7 @@ fig2 <- ggplot() +
         axis.text.y = element_text(size = lFontSize),
         legend.title = element_blank(),
         legend.text=element_text(size=lFontSize - 2),
-        legend.position= c(1.1,0.6))
+        legend.position= c(1.2,0.6))
 
 fig2
 ggsave("ICS-Figure2.png", fig2)
