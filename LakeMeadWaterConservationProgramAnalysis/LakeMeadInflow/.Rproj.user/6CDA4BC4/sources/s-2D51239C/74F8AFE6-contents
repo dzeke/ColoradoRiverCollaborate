@@ -223,11 +223,6 @@ dfGCFFlowsUSGS <- dfInflowsWide %>% dplyr::group_by(Year) %>% dplyr::summarise(M
 
 dfGCFFlowsUSGS$Method <- cMethods[1]
 
-ggplot(data=dfGCFFlowsUSGS %>% filter(Year < cYear)) +
-  geom_line(aes(x = Year, y = MeadInflow))
-
-
-
 # ####### Code to Read in water year data from Excel file
 # sExcelFileUSGSFlow <- 'USGSInterveningFlowData.xlsx'
 # dfGCFlowsUSGS <- read_excel(sExcelFileUSGSFlow, sheet = 'Combined',  range = "A1:E34")
@@ -281,27 +276,30 @@ ggplot(data=dfGCFFlowsUSGS %>% filter(Year < cYear)) +
 ##
 
 
+if (FALSE){
+  # Query the USBR API
+  # Construct the USBR API call by reading data up to the prior month
+  usbr_url <- paste0("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1990-01-01T00:00&t2=", sDate, "T00:00&table=R&mrid=0&format=html")
 
-# Construct the USBR API call by reading data up to the prior month
-usbr_url <- paste0("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1990-01-01T00:00&t2=", sDate, "T00:00&table=R&mrid=0&format=html")
+  # Use the "rvest" and "tidyr" packages
+  usbr_MeadData <- read_html(usbr_url)
 
-# Use the "rvest" and "tidyr" packages
-usbr_MeadData <- read_html(usbr_url)
+  pkg_data <- usbr_MeadData |>
+    html_element("table") |>
+    html_table()
 
-pkg_data <- usbr_MeadData |>
-  html_element("table") |>
-  html_table()
+  # Convert acre-feet to million acre-feet
+  dfUSBR_API <- data.frame(pkg_data)
 
-# Convert acre-feet to million acre-feet
-dfUSBR_API <- data.frame(pkg_data)
+  # Save the API data to csv to improve reproducibility and in case no internet
+  write.csv(dfUSBR_API, "dfUSBR_API.csv")
+  } else {
 
-# Save the API data to csv to improve reproducibility and in case no internet
-# write.csv(dfUSBR_API, "dfUSBR_API.csv")
-
-# Read the api data from the csv file
-dfUSBR_API <- read.csv("dfUSBR_API.csv")
-# Remove the 1st field
-dfUSBR_API <- dfUSBR_API[,2:6]
+  # Read the data from the csv file
+  dfUSBR_API <- read.csv("dfUSBR_API.csv")
+  # Remove the 1st field
+  dfUSBR_API <- dfUSBR_API[,2:6]
+  }
 
 #Turn the SDID Code # into meaningful variable names
 dfSDIDcode <- data.frame(code = c(1776, 2091, 1721, 1874),
@@ -407,9 +405,6 @@ dfCRSSOutput$WaterYear <- ifelse(dfCRSSOutput$Month >= 10, dfCRSSOutput$Year + 1
 dfMeadInflowsCRSS <- dfCRSSOutput %>% dplyr::select(WaterYear, Month, Mead.Inflow) %>% dplyr::group_by(WaterYear) %>% dplyr::summarize(MeadInflow = sum(Mead.Inflow)/1e6)
 dfMeadInflowsCRSS$Method <- cMethods[5]
 
-
-
-
 ##############################
 ### Inflow Calc Method #6. Wang / Schmidt - White Paper #5 [https://qcnr.usu.edu/coloradoriver/news/wp5] (2015 to 2020)
 # Read in the Water Balance from the Supplemental spreadsheet => Tables => S18:X18
@@ -498,9 +493,115 @@ palBlues <- brewer.pal(9, "Blues")
 palReds <- brewer.pal(9, "Reds")
 palGreys <- brewer.pal(9, "Greys")
 
+##############
+###   FIGURE 1
+###   Plot inflow, available water, and ICS deposits as stacked area and stacked bar plots
+###    Area for Inflow, Evaporation, Available Water
+###    Bar for portion of ICS deposits to count/not count when there was sufficient available water 
+###############
+
+lHistorialAllocation <- 9 # Historical allocations for California, Nevada, Arizona, and Mexico
+# Baseline to calculate values to show in figure
+lBaselinePlot <- 6   # Baseline value on plot from where bars for ICS deposits will show
+
+# Inflow method to use
+cMethodUse <- cMethods[1]
+
+## Join the Inflow and ICS dataframes
+dfInflowICS <- left_join(dfInflows %>% filter(Method == cMethodUse, Year < cYear), dfICSDeposit, by = c("Year" = "Year"))
+## Joint the Inflow, ICS, and evaporation data frames
+dfInflowICS <- left_join(dfInflowICS, dfUSBR_API_Agg %>% select(Year, Evaporation) %>% filter(Year < cYear), by = c("Year" = "Year"))
+#Convert ICS values to million-acre feet
+dfInflowICS$Arizona <- dfInflowICS$Arizona / 1e6
+dfInflowICS$California <- dfInflowICS$California / 1e6
+dfInflowICS$Nevada <- dfInflowICS$Nevada / 1e6
+dfInflowICS$Mexico <- dfInflowICS$Mexico / 1e6
+
+#Calculate Total ICS deposits each year (sum of positive values)
+dfInflowICS$TotalDeposit <- ifelse(dfInflowICS$Arizona > 0, dfInflowICS$Arizona, 0) +
+  ifelse(dfInflowICS$California > 0, dfInflowICS$California, 0) +
+  ifelse(dfInflowICS$Nevada > 0, dfInflowICS$Nevada, 0)
+
+#Calculate available water as inflow minus evaporation
+dfInflowICS$AvailableWater <- 0
+dfInflowICS$AvailableWater <- dfInflowICS$MeadInflow - dfInflowICS$Evaporation
+
+#Replace NAs with zeros
+dfInflowICS$TotalDeposit <- replace_na(dfInflowICS$TotalDeposit,0)
+
+# Calculate the ICS deposits to count when there was sufficient available water
+# There are 3 cases:
+#   1. Available water greater than historical allocations => Count all ICS deposits
+#   2. Available water between historical allocation and ICS amount => Count part of the ICS deposit
+#   3. Available water less than historical allocation minus ICS deposits => Count none
+dfInflowICS$CountICSDeposit <- 
+  # Case 1
+  ifelse(dfInflowICS$AvailableWater >= lHistorialAllocation, dfInflowICS$TotalDeposit, 0) +
+  # Case 2
+  ifelse((dfInflowICS$AvailableWater < lHistorialAllocation) & (dfInflowICS$AvailableWater >= lHistorialAllocation - dfInflowICS$TotalDeposit), dfInflowICS$TotalDeposit - (lHistorialAllocation - dfInflowICS$AvailableWater), 0) +
+  # Case 3
+  ifelse(dfInflowICS$AvailableWater <= lHistorialAllocation - dfInflowICS$TotalDeposit, 0, 0)
+
+# Calculate the ICS deposit not to count as difference between the TotalDeposit and Deposit counted
+dfInflowICS$NotCountICSDeposit <- dfInflowICS$TotalDeposit - dfInflowICS$CountICSDeposit
+
+sprintf("Total conservation credits all years: %.1f maf", sum(dfInflowICS$TotalDeposit))
+sCreditTotals <- c(sprintf("Sufficient available water:\n%.1f maf", sum(dfInflowICS$CountICSDeposit)),
+                   sprintf("Insufficient\navailable water:\n%.1f maf", sum(dfInflowICS$NotCountICSDeposit)))
+
+#Melt the CountICSDeposit and NotCount columns into a new dataframe to plot as a stacked bar
+cNamesInflowICS <- colnames(dfInflowICS)
+nNumCols <- length(cNamesInflowICS)
+
+dfICSCountMelt <- melt(data = dfInflowICS, id.vars = c("Year"), measure.vars = cNamesInflowICS[(nNumCols-1):nNumCols])
+
+
+ggplot() +
+  
+  #Ribbon from Inflow to available water
+  geom_ribbon(data = dfInflowICS, aes(x = Year, max = MeadInflow - lBaselinePlot, min = AvailableWater - lBaselinePlot, fill="Evaporation")) +
+  
+  #Inflow as line
+  geom_line(data = dfInflowICS, aes(x= Year, y = MeadInflow - lBaselinePlot, color = "Inflow"), size = 1) + #color=Method shape=Method, size=6) +
+  
+  #Available water as line
+  geom_line(data = dfInflowICS, aes(x= Year, y = AvailableWater - lBaselinePlot, color = "Available Water"), size = 1) + #color=Method shape=Method, size=6) +
+  
+  # ICS counts as stacked bar
+  geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=Year),position="stack", stat="identity") +
+  
+  scale_fill_manual(name="Guide1",values = c(palGreys[1], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(3, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
+  ###scale_color_manual(name="Guide2", values=c("Black")) +
+  
+  scale_color_manual(name="Guide2", values = c(palBlues[7], palBlues[9]), labels = c("Available Water", paste0("Inflow (", cMethodsToPlot,")"))) +
+  #Add line for 9.0 maf
+  geom_hline(yintercept = lHistorialAllocation - lBaselinePlot, color="black", linetype = "longdash", size = 1.5) +
+  
+  # Set x-axis limits
+  xlim(min(dfUSBR_API_Agg$Year),max(dfUSBR_API_Agg$Year)) +
+  # Set the y-axis limits and breaks
+  scale_y_continuous(breaks=seq(-1,7,1), labels=c(1,0,seq(1,7,1) + lBaselinePlot)) +
+  
+  #Make one combined legend
+  guides(color = guide_legend(""), fill = guide_legend("Conservation Credits")) +
+  
+  #facet_wrap( ~ Source) +
+  labs(x="", y="Volume\n(million acre-feet per year)") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  
+  theme_bw() +  
+  theme(text = element_text(size=20))
+
+
+#########################
+# Figure 2. Time series of USGS inflow
+
+ggplot(data=dfGCFFlowsUSGS %>% filter(Year < cYear)) +
+  geom_line(aes(x = Year, y = MeadInflow))
 
 ##############
-###   FIGURE 2
+###   FIGURE 3
 ###   Plot ICS account balances over time
 ###############
 
@@ -535,7 +636,7 @@ ggplot() +
 
 
 ##############
-###   FIGURE 3
+###   FIGURE 4
 ###   Plot ICS deposits over time
 ###############
 
@@ -565,7 +666,7 @@ ggplot() +
 
 
 ##############
-###   FIGURE 4
+###   FIGURE 5
 ###   Plot Inflow by different methods as Time series
 ###############
 
@@ -590,7 +691,7 @@ ggplot() +
 
 
 ##############
-###   FIGURE 5
+###   FIGURE 6
 ###   Plot Inflow as histogram
 ###############
 
@@ -609,107 +710,6 @@ ggplot() +
   theme(text = element_text(size=20), 
         legend.position = "none")
 
-
-
-##############
-###   FIGURE 6
-###   Plot inflow, available water, and ICS deposits as stacked area and stacked bar plots
-###    Area for Inflow, Evaporation, Available Water
-###    Bar for portion of ICS deposits to count/not count when there was sufficient available water 
-###############
-
-lHistorialAllocation <- 9 # Historical allocations for California, Nevada, Arizona, and Mexico
-                          # Baseline to calculate values to show in figure
-lBaselinePlot <- 6   # Baseline value on plot from where bars for ICS deposits will show
-
-# Inflow method to use
-cMethodUse <- cMethods[1]
-
-## Join the Inflow and ICS dataframes
-dfInflowICS <- left_join(dfInflows %>% filter(Method == cMethodUse, Year < cYear), dfICSDeposit, by = c("Year" = "Year"))
-## Joint the Inflow, ICS, and evaporation data frames
-dfInflowICS <- left_join(dfInflowICS, dfUSBR_API_Agg %>% select(Year, Evaporation) %>% filter(Year < cYear), by = c("Year" = "Year"))
-#Convert ICS values to million-acre feet
-dfInflowICS$Arizona <- dfInflowICS$Arizona / 1e6
-dfInflowICS$California <- dfInflowICS$California / 1e6
-dfInflowICS$Nevada <- dfInflowICS$Nevada / 1e6
-dfInflowICS$Mexico <- dfInflowICS$Mexico / 1e6
-
-#Calculate Total ICS deposits each year (sum of positive values)
-dfInflowICS$TotalDeposit <- ifelse(dfInflowICS$Arizona > 0, dfInflowICS$Arizona, 0) +
-  ifelse(dfInflowICS$California > 0, dfInflowICS$California, 0) +
-  ifelse(dfInflowICS$Nevada > 0, dfInflowICS$Nevada, 0)
-
-#Calculate available water as inflow minus evaporation
-dfInflowICS$AvailableWater <- 0
-dfInflowICS$AvailableWater <- dfInflowICS$MeadInflow - dfInflowICS$Evaporation
-
-#Replace NAs with zeros
-dfInflowICS$TotalDeposit <- replace_na(dfInflowICS$TotalDeposit,0)
-
-# Calculate the ICS deposits to count when there was sufficient available water
-# There are 3 cases:
-#   1. Available water greater than historical allocations => Count all ICS deposits
-#   2. Available water between historical allocation and ICS amount => Count part of the ICS deposit
-#   3. Available water less than historical allocation minus ICS deposits => Count none
-dfInflowICS$CountICSDeposit <- 
-      # Case 1
-      ifelse(dfInflowICS$AvailableWater >= lHistorialAllocation, dfInflowICS$TotalDeposit, 0) +
-      # Case 2
-      ifelse((dfInflowICS$AvailableWater < lHistorialAllocation) & (dfInflowICS$AvailableWater >= lHistorialAllocation - dfInflowICS$TotalDeposit), dfInflowICS$TotalDeposit - (lHistorialAllocation - dfInflowICS$AvailableWater), 0) +
-      # Case 3
-      ifelse(dfInflowICS$AvailableWater <= lHistorialAllocation - dfInflowICS$TotalDeposit, 0, 0)
-  
-# Calculate the ICS deposit not to count as difference between the TotalDeposit and Deposit counted
-dfInflowICS$NotCountICSDeposit <- dfInflowICS$TotalDeposit - dfInflowICS$CountICSDeposit
-
-sprintf("Total conservation credits all years: %.1f maf", sum(dfInflowICS$TotalDeposit))
-sCreditTotals <- c(sprintf("Sufficient available water:\n%.1f maf", sum(dfInflowICS$CountICSDeposit)),
-        sprintf("Insufficient\navailable water:\n%.1f maf", sum(dfInflowICS$NotCountICSDeposit)))
-
-#Melt the CountICSDeposit and NotCount columns into a new dataframe to plot as a stacked bar
-cNamesInflowICS <- colnames(dfInflowICS)
-nNumCols <- length(cNamesInflowICS)
-
-dfICSCountMelt <- melt(data = dfInflowICS, id.vars = c("Year"), measure.vars = cNamesInflowICS[(nNumCols-1):nNumCols])
-
-
-ggplot() +
-  
-  #Ribbon from Inflow to available water
-  geom_ribbon(data = dfInflowICS, aes(x = Year, max = MeadInflow - lBaselinePlot, min = AvailableWater - lBaselinePlot, fill="Evaporation")) +
-  
-  #Inflow as line
-  geom_line(data = dfInflowICS, aes(x= Year, y = MeadInflow - lBaselinePlot, color = "Inflow"), size = 1) + #color=Method shape=Method, size=6) +
-  
-  #Available water as line
-    geom_line(data = dfInflowICS, aes(x= Year, y = AvailableWater - lBaselinePlot, color = "Available Water"), size = 1) + #color=Method shape=Method, size=6) +
-  
-  # ICS counts as stacked bar
-  geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=Year),position="stack", stat="identity") +
-  
-  scale_fill_manual(name="Guide1",values = c(palGreys[1], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(3, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
-  ###scale_color_manual(name="Guide2", values=c("Black")) +
-  
-  scale_color_manual(name="Guide2", values = c(palBlues[7], palBlues[9]), labels = c("Available Water", paste0("Inflow (", cMethodsToPlot,")"))) +
-  #Add line for 9.0 maf
-  geom_hline(yintercept = lHistorialAllocation - lBaselinePlot, color="black", linetype = "longdash", size = 1.5) +
-
-  # Set x-axis limits
-  xlim(min(dfUSBR_API_Agg$Year),max(dfUSBR_API_Agg$Year)) +
-  # Set the y-axis limits and breaks
-  scale_y_continuous(breaks=seq(-1,7,1), labels=c(1,0,seq(1,7,1) + lBaselinePlot)) +
-  
-  #Make one combined legend
-  guides(color = guide_legend(""), fill = guide_legend("Conservation Credits")) +
-  
-  #facet_wrap( ~ Source) +
-  labs(x="", y="Volume\n(million acre-feet per year)") +
-  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
-  #      legend.position = c(0.8,0.7))
-  
-  theme_bw() +  
-  theme(text = element_text(size=20))
 
 
 ##############
