@@ -296,7 +296,12 @@ pkg_data <- usbr_MeadData |>
 dfUSBR_API <- data.frame(pkg_data)
 
 # Save the API data to csv to improve reproducibility and in case no internet
-write.csv(dfUSBR_API, "dfUSBR_API.csv")
+# write.csv(dfUSBR_API, "dfUSBR_API.csv")
+
+# Read the api data from the csv file
+dfUSBR_API <- read.csv("dfUSBR_API.csv")
+# Remove the 1st field
+dfUSBR_API <- dfUSBR_API[,2:6]
 
 #Turn the SDID Code # into meaningful variable names
 dfSDIDcode <- data.frame(code = c(1776, 2091, 1721, 1874),
@@ -618,7 +623,7 @@ lHistorialAllocation <- 9 # Historical allocations for California, Nevada, Arizo
 lBaselinePlot <- 6   # Baseline value on plot from where bars for ICS deposits will show
 
 # Inflow method to use
-cMethodUse <- cMethods[4]
+cMethodUse <- cMethods[1]
 
 ## Join the Inflow and ICS dataframes
 dfInflowICS <- left_join(dfInflows %>% filter(Method == cMethodUse, Year < cYear), dfICSDeposit, by = c("Year" = "Year"))

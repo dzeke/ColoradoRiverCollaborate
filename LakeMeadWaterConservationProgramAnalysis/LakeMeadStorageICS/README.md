@@ -5,6 +5,9 @@ Generates a plot of Lake Mead Storage, Water Conservation Program Account Balanc
 Within the Colorado River basin, the Lake Mead water conservation program is called Intentionally Created Surplus (ICS) program for Lake Mead. This program is defined in the 2007 Interim Guidelines and 2019 Drought Contingency Plans (Reclamation, 2007; 2019). 
 
 In the voluntary conservation program, states reduce use from their historical allocations, leave the conserved water in Lake Mead, and withdraw the conserved water at a future date under certain restrictions.
+
+The plot supports the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
+
 Dr. David Rosenberg
 
 david.rosenberg@usu.edu
