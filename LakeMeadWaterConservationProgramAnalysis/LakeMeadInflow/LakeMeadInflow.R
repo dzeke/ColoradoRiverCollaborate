@@ -593,83 +593,10 @@ ggplot() +
   theme_bw() +  
   theme(text = element_text(size=20))
 
-
-#########################
-# Figure 2. Time series of USGS inflow
-
-ggplot(data=dfGCFFlowsUSGS %>% filter(Year < cYear)) +
-  geom_line(aes(x = Year, y = MeadInflow))
-
 ##############
-###   FIGURE 3
-###   Plot ICS account balances over time
-###############
-
-ggplot() +
-  
-  geom_bar(data=dfICSBalanceMelt %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
-  
-  #geom_hline(yintercept = nMaxBalance$Total[2]/1e6, size = 2) +
-  #geom_line(data=dfMaxBalance, aes(color="Max Balance", y=MaxBal/1e6,x=Year), size=2) +
-  
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
-  scale_color_manual(name="Guide2", values=c("Black")) +
-  
-  #scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
-  
-  #Secondary scale with total max balance
-  #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[2])/1e6, labels = c("Max Balance"))) +
-  
-  #Secondary scale with individual state max balances
-  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1)) + #, sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
-  
-  
-  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color=FALSE) +
-  
-  
-  theme_bw() +
-  
-  labs(x="", y="Intentionally Created Surplus\nAccount Balance\n(MAF)") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), 
-        legend.text=element_text(size=18),
-        legend.position= c(0.1,0.80))
-
-
-##############
-###   FIGURE 4
-###   Plot ICS deposits over time
-###############
-
-ggplot() +
-  
-  geom_bar(data=dfICSDepositMelt, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
-  #geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
-  #geom_line(data=dfMaxAnnualAmounts, aes(color="Max Withdrawal", y=-MaxWithdraw/1e6,x=Year), size=2) +
-  
-  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
-  scale_color_manual(name="Guide2", values=c("Black","Black")) +
-  
-  scale_x_continuous(breaks=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2),labels=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2)) +
-  #scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[1],-nMaxBalance$Total[3])/1e6, labels = c("Max Deposit","Max Withdraw"))) +
-  
-  #scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), limits = c(0,as.numeric(dfMaxStor %>% filter(Reservoir %in% c("Mead")) %>% select(Volume))),
-  #                  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfMeadPoolsPlot$stor_maf, labels = dfMeadPoolsPlot$label)) +
-  
-  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
-  
-  
-  theme_bw() +
-  
-  labs(x="", y="Deposit to Intentionally Created Surplus Account\n(MAF per year)") +
-  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
-        legend.position= c(1.075,0.5))
-
-
-##############
-###   FIGURE 5
+###   FIGURE 2
 ###   Plot Inflow by different methods as Time series
 ###############
-
 
 ggplot() +
   #Data after 1989
@@ -690,71 +617,8 @@ ggplot() +
   theme(text = element_text(size=20))
 
 
-##############
-###   FIGURE 6
-###   Plot Inflow as histogram
-###############
-
-
-ggplot() +
-  geom_histogram(data = dfInflowsToPlot %>% filter(Year < cYear), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Blue") +
-  #geom_histogram(data = dfInflowsToPlot %>% filter(Method %in% cMethodsToPlot[2]), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Red") +
-  
-  facet_grid(. ~ Method) +
-  
-  theme_bw() +
-  
-  labs(x="Lake Mead Inflow\n(MAF per year)", y="Number of Years") +
-  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
-  #      legend.position = c(0.8,0.7))
-  theme(text = element_text(size=20), 
-        legend.position = "none")
-
-
-
-##############
-###   FIGURE 7
-###   Plot Inflow, Evaporation Table Look up, and Available water
-###############
-
-ggplot() +
-  
-  #Evaporation
-  geom_point(data = dfUSBR_FromEvapTable, aes(x = Year, y = Evaporation, color = "Evaporation"), shape = 15, size = 6) + #color=Method shape=Method, size=6) +
-  
-  #Add error bars to data points
-  #Mead
-  
-  geom_errorbar(data=dfUSBR_FromEvapTable, aes(x=Year, ymin=Evaporation - EvaporationRange/2, ymax=EvaporationFromTable + EvaporationRange/2), width=.005,
-                position=position_dodge(0.2), color="black", show.legend = FALSE) +
-  #Inflow
-  geom_point(data = dfUSBR_FromEvapTable, aes(x = Year, y = MeadInflow, color = "Inflow"), shape = 16, size = 6) + #color=Method shape=Method, size=6) +
-  
-  #Available water = Inflow - evaporation
-  geom_point(data = dfUSBR_FromEvapTable, aes(x = Year, y = MeadInflow - Evaporation, color = "Available Water"),  shape = 17,  size = 6) + #color=Method shape=Method, size=6) +
-  
-  #Add line for 9.0 maf
-  geom_hline(yintercept = 9, color="red", linetype = "dashed") +
-  
-  scale_fill_manual(values = cColorsToPlot) +
-
-  # Set x-axis limits
-  xlim(min(dfUSBR_API_Agg$Year),max(dfUSBR_API_Agg$Year)) +
-
-  #Make one combined legend
-  guides(color = guide_legend("Dataset"), shape = guide_legend("Dataset")) +
-  
-  #facet_wrap( ~ Source) +
-  labs(x="", y="Volume\n(MAF per year)") +
-  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
-  #      legend.position = c(0.8,0.7))
-  
-  theme_bw() +  
-  theme(text = element_text(size=20))
-
-
 #################
-###   FIGURE 8
+###   FIGURE 3
 ###   Plot Mead Inflow as a box-and-whisker by different methods
 #################
 
@@ -776,13 +640,35 @@ ggplot() +
   theme(text = element_text(size=20), 
         legend.position = "none")
 
+
+
+##############
+###   FIGURE 4
+###   Plot Inflow as histogram
+###############
+
+ggplot() +
+  geom_histogram(data = dfInflowsToPlot %>% filter(Year < cYear), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Blue") +
+  #geom_histogram(data = dfInflowsToPlot %>% filter(Method %in% cMethodsToPlot[2]), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Red") +
+  
+  facet_grid(. ~ Method) +
+  
+  theme_bw() +
+  
+  labs(x="Lake Mead Inflow\n(MAF per year)", y="Number of Years") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  theme(text = element_text(size=20), 
+        legend.position = "none")
+
+
 #Reshape the data so Methods are in columns
 dfInflowsWide <- dcast(dfInflowsToPlot, WaterYear ~ Method, value.var = "MeadInflow")
 dfInflowsWide$Diff <-  dfInflowsWide$`USGS Gages` - dfInflowsWide$`USBR Application Program Interface`
 
 
 #################
-###   FIGURE 9
+###   FIGURE 5
 ###   Show the correlation between USGS and USBR estimates of inflow
 #################
 
@@ -833,7 +719,7 @@ ggplot() +
 
 
 #################
-###   FIGURE 10
+###   FIGURE 6
 ###   Show the difference between USGS and USBR methods to estimate inflow
 #################
 
@@ -841,7 +727,7 @@ ggplot() +
   #Points after 1990 in Blue and Red
   #geom_point(data = dfInflowsWide, aes(x= `USBR Application Program Interface`, y=`USGS Gages`),  size = 6) + #color=Method shape=Method, size=6) +
  
-  geom_point(data = dfInflowCompare, aes(x= WaterYear, y=Diff),  size = 6) + #color=Method shape=Method, size=6) +
+  geom_point(data = dfInflowCompare %>% filter(Year < cYear), aes(x= Year, y=`USGS Gages` - `USBR API Inflow`),  size = 6) + #color=Method shape=Method, size=6) +
   
   #geom_point(data = dfGCFDataToUse %>% filter(WaterYear < 1990), aes(x= LeeFerryNaturalFlow, y=MeadInflow, color="Natural Flow pre 1990", shape="Natural Flow pre 1990"), size=6) +
 
@@ -868,7 +754,7 @@ ggplot() +
 
 
 ##############
-###   FIGURE 11
+###   FIGURE 7
 ###   Plot API Evaporation vs Table Look up
 #############
 
@@ -905,7 +791,80 @@ ggplot() +
   theme(text = element_text(size=20))
 ##
 
+#########################
+# Figure 8. Time series of USGS inflow
 
+ggplot(data=dfGCFFlowsUSGS %>% filter(Year < cYear)) +
+  geom_line(aes(x = Year, y = MeadInflow))
+
+##############
+###   FIGURE 9
+###   Plot ICS account balances over time
+###############
+
+ggplot() +
+  
+  geom_bar(data=dfICSBalanceMelt %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  
+  #geom_hline(yintercept = nMaxBalance$Total[2]/1e6, size = 2) +
+  #geom_line(data=dfMaxBalance, aes(color="Max Balance", y=MaxBal/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
+  scale_color_manual(name="Guide2", values=c("Black")) +
+  
+  #scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
+  
+  #Secondary scale with total max balance
+  #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[2])/1e6, labels = c("Max Balance"))) +
+  
+  #Secondary scale with individual state max balances
+  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1)) + #, sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
+  
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color=FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Intentionally Created Surplus\nAccount Balance\n(MAF)") +
+  theme(text = element_text(size=20),  legend.title = element_blank(), 
+        legend.text=element_text(size=18),
+        legend.position= c(0.1,0.80))
+
+
+##############
+###   FIGURE 10
+###   Plot ICS deposits over time
+###############
+
+ggplot() +
+  
+  geom_bar(data=dfICSDepositMelt, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  #geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
+  #geom_line(data=dfMaxAnnualAmounts, aes(color="Max Withdrawal", y=-MaxWithdraw/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(palBlues[3],palBlues[6],palBlues[9]),breaks=cColNames[1:3]) +
+  scale_color_manual(name="Guide2", values=c("Black","Black")) +
+  
+  scale_x_continuous(breaks=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2),labels=seq(min(dfICSDepositMelt$Year),max(dfICSDepositMelt$Year),by=2)) +
+  #scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[1],-nMaxBalance$Total[3])/1e6, labels = c("Max Deposit","Max Withdraw"))) +
+  
+  #scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), limits = c(0,as.numeric(dfMaxStor %>% filter(Reservoir %in% c("Mead")) %>% select(Volume))),
+  #                  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfMeadPoolsPlot$stor_maf, labels = dfMeadPoolsPlot$label)) +
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Deposit to Intentionally Created Surplus Account\n(MAF per year)") +
+  theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=18),
+        legend.position= c(1.075,0.5))
+
+
+
+####################################
+######################################
 # Not working beyond here
 
 ## Show the correlation matrix
