@@ -179,10 +179,27 @@ fig1
 ###########
 ### Plot #2. Stacked bar chart of deposits to ICS accounts by state by year
 
-#Calcualte deposits each year the differences by year
-dfICSDeposit <- data.frame(diff(as.matrix(dfICSBalance %>% select(Arizona,California,Nevada,Mexico,Total,Year))))
-#Put the correct year back in
-dfICSDeposit$Year <- dfICSBalance$Year[1:nrow(dfICSDeposit)]
+# Calculate credits/debits each year
+if (FALSE) {
+  #Read from Excel
+  dfICSDeposit <- read_excel(sExcelFile, sheet = "Deposits")
+
+  } else {
+  # Calculate from ICS balances as differences by year
+    
+  # Add a row of zeros year for the year before the first year
+  cFirstICSYear <- min(dfICSBalance$Year)
+  dfICSBalanceFirstYear <- dfICSBalance[1,]
+  dfICSBalanceFirstYear[1, 2:(ncol(dfICSBalanceFirstYear))] <- 0
+  dfICSBalanceFirstYear$Year <- cFirstICSYear - 1
+  dfICSBalanceFirstYear$Item <- paste("Balance - Dec",as.character(cFirstICSYear - 1) ,"(AF)")
+  
+  dfICSBalanceAll <- rbind(dfICSBalanceFirstYear, dfICSBalance)
+  
+  dfICSDeposit <- data.frame(diff(as.matrix(dfICSBalanceAll %>% select(Arizona,California,Nevada,Mexico,Total,Year))))
+  #Put the correct year back in
+  dfICSDeposit$Year <- dfICSBalance$Year[1:nrow(dfICSDeposit)]
+  }
 #Melt the data so state columns become a variable
 dfICSDepositMelt <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cColNames[2:4])
 
@@ -209,7 +226,7 @@ fig2 <- ggplot() +
   
   theme_bw() +
   
-  labs(x="", y="Credits and Debits to\nLake Mead Water Conservation Accounts\n(MAF per year)") +
+  labs(x="", y="Credits (+) and Debits (-) to\nLake Mead Water Conservation Accounts\n(MAF per year)") +
   theme(text = element_text(size=lFontSize ),  
         axis.text.y = element_text(size = lFontSize),
         legend.title = element_blank(),
