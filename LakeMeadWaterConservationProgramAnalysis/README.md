@@ -37,6 +37,7 @@ Open the file **LakeMeadWaterConservationProgramAnalysis.pdf**
 ## Requested Citation
 David E. Rosenberg (2024), “Lake Mead Water Conservation Program Analysis.” Utah
 State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterConservationProgramAnalysis.
+
 ## References
 1. USBR. (2019). "Agreement Concerning Colorado River Drought Contingency Management and Operations." U.S. Bureau of Reclamation, Washington, DC. https://www.usbr.gov/dcp/finaldocs.html
 1. USBR. (2007). "Record of Decision: Colorado River Interim Guidelines for Lower Basin Shortages and Coordinated Operations for Lakes Powell and Mead." U.S. Bureau of Reclamation. https://www.usbr.gov/lc/region/programs/strategies/RecordofDecision.pdf.

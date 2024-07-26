@@ -276,7 +276,7 @@ dfGCFFlowsUSGS$Method <- cMethods[1]
 ##
 
 
-if (FALSE){
+if (TRUE){
   # Query the USBR API
   # Construct the USBR API call by reading data up to the prior month
   usbr_url <- paste0("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1990-01-01T00:00&t2=", sDate, "T00:00&table=R&mrid=0&format=html")
@@ -570,10 +570,12 @@ ggplot() +
   # ICS counts as stacked bar
   geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=Year),position="stack", stat="identity") +
   
-  scale_fill_manual(name="Guide1",values = c(palGreys[1], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(3, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
+  scale_fill_manual(name="Guide1",values = c(palGreys[3], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(10, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
   ###scale_color_manual(name="Guide2", values=c("Black")) +
   
-  scale_color_manual(name="Guide2", values = c(palBlues[7], palBlues[9]), labels = c("Available Water", paste0("Inflow (", cMethodsToPlot,")"))) +
+  scale_color_manual(name="Guide2", values = c(palBlues[9], palBlues[7]), 
+                     breaks = c("Inflow","Available Water"),
+                     labels = c(paste0("Inflow (", cMethodUse,")"),"Available Water")) +
   #Add line for 9.0 maf
   geom_hline(yintercept = lHistorialAllocation - lBaselinePlot, color="black", linetype = "longdash", size = 1.5) +
   
@@ -583,7 +585,7 @@ ggplot() +
   scale_y_continuous(breaks=seq(-1,7,1), labels=c(1,0,seq(1,7,1) + lBaselinePlot)) +
   
   #Make one combined legend
-  guides(color = guide_legend(""), fill = guide_legend("Conservation Credits")) +
+  guides(color = guide_legend(""), fill = guide_legend("")) +
   
   #facet_wrap( ~ Source) +
   labs(x="", y="Volume\n(million acre-feet per year)") +
