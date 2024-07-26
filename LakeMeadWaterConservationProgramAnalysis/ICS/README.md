@@ -5,7 +5,12 @@ Within the Colorado River basin, the Lake Mead water conservation program is cal
 
 In the voluntary conservation program, states reduce use from their historical allocations, leave the conserved water in Lake Mead, and withdraw the conserved water at a future date under certain restrictions.
 
-The plots compare the water conservation account balances to withdraw limits and mandatory conservation targets. The plots support the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
+The plots:
+
+1. Water conservation account balances and maximum limits.
+1. Water conservation account credits and debits and maximum limits.
+
+The plots support the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
 
 Program data are compiled from annual water accounting reports (Reclamation, 2024).
 
@@ -33,8 +38,8 @@ Open the file **[ICS-Plots.pdf](https://github.com/dzeke/ColoradoRiverCoding/raw
 1. **dfICSBalanceMelt.csv** - Comma separated values file of water conservation program account balances read in from the IntentionallyCreatedSurplusSummary.xlsx file. Used for reproducibility and in other programming efforts that require ICS data.
 1. **dfICSDeposit.csv** - Comma separated values file of water conservation program account deposits and withdraws (wide version) read in from the IntentionallyCreatedSurplusSummary.xlsx file. Used for reproducibility and in other programming efforts that require ICS data.
 1. **dfICSBalanceDepositMelt.csv** - Comma separated values file of water conservation program account deposits and withdraws (narrow version) read in from the IntentionallyCreatedSurplusSummary.xlsx file. Used for reproducibility and in other programming efforts that require ICS data.
-1. **ICS-Figure1.png** - A png file of Figure 1.
-1. **ICS-Figure2.png** - A png file of Figure 2.
+1. **ICS-Figure1.png** - A png file of Water Conservation Account Balances (Figure 1).
+1. **ICS-Figure2.png** - A png file of Water Conservation Account Credits and Debits (Figure 2).
 
 ## Requested Citation
 David E. Rosenberg (2024), “Lake Mead Storage and Water Conservation Account Balances.” Utah
