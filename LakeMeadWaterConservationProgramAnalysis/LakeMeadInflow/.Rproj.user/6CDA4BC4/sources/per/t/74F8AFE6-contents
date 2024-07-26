@@ -570,7 +570,7 @@ nNumCols <- length(cNamesInflowICS)
 dfICSCountMelt <- melt(data = dfInflowICS, id.vars = c("Year"), measure.vars = cNamesInflowICS[(nNumCols-1):nNumCols])
 
 
-ggplot() +
+fig1 <- ggplot() +
   
   #Ribbon from Inflow to available water
   geom_ribbon(data = dfInflowICS, aes(x = Year, max = MeadInflow - lBaselinePlot, min = AvailableWater - lBaselinePlot, fill="Evaporation")) +
@@ -608,6 +608,9 @@ ggplot() +
   
   theme_bw() +  
   theme(text = element_text(size=20))
+
+fig1
+ggsave("LakeMeadInflow-Figure1.png", fig1)
 
 ##############
 ###   FIGURE 2

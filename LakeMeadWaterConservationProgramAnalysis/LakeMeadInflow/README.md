@@ -37,11 +37,5 @@ Open the file **LakeMeadInflow.pdf**.
 1. **USGSInterveningFlowData.xlsx** - Excel data with USGS data for Colorado River near Peach Springs [9404200], Colorado River at Lees Feery [9382000], and Virign River at Littlefield [9415000] downloaded from USGS data service.
 
 ## Requested Citation
-David E. Rosenberg (2020). "Grand Canyon Intervening Flow". Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCoding/tree/main/GrandCanyonInterveningFlow.
+David E. Rosenberg (2020). "Lake Mead Inflow". Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterConservationProgramAnalysis/LakeMeadInflow
 
-## References
-Prairie, J. (2020). "Colorado River Basin Natural Flow and Salt Data." U.S. Bureau of Reclamation. https://www.usbr.gov/lc/region/g4000/NaturalFlow/current.html.
-
-Salehabadi, H., and D. Tarboton (2020), Sequence-Average and Cumulative Flow Loss Analyses for Colorado River Streamflow at Lees Ferry, edited, Hydroshare. http://www.hydroshare.org/resource/bbe8dffacb07458783b2e6924aa615bb.
-
-Wang, J., and Schmidt, J. C. (2020). "Stream flow and Losses of the Colorado River in the Southern Colorado Plateau." Center for Colorado River Studies, Utah State University, Logan, Utah. https://qcnr.usu.edu/coloradoriver/files/WhitePaper5.pdf.
