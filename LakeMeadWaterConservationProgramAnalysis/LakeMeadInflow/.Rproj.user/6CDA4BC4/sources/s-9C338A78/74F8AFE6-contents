@@ -86,7 +86,21 @@
 #
 #     This code file modifies and adds to a prior coding effort -- Grand Canyon Intervening flow available at https://github.com/dzeke/ColoradoRiverCoding/tree/main/GrandCanyonInterveningFlow
 #
-#    
+#
+#
+#    Generates the following figures
+#     1. Lake Mead Inflow, Evaporation, Available Water, and water conservation credits
+#     2. Inflow timeseries by the first four inflow methods.
+#     3. Inflow box-and-whiskers for the first four inflow methods.
+#     4. Inflow histograms for the first four inflow methods.
+#     5. Correlation between USGS Gaged flow, Reclamation Inflow, and Inflow estimated by back calculation of inflow. Includes linear regressions.
+#     6. Difference in Lake Mead Inflow USGS Gages and Reclamation API
+#     7. Correlation between evaporation reported by USBR API and Evaporation estimated by table
+#     8. Time series of USGS gaged inflow
+#     9. ICS account balances
+#     10. ICS deposits.
+
+
 #
 #     David E. Rosenberg
 #     May 10, 2021
@@ -665,7 +679,7 @@ ggplot() +
 
 
 #Reshape the data so Methods are in columns
-dfInflowsWide <- dcast(dfInflowsToPlot, WaterYear ~ Method, value.var = "MeadInflow")
+dfInflowsWide <- dcast(dfInflowsToPlot, Year ~ Method, value.var = "MeadInflow")
 dfInflowsWide$Diff <-  dfInflowsWide$`USGS Gages` - dfInflowsWide$`USBR Application Program Interface`
 
 
