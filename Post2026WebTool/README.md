@@ -22,7 +22,9 @@ A 6th ensamble includes a grouping of other previously used ensambles (Stress te
 
 ## View Results
 1. Open the file **[DMDU-Performance.xlsx](DMDU-Performance.xlsx)**
-1. Navigate to the worksheet **PivotTable**.
+1. Navigate to the worksheet **PivotTable**. This table will appear:
+
+![PivotTable results](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/Post2026WebTool/ResultsScreenCapture.png "Key Results")
 
 ## Requirements to Run
 * A web browser that can support the DMDU Tool.
