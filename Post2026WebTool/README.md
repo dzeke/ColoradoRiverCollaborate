@@ -80,7 +80,8 @@ the direction of "acceptability" because the converse condition is not possible(
 1. Set unacceptability Condition 2 to "Glen Canyon Dam Water Year Release exceeds Threshold of 6 million acre-feet in 100%." Again, we use the converse because it does not make sense to say a Glen Canyon Dam water year release
 falls below 6 maf in 0% of years.
 1. Click **Calculate Vulnerability**.
-1. 
+1. In the ranked order bar plot note that none of alternatives have an acceptability of 100% (i.e., unacceptable in some futures).
+
 
 Note: These steps do **not** engage the **Robustness** and **Vulnerability** analyses within the Webtool because we are only interested in reservoir performance under extreme conditions of low reservoir storage and low reservoir inflow.
 ## Explanation of Contents
