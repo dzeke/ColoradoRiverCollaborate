@@ -41,16 +41,17 @@ Note - there are a lot of "by-hand" instructions because there is no way to auto
 Pay particular attention to the file on the **Welcome** => **Resource Center** (top, right) => **Technical Information** => **[What Hydrologies are included](https://tool.crbpost2026dmdu.org/www/pdf/en/powell/web_tool_hydrology.pdf)**. This document describes the hydrology ensambles used.
 1. When ready, click the **Upload Session File** on the top.
 1. Select **Browse** and navigate the the folder on your harddrive where you downloaded this repository.
-1. Select the file *dmdu-2024-10-11.json*. This file loads the session with the most recent settings used to query the database of 700+ alternatives and show results over various filters.
+1. Select the file **dmdu-2024-10-11.json**. This file loads the session with the most recent settings used to generate results. This file specifies filters for the database of 700+ alternatives simulated over all the hydrologies used used in this analysis.
 1. Click the **Operational Strategies** on the left menu. Read the documentation for the strategies (Overview, Operational Paradigms, Lake Powell Release Concepts, Lower Basin Delivery Concepts).
-1. Click the **Operational Strategies Suite** tab (top). A table with 5 selected strategies (associated with the session loaded in step 5.2]) will appear in a pop-out window. The strategies are:
+1. Click the **Operational Strategies Suite** tab (top). A table with 5 selected strategies (associated with the session loaded in step 7) will appear in a pop-out window. The strategies are:
 1. STGY85558, 49068, 89269, 98230, 95580, 26992.
-1. These strategies were choosen because they were either a (i) Running Average Inflow Lake Powell release concept with a low number of years of lookback (1 or 3), or (ii) had zero months of drawdown below Powell Elevation 3,490 feet in one
-one of the hydrology ensables explored in the performance tab (next step).
+1. These strategies were choosen because they were either a (i) 'Running Average Inflow' Lake Powell release concept with a low number of years of lookback (1 or 3 years) anticipated to keep Lake Powell above minimum power pool, or (ii) had zero months of drawdown below Powell Elevation 3,490 feet in one
+one of the hydrology ensambles explored in the performance tab (next step). The *Running Average Inflow* paradigm limits release to the average of inflow in the prior number of specified years. An additional 
+*Run of river* operation kicks in and limits release to be equal or less than inflow.
 1. The table was also downloaded and appears in **DMDU-Performance.xlsx** on the **Strategies** worksheet.
 1. These strategies will appear in highlighted colors through the next steps.
 1. Click **Performance** on the left menu.
-1. On the **Choose metrics for the axes** note that *Glen Canyon Dam Water Year Release | Minimum* and *Powell Monthly Pool Elevations Less Than 3,490 feet | Percent of Months* are selected.
+1. On the **Choose metrics for the axes** note that **Glen Canyon Dam Water Year Release | Minimum** and **Powell Monthly Pool Elevations Less Than 3,490 feet | Percent of Months** are selected.
 1. Notice also that the **Choose Hydrology Set** is set to *Default/Optimization*.
 1. Click the **Update Plot** button.
 1. In the parallel axis plot notice the choosen strategies are highlighted. See also the table below.
