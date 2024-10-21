@@ -1,7 +1,7 @@
 # Reclamation Web Tool - Minimum Glen Canyon Dam Annual Release to protect Lake Powell Minimum Power Pool
 
 This repository shares results that summarize analysis in Reclamations Post-2026 Operations Exploration Tool with the goal to identify 
-minimum Glen Canyon Dam annual releases needed to protect Lake Powell from drawdown below elevation 3,490 feet (Minimum power pool). 
+minimum Glen Canyon Dam annual releases needed to protect Lake Powell from drawdown below elevation 3,490 feet (Minimum power pool). More specifically, we are looking for reservoir performance during extreme conditions of low reservoir storage and low inflows.
 This analysis includes results across the 6 hydrologic ensambles available in the webtool. The web tool is also call a decision making under deep uncertainty (DMDU) tool.
 
 Link to Reclamation's Website for the tool - https://tool.crbpost2026dmdu.org/.
@@ -16,7 +16,7 @@ The 5 storyline hydrologic ensambles are:
 A 6th ensamble includes a grouping of other previously used ensambles (Stress test, CMIP5-LOCA kNN, Post-Pluvial NPC Temp-Adjusted, Paleo Drought Resampled, CMIP3 NPC)
 1. Default optimization (33 + 64 + 100 + 50 + 153 = 290 traces).
  
-## Key Findings
+## Key Findings and Insights
 1. Need Glen Canyon Dam annual release from 4.0 to 6.0 million acre-feet per year to protect Lake Powell drawdown below elevation 3,490 feet across the 5 storyline ensambles.
 1. Only two alternatives within the database are able to prevent drawdown below elevation 3,490 feet across **all** ensambles.
 1. Both alternatives have a Lake Powell release paradigm of *Running Average Inflow*. These alternatives will have unsatisfactory operations above Lake Powell elevation 3,525 feet.
@@ -33,6 +33,8 @@ A 6th ensamble includes a grouping of other previously used ensambles (Stress te
 
 ## Directions to Reproduce Results
 Note - there are a lot of "by-hand" instructions because there is no way to automate steps in the Web tool.
+
+**Start-up**
 1. Navigate to the website https://tool.crbpost2026dmdu.org/.
 1. If needed, create a user name and password.
 1. Log into the website using credentials created in Step #2.
@@ -50,25 +52,43 @@ one of the hydrology ensambles explored in the performance tab (next step). The 
 *Run of river* operation kicks in and limits release to be equal or less than inflow.
 1. The table was also downloaded and appears in **DMDU-Performance.xlsx** on the **Strategies** worksheet.
 1. These strategies will appear in highlighted colors through the next steps.
+
+**Performance**
 1. Click **Performance** on the left menu.
 1. On the **Choose metrics for the axes** note that **Glen Canyon Dam Water Year Release | Minimum** and **Powell Monthly Pool Elevations Less Than 3,490 feet | Percent of Months** are selected.
 1. Notice also that the **Choose Hydrology Set** is set to *Default/Optimization*.
 1. Click the **Update Plot** button.
 1. In the parallel axis plot notice the choosen strategies are highlighted. See also the table below.
 1. Copy results shown in the table -- *Strategy ID, Powell < 3,490 | Pct of Mos (%)* and *GCD WY Rel | Min (maf)* into the file **DMDU-Performance.xlsx** => **Data** worksheet.
-1. Go back up to the **Choose Hydrology Set** dropdown. Select the next ensamblem **Late 2030s Drought**. 
-1. Repeat Steps 16 to 19 for each hydrology ensamblem.
-1. Notice that as you cycle through the ensamblems, that one or more of the highlighted strategies (dark colors) cross the Powell < 3,490 axis at 0% and appear as flat (or near flat) lines across the top of the parallel axis plot to the second GLD WY Rel | Min axes.
+1. Go back up to the **Choose Hydrology Set** dropdown. Select the next ensamble **Late 2030s Drought**. 
+1. Repeat Performance Steps 3 to 6 for each hydrology ensamble.
+1. Notice that as you cycle through the ensambles, that one or more of the highlighted strategies (dark colors) cross the Powell < 3,490 axis at 0% and appear as flat (or near flat) lines across the top of the parallel axis plot to the second GLD WY Rel | Min axes.
 These are the scenarios of most interest because they keep Lake Powell above 3,490 feet in **all** traces *and* they have a relatively high minimum Glen Canyon Dam water year release.
-1. Last, in the **DMDU-Performance.xlsx** file, select the worksheet **PivotTable**. In the **PivotTable Analyze** Tab, select the Data => **Refresh** button to load the newly copied data in the table.
+1. Last, in the **DMDU-Performance.xlsx** file, select the worksheet **PivotTable**. In the **PivotTable Analyze** Tab, select the **Data** => **Refresh** button to load the newly copied data in the table.
 1. Screen captures of the parallel axis plots and tables for each hydrology ensamblem also are saved in the file **DMDUResultsFigures.docx**.
 
+**Robustness**
+1. Click **Robustness** on the left menu.
+1. Notice there are two conditions of acceptability selected: 1)  Powell Monthly Pool Elevation stays above 3,490 Feet in 100% (360 months) or more of the next 30 years AND 2) the Glen Canyon Dam Water Year Release stays above 6 Million Acre-Feet in 100% (30 years) or more of the next 30 years.
+1. Click the button **Calculate Robustness**.
+1. Notice on the ranked ordered bar plot that the largest percent of acceptable futures is ~ 80%. This result means there ar **NO** scenarios where a Glen Canyon Dam annual release above 6 million acre-feet per year will keep the Lake Powell elevation above 3,490 feet in all years.
+
+**Vulnerability**
+1. Click the **Vulnerability** Tab on the left menu.
+1. Set unacceptability Condition 1 to "Powell Monthly Pool Elevation" *exceeds* 3,490 feet Threshold value 100% of the time over a 30-year time horizon. Note, here we are switching
+the direction of "acceptability" because the converse condition is not possible(i.e., Powell Monthly Pool Elevation below 3,490 feet in 0% years over 30-year time horizon).
+1. Set unacceptability Condition 2 to "Glen Canyon Dam Water Year Release exceeds Threshold of 6 million acre-feet in 100%." Again, we use the converse because it does not make sense to say a Glen Canyon Dam water year release
+falls below 6 maf in 0% of years.
+1. Click **Calculate Vulnerability**.
+1. 
+
+Note: These steps do **not** engage the **Robustness** and **Vulnerability** analyses within the Webtool because we are only interested in reservoir performance under extreme conditions of low reservoir storage and low reservoir inflow.
 ## Explanation of Contents
-1. **DMDU-Performance.xlsx** - Excel file with values of 'Lake Powell elevation below 3,490 feet (percent of months)' and 'Glen Canyon Dam Minimum Water Year Release' for each alternative in each hydrology ensamblem. These values were copied
+1. **DMDU-Performance.xlsx** - Excel file with values of 'Lake Powell elevation below 3,490 feet (percent of months)' and 'Glen Canyon Dam Minimum Water Year Release' for each alternative in each hydrology ensamble. These values were copied
 from the **Performance** Tab within the webtool.
-1. **DMDU-ResultsFigures.docx** - Word file with screen captures of the parallel axis plots and tables for each hydrology ensamblem.
+1. **DMDU-ResultsFigures.docx** - Word file with screen captures of the parallel axis plots and tables for each hydrology ensamble.
 1. **ResultsScreenCapture.png** - Screen capture of the worksheet **PivotTable** in the Excel File **DMDU-Performance.xlsx**.
-1. **dmdu-2024-10-11.json** - File with webtool session saved data. This file stores data such as selected alternatives and performance metrics. This file is selected in Step 7 above.
+1. **dmdu-2024-10-11.json** - File with webtool session saved data on October 11, 2024. This file stores data such as selected alternatives and selected performance metrics. This file is selected in Step 7 above.
 1. **HydrologyTraces** Folder - Folder with meta set of hydrology ensambles and traces reported by Salehabadi et al. (2024).
 
 ## Requested Citation
