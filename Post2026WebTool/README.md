@@ -82,18 +82,17 @@ falls below 6 maf in 0% of years.
 1. Click **Calculate Vulnerability**.
 1. In the ranked order bar plot note that none of alternatives have an acceptability of 100% (i.e., unacceptable in some futures).
 
-
-Note: These steps do **not** engage the **Robustness** and **Vulnerability** analyses within the Webtool because we are only interested in reservoir performance under extreme conditions of low reservoir storage and low reservoir inflow.
 ## Explanation of Contents
 1. **DMDU-Performance.xlsx** - Excel file with values of 'Lake Powell elevation below 3,490 feet (percent of months)' and 'Glen Canyon Dam Minimum Water Year Release' for each alternative in each hydrology ensamble. These values were copied
 from the **Performance** Tab within the webtool.
 1. **DMDU-ResultsFigures.docx** - Word file with screen captures of the parallel axis plots and tables for each hydrology ensamble.
 1. **ResultsScreenCapture.png** - Screen capture of the worksheet **PivotTable** in the Excel File **DMDU-Performance.xlsx**.
 1. **dmdu-2024-10-11.json** - File with webtool session saved data on October 11, 2024. This file stores data such as selected alternatives and selected performance metrics. This file is selected in Step 7 above.
-1. **HydrologyTraces** Folder - Folder with meta set of hydrology ensambles and traces reported by Salehabadi et al. (2024).
+1. **HydrologyTraces** - Folder with meta set of hydrology ensambles and traces reported by Salehabadi et al. (2024).
+1. **OldSessionFiles** - Folder with session files of prior earlier model sessions from September and October 2024.
 
 ## Requested Citation
-David E. Rosenberg (2024), “Reclamation Web Tool - Minimum Glen Canyon Dam Annual Release to protect critical elevations” Utah State University. Logan, Utah.
+David E. Rosenberg (2024), “Reclamation Web Tool - Minimum Glen Canyon Dam Annual Release to protect Lake Powell minimum power pool.” Utah State University. Logan, Utah.
 https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/Post2026WebTool.
 
 ## References
