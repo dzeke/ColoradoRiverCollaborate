@@ -31,18 +31,18 @@ A 6th ensamble includes a grouping of other previously used ensambles (Historica
 ## Directions to Reproduce Results
 1. Navigate to the website https://tool.crbpost2026dmdu.org/.
 1. If needed, create a user name and password.
-1. Log into the website using credentials creased in Step #2.
+1. Log into the website using credentials created in Step #2.
 1. Select the **Welcome** Tab from the left menu. Read the documentation plus instructions to start (Tool 101, Resource Center, Video, New User, Learn About Paradigms, Explore Operational Strategies).
 1. When ready, click the **Upload Session File** on the top.
-1.1. Select **Browse** and navigate the the folder on your harddrive where you downloaded this repository.
-1.1. Select the file *dmdu-2024-10-11.json*. This file loads the session with the most recent settings used to query the database of 700+ alternatives and show results over various filters.
+  1. Select **Browse** and navigate the the folder on your harddrive where you downloaded this repository.
+  2. Select the file *dmdu-2024-10-11.json*. This file loads the session with the most recent settings used to query the database of 700+ alternatives and show results over various filters.
 1. Click the **Operational Strategies** on the left menu. Read the documentation for the strategies (Overview, Operational Paradigms, Lake Powell Release Concepts, Lower Basin Delivery Concepts).
 1. Click the **Operational Strategies Suite** tab (top). A table with 5 selected strategies (associated with the session loaded in step 5.2]) will appear in a pop-out window. The strategies are:
-1.1. STGY85558, 49068, 89269, 98230, 95580, 26992.
-1.1. These strategies were choosen because they were either a (i) Running Average Inflow Lake Powell release concept with a low number of years of lookback (1 or 3), or (ii) had zero months of drawdown below Powell Elevation 3,490 feet in one
+  1. STGY85558, 49068, 89269, 98230, 95580, 26992.
+  2. These strategies were choosen because they were either a (i) Running Average Inflow Lake Powell release concept with a low number of years of lookback (1 or 3), or (ii) had zero months of drawdown below Powell Elevation 3,490 feet in one
 one of the hydrology ensables explored in the performance tab (next step).
-1.1. The table was also downloaded and appears in **DMDU-Performance.xlsx** on the **Strategies** worksheet.
-1.1. These strategies will appear in highlighted colors through the next steps.
+  3. The table was also downloaded and appears in **DMDU-Performance.xlsx** on the **Strategies** worksheet.
+  4. These strategies will appear in highlighted colors through the next steps.
 1. 
 
 1. The code will run and generate the file **PowellMonthlyRelease.pdf**. Open the pdf file to view results.
