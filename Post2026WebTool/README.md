@@ -31,6 +31,7 @@ A 6th ensamble includes a grouping of other previously used ensambles (Stress te
 * License for Excel 360.
 
 ## Directions to Reproduce Results
+Note - there are a lot of "by-hand" instructions because there is no way to automate steps in the Web tool.
 1. Navigate to the website https://tool.crbpost2026dmdu.org/.
 1. If needed, create a user name and password.
 1. Log into the website using credentials created in Step #2.
@@ -56,14 +57,20 @@ one of the hydrology ensables explored in the performance tab (next step).
 1. Notice that as you cycle through the ensamblems, that one or more of the highlighted strategies (dark colors) cross the Powell < 3,490 axis at 0% and appear as flat (or near flat) lines across the top of the parallel axis plot to the second GLD WY Rel | Min axes.
 These are the scenarios of most interest because they keep Lake Powell above 3,490 feet in **all** traces *and* they have a relatively high minimum Glen Canyon Dam water year release.
 1. Last, in the **DMDU-Performance.xlsx** file, select the worksheet **PivotTable**. In the **PivotTable Analyze** Tab, select the Data => **Refresh** button to load the newly copied data in the table.
+1. Screen captures of the parallel axis plots and tables for each hydrology ensamblem also are saved in the file **DMDUResultsFigures.docx**.
 
 ## Explanation of Contents
-1. **PowellMonthlyRelease.pdf** - Output file created when knit **PowellMonthlyRelease.Rmd** within R Studio.
-1. **PowellMonthlyRelease.Rmd** - R markdown file with code to knit (run) to generate primary output file **PowellMonthlyRelease.pdf**.
-1. **PowellMonthlyRelease.r** - R file with same code as **PowellMonthlyRelease.Rmd** but pushes results to console. Use for testing code.
-1. **PowellMonthlyRelease.Rproject** - R project file. Use to open the project in R Studio.
-1. **Powell-MonthlyReleaseSchedule.txt** - Comma seperated values (CSV) file with data downloaded from CRSS slot Powell.MonthlyReleaseTable. Rows are month of the year. Columns are annual release target. All values million acre-feet.
+1. **DMDU-Performance.xlsx** - Excel file with values of 'Lake Powell elevation below 3,490 feet (percent of months)' and 'Glen Canyon Dam Minimum Water Year Release' for each alternative in each hydrology ensamblem. These values were copied
+from the **Performance** Tab within the webtool.
+1. **DMDU-ResultsFigures.docx** - Word file with screen captures of the parallel axis plots and tables for each hydrology ensamblem.
+1. **ResultsScreenCapture.png** - Screen capture of the worksheet **PivotTable** in the Excel File **DMDU-Performance.xlsx**.
+1. **dmdu-2024-10-11.json** - File with webtool session saved data. This file stores data such as selected alternatives and performance metrics. This file is selected in Step 7 above.
+1. **HydrologyTraces** Folder - Folder with meta set of hydrology ensambles and traces reported by Salehabadi et al. (2024).
 
 ## Requested Citation
 David E. Rosenberg (2024), “Reclamation Web Tool - Minimum Glen Canyon Dam Annual Release to protect critical elevations” Utah State University. Logan, Utah.
 https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/Post2026WebTool.
+
+## References
+
+1. Salehabadi, H., Tarboton, D. G., Wheeler, K. G., Smith, R., and Baker, S. (2024). "Quantifying and Classifying Streamflow Ensembles Using a Broad Range of Metrics for an Evidence-Based Analysis: Colorado River Case Study." Water Resources Research, 60(7), e2024WR037225. https://doi.org/10.1029/2024WR037225. 
