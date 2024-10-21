@@ -50,10 +50,10 @@ one of the hydrology ensables explored in the performance tab (next step).
 1. In the parallel axis plot notice the choosen strategies are highlighted. See also the table below.
 1. Copy results shown in the table -- *Strategy ID, Powell < 3,490 | Pct of Mos (%)* and *GCD WY Rel | Min (maf)* into the file **DMDU-Performance.xlsx** => **Data** worksheet.
 1. Go back up to the **Choose Hydrology Set** dropdown. Select the next ensamblem **Late 2030s Drought**. 
-1. Repeat steps 
-
-
-1. The code will run and generate the file **PowellMonthlyRelease.pdf**. Open the pdf file to view results.
+1. Repeat Steps 16 to 19 for each hydrology ensamblem.
+1. Notice that as you cycle through the ensamblems, that one or more of the highlighted strategies (dark colors) cross the Powell < 3,490 axis at 0% and appear as flat (or near flat) lines across the top of the parallel axis plot to the second GLD WY Rel | Min axes.
+These are the scenarios of most interest because they keep Lake Powell above 3,490 feet in **all** traces *and* they have a relatively high minimum Glen Canyon Dam water year release.
+1. Last, in the **DMDU-Performance.xlsx** file, select the worksheet **PivotTable**. In the **PivotTable Analyze** Tab, select the Data => **Refresh** button to load the newly copied data in the table.
 
 ## Explanation of Contents
 1. **PowellMonthlyRelease.pdf** - Output file created when knit **PowellMonthlyRelease.Rmd** within R Studio.
