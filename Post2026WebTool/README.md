@@ -1,8 +1,8 @@
-# Reclamation Web Tool - Minimum Glen Canyon Dam Annual Release to protect critical elevations
+# Reclamation Web Tool - Minimum Glen Canyon Dam Annual Release to protect Lake Powell Minimum Power Pool
 
 This repository shares results that summarize analysis in Reclamations Post-2026 Operations Exploration Tool with the goal to identify 
-minimum Glen Canyon Dam annual releases needed to protect Lake Powell from drawdown below elevations 3,490 feet (Minimum power pool) and 3,525 feet (Protection elevation defined in 2019 Drought Contingency Plan).
-This analysis includes results across the 6 hydrologic ensambles available in the tools. The web tool is also call a decision making under deep uncertainty (DMDU) tool.
+minimum Glen Canyon Dam annual releases needed to protect Lake Powell from drawdown below elevation 3,490 feet (Minimum power pool). 
+This analysis includes results across the 6 hydrologic ensambles available in the webtool. The web tool is also call a decision making under deep uncertainty (DMDU) tool.
 
 Link to Reclamation's Website for the tool - https://tool.crbpost2026dmdu.org/.
 
@@ -14,11 +14,12 @@ The 5 storyline hydrologic ensambles are:
 1. Late 20230s Drought (8 traces).
 
 A 6th ensamble includes a grouping of other previously used ensambles (Stress test, CMIP5-LOCA kNN, Post-Pluvial NPC Temp-Adjusted, Paleo Drought Resampled, CMIP3 NPC)
-1. Default optimization (33 + 64 + 100 + 50 + 153 traces).
+1. Default optimization (33 + 64 + 100 + 50 + 153 = 290 traces).
  
 ## Key Findings
 1. Need Glen Canyon Dam annual release from 4.0 to 6.0 million acre-feet per year to protect Lake Powell drawdown below elevation 3,490 feet across the 5 storyline ensambles.
-1. Only two alternatives within the database are able to prevent drawdown below elevation 3,490 feet across **all** ensambles. 
+1. Only two alternatives within the database are able to prevent drawdown below elevation 3,490 feet across **all** ensambles.
+1. Both alternatives have a Lake Powell release paradigm of *Running Average Inflow*. These alternatives will have unsatisfactory operations above Lake Powell elevation 3,525 feet.
 
 ## View Results
 1. Open the file **[DMDU-Performance.xlsx](DMDU-Performance.xlsx)**
@@ -35,7 +36,9 @@ Note - there are a lot of "by-hand" instructions because there is no way to auto
 1. Navigate to the website https://tool.crbpost2026dmdu.org/.
 1. If needed, create a user name and password.
 1. Log into the website using credentials created in Step #2.
-1. Select the **Welcome** Tab from the left menu. Read the documentation plus instructions to start (Tool 101, Resource Center, Video, New User, Learn About Paradigms, Explore Operational Strategies).
+1. Select the **Welcome** Tab from the left menu. Read the documentation plus instructions to start 
+(Tool 101, Resource Center, Video, New User, Learn About Paradigms, Explore Operational Strategies).
+Pay particular attention to the file on the **Welcome** => **Resource Center** (top, right) => **Technical Information** => **[What Hydrologies are included](https://tool.crbpost2026dmdu.org/www/pdf/en/powell/web_tool_hydrology.pdf)**. This document describes the hydrology ensambles used.
 1. When ready, click the **Upload Session File** on the top.
 1. Select **Browse** and navigate the the folder on your harddrive where you downloaded this repository.
 1. Select the file *dmdu-2024-10-11.json*. This file loads the session with the most recent settings used to query the database of 700+ alternatives and show results over various filters.
