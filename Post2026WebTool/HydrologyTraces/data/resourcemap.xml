@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+   xmlns:citoterms="http://purl.org/spar/cito/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:foaf="http://xmlns.com/foaf/0.1/"
+   xmlns:ore="http://www.openarchives.org/ore/terms/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs1="http://www.w3.org/2001/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_AverageCountAboveThreshold.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation">
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Std.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_PACF_Lag123.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP4.5_3.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP8.5_6.5.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/MasterScript_EnsembleComparison.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/5YrBlockRes_2000_2018.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_MutualInfo.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Std.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_DroughtEventStats.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/HydrologyScenarios.xlsx"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP8.5_3.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Max.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_DroughtEventStats.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_MovingCountAboveThreshold.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/ISM_1906_2020.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Median.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_ACF_Lag123.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_MovingCountBelowThreshold.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP4.5_6.5.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Min.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_MutualInfo.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Mean.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_DottyPlots_Dots.R"/>
+    <dc:title>R Scripts for Evaluating Annual Streamflow Ensemble Metrics and Data and Results from their Application in the Colorado River Basin</dc:title>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CountBelowThreshold_ViolinPlot.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/NPC_1988_2020.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_read_required_hydrology_scenarios_from_xlsx.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_PACF_Lag123.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_MovingCountBelowThreshold.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP8.5_10.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_DurSev_df.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/Results/ComparisonResults.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/CMIP5_LOCA.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Mean.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_EnsembleTimeSeries.R"/>
+    <ore:isDescribedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml</ore:isDescribedBy>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/ISM_1416_2015.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/MasterScript_EnsembleSpecificMetrics.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/CMIP3_BCSD.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/ISM_1931_2020.pdf"/>
+        <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_MovingCountAboveThreshold.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/NPC_2000_2020.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/Results/Heatmap.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/AR1.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/NPC_1906_2020.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_MinDurationSeverity.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_EnsembleTimeSeries.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP4.5_10.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_read_required_hydrology_scenarios_from_xlsx.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_AverageCountBelowThreshold.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_AverageCountAboveThreshold.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_MinDurationSeverity.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/README.txt"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_AverageCountAboveThreshold.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CountBelowThreshold_ViolinPlot.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Median.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/DroughtYrRes_1576_1600.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/ISM_1988_2020.pdf"/>
+    <rdf:type rdf:resource="http://www.openarchives.org/ore/terms/Aggregation"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_StorageYieldReliability.R"/>
+    <citoterms:isDocumentedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemetadata.xml</citoterms:isDocumentedBy>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_DottyPlots_Dots.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/DroughtYrRes_1953_1977.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_ACF_Lag123.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Heatmap.R"/>
+    <dcterms:type rdf:resource="http://www.hydroshare.org/terms/CompositeResource"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/DroughtYrRes_2000_2020.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Max.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/CMIP5_BCSD.pdf"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_Hurst.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_DurSev_df.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_AverageCountBelowThreshold.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/HydrologyScenarios.xlsx"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Skewness.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemetadata.xml"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Min.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_Hurst.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Skewness.R"/>
+    <ore:aggregates rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_StorageYieldReliability.R"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_EnsembleTimeSeries.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_StorageYieldReliability.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_AverageCountBelowThreshold.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP4.5_3.pdf">
+    <dc:format>application/pdf</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP4.5_10.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/README.txt">
+    <dc:format>text/plain</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/ISM_1931_2020.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Median.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_EnsembleTimeSeries.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_read_required_hydrology_scenarios_from_xlsx.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_DottyPlots_Dots.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_MutualInfo.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP8.5_10.pdf">
+    <dc:format>application/pdf</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml">
+    <dcterms:modified>2024-07-03T21:10:25Z</dcterms:modified>
+    <dc:creator rdf:resource="http://foresite-toolkit.googlecode.com/#pythonAgent"/>
+    <ore:describes rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation"/>
+    <dc:identifier>d7b65c91dda047e1969a9f9cd09b489f</dc:identifier>
+    <rdf:type rdf:resource="http://www.openarchives.org/ore/terms/ResourceMap"/>
+    <dcterms:created>2024-07-03T21:10:25Z</dcterms:created>
+    <dc:format>application/rdf+xml</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.openarchives.org/ore/terms/Aggregation">
+    <rdfs1:label>Aggregation</rdfs1:label>
+    <rdfs1:isDefinedBy>http://www.openarchives.org/ore/terms/</rdfs1:isDefinedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Skewness.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/Results/ComparisonResults.pdf">
+    <dc:format>application/pdf</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/NPC_2000_2020.pdf">
+    <dc:format>application/pdf</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_DottyPlots_Dots.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Min.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/ISM_1416_2015.pdf">
+    <dc:format>application/pdf</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP4.5_6.5.pdf">
+    <dc:format>application/pdf</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_DroughtEventStats.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Skewness.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_MovingCountAboveThreshold.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_MinDurationSeverity.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.openarchives.org/ore/terms/ResourceMap">
+    <rdfs1:label>ResourceMap</rdfs1:label>
+    <rdfs1:isDefinedBy>http://www.openarchives.org/ore/terms/</rdfs1:isDefinedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Mean.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Mean.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_MinDurationSeverity.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Min.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_ACF_Lag123.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://foresite-toolkit.googlecode.com/#pythonAgent">
+    <foaf:name>Foresite Toolkit (Python)</foaf:name>
+    <foaf:mbox>foresite@googlegroups.com</foaf:mbox>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/HydrologyScenarios.xlsx">
+    <dc:format>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CountBelowThreshold_ViolinPlot.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_ACF_Lag123.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemetadata.xml">
+    <citoterms:documents>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</citoterms:documents>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/rdf+xml</dc:format>
+    <dc:title>Dublin Core science metadata document describing the HydroShare resource</dc:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Heatmap.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/DroughtYrRes_1953_1977.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/DroughtYrRes_1576_1600.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_MovingCountAboveThreshold.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/terms/CompositeResource">
+    <rdfs1:isDefinedBy>http://www.hydroshare.org/terms</rdfs1:isDefinedBy>
+    <rdfs1:label>Composite Resource</rdfs1:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP8.5_3.pdf">
+    <dc:format>application/pdf</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Max.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/NPC_1906_2020.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Max.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_MovingCountBelowThreshold.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_MovingCountBelowThreshold.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/TempAdj_RCP8.5_6.5.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/MasterScript_EnsembleSpecificMetrics.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_PACF_Lag123.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_DurSev_df.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_Hurst.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/NPC_1988_2020.pdf">
+    <dc:format>application/pdf</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_read_required_hydrology_scenarios_from_xlsx.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/MasterScript_EnsembleComparison.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Std.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/AR1.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/DroughtYrRes_2000_2020.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/Results/Heatmap.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_AverageCountAboveThreshold.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/HydrologyScenarios.xlsx">
+    <dc:format>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_MutualInfo.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/CMIP3_BCSD.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_PACF_Lag123.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/ISM_1988_2020.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_Hurst.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CountBelowThreshold_ViolinPlot.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_StorageYieldReliability.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_Metrics_CM_Median.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/ISM_1906_2020.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/5YrBlockRes_2000_2018.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/R_Files/Func_DurSev_df.R">
+    <dc:format>application/R</dc:format>
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/CMIP5_LOCA.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_CM_Std.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleSpecificMetrics/Results/CMIP5_BCSD.pdf">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/pdf</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_DroughtEventStats.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/contents/EnsembleComparison/R_Files/Func_Metrics_AverageCountBelowThreshold.R">
+    <ore:isAggregatedBy>http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f/data/resourcemap.xml#aggregation</ore:isAggregatedBy>
+    <dc:format>application/R</dc:format>
+  </rdf:Description>
+</rdf:RDF>

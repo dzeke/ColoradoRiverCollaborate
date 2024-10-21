@@ -1,0 +1,135 @@
+{
+  "language": "en",
+  "notes": null,
+  "oss": [
+    {
+      "policy_id": "STGY71155",
+      "source_id": "PSM",
+      "source_col": "#3D7F29",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY39955",
+      "source_id": "PSM",
+      "source_col": "#FF600A",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY11694",
+      "source_id": "PSM",
+      "source_col": "#003E51",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY62585",
+      "source_id": "PSM",
+      "source_col": "#4C12A1",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY99954",
+      "source_id": "PSM",
+      "source_col": "#D1352B",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY95580",
+      "source_id": "PSM",
+      "source_col": "#215732",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY08380",
+      "source_id": "PSM",
+      "source_col": "#9A3324",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    }
+  ],
+  "performance": {
+    "tradeoff": {
+      "metrics": ["Powell < 3,500 | Pct of Mos", "Mead < 950 | Pct of Mos", "Mead < 1,000 | Pct of Mos", "Powell < 3,490 | Pct of Mos"],
+      "orientations": [true, true, true, true],
+      "colormap": "Powell < 3,490 | Pct of Mos",
+      "hydrology_set": "Default/Optimization",
+      "filters": {
+        "selected": [],
+        "choices": []
+      }
+    },
+    "trace": {
+      "metrics": ["Lower Basin Annual Delivery Reduction Volume | Average", "Mead Monthly Pool Elevation Less Than 1,000 Feet | Percent of Months", "Powell Monthly Pool Elevation Less Than 3,500 Feet | Percent of Months"],
+      "hydrology_set": "Default/Optimization",
+      "strategies_selected": ["STGY95580", "STGY08380"]
+    }
+  },
+  "robustness": {
+    "metrics": ["Cond. 1", "Cond. 2", "Overall Robustness"],
+    "definition": {
+      "active_1": true,
+      "name_displayed_1": "Powell Monthly Pool Elevation",
+      "threshold_1": 3525,
+      "threshold_1_inequality_operator": "stays above",
+      "frequency_1": 1,
+      "units_1": "Feet",
+      "active_2": true,
+      "name_displayed_2": "Mead Monthly Pool Elevation",
+      "threshold_2": 1000,
+      "threshold_2_inequality_operator": "stays above",
+      "frequency_2": 1,
+      "units_2": "Feet",
+      "time_horizon": 30,
+      "inequality_1": "at least",
+      "inequality_2": "at least"
+    },
+    "filters": {
+      "selected": null,
+      "choices": null
+    }
+  },
+  "vulnerability": {
+    "definition": {
+      "active_1": true,
+      "name_displayed_1": "Powell Monthly Pool Elevation",
+      "threshold_1": 3525,
+      "threshold_1_inequality_operator": "falls below",
+      "frequency_1": 0.01,
+      "units_1": "Feet",
+      "active_2": true,
+      "name_displayed_2": "Mead Monthly Pool Elevation",
+      "threshold_2": 1020,
+      "threshold_2_inequality_operator": "falls below",
+      "frequency_2": 0.01,
+      "units_2": "Feet",
+      "time_horizon": 30,
+      "policy_id": "STGY47439",
+      "inequality_1": "at least",
+      "inequality_2": "at least"
+    },
+    "policy_id": "STGY95580"
+  },
+  "summary": {
+    "risk": {
+      "multiple": {
+        "policies": null,
+        "futures": null
+      },
+      "single": {
+        "policies": "",
+        "futures": null
+      }
+    }
+  },
+  "policies": null,
+  "metadata": {
+    "checksum": "3d28d0b345edd927b1acf24a58d8ecf1",
+    "version": "1.3.0",
+    "app_version": "1.38.0"
+  }
+}

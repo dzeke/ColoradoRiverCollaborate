@@ -1,0 +1,153 @@
+{
+  "language": "en",
+  "notes": null,
+  "oss": [
+    {
+      "policy_id": "STGY99779",
+      "source_id": "PSM",
+      "source_col": "#9A3324",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY83913",
+      "source_id": "PSM",
+      "source_col": "#D1352B",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY98230",
+      "source_id": "PSM",
+      "source_col": "#3D7F29",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY96449",
+      "source_id": "PSM",
+      "source_col": "#FF922D",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY88672",
+      "source_id": "PSM",
+      "source_col": "#003E51",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY84145",
+      "source_id": "PSM",
+      "source_col": "#4C12A1",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY89269",
+      "source_id": "PSM",
+      "source_col": "#007396",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY95580",
+      "source_id": "PSM",
+      "source_col": "#FF600A",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    },
+    {
+      "policy_id": "STGY26992",
+      "source_id": "PSM",
+      "source_col": "#215732",
+      "source_icon": "Operational Strategies",
+      "Label": ""
+    }
+  ],
+  "performance": {
+    "tradeoff": {
+      "metrics": ["Powell < 3,490 | Pct of Mos", "Powell < 3,500 | Pct of Mos", "GCD WY Rel < 7 maf | Pct of Yrs"],
+      "orientations": [true, true, true],
+      "colormap": "Powell < 3,490 | Pct of Mos",
+      "hydrology_set": "Decreasing Trend From 12 to 10 MAF Avg",
+      "filters": {
+        "selected": {
+          "Powell < 3,490 | Pct of Mos": [0, 0.7127]
+        },
+        "choices": {
+          "Powell < 3,490 | Pct of Mos": [0, 0.7127]
+        }
+      }
+    },
+    "trace": {
+      "metrics": ["Glen Canyon Dam Water Year Release is Less Than 7.0 Million Acre-Feet | Percent of Years", "Powell Monthly Pool Elevation Less Than 3,490 Feet | Percent of Months", "Powell Monthly Pool Elevation Less Than 3,500 Feet | Percent of Months"],
+      "hydrology_set": "11 MAF Avg, Infrequent High Flows",
+      "strategies_selected": ["STGY95580", "STGY26992"]
+    }
+  },
+  "robustness": {
+    "metrics": ["Cond. 1", "Cond. 2", "Overall Robustness"],
+    "definition": {
+      "active_1": true,
+      "name_displayed_1": "Powell Monthly Pool Elevation",
+      "threshold_1": 3490,
+      "threshold_1_inequality_operator": "stays above",
+      "frequency_1": 1,
+      "units_1": "Feet",
+      "active_2": true,
+      "name_displayed_2": "Glen Canyon Dam Water Year Release",
+      "threshold_2": 6,
+      "threshold_2_inequality_operator": "stays above",
+      "frequency_2": 1,
+      "units_2": "Million Acre-Feet",
+      "time_horizon": 30,
+      "inequality_1": "at least",
+      "inequality_2": "at least"
+    },
+    "filters": {
+      "selected": null,
+      "choices": null
+    }
+  },
+  "vulnerability": {
+    "definition": {
+      "active_1": true,
+      "name_displayed_1": "Powell Monthly Pool Elevation",
+      "threshold_1": 3490,
+      "threshold_1_inequality_operator": "falls below",
+      "frequency_1": 0.01,
+      "units_1": "Feet",
+      "active_2": true,
+      "name_displayed_2": "Glen Canyon Dam Water Year Release",
+      "threshold_2": 6,
+      "threshold_2_inequality_operator": "falls below",
+      "frequency_2": 0.01,
+      "units_2": "Million Acre-Feet",
+      "time_horizon": 30,
+      "policy_id": "STGY47439",
+      "inequality_1": "at least",
+      "inequality_2": "at least"
+    },
+    "policy_id": "STGY95580"
+  },
+  "summary": {
+    "risk": {
+      "multiple": {
+        "policies": null,
+        "futures": null
+      },
+      "single": {
+        "policies": "",
+        "futures": null
+      }
+    }
+  },
+  "policies": null,
+  "metadata": {
+    "checksum": "5406c6da65a8c43da5d45e154dffcb07",
+    "version": "1.3.0",
+    "app_version": "1.40.0"
+  }
+}

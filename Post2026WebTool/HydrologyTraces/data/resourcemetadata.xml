@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:hsterms="https://www.hydroshare.org/terms/"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="http://www.hydroshare.org/terms/CompositeResource">
+    <rdfs:label>Composite Resource</rdfs:label>
+    <rdfs:isDefinedBy rdf:resource="https://www.hydroshare.org/terms/"/>
+  </rdf:Description>
+  <hsterms:CompositeResource rdf:about="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f">
+    <dc:publisher>
+      <rdf:Description>
+        <hsterms:publisherURL rdf:resource="https://www.cuahsi.org"/>
+        <hsterms:publisherName>Consortium of Universities for the Advancement of Hydrologic Science, Inc. (CUAHSI)</hsterms:publisherName>
+      </rdf:Description>
+    </dc:publisher>
+    <dc:subject>Classification</dc:subject>
+    <dc:description>
+      <rdf:Description>
+        <dcterms:abstract>This resource contains the R Scripts developed to characterize and assess annual streamflow ensembles using an extensive set of statistical metrics. We have assembled a broad set of metrics and applied them to annual streamflow in the Colorado River at Lees Ferry to illustrate the approach. We have also developed a tree-based classification approach to categorize both ensembles and metrics. The results, also included here, provide a way to visualize and interpret differences between streamflow ensembles. The presented metrics and their classification provide an analytical framework for characterizing and assessing the suitability of future streamflow ensembles, recognizing the presence of non-stationarity, and contributing to better planning in river basins.&#13;
+&#13;
+This resource contains the data and scripts used in&#13;
+Salehabadi, H., Tarboton, D. G., Wheeler, K. G., Smith, R., &amp; Baker, S. (2024). Quantifying and Classifying Streamflow Ensembles Using a Broad Range of Metrics for an Evidence-Based Analysis: Colorado River Case Study. Water resources research, 60, e2024WR037225. https://doi.org/10.1029/2024WR037225</dcterms:abstract>
+      </rdf:Description>
+    </dc:description>
+    <dc:subject>Evidence-Based Analysis</dc:subject>
+    <dc:rights>
+      <rdf:Description>
+        <hsterms:URL rdf:resource="http://creativecommons.org/licenses/by/4.0/"/>
+        <hsterms:rightsStatement>This resource is shared under the Creative Commons Attribution CC BY.</hsterms:rightsStatement>
+      </rdf:Description>
+    </dc:rights>
+    <dc:identifier>
+      <rdf:Description>
+        <hsterms:doi rdf:resource="https://doi.org/10.4211/hs.d7b65c91dda047e1969a9f9cd09b489f"/>
+      </rdf:Description>
+    </dc:identifier>
+    <dc:subject>Statistical Metrics</dc:subject>
+    <dc:subject>Natural Flow at Lees Ferry</dc:subject>
+    <dc:identifier>
+      <rdf:Description>
+        <hsterms:hydroShareIdentifier rdf:resource="http://www.hydroshare.org/resource/d7b65c91dda047e1969a9f9cd09b489f"/>
+      </rdf:Description>
+    </dc:identifier>
+    <dc:relation>
+      <rdf:Description>
+        <hsterms:isDescribedBy>Salehabadi, H., Tarboton, D. G., Wheeler, K. G., Smith, R., &amp; Baker, S. (2024). Quantifying and Classifying Streamflow Ensembles Using a Broad Range of Metrics for an Evidence-Based Analysis: Colorado River Case Study. Water resources research, 60, e2024WR037225. https://doi.org/10.1029/2024WR037225</hsterms:isDescribedBy>
+      </rdf:Description>
+    </dc:relation>
+    <dc:title>R Scripts for Evaluating Annual Streamflow Ensemble Metrics and Data and Results from their Application in the Colorado River Basin</dc:title>
+    <dc:type rdf:resource="http://www.hydroshare.org/terms/CompositeResource"/>
+    <dc:date>
+      <hsterms:published>
+        <rdf:value>2024-07-03T20:53:29.809981+00:00</rdf:value>
+      </hsterms:published>
+    </dc:date>
+    <dc:language>eng</dc:language>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:organization>Utah Sate University</hsterms:organization>
+        <hsterms:name>Salehabadi, Homa</hsterms:name>
+        <hsterms:description rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4484</hsterms:description>
+        <hsterms:hydroshare_user_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4484</hsterms:hydroshare_user_id>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</hsterms:creatorOrder>
+        <hsterms:email>homa.salehabadi@gmail.com</hsterms:email>
+      </rdf:Description>
+    </dc:creator>
+    <dcterms:bibliographicCitation>Salehabadi, H., D. Tarboton (2024). R Scripts for Evaluating Annual Streamflow Ensemble Metrics and Data and Results from their Application in the Colorado River Basin, HydroShare, https://doi.org/10.4211/hs.d7b65c91dda047e1969a9f9cd09b489f</dcterms:bibliographicCitation>
+    <hsterms:awardInfo>
+      <rdf:Description>
+        <hsterms:fundingAgencyName>Bureau of Reclamation</hsterms:fundingAgencyName>
+        <hsterms:awardTitle>Cataloguing and Generating Hydrology Scenarios in the Colorado River Basin</hsterms:awardTitle>
+        <hsterms:fundingAgencyURL rdf:resource="https://www.usbr.gov/"/>
+        <hsterms:awardNumber>R21AC10342</hsterms:awardNumber>
+      </rdf:Description>
+    </hsterms:awardInfo>
+    <dc:subject>Streamflow Ensemble</dc:subject>
+    <dc:coverage>
+      <dcterms:period>
+        <rdf:value>start=1416-10-01T00:00:00; end=2099-10-01T00:00:00</rdf:value>
+      </dcterms:period>
+    </dc:coverage>
+    <dc:creator>
+      <rdf:Description>
+        <hsterms:name>Tarboton, David</hsterms:name>
+        <hsterms:phone>+1 (435) 797-3172</hsterms:phone>
+        <hsterms:ORCID rdf:resource="https://orcid.org/0000-0002-1998-3479"/>
+        <hsterms:description rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hsterms:description>
+        <hsterms:homepage rdf:resource="http://hydrology.usu.edu/dtarb"/>
+        <hsterms:creatorOrder rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hsterms:creatorOrder>
+        <hsterms:email>dtarb@usu.edu</hsterms:email>
+        <hsterms:address>UT, US</hsterms:address>
+        <hsterms:organization>Utah State University</hsterms:organization>
+        <hsterms:hydroshare_user_id rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</hsterms:hydroshare_user_id>
+      </rdf:Description>
+    </dc:creator>
+    <dc:coverage>
+      <dcterms:box>
+        <rdf:value>projection=WGS 84 EPSG:4326; units=Decimal degrees; northlimit=41.435; eastlimit=-104.6997; southlimit=29.8317; westlimit=-115.9058</rdf:value>
+      </dcterms:box>
+    </dc:coverage>
+    <dc:date>
+      <dcterms:created>
+        <rdf:value>2023-12-07T21:27:44.121555+00:00</rdf:value>
+      </dcterms:created>
+    </dc:date>
+    <dc:subject>Stochastic Hydrology</dc:subject>
+    <dc:date>
+      <dcterms:modified>
+        <rdf:value>2024-07-03T20:53:34.412341+00:00</rdf:value>
+      </dcterms:modified>
+    </dc:date>
+    <dc:subject>Colorado River Basin</dc:subject>
+  </hsterms:CompositeResource>
+</rdf:RDF>
