@@ -4,7 +4,7 @@ This repository shares results that summarize analysis in Reclamations Post-2026
 minimum Glen Canyon Dam annual releases needed to protect Lake Powell from drawdown below elevations 3,490 feet (Minimum power pool) and 3,525 feet (Protection elevation defined in 2019 Drought Contingency Plan).
 This analysis includes results across the 6 hydrologic ensambles available in the tools. The web tool is also call a decision making under deep uncertainty (DMDU) tool.
 
-Link to Reclamation's Web - https://tool.crbpost2026dmdu.org/.
+Link to Reclamation's Website for the tool - https://tool.crbpost2026dmdu.org/.
 
 The 5 storyline hydrologic ensambles are:
 1. 11 maf, infrequent high flows (8 traces).
@@ -12,6 +12,7 @@ The 5 storyline hydrologic ensambles are:
 1. Drought through 2028 then 11.5 maf (8 traces).
 1. Early High Flows, then 12 maf (8 traces).
 1. Late 20230s Drought (8 traces).
+
 A 6th ensamble includes a grouping of other previously used ensambles (Historical record, stress test, CMIP3, CMIP5, Decreasing)
 1. Default optimization (100s of traces).
  
