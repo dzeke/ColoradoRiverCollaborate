@@ -76,9 +76,9 @@ These are the scenarios of most interest because they keep Lake Powell above 3,4
 **Vulnerability**
 1. Click the **Vulnerability** Tab on the left menu.
 1. Set unacceptability Condition 1 to "Powell Monthly Pool Elevation" *exceeds* 3,490 feet Threshold value 100% of the time over a 30-year time horizon. Note, here we are switching
-the direction of "acceptability" because it is not ossible in the web tool to specify a Powell Monthly Pool Elevation below 3,490 feet in 0% months over 30-year time horizon (lowest allowable selection is ~1% of months).
+the direction of "acceptability" because it is not possible in the web tool to specify a Powell Monthly Pool Elevation below 3,490 feet in 0% months over 30-year time horizon (lowest allowable selection is ~1% of months).
 1. Set unacceptability Condition 2 to "Glen Canyon Dam Water Year Release exceeds Threshold of 6 million acre-feet in 100%." Again, we use the converse because it is not possible to specify a Glen Canyon Dam water year release
-falls below 6 maf in 0% of months over the 30-year time horizon.
+falls below 6 maf in 0% of months over the 30-year time horizon (can only specify in ~ 1% of months.
 1. Click **Calculate Vulnerability**.
 1. In the ranked order bar plot note that none of alternatives have an acceptability of 100% (i.e., unacceptable in some futures).
 
