@@ -66,11 +66,10 @@ All donors will be added to an email list and receive periodic updates.
 ## File Descriptions
 1. **[[LakeMeadWaterBankDivideInflow.xlsx](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)** - An Excel file with the Lake Mead Water Bank tool. Follow **Facillation Directions** (above) or open **ReadMe-Directions** Worksheet.
 1. **[LakeMeadWaterBankDivideInflows-LetsStart.pdf](https://github.com/dzeke/ColoradoRiverCoding/raw/main/ModelMusings/ColoradoRiverBasinAccounts-LetsStart.pdfn)** - A PDF file that shows how to start the activity (visual directions).
-1. **[Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md)** - Online help file that provides context and explanations for each spreadsheet row. In **Master** Worksheet, link to help in ![#FFE5B4](https://via.placeholder.com/15/FFE5B4/000000?text=+) `Column N`. [[Still Need to Implement]]
+1. **[Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md)** folder - Online help file that provides context and explanations for each spreadsheet row. In **Master** Worksheet, link to help in ![#FFE5B4](https://via.placeholder.com/15/FFE5B4/000000?text=+) `Column N`. [[Still Need to Implement]]
 1. **Support-Old** folder:
    1. **Hydrology** - Excel files used to generate scenarios on **HydrologicScenarios** Worksheet. **CRB_29gages.xlsx**: Gages in the Colorado River basin used to estimate natural flow. **NaturalFlows1906-2018_20200110.xlsx**: Natural flow hydrology downloaded from the USBR website and modified to pick out particular 10- and 20- year sequences of flows from the observed and paleo reconstructed records.
    1. **InflowSplit** - R code to generate figure in manuscript that shows split of whole basin inflow amoung accounts.
-   1. **OldVersions** - Older versions of the Flex accounting tool (see **Versions** Worksheet).
    1. **ParticipantAnalysis** - Files to analyze one session
    1. **ParticipantChoosePowellNaturalFlow** - Files to produce the plot in the manuscript that shows how participants choose Lake Powell natural inflow.
 
