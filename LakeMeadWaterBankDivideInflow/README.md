@@ -2,13 +2,14 @@
 
 ### [Lets Start (visual directions)](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow-LetsStart.pdf) (pdf file)
 ### [Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md) (Help file)
-### [Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)
+### [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)
 ### [Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterConservationProgramAnalysis/LakeMeadWaterConservationProgramAnalysis.docx) (Github)
 
 ## Overview														
 The purpose of this tool is to give users the opportunity to experiment with a Lake Mead Water Bank based on the Principles of Divide reservoir inflow, Subtract evaporation, and Users consume and conserve within their available water. The water bank jetsones the need for increasing mandatory Lower Basin water shortages tied to declining system storage. The water bank can help stabilize and recover Lake Mead storage for conditions of low reservoir storage and inflow. The water bank also increases water user autonomy to manage their conflicting vulnerabilities to water shortages more independently of other users while leverage prior negotiations and decrease conflicts post 2026.
+
 To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx), 
-move to Google Sheets, and invite participants. There are accounts for Reclamation (Protect Zone), California, Arizona, Nevada, Mexico, and Tribal Nations.
+move to Google Sheets, and invite participants. There are accounts for Reclamation (Protect Zone), California, Arizona, Nevada, and Mexico.
 Over one or more years, participants consume, save, and trade water in the accounts. Read on for directions to use.
 
 ## Rquirements
@@ -63,12 +64,11 @@ Make a tax deductible gift -- for as little as $5 -- to Utah State University (U
 All donors will be added to an email list and receive periodic updates.
 
 ## File Descriptions
-1. **[ColoradoRiverBasinAccounts.xlsx](https://github.com/dzeke/ColoradoRiverCoding/raw/main/ModelMusings/ColoradoRiverBasinAccounts.xlsx)** - An Excel file with the Colorado River Basin Accounts tool. Follow **Facillation Directions** (above) or open **ReadMe-Directions** Worksheet.
-1. **[ColoradoRiverBasinAccounts-LetsStart.pdf](https://github.com/dzeke/ColoradoRiverCoding/raw/main/ModelMusings/ColoradoRiverBasinAccounts-LetsStart.pdf)** - A PDF file that shows how to start the activity (visual directions).
-1. **[Model Guide](https://github.com/dzeke/ColoradoRiverCoding/blob/main/ModelMusings/Support/ModelGuide/ModelGuide-CombinedLakePowellLakeMead.md)** - Online help file that provides context and explanations for each spreadsheet row. In **Master** Worksheet, link to help in ![#FFE5B4](https://via.placeholder.com/15/FFE5B4/000000?text=+) `Column N`.
-1. **Support folders**:
+1. **[[LakeMeadWaterBankDivideInflow.xlsx](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)** - An Excel file with the Lake Mead Water Bank tool. Follow **Facillation Directions** (above) or open **ReadMe-Directions** Worksheet.
+1. **[LakeMeadWaterBankDivideInflows-LetsStart.pdf](https://github.com/dzeke/ColoradoRiverCoding/raw/main/ModelMusings/ColoradoRiverBasinAccounts-LetsStart.pdfn)** - A PDF file that shows how to start the activity (visual directions).
+1. **[Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md)** - Online help file that provides context and explanations for each spreadsheet row. In **Master** Worksheet, link to help in ![#FFE5B4](https://via.placeholder.com/15/FFE5B4/000000?text=+) `Column N`. [[Still Need to Implement]]
+1. **Support-Old** folder:
    1. **Hydrology** - Excel files used to generate scenarios on **HydrologicScenarios** Worksheet. **CRB_29gages.xlsx**: Gages in the Colorado River basin used to estimate natural flow. **NaturalFlows1906-2018_20200110.xlsx**: Natural flow hydrology downloaded from the USBR website and modified to pick out particular 10- and 20- year sequences of flows from the observed and paleo reconstructed records.
-   1. **ModelGuide** - Files to create the Model Guide.
    1. **InflowSplit** - R code to generate figure in manuscript that shows split of whole basin inflow amoung accounts.
    1. **OldVersions** - Older versions of the Flex accounting tool (see **Versions** Worksheet).
    1. **ParticipantAnalysis** - Files to analyze one session
