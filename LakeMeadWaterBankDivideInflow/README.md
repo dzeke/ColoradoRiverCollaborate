@@ -1,10 +1,16 @@
-## Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow(.xlsx) (download and move to Google Sheets)
+# Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow (.xlsx) (download and move to Google Sheets)
+
 ### [Lets Start (visual directions)](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow-LetsStart.pdf) (pdf file)
-### [Model Guide](https://github.com/dzeke/ColoradoRiverCoding/blob/main/ModelMusings/Support/ModelGuide/ModelGuide-CombinedLakePowellLakeMead.md) (Help file)
-### [Manuscript](https://digitalcommons.usu.edu/cee_facpub/3778/) (USU Digital Commons)
+### [Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md) (Help file)
+### [Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)
+### [Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterConservationProgramAnalysis/LakeMeadWaterConservationProgramAnalysis.docx) (Github)
 
 ## Overview														
-The purpose of this activity is to discuss more adaptive Colorado River operations than existing operations that equalize reservoirs and expire in 2026. To provoke discussion, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCoding/raw/main/ModelMusings/ColoradoRiverBasinAccounts.xlsx), move to Google Sheets, and invite participants. There are accounts for the Upper Basin, Lower Basin, Mexico, Colorado River Delta, First Nations, and a shared reserve. Over one or more years, participants consume, save, and trade water in the accounts, protect reservoirs, and sustain endangered, native fish of the Grand Canyon. Read on for directions to use.
+The purpose of this tool is to give users the opportunity to experiment with a Lake Mead Water Bank based on the Principles of Divide reservoir inflow, Subtract evaporation, and Users consume and conserve within their available water. The water bank jetsones the need for increasing mandatory Lower Basin water shortages tied to declining system storage. The water bank can help stabilize and recover Lake Mead storage for conditions of low reservoir storage and inflow. The water bank also increases water user autonomy to manage their conflicting vulnerabilities to water shortages more independently of other users while leverage prior negotiations and decrease conflicts post 2026.
+To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx), 
+move to Google Sheets, and invite participants. There are accounts for Reclamation (Protect Zone), California, Arizona, Nevada, Mexico, and Tribal Nations.
+Over one or more years, participants consume, save, and trade water in the accounts. Read on for directions to use.
+
 ## Rquirements
 **Facilitator**: 1 person to setup in Google Sheets (see Setup below), invite participants, and organize play.											
 
@@ -17,7 +23,7 @@ The purpose of this activity is to discuss more adaptive Colorado River operatio
 ## Facilitation Directions
 
 **Setup**
-1. Download the file **[ColoradoRiverBasinAccounts.xlsx](https://github.com/dzeke/ColoradoRiverCoding/raw/main/ModelMusings/ColoradoRiverBasinAccounts.xlsx)** to your computer.
+1. Download the file **[LakeMeadWaterBankDivideInflow.xlsx](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)** to your computer.
 1. Move the Excel file to your Google Drive. Open as a Google Sheet.
 1. Open the **Versions** Worksheet to see updates.
 1. Duplicate the **Master** Worksheet to save a blank version for later use. 
@@ -27,23 +33,25 @@ The purpose of this activity is to discuss more adaptive Colorado River operatio
 
 **Use**
 1. On the **Master** Worksheet, scroll down Column A. Participants enter values in rows with 🟦 `Blue text`
-   1. For example, in Rows 4-10, particants select a **Account** and enter a **Strategy**. If fewer than 6 participants, participants select multiple parties.
-   1. Enter the Lake Powell natural flow for Year 1 in 🟩 `Cell C28`. Cells below will populate.
-   1. Participants continue to enter values in Year 1 (Column C) down to Row 142 in row blocks with 🟦 `Blue text`.
+   1. For example, in Rows 4-10, particants select a **User** and enter the **User's Vulnerability**, and **Strategy to manage vulnerability**. If fewer than 6 participants, participants select multiple parties.
+   1. In 🟩 `Cell B20`, the Reclamation user sets the elevation for the protection zone - Lake Mead will never fall below this level.
+   1. Enter the Lake Mead Inflow for Year 1 in 🟩 `Cell C28`. Cells below will populate.
+   1. Participants continue to enter values in Year 1 (Column C) down to Row 137 in row blocks with 🟦 `Blue text`.
    1. Move to Year 2 (Column D). Enter Lake Powell natural flow in 🟩 `Cell D28`.
 1. Find linked help for each row in 🟨 `Column N`.
-1. View the **Master-Plots** worksheet to compare entries to current operations (Law of River).
-1. **ReadMe-Directions** Worksheet also has these directions and describes all worksheets in the Workbook.
+1. View the **Master-Plots** worksheet to compare entries to current operations (Law of River) [[This feature is not yet implemented]].
+1. The **ReadMe-Directions** Worksheet also has these directions and describes all worksheets in the Workbook.
   
 ## Publications
-1. Rosenberg, D. E. (2022). "[Lessons from real-time, online collaborative modeling to discuss more adaptive reservoir operations](https://digitalcommons.usu.edu/cee_facpub/3778/)." (USU Digital Commons).
-1. Rosenberg, D. E. (In press). "[Adapt Lake Mead releases to inflow to give managers more flexibility to slow reservoir draw down](https://digitalcommons.usu.edu/water_pubs/170/)." Journal of Water Resources Planning and Management.
-1. Rosenberg, D. E. (2022). "[Invest in Farm Water Conservation to Curtail Buy and Dry](https://ascelibrary.org/doi/full/10.1061/%28ASCE%29WR.1943-5452.0001584)." Journal of Water Resources Planning and Management. 148(8) 01822001.
-1. Wang, J., and Rosenberg, D. E. (Submitted). "[Living within our Means: Adapting Colorado River Basin depletions to available water]( https://digitalcommons.usu.edu/water_pubs/171/)." Submitted to Journal of Water Resources Planning and Management.
-1. Wang, J., Rosenberg, D. E., Schmidt, J. C., and Wheeler, K. G. (2020). "[Managing the Colorado River for an Uncertain Future](http://qcnr.usu.edu/coloradoriver/files/CCRS_White_Paper_3.pdf)." Center for Colorado River Studies, Utah State University, Logan, Utah.
+1. Rosenberg, D. E. (2022a). "Adapt Lake Mead Releases to Inflow to Give Managers More Flexibility to Slow Reservoir Drawdown." Journal of Water Resources Planning and Management, 148(10), 02522006. https://doi.org/10.1061/(ASCE)WR.1943-5452.0001592.
+1. Rosenberg, D. E. (2022b). "Invest in Farm Water Conservation to Curtail Buy and Dry." Journal of Water Resources Planning and Management, 148(8), 01822001. https://doi.org/10.1061/(ASCE)WR.1943-5452.0001584.
+1. Rosenberg, D. E. (2024). "Lessons from immersive online collaborative modeling to discuss more adaptive reservoir operations." Journal of Water Resources Planning and Management, 150(7). https://doi.org/10.1061/JWRMD5.WRENG-5893.
+1. Wang, J., and Rosenberg, D. E. (2023). "Adapting Colorado River Basin Depletions to Available Water to Live within Our Means." Journal of Water Resources Planning and Management, 149(7), 04023026. https://doi.org/10.1061/JWRMD5.WRENG-5555.
+1. Wang, J., Rosenberg, D. E., Schmidt, J. C., and Wheeler, K. G. (2020). "Managing the Colorado River for an Uncertain Future." Center for Colorado River Studies, Utah State University, Logan, Utah. https://digitalcommons.usu.edu/cee_facpub/3768/
 
 ## Requested Citation (permanent link)
-David E. Rosenberg (2022). "Colorado River Basin Accounts: Provoke discussion about more flexible and sustainable operations." Hydroshare.org. https://doi.org/10.4211/hs.57ad7df425b84da2874e9c19e7b34aad.
+David E. Rosenberg, Erik Porse (2024). "Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow." Utah State University, Logan, UT. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterBankDivideInflow.
+
 ## Donate to Support this Work
 Make a tax deductible gift -- for as little as $5 -- to Utah State University (USU) to support new Colorado River work:
 
