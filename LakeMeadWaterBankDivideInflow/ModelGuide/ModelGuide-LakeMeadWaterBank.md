@@ -285,6 +285,14 @@ methods.**
 This work uses gages closest to Lake Mead because these values gave the
 *largest* annual inflows.
 
+## 2A. Begin of year reservoir storage
+
+In Year 1 (Column C), beginning of year reservoir storage is the Lake Mead
+volumes specified in Cell B19.
+
+In subsequent years (Columns D, E, …), the Lake Mead storage volume is the is
+the storage at the end of the prior year (Row 134).
+
 # Step 3. Split existing Lake Mead storage among accounts (year 1 only)
 
 Participants split the starting Lake Mead active storage specified in Row 19
@@ -325,47 +333,30 @@ In actuality, the participants will negotiate over a share of the existing
 reservoir storage. In these negotiations, participants will get the same or more
 storage water as they get with current operations.
 
-## 3A. Begin of year reservoir storage
-
-In Year 1 (Column C), beginning of year reservoir storage is the Lake Powell and
-Lake Mead volumes specified in Section 1B.
-
-In subsequent years (Columns D, E, …), the Lake Powell and Lake Mead storage
-volumes are the volumes decided by accounts at the end of the prior year.
-
-## 3B. Calculate Powell + Mead Evaporation
+## 3B. Calculate Mead Evaporation
 
 Reservoir evaporation volume is the product of (i) annual evaporation rate (see
-Section 1B), and the lake surface areas associated with the current reservoir
-volumes. Find the Elevation-Storage-Area relationships on the
-*Powell-Elevation-Area* and *Mead-Elevation-Area* worksheets (far right). Data
-were download from the Colorado River Simulation System (CRSS) model (Wheeler et
-al., 2019; Zagona et al., 2001).
+Row 18), and the lake surface area associated with the current reservoir volume.
+Find the Elevation-Storage-Area relationship on the *Mead-Elevation-Area*
+worksheets (far right). Data were download from the Colorado River Simulation
+System (CRSS) model (Wheeler et al., 2019; Zagona et al., 2001).
 
-The combined reservoir evaporation is divided among basin accounts in proportion
-to the account balance (Equation 1, evaporation terms in maf per year, balance
+The total reservoir evaporation is divided among water users in proportion to
+their account balance (Equation 1, evaporation terms in maf per year, balance
 and storage terms in maf).
 
-![](media/57ea1cad7cb89a77dfa222ee1ed1f9f0.png) Equation 1
+For example, if Lake Mead active storage is 7.2 maf and Lake Mead evaporation is
+0.4 maf for the year, and:
 
-For example, if the combined evaporation is 1.0 maf and Upper Basin has 10% of
-the combined storage, then the Upper Basin is assigned 10% of the combined
-evaporation or 0.1 maf that year.
+-   California has an account balance of 0.72 maf (10% of the active storage),
+    then California is assigned 10% of the total evaporation or 0.04 maf that
+    year.
 
-## 3C. Calculate Mexico Water Allocation
+-   The Reclamation protect elevation is 1,000 feet (4.5 maf; 62.5%), the
+    Reclamation is assigned 62.5% of the total evaporation or 0.25 maf that
+    year.
 
-Mexico’s water allocation is its 1.5 maf per year treaty amount, minus mandatory
-conservation volumes specified in Minutes 319 and 323 for declining Lake Mead
-levels(Table 5), minus Mexico’s contribution to the Colorado River Delta listed
-in Minute 323 (IBWC, 2021), minus Mexcio’s portion of the Lake Havasu / Parker
-evaporation and evapotranspiration. The *MandatoryConservation* sheet shows the
-Mexico and Lower Basin conservation schedules.
-
-**Table 5. Mexico Mandatory Conservation under Minutes 319 and 323**
-
-![](media/b0fe2d1f33974bd4dd7bbe699d52fd44.png)
-
-# Split combined natural inflow among accounts
+# Split Lake Mead inflow among accounts
 
 Participants split the basin natural inflow among accounts (Figure 7). Basin
 natural inflows include natural inflow to Lake Powell, plus intervening Grand
