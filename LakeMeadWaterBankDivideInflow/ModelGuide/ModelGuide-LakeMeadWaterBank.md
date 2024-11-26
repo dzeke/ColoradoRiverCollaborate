@@ -59,6 +59,8 @@ persons not familiar with current Colorado River operations).
 Follow the setup and play instructions (Box 1). The rest of the document
 provides guidance on each step.
 
+![](media/Fig1StepsToGuide.png)
+
 ## Types of Use
 
 The model can be used in two modes:
