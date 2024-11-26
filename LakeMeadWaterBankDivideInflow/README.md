@@ -1,4 +1,4 @@
-# Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow
+# Immersive Model: Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow
 
 ### [Lets Start (visual directions)](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow-LetsStart.pdf) (pdf file)
 ### [Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md) (Help file)
@@ -6,7 +6,7 @@
 ### [Further Reading](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterConservationProgramAnalysis/LakeMeadWaterConservationProgramAnalysis.docx) (Github)
 
 ## Overview														
-The purpose of this tool is to give users the opportunity to experiment with a Lake Mead Water Bank. The Bank works on the principles of **A) Divide reservoir inflow**, **B. Subtract evaporation**, and **C) Users consume and conserve within their available water**, others choices, and real-time discussion of choices.
+The purpose of this immerisve online collaborative model is to give collaborators the opportunity to experiment with a Lake Mead Water Bank. The Bank works on the principles of **A) Divide reservoir inflow**, **B. Subtract evaporation**, and **C) Users consume and conserve within their available water**, others choices, and real-time discussion of choices.
 We see uses of the tool for two purposes:
 
 1. As researchers we want to learn: Why basin partners choose assumptions and how extreme; *Why* and *how* basin partners manage their risk of uncertain future water supply; Which new insights they take from a model session. 

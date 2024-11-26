@@ -1,6 +1,6 @@
 # Model Guide
 
-## Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow
+## Immersive Model: Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow
 
 David E. Rosenberg \| Utah State University \|
 [david.rosenberg@usu.edu](mailto:david.rosenberg@usu.edu)
@@ -447,9 +447,10 @@ their available water (Figure 7).
 ![A screenshot of a computer Description automatically
 generated](media/2875cf635e6f1a22301b08f37ffbb5d4.png)
 
-**Figure 7. Reclamation Protect Zono Dashboard annotated. There is 4.8 maf of
-water available. No trades or withdraws have been entered. So the ending balance
-is also 4.8 maf.**
+**Figure 7. Reclamation Protect Dashboard annotated. Starting storage is 1,061
+feet (8.5 maf), the reservoir protect elevation is 1,005 feet (4.8 maf), and
+there is 9.5 maf inflow this year. Thus, there is 4.8 maf of water available. No
+trades or withdraws have been entered. So the ending balance is also 4.8 maf.**
 
 ### (i) Buy or sell water from other participants(s)
 
@@ -463,7 +464,7 @@ from Mexico -- enter as a formula: = 0.5 + 0.2
 When a buying account requires a selling account to invest financial proceeds in
 new farm or urban water conservation efforts, the money stays in the local
 community and the seller can make more water available in future years
-(Rosenberg, 2021b).
+(Rosenberg, 2021).
 
 ### (ii) Compensation
 
@@ -605,9 +606,13 @@ to the actual documents:
     government agree to pay \$200 million to conserve 0.5 maf each year for two
     years (Allhands, 2021).
 
-5.  **2026.** **Interim Guidelines and Drought Contingency Plans expire.**
+5.  **2023 to Present.** Process to plan for operations post 2026 when interim
+    guidelines and drought contingency plans expire (USBR, 2023a; USBR,
+    2023b)**.**
 
-6.  **Castle and Fleck (2019)**:
+6.  **2026.** **Interim Guidelines and Drought Contingency Plans expire.**
+
+7.  **Castle and Fleck (2019)**:
 
     1.  Summarize current Colorado River operations in more detail than Items
         \#1-9.
@@ -651,11 +656,7 @@ Moreo, M. T. (2015). "Evaporation data from Lake Mead and Lake Mohave, Nevada
 and Arizona, March 2010 through April 2015." U.S. Geological Survey Data
 Release. <http://dx.doi.org/10.5066/F79C6VG3>.
 
-Rosenberg, D. E. (2021a). "Colorado River Coding: Intentionally Created Surplus
-for Lake Mead: Current Accounts and Next Steps." ICS folder,
-<https://doi.org/10.5281/zenodo.5501466>.
-
-Rosenberg, D. E. (2021b). "Invest in Farm Water Conservation to Curtail Buy and
+Rosenberg, D. E. (2021). "Invest in Farm Water Conservation to Curtail Buy and
 Dry." *Submitted to Journal of Water Resources Planning and Management*, 3.
 <https://digitalcommons.usu.edu/water_pubs/169/>.
 
@@ -680,11 +681,6 @@ Colorado River Basin." *Upper Colorado River Commission*.
 UCRC. (2024). "Colorado River System Conservation Pilot Program in the Upper
 Colorado River Basin." *Upper Colorado River Commission*.
 <http://www.ucrcommission.com/wp-content/uploads/2024/06/2023_SCPP_Report_June2024.pdf>.
-
-USBR. (2007). "Record of Decision: Colorado River Interim Guidelines for Lower
-Basin Shortages and Coordinated Operations for Lakes Powell and Mead." U.S.
-Bureau of Reclamation.
-<https://www.usbr.gov/lc/region/programs/strategies/RecordofDecision.pdf>.
 
 USBR. (2012). "Colorado River Basin Water Supply and Demand Study." U.S.
 Department of Interior, Bureau of Reclamation, Washington, D.C.,
@@ -712,15 +708,18 @@ USBR. (2021c). "Pilot System Conservation Program." U.S. Bureau of Reclamation,
 <https://www.usbr.gov/lc/region/programs/PilotSysConsProg/pilotsystem.html>
 [Accessed on: October 14, 2021].
 
+USBR. (2023a). "Integrated Technical Education Workgroup." Reclamation,
+<https://www.usbr.gov/ColoradoRiverBasin/post2026/itew.html> [Accessed on:
+September 18, 2023].
+
+USBR. (2023b). "Post-2026 Colorado River Reservoir Operational Strategies for
+Lake Powell and Lake Mead: Summary of the Federal Register Notice Input
+Received." Reclamation,
+<https://www.usbr.gov/ColoradoRiverBasin/Post2026Ops.html> [Accessed on:
+September 20, 2022].
+
 USGS. (2016). "Colorado River Basin map." U.S. Geological Survey.
 <https://www.usgs.gov/media/images/colorado-river-basin-map>.
-
-Wheeler, K., Kuhn, E., Bruckerhoff, L., Udall, B., Wang, J., Gilbert, L.,
-Goeking, S., Kasprak, A., Mihalevich, B., Neilson, B., Salehabadi, H., and
-Schmidt, J. C. (2021). "Alternative Management Paradigms for the Future of the
-Colorado and Green Rivers." Center for Colorado River Studies, Utah State
-University, Logan, Utah.
-<https://qcnr.usu.edu/coloradoriver/files/WhitePaper_6.pdf>.
 
 Wheeler, K. G., Schmidt, J. C., and Rosenberg, D. E. (2019). "Water Resource
 Modelling of the Colorado River – Present and Future Strategies." Center for
