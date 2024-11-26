@@ -1,24 +1,54 @@
 # Model Guide
 
-## Colorado River Basin Accounts: Provoke discussion about more adaptive operations
+## Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow
 
 David E. Rosenberg \| Utah State University \|
-[david.rosenberg@usu.edu](mailto:david.rosenberg@usu.edu) \| @WaterModeler
+[david.rosenberg@usu.edu](mailto:david.rosenberg@usu.edu)
 
-April 25, 2022
+\| <http://rosenberg.usu.edu>
+
+November 25, 2024
 
 # I**ntroduction**
 
-This document supports participants to use a Google Sheet model of Colorado
-River Basin Accounts (Rosenberg, 2022). Participants connect to the same Google
-Sheet. Participants enter individual and group water consumption, conservation,
-and trade choices as model time progresses year-by-year. This document provides
-context information for each individual and group choice. The document also
-explains how choices build on existing Colorado River management (Appendix A).
-The document also suggest potential values to enter.
+The purpose of this tool is to give users the opportunity to immerse in a water
+user role and experiment with a Lake Mead Water Bank based on the Principles of
+Divide reservoir inflow, Subtract evaporation, and Users withdraw and conserve
+within their available water, others choices, and real-time discussion of
+choices. Two secondary purposes are:
+
+-   As researchers we want to learn *Why* basin partners choose assumptions and
+    *how* extreme; *Why* and *how* basin partners manage their risk of uncertain
+    future water supply; *Which* new insights they take from a model session.
+
+-   Provoke discussion about new alternatives for Colorado River management post
+    2026.
+
+A water bank may jetson the need for increasing mandatory Lower Basin water
+shortages tied to declining system storage. The water bank may also help
+stabilize and recover Lake Mead storage for conditions of low reservoir storage
+and inflow. The water bank may additionally increases water user autonomy to
+manage their vulnerability to water shortages more independently of other users
+while leverage prior negotiations and decrease conflicts post 2026.
+
+This document provides context information for each individual and group choice
+within the immersive model. The document also explains how choices build on
+existing Colorado River management (Appendix A). The document also suggest
+potential values to enter for user choices.
 
 Find quick links to this support information -- the sections and subsections of
 this document -- in the Model file, *Master* worksheet, Column N.
+
+Requirements
+
+-   **Facilitator**: 1 person to setup in Google Sheets (see Setup below),
+    invite participants, and organize play.
+
+-   **Number of People**: 2 or more (facilitator may also participate).
+
+-   **Time**: 1 to 3 hours.
+
+-   **Software**: Facilitator has a Google Account.
 
 # Facilitation Instructions
 
@@ -28,7 +58,7 @@ persons not familiar with current Colorado River operations).
 Follow the setup and play instructions (Box 1). The rest of the document
 provides guidance on each step.
 
-![](media/88a6c966e15bd64505217791621be823.png)
+![](media/fd6fd94b0a0c8b2de7e9b5502e56c5d2.png)
 
 ## Types of Use
 
@@ -43,27 +73,24 @@ Participants can explore:
 
 -   Water conservation and consumptive use strategies.
 
--   Scenarios of natural flow.
+-   Scenarios of Lake Mead inflow.
 
 -   Joint (political) decisions such as:
 
-    -   Include more accounts or stakeholders.
+    -   Include an additional user of Lower Basin Tribal Nations.
 
     -   Split existing reservoir storage among accounts.
 
     -   Split future inflows among accounts.
 
-    -   Split the combined reservoir storage among reservoirs.
+# Step 1. Assign Accounts, Articulate Vulnerabilities, and Strategies to Manage Vulnerability
 
-# Step 1. Assign Accounts and Decide Strategies
-
-The Upper Basin, Lower Basin, Mexico, Colorado River Delta, and First Nations
-accounts represent entities defined in the the 1922 Colorado River Compact, 1944
-U.S.-Mexico Treaty, subsequent Minutes 319 and 323, Upper and Lower Basin
-drought contingency plans, and pledges to include more accounts (Table 1)(1922;
-IBWC, 2021; USBR, 2019; USBR, 2020). The shared reserve account protects Lake
-Powell and Lake Mead elevation targets (3,525 and 1,020 feet) that are defined
-in the Upper and Lower Basin Drought Contingency Plans (USBR, 2019).
+The Reclamation, California, Arizona, Nevada, and Mexico accounts represent
+entities defined in the 1922 Colorado River Compact, US-Mexico Treaty of 1948,
+subsequent Minutes 319 and 323, Lower Basin drought contingency plans, and
+pledges to include more accounts (Table 1)(1922; IBWC, 2021; USBR, 2019; USBR,
+2020). The Reclamation account protects Lake Mead elevation specified in the
+Lower Basin Drought Contingency Plan (USBR, 2019).
 
 **Maps of account areas**
 
@@ -76,22 +103,16 @@ in the Upper and Lower Basin Drought Contingency Plans (USBR, 2019).
 
 **Table 1. Accounts, Reason(s) to include in model, and Potential Strategies**
 
-| **Account**          |                                                                                      | **Potential Strategy(s)**                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-|----------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Upper Basin          | Article II(c to g) of the Colorado River Compact (1922).                             | Continue to consume \~ 3.0 maf/year (historical consumptive use). 3.0 maf excludes 1.1 maf of use by First Nations in the Upper Basin.  Increase consumptive use above 3.0 maf/year to fulfil aspirations to further develop. Sell some water, get paid to conserve, and prepare for shortage and curtailment (Rosenberg, 2021c).                                                                                                                                    |
-| Lower Basin          | Article II(c to g) of the Colorado River Compact (1922).                             | Continue mandatory conservation and cutback from 6.55 to 5.45 maf per year as Lake Mead level declines from 1,090 to 1,025 feet (USBR, 2019). See cutback schedule in *MandatoryConservation* sheet. These values exclude 0.95 maf per year of use by First Nations in the Lower Basin. Cut back an addition 0.5 maf per year to represent the recent 500-Plus Plan (Allhands, 2021). Buy water to reduce mandatory conservation.  Save some water for future years. |
-| Mexico               | 1944 U.S.-Mexico Treaty and subsequent Minutes                                       | Continue mandatory conservation and cutback from 1.5 maf per year as Lake Mead levels decline (IBWC, 2021). See *MandatoryConservation* sheet. Conserve more water beyond mandatory targets. Sell water to get money for non-water projects.                                                                                                                                                                                                                         |
-| Colorado River Delta | Section VIII of Minute 323 (IBWC, 2021)                                              | Save until have enough water for a 0.06 maf pulse flood every few years. Save until have enough water for a longer duration 0.08 maf pulse flood. Scientists are still figuring out the ecological and other benefits of 0.08 or 0.06 maf pulse floods. Buy water and make more frequent pulse floods.                                                                                                                                                               |
-| First Nations        | Include more accounts (USBR, 2020) Tribal water study (Ten Tribes Partnership, 2018) | Develop and use 2.0 maf per year of rights. 1.1 maf of use by First Nations in the Upper Basin and 0.95 maf by First Nations in the Lower Basin. Lease undeveloped water to acquire capital to build new projects. Save water for future use.                                                                                                                                                                                                                        |
-| Shared, Reserve      | Protect Lake Powell and Lake Mead elevations of 3,525 and 1,020 feet (USBR, 2019)    | Maintain combined protection volume (11.6 maf). Account managed by consensus of all accounts. Assume accounts do not agree on releases, so no releases, steady account balance. Transfer some water without payment to account in need.                                                                                                                                                                                                                              |
+| **Account**              |                                                                                      | **Potential Strategy(s)**                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|--------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Reclamation              | Article II(c to g) of the Colorado River Compact (1922).                             | Set Lake Mead Protection Elevation of 1,020 feet () as defined in the Lower Basin Drought Contingency Plan (USBR, 2019). Lower the protection elevation to allow allocation of more active storage to other users                                                                                                                                                                                                                                                    |
+| California               | Article II(c to g) of the Colorado River Compact (1922).                             | Continue mandatory conservation and cutback from 6.55 to 5.45 maf per year as Lake Mead level declines from 1,090 to 1,025 feet (USBR, 2019). See cutback schedule in *MandatoryConservation* sheet. These values exclude 0.95 maf per year of use by First Nations in the Lower Basin. Cut back an addition 0.5 maf per year to represent the recent 500-Plus Plan (Allhands, 2021). Buy water to reduce mandatory conservation.  Save some water for future years. |
+| Arizona                  | Article II(c to g) of the Colorado River Compact (1922).                             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Nevada                   | Article II(c to g) of the Colorado River Compact (1922).                             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Mexico                   | 1944 U.S.-Mexico Treaty and subsequent Minutes                                       | Continue mandatory conservation and cutback from 1.5 maf per year as Lake Mead levels decline (IBWC, 2021). See *MandatoryConservation* sheet. Conserve more water beyond mandatory targets. Sell water to get money for non-water projects.                                                                                                                                                                                                                         |
+| First Nations (optional) | Include more accounts (USBR, 2020) Tribal water study (Ten Tribes Partnership, 2018) | Develop and use 0.95 maf of settled water rights by Tibal Nations in the Lower Basin. Lease settled, undeveloped water to acquire capital to build new projects. Save water for future use.                                                                                                                                                                                                                                                                          |
 
 A participant can play one or more accounts.
-
-Representatives of individual states — e.g., Utah, Wyoming, Colorado, and New
-Mexico in the Upper Basin — can team up to manage an account like the Upper
-Basin. When teaming, draw on prior water sharing agreements such as an Upper
-Basin Compact where states share water in specified percentages (Carson et al.,
-1948).
 
 The First Nations account allows First Nations to manage their water
 independently from the Basin State in which the First Nation was located. This

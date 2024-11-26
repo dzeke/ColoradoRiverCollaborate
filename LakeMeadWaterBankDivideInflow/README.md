@@ -3,10 +3,15 @@
 ### [Lets Start (visual directions)](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow-LetsStart.pdf) (pdf file)
 ### [Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md) (Help file)
 ### [Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx) (Excel)
-### [Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterConservationProgramAnalysis/LakeMeadWaterConservationProgramAnalysis.docx) (Github)
+### [Further Reading](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterConservationProgramAnalysis/LakeMeadWaterConservationProgramAnalysis.docx) (Github)
 
 ## Overview														
-The purpose of this tool is to give users the opportunity to experiment with a Lake Mead Water Bank based on the Principles of Divide reservoir inflow, Subtract evaporation, and Users consume and conserve within their available water. The water bank jetsones the need for increasing mandatory Lower Basin water shortages tied to declining system storage. The water bank can help stabilize and recover Lake Mead storage for conditions of low reservoir storage and inflow. The water bank also increases water user autonomy to manage their conflicting vulnerabilities to water shortages more independently of other users while leverage prior negotiations and decrease conflicts post 2026.
+The purpose of this tool is to give users the opportunity to experiment with a Lake Mead Water Bank. The Bank works on the principles of **A) Divide reservoir inflow**, **B. Subtract evaporation**, and **C) Users consume and conserve within their available water**, others choices, and real-time discussion of choices.
+We see uses of the tool for two purposes:
+
+1. As researchers we want to learn: Why basin partners choose assumptions and how extreme; *Why* and *how* basin partners manage their risk of uncertain future water supply; Which new insights they take from a model session. 
+1. Provoke discussion about new alternatives for Colorado River management post 2026.
+
 
 To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx), 
 move to Google Sheets, and invite participants. There are accounts for Reclamation (Protect Zone), California, Arizona, Nevada, and Mexico.
@@ -21,13 +26,13 @@ Over one or more years, participants consume, save, and trade water in the accou
 
 **Software**: Facilitator has a Google Account.
 
-## Facilitation Directions
+## Directions to Guide a Model Session
 
 **Setup**
 1. Download the file **[LakeMeadWaterBankDivideInflow.xlsx](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)** to your computer.
 1. Move the Excel file to your Google Drive. Open as a Google Sheet.
 1. Open the **Versions** Worksheet to see updates.
-1. Duplicate the **Master** Worksheet to save a blank version for later use. 
+1. Duplicate the **Master** Worksheet to work on in this session and save a blank version for later use. 
 1. Invite 1 or more other people to join the Google Sheet.
    1. In the upper right of the Google Sheet, click the **Share** button.
    1. Add emails, and set permissions so players can access the Google Sheet. Or copy and share the sheet's URL. 
@@ -35,6 +40,7 @@ Over one or more years, participants consume, save, and trade water in the accou
 **Use**
 1. On the **Master** Worksheet, scroll down Column A. Participants enter values in rows with 🟦 `Blue text`
    1. For example, in Rows 4-10, particants select a **User** and enter the **User's Vulnerability**, and **Strategy to manage vulnerability**. If fewer than 6 participants, participants select multiple parties.
+   1. In 🟩 `Cell B19`, enter the Lake Mead starting storage. Find current elevation [here](https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html).
    1. In 🟩 `Cell B20`, the Reclamation user sets the elevation for the protection zone - Lake Mead will never fall below this level.
    1. Enter the Lake Mead Inflow for Year 1 in 🟩 `Cell C28`. Cells below will populate.
    1. Participants continue to enter values in Year 1 (Column C) down to Row 137 in row blocks with 🟦 `Blue text`.
@@ -43,7 +49,7 @@ Over one or more years, participants consume, save, and trade water in the accou
 1. View the **Master-Plots** worksheet to compare entries to current operations (Law of River) [[This feature is not yet implemented]].
 1. The **ReadMe-Directions** Worksheet also has these directions and describes all worksheets in the Workbook.
   
-## Publications
+## Further Reading
 1. Rosenberg, D. E. (2022a). "Adapt Lake Mead Releases to Inflow to Give Managers More Flexibility to Slow Reservoir Drawdown." Journal of Water Resources Planning and Management, 148(10), 02522006. https://doi.org/10.1061/(ASCE)WR.1943-5452.0001592.
 1. Rosenberg, D. E. (2022b). "Invest in Farm Water Conservation to Curtail Buy and Dry." Journal of Water Resources Planning and Management, 148(8), 01822001. https://doi.org/10.1061/(ASCE)WR.1943-5452.0001584.
 1. Rosenberg, D. E. (2024). "Lessons from immersive online collaborative modeling to discuss more adaptive reservoir operations." Journal of Water Resources Planning and Management, 150(7). https://doi.org/10.1061/JWRMD5.WRENG-5893.
@@ -52,16 +58,6 @@ Over one or more years, participants consume, save, and trade water in the accou
 
 ## Requested Citation (permanent link)
 David E. Rosenberg, Erik Porse (2024). "Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow." Utah State University, Logan, UT. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterBankDivideInflow.
-
-## Donate to Support this Work
-Make a tax deductible gift -- for as little as $5 -- to Utah State University (USU) to support new Colorado River work:
-
-1. Goto [USU Gift Webform](https://www.usu.edu/advancement/give/index).
-1. Set the box **Designation** to *Other*. 
-1. In the **Gift Instructions** box enter *for David Rosenberg – Colorado River*.
-1. Enter your contact information.
-
-All donors will be added to an email list and receive periodic updates.
 
 ## File Descriptions
 1. **[[LakeMeadWaterBankDivideInflow.xlsx](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)** - An Excel file with the Lake Mead Water Bank tool. Follow **Facillation Directions** (above) or open **ReadMe-Directions** Worksheet.
