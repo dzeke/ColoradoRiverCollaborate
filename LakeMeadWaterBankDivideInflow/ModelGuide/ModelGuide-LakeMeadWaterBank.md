@@ -136,11 +136,11 @@ Four model cell types are defined by fill color (Table 2).
 
 Evaporation rates for Lake Mead are taken as the midpoint within reported ranges
 of measurements (Table 3)(Schmidt et al., 2016). Evaporation rates for Lake Mead
-are presently measured using eddy-covariance however there is a several year
-delay in reporting values (Moreo, 2015). A sensitivity analysis found that the
-lower and upper bounds on Lake Mead evaporation rates for a five year study for
-Lake Mead draw down saw variations of 0.25 maf or less in Lake Mead storage
-volume.
+are presently measured using state-of-the-art eddy-covariance however there is a
+several year delay in reporting values (Moreo, 2015). A sensitivity analysis
+found that the lower and upper bounds on Lake Mead evaporation rates for a five
+year study for Lake Mead draw down saw variations of 0.25 maf or less in Lake
+Mead storage volume.
 
 **Table 3. Reservoir evaporation rates (feet per year)**
 
@@ -150,8 +150,9 @@ volume.
 
 ### (ii) Start storage
 
-Reservoir start storage is taken from data portals (USBR, 2021c; USBR, 2021d).
-Text in Column D lists the date.
+Reservoir start storage is taken from the [data
+portal](https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html) (USBR,
+2021c). Text in Column D lists the date.
 
 ### (iii) Protection elevations
 
@@ -256,7 +257,7 @@ scenario of possible future flows. Develop a scenario from:
     model time progresses.
 
 5.  Optionally, refer to unregulated inflows from 1960 to 1999 (USBR,
-    2021e)(Figure 4) and add \~3 maf to get a natural flow. The addition
+    2021d)(Figure 4) and add \~3 maf to get a natural flow. The addition
     represents non-reservoir consumptive use in the Upper Basin. Figure 5 shows
     how to convert from unregulated to natural flow.
 
@@ -271,7 +272,7 @@ Colorado River at Lees Ferry (Salehabadi et al., 2020).**
 
 ![](media/9e513f8f357cf9e3758d943c8a253767.png)
 
-**Figure 4. Unregulated flow to Lake Powell (USBR, 2021e). Add \~ 3 maf for
+**Figure 4. Unregulated flow to Lake Powell (USBR, 2021d). Add \~ 3 maf for
 natural flow.**
 
 ![](media/e2e03f375e85e6262a6f39c2b3604617.png)
@@ -860,15 +861,12 @@ USBR. (2021b). "Boulder Canyon Operations Office - Program and Activities: Water
 Accounting Reports." U.S. Bureau of Reclamation.
 <https://www.usbr.gov/lc/region/g4000/wtracct.html>.
 
-USBR. (2021c). "Glen Canyon Dam, Current Status, Lake Powell Inflow Forecast."
-U.S. Bureau of Reclamation. <https://www.usbr.gov/uc/water/crsp/cs/gcd.html>.
-
-USBR. (2021d). "Lake Mead at Hoover Dam, End of Month Elevation." Lower Colorado
+USBR. (2021c). "Lake Mead at Hoover Dam, End of Month Elevation." Lower Colorado
 River Operations, U.S. Buruea of Reclamation,
 <https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html> [Accessed on:
 October 5, 2021].
 
-USBR. (2021e). "Lake Powell Unregulated Inflow."
+USBR. (2021d). "Lake Powell Unregulated Inflow."
 <https://www.usbr.gov/uc/water/crsp/studies/images/PowellForecast.png> [Accessed
 on: September 28, 2021].
 
