@@ -134,13 +134,13 @@ Four model cell types are defined by fill color (Table 2).
 
 ### **(i) Evaporation rates**
 
-Evaporation rates for Lake Mead are taken as the midpoint within reported ranges
-of measurements (Table 3)(Schmidt et al., 2016). Evaporation rates for Lake Mead
-are presently measured using state-of-the-art eddy-covariance however there is a
-several year delay in reporting values (Moreo, 2015). A sensitivity analysis
-found that the lower and upper bounds on Lake Mead evaporation rates for a five
-year study for Lake Mead draw down saw variations of 0.25 maf or less in Lake
-Mead storage volume.
+Evaporation rates for Lake Mead are presently entered as the midpoint within
+reported ranges of measurements (Table 3)(Schmidt et al., 2016). Evaporation
+rates for Lake Mead are presently measured using state-of-the-art
+eddy-covariance however there is a several year delay in reporting values
+(Moreo, 2015). A sensitivity analysis found that the lower and upper bounds on
+Lake Mead evaporation rates for a five year study for Lake Mead draw down saw
+variations of 0.25 maf or less in Lake Mead storage volume.
 
 **Table 3. Reservoir evaporation rates (feet per year)**
 
@@ -156,80 +156,41 @@ portal](https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html) (USBR,
 
 ### (iii) Protection elevations
 
-These Lake Powell and Lake Mead elevations inform the start storage for the
-shared reserve account. The reservoir protection elevations of 3,525 feet for
-Lake Powell and 1,020 feet for Lake Mead are defined in the Upper and Lower
-Basin Drought Contingency Plans (USBR, 2019). As the reservoirs approach the
-protection levels, the plans state the accounts will consult with the Federal
-Government to stabilize and prevent the reservoirs from falling below these
-levels. To stabilize, participants will need to make reservoir releases plus
-evaporation less than inflow (Rosenberg, In press).
+The Reclamation user decides the Lake Mead elevation to protect against further
+drawdown. An elevation of 1,020 feet was defined in the Lower Basin Drought
+Contingency Plan (USBR, 2019). More recently there has been discussion to lower
+the protect elevation to 1,000 feet (Buschatzke et al., 2024). The Lake Mead
+Water Bank maintains the protection elevation because the Reclamation user is
+always assigned a share of inflow that exactly equals the account’s share of
+evaporation. The protection volume is calculated from the Elevation-Area-Volume
+curve for Lake Mead. See worksheet *Mead-Elevation-Area*.
 
-### (iv) The protection volumes
+### (iv) Storage above Protect Zone
 
-The reservoir protection volumes associated with the Lake Powell and Lake Mead
-protection elevations (item iii). These volumes become the starting balance for
-the shared, reserve account. These volumes are calculated from the
-Elevation-Area-Volume curve for the reservoir. See worksheets
-*Powell-Elevation-Area* and *Mead-Elevation-Area*.
+This storage value is the Reservoir start storage (Cell C19) minus the
+Protection volume (Cell C20). The Storage above the Protect Zone represents the
+active storage that can be assigned to user accounts (see Row 35).
 
-Participants can enter lower protection levels and volumes than the default
-values. Lowering will reduce hydropower generation at Glen Canyon Dam and Hoover
-Dam. Lowering will also raise the temperature of water in Lake Powell, raise
-Glen Canyon Dam release water temperature, and pressure the native, endangered
-fish populations of the Grand Canyon. With warmer release water temperatures,
-non-native fish outcompete the native fish. Colorado River managers recommend to
-keep the default protection levels for now. Participants can also jointly lower
-the protection volume later during each year of model time.
+### (v) Water Conservation Program (ICS) Total Balance.
 
-### (v) Prior 9-year Lake Powell release
+This entry is the sum of all existing water conservation program account
+balances. These balances are also referred to as the Intentionally Created
+Surplus (ICS) account balances and are reported at (USBR, 2021b). Reclamation
+typically publishes values in Spring for the prior calendar year. Figure 1 shows
+a compilation of the individual and total account balances over time. Mexico’s
+water conservation account balance is not shown in the Figure.
 
-This setting is no longer active. Prior 9-year Lake Powell release is 78.1 maf
-and is the release measured through Glen Canyon Dam from 2012 to 2021 (Figure
-1).
+![A graph of different colored bars Description automatically generated with
+medium confidence](media/fb068f98d855c3c2aad9423fce82b26c.png)
 
-### **(vi) Prior 9-year Paria River flow**
+**Figure 1. Lake Mead Water Conservation (ICS) Account balances over time**
 
-This setting is not active. Prior 9-year Paria River flow is 0.17 maf and
-measured just before the confluence with the Colorado River at Lee Ferry. We
-care about the 9-year Lake Powel release and Paria River flow because these
-volumes tell us how much the Upper Basin must deliver in the next 10th year (1st
-year of the model) to meet its 10-year delivery requirement of 82.5 maf each
-decade to the Lower Basin and Mexico via article III(d) of the 1922 Colorado
-River Compact and 1944 US-Mexico Treaty. Here,
+### **(vi) Remaining Storage above the Protect and ICS Balances**
 
-82.5 maf = (7.5)(10) + (1.5/2)(10)
-
-Where 7.5 maf is the Upper Basin’s annual delivery responsibility to the Lower
-Basin, (1.5/2) is the Upper Basin’s half share of the U.S. responsibility to
-Mexico, and 10 is a consecutive 10 year period.
-
-### (vii) Delivery to meet 10-year requirement
-
-This setting is no longer active. Upper Basin delivery to meet 10-year
-requirement is the 82.5 maf requirement minus the Lake Powell Release minus the
-Paria flow. The Upper Basin must deliver 4.2 maf to the Lower Basin next year at
-Lee Ferry. The Upper Basin can keep all Lake Powell natural flow above 4.2 maf.
-
-![](media/3e83f2ff8d8031f12495a1afc52f6e11.png)
-
-**Figure 1. Lake Powell Releases**
-
-### Upper Basin pre-1922 water rights
-
-Upper Basin water rights in million acre-feet per year prior to 1922 when the
-Colorado River Compact was signed (Table 4). These pre-1922 water rights have a
-seniority date prior to the compact. In the assignment of inflow (see Step 2),
-these rights are filled concurrent to Lower Basin pre-1922 water rights.
-
-The 1.2 maf per year value in the model is the 2.3 maf per year total in Table
-4, minus 1.06 maf per year for First Nations in the Upper Basin. This assignment
-assumes Upper Basin First Nations water rights all have a priority before 1922.
-
-**Table 4. Pre-compact water rights (million acre-feet per year)(Leeflang,
-2021)**
-
-![](media/7c02e4128e2bbbb6f5479d4f4d5cf2ed.emf)
+This storage is calculated as the Lake Mead storage above the protection zone
+(Cell C21) minus the total water conservation program balances (Cell C21). This
+storage represents additional storage that may be allocated to the Lower Basin
+states or other users (see Step 3 Split storage in Row 35.
 
 # Step 2. Specify natural inflow to Lake Powell
 
@@ -773,6 +734,12 @@ Allhands, J. (2021). "It could take at least 500,000 acre-feet of water a year
 to keep Lake Mead from tanking." *Arizona Republic*, November 8, 2021.
 <https://www.azcentral.com/story/opinion/op-ed/joannaallhands/2021/11/08/lake-mead-could-get-extra-water-from-lower-basin-annually/6306601001/>.
 
+Buschatzke, T., Hamby, J. B., and Entsminger, J. (2024). "Lower Basin
+Alternative for the Post-2026 Coordinated Operation of the Colorado River
+Basin."
+<https://www.snwa.com/assets/pdf/lower-basin-alternative-letter-march2024.pdf>
+[Accessed on: August 14, 2024].
+
 Castle, A., and Fleck, J. (2019). "The Risk of Curtailment under the Colorado
 River Compact." *SSRN eLibrary*. <http://dx.doi.org/10.2139/ssrn.3483654>.
 
@@ -814,11 +781,6 @@ for Lake Mead: Current Accounts and Next Steps." ICS folder,
 Rosenberg, D. E. (2021c). "Invest in Farm Water Conservation to Curtail Buy and
 Dry." *Submitted to Journal of Water Resources Planning and Management*, 3.
 <https://digitalcommons.usu.edu/water_pubs/169/>.
-
-Rosenberg, D. E. (In press). "Adapt Lake Mead releases to inflow to give
-managers more flexibility to slow reservoir draw down." *Journal of Water
-Resources Planning and Management*, 10.
-<https://digitalcommons.usu.edu/water_pubs/170/>.
 
 Salehabadi, H., Tarboton, D., Kuhn, E., Udall, B., Wheeler, K., E.Rosenberg, D.,
 Goeking, S., and Schmidt, J. C. (2020). "Stream flow and Losses of the Colorado
