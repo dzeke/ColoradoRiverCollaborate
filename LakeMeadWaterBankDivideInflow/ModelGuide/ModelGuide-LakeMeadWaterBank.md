@@ -59,8 +59,6 @@ persons not familiar with current Colorado River operations).
 Follow the setup and play instructions (Box 1). The rest of the document
 provides guidance on each step.
 
-![](media/Fig1StepsToGuide.png)
-
 ## Types of Use
 
 The model can be used in two modes:
@@ -136,19 +134,18 @@ Four model cell types are defined by fill color (Table 2).
 
 ### **(i) Evaporation rates**
 
-Evaporation rates for Lake Powell and Lake Mead are taken as the midpoint within
-reported ranges of measurements (Table 3)(Schmidt et al., 2016). Evaporation
-rates for Lake Mead are presently measured and more reliable than Lake Powell.
-Lake Powell evaporation rates have not been measured in decades. A sensitivity
-analysis found that the lower and upper bounds on Lake Mead evaporation rates
-for a five year study for Lake Mead draw down saw variations of 0.25 maf or less
-in Lake Mead storage volume (Rosenberg, Submitted).
+Evaporation rates for Lake Mead are taken as the midpoint within reported ranges
+of measurements (Table 3)(Schmidt et al., 2016). Evaporation rates for Lake Mead
+are presently measured using eddy-covariance however there is a several year
+delay in reporting values (Moreo, 2015). A sensitivity analysis found that the
+lower and upper bounds on Lake Mead evaporation rates for a five year study for
+Lake Mead draw down saw variations of 0.25 maf or less in Lake Mead storage
+volume.
 
 **Table 3. Reservoir evaporation rates (feet per year)**
 
 | **Reservoir** | **Midpoint** | **Range** |
 |---------------|--------------|-----------|
-| Powell        | 5.7          | 4.9 – 6.5 |
 | Mead          | 6.0          | 5.5 – 6.4 |
 
 ### (ii) Start storage
@@ -165,7 +162,7 @@ Basin Drought Contingency Plans (USBR, 2019). As the reservoirs approach the
 protection levels, the plans state the accounts will consult with the Federal
 Government to stabilize and prevent the reservoirs from falling below these
 levels. To stabilize, participants will need to make reservoir releases plus
-evaporation less than inflow (Rosenberg, Submitted).
+evaporation less than inflow (Rosenberg, In press).
 
 ### (iv) The protection volumes
 
@@ -771,60 +768,55 @@ to the actual documents:
 
 # References
 
-(1922). "Colorado River Compact."
-<https://www.usbr.gov/lc/region/pao/pdfiles/crcompct.pdf>. [Accessed on: October
-5, 2021].
-
 Allhands, J. (2021). "It could take at least 500,000 acre-feet of water a year
 to keep Lake Mead from tanking." *Arizona Republic*, November 8, 2021.
-
-Carson, C. A., Stone, C. H., Wilson, F. E., Watson, E. H., and Bishop, L. C.
-(1948). "Upper Colorado River Basin Compact." U.S. Bureau of Reclamation.
-<https://www.usbr.gov/lc/region/g1000/pdfiles/ucbsnact.pdf>. [Accessed on:
-September 7, 2021].
+<https://www.azcentral.com/story/opinion/op-ed/joannaallhands/2021/11/08/lake-mead-could-get-extra-water-from-lower-basin-annually/6306601001/>.
 
 Castle, A., and Fleck, J. (2019). "The Risk of Curtailment under the Colorado
-River Compact." <http://dx.doi.org/10.2139/ssrn.3483654>.
+River Compact." *SSRN eLibrary*. <http://dx.doi.org/10.2139/ssrn.3483654>.
+
+Colorado River Compact. (1922).
+<https://www.usbr.gov/lc/region/pao/pdfiles/crcompct.pdf> [Accessed on: October
+5, 2021].
 
 IBWC. (2021). "Minutes between the United States and Mexican Sections of the
-IBWC." United States Section.
-<https://www.ibwc.gov/Treaties_Minutes/Minutes.html>. [Accessed on: July 22,
+IBWC." United States Section,
+<https://www.ibwc.gov/Treaties_Minutes/Minutes.html> [Accessed on: July 22,
 2021].
 
 Kuhn, E., and Fleck, J. (2019). *Science Be Dammed: How Ignoring Inconvenient
 Science Drained the Colorado River*, University of Arizona Press.
 
-(Leeflang, B.). (2021). "Colorado River Coding: Pre 1922 Compact Water Use."
-<https://github.com/dzeke/ColoradoRiverCoding/tree/main/Pre1922CompactWaterUse>.
+Leeflang, B. (2021). "Colorado River Coding: Pre 1922 Compact Water Use."
+<https://doi.org/10.5281/zenodo.5501466>.
 
 Meko, D., Bigio, E., and Woodhouse, C. A. (2017). "Colorado River at Lees Ferry,
 CO River (Updated Skill)." *Treeflow*.
 [https://www.treeflow.info/content/upper-colorado\#field-ms-calibration-validation](https://www.treeflow.info/content/upper-colorado#field-ms-calibration-validation).
+
+Moreo, M. T. (2015). "Evaporation data from Lake Mead and Lake Mohave, Nevada
+and Arizona, March 2010 through April 2015." U.S. Geological Survey Data
+Release. <http://dx.doi.org/10.5066/F79C6VG3>.
 
 Prairie, J. (2020). "Colorado River Basin Natural Flow and Salt Data." U.S.
 Bureau of Reclamation.
 <https://www.usbr.gov/lc/region/g4000/NaturalFlow/current.html>.
 
 Rosenberg, D. E. (2021a). "Colorado River Coding: Grand Canyon Intervening
-Flow." GrandCanyonInterveningFlow folder.
+Flow." GrandCanyonInterveningFlow folder,
 <https://doi.org/10.5281/zenodo.5501466>.
 
 Rosenberg, D. E. (2021b). "Colorado River Coding: Intentionally Created Surplus
-for Lake Mead: Current Accounts and Next Steps." ICS folder.
+for Lake Mead: Current Accounts and Next Steps." ICS folder,
 <https://doi.org/10.5281/zenodo.5501466>.
 
 Rosenberg, D. E. (2021c). "Invest in Farm Water Conservation to Curtail Buy and
 Dry." *Submitted to Journal of Water Resources Planning and Management*, 3.
 <https://digitalcommons.usu.edu/water_pubs/169/>.
 
-Rosenberg, D. E. (2022). "Colorado River Coding: Lessons from 26 Colorado River
-managers and experts experimenting with flex accounts in a combined Lake
-Powell-Lake Mead system." BlogPosts folder.
-<https://doi.org/10.5281/zenodo.5501466>.
-
-Rosenberg, D. E. (Submitted). "Adapt Lake Mead releases to inflow to give
-managers more flexibility to slow reservoir draw down." *Submitted to Journal of
-Water Resources Planning and Management*(170), 10.
+Rosenberg, D. E. (In press). "Adapt Lake Mead releases to inflow to give
+managers more flexibility to slow reservoir draw down." *Journal of Water
+Resources Planning and Management*, 10.
 <https://digitalcommons.usu.edu/water_pubs/170/>.
 
 Salehabadi, H., Tarboton, D., Kuhn, E., Udall, B., Wheeler, K., E.Rosenberg, D.,
@@ -848,12 +840,12 @@ Bureau of Reclamation.
 <https://www.usbr.gov/lc/region/programs/strategies/RecordofDecision.pdf>.
 
 USBR. (2012). "Colorado River Basin Water Supply and Demand Study." U.S.
-Department of Interior, Bureau of Reclamation, Washington, D.C.
+Department of Interior, Bureau of Reclamation, Washington, D.C.,
 <https://www.usbr.gov/lc/region/programs/crbstudy.html>.
 
 USBR. (2019). "Agreement Concerning Colorado River Drought Contingency
 Management and Operations." U.S. Bureau of Reclamation, Washington, DC.
-<https://www.usbr.gov/dcp/finaldocs.html>.
+<https://www.usbr.gov/ColoradoRiverBasin/dcp/index.html>.
 
 USBR. (2020). "Review of the Colorado River Interim Guidelines for Lower Basin
 Shortages and Coordinated Operations for Lake Powell and Lake Mead." U.S. Bureau
@@ -872,13 +864,13 @@ USBR. (2021c). "Glen Canyon Dam, Current Status, Lake Powell Inflow Forecast."
 U.S. Bureau of Reclamation. <https://www.usbr.gov/uc/water/crsp/cs/gcd.html>.
 
 USBR. (2021d). "Lake Mead at Hoover Dam, End of Month Elevation." Lower Colorado
-River Operations, U.S. Buruea of Reclamation.
-<https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html>. [Accessed on:
+River Operations, U.S. Buruea of Reclamation,
+<https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html> [Accessed on:
 October 5, 2021].
 
 USBR. (2021e). "Lake Powell Unregulated Inflow."
-<https://www.usbr.gov/uc/water/crsp/studies/images/PowellForecast.png>.
-[Accessed on: September 28, 2021].
+<https://www.usbr.gov/uc/water/crsp/studies/images/PowellForecast.png> [Accessed
+on: September 28, 2021].
 
 USGS. (2016). "Colorado River Basin map." U.S. Geological Survey.
 <https://www.usgs.gov/media/images/colorado-river-basin-map>.
@@ -893,9 +885,9 @@ University, Logan, Utah.
 Wheeler, K. G., Schmidt, J. C., and Rosenberg, D. E. (2019). "Water Resource
 Modelling of the Colorado River – Present and Future Strategies." Center for
 Colorado River Studies, Utah State University, Logan, Utah.
-<https://qcnr.usu.edu/coloradoriver/files/WhitePaper2.pdf>.
+<https://qcnr.usu.edu/coloradoriver/files/news/White-Paper-2.pdf>.
 
 Zagona, E. A., Fulp, T. J., Shane, R., Magee, T., and Goranflo, H. M. (2001).
 "Riverware: A Generalized Tool for Complex Reservoir System Modeling." *JAWRA
 Journal of the American Water Resources Association*, 37(4), 913-929.
-<https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1752-1688.2001.tb05522.x>.
+<https://doi.org/10.1111/j.1752-1688.2001.tb05522.x>.
