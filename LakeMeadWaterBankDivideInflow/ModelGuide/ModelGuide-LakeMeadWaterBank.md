@@ -11,25 +11,26 @@ November 25, 2024
 
 # I**ntroduction**
 
-The purpose of this tool is to give users the opportunity to immerse in a water
-user role and experiment with a Lake Mead Water Bank based on the Principles of
-Divide reservoir inflow, Subtract evaporation, and Users withdraw and conserve
-within their available water, others choices, and real-time discussion of
-choices. Two secondary purposes are:
+The purpose of this tool is to give users the opportunity to immerse in water
+user roles and experiment with a Lake Mead Water Bank. The Bank works on the
+principles of **A) Divide reservoir inflow**, **B) Subtract evaporation**, and
+**C) Users withdraw and conserve within their available water**, others choices,
+and real-time discussion of choices. We see uses of the tool for two purposes:.
+We see use of the tool for two purposes:
 
 -   As researchers we want to learn *Why* basin partners choose assumptions and
-    *how* extreme; *Why* and *how* basin partners manage their risk of uncertain
-    future water supply; *Which* new insights they take from a model session.
+    *how* extreme; *Why* and *how* basin partners articulate their risk of
+    uncertain future water supply and manage their vulnerability; and *Which*
+    new insights they take from a model session.
 
 -   Provoke discussion about new alternatives for Colorado River management post
-    2026.
+    2026 and their possible benefits to:
 
-A water bank may jetson the need for increasing mandatory Lower Basin water
-shortages tied to declining system storage. The water bank may also help
-stabilize and recover Lake Mead storage for conditions of low reservoir storage
-and inflow. The water bank may additionally increases water user autonomy to
-manage their vulnerability to water shortages more independently of other users
-while leverage prior negotiations and decrease conflicts post 2026.
+    -   Stabilize and recover reservoir storage under conditions of low storage
+        *and* low inflow, and
+
+    -   Give users more autonomy to manage their vulnerability to water
+        shortages.
 
 This document provides context information for each individual and group choice
 within the immersive model. The document also explains how choices build on
@@ -41,24 +42,22 @@ this document -- in the Model file, *Master* worksheet, Column N.
 
 Requirements
 
--   **Facilitator**: 1 person to setup in Google Sheets (see Setup below),
+-   **Session Guide**: 1 person to setup in Google Sheets (see Setup below),
     invite participants, and organize play.
 
--   **Number of People**: 2 or more (facilitator may also participate).
+-   **Number of People**: 2 or more (Session Guide may also participate).
 
 -   **Time**: 1 to 3 hours.
 
--   **Software**: Facilitator has a Google Account.
+-   **Software**: Session Guide has a Google Account.
 
-# Facilitation Instructions
+# Instructions to Guide a Model Session
 
 Review the main canons of existing Colorado River management (Appendix A;
 persons not familiar with current Colorado River operations).
 
 Follow the setup and play instructions (Box 1). The rest of the document
 provides guidance on each step.
-
-![](media/fd6fd94b0a0c8b2de7e9b5502e56c5d2.png)
 
 ## Types of Use
 
@@ -77,8 +76,6 @@ Participants can explore:
 
 -   Joint (political) decisions such as:
 
-    -   Include an additional user of Lower Basin Tribal Nations.
-
     -   Split existing reservoir storage among accounts.
 
     -   Split future inflows among accounts.
@@ -89,10 +86,10 @@ The Reclamation, California, Arizona, Nevada, and Mexico accounts represent
 entities defined in the 1922 Colorado River Compact, US-Mexico Treaty of 1948,
 subsequent Minutes 319 and 323, Lower Basin drought contingency plans, and
 pledges to include more accounts (Table 1)(1922; IBWC, 2021; USBR, 2019; USBR,
-2020). The Reclamation account protects Lake Mead elevation specified in the
-Lower Basin Drought Contingency Plan (USBR, 2019).
+2020). The Tribal Nations of the Lower Basin users represents Tribal Nations and
+their settled water rights (Ten Tribes Partnership, 2018).
 
-**Maps of account areas**
+**Maps of water user areas**
 
 -   [Upper Basin, Lower Basin,
     Mexico](https://www.usbr.gov/lc/images/maps/CRBSmap.jpg) (USGS, 2016)
@@ -103,21 +100,27 @@ Lower Basin Drought Contingency Plan (USBR, 2019).
 
 **Table 1. Accounts, Reason(s) to include in model, and Potential Strategies**
 
-| **Account**              |                                                                                      | **Potential Strategy(s)**                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-|--------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Reclamation              | Article II(c to g) of the Colorado River Compact (1922).                             | Set Lake Mead Protection Elevation of 1,020 feet () as defined in the Lower Basin Drought Contingency Plan (USBR, 2019). Lower the protection elevation to allow allocation of more active storage to other users                                                                                                                                                                                                                                                    |
-| California               | Article II(c to g) of the Colorado River Compact (1922).                             | Continue mandatory conservation and cutback from 6.55 to 5.45 maf per year as Lake Mead level declines from 1,090 to 1,025 feet (USBR, 2019). See cutback schedule in *MandatoryConservation* sheet. These values exclude 0.95 maf per year of use by First Nations in the Lower Basin. Cut back an addition 0.5 maf per year to represent the recent 500-Plus Plan (Allhands, 2021). Buy water to reduce mandatory conservation.  Save some water for future years. |
-| Arizona                  | Article II(c to g) of the Colorado River Compact (1922).                             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| Nevada                   | Article II(c to g) of the Colorado River Compact (1922).                             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| Mexico                   | 1944 U.S.-Mexico Treaty and subsequent Minutes                                       | Continue mandatory conservation and cutback from 1.5 maf per year as Lake Mead levels decline (IBWC, 2021). See *MandatoryConservation* sheet. Conserve more water beyond mandatory targets. Sell water to get money for non-water projects.                                                                                                                                                                                                                         |
-| First Nations (optional) | Include more accounts (USBR, 2020) Tribal water study (Ten Tribes Partnership, 2018) | Develop and use 0.95 maf of settled water rights by Tibal Nations in the Lower Basin. Lease settled, undeveloped water to acquire capital to build new projects. Save water for future use.                                                                                                                                                                                                                                                                          |
+| **Account**                       |                                                                                                             | **Potential Strategy(s)**                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Reclamation                       | Article II(c to g) of the Colorado River Compact (1922). Lower Basin Drought Contingency Plan (USBR, 2019). | Set Lake Mead Protection Elevation of 1,020 feet as defined in the Lower Basin Drought Contingency Plan (USBR, 2019). Lake Mead will not fall below this level. Lower the protection elevation to allocate more active storage to other users                                                                                                                                                                                                       |
+| California                        | Article II(c to g) of the Colorado River Compact (1922).                                                    | Continue mandatory conservation and cutback from 4.4 maf per year as Lake Mead level declines from 1,090 to 1,025 feet (USBR, 2019). See cutback schedule in *MandatoryConservation* sheet. These values exclude 0.95 maf per year of use by First Nations in the Lower Basin. Cut back an addition amount per year to represent the 500-Plus Plan (Allhands, 2021). Buy water to reduce mandatory conservation.  Save some water for future years. |
+| Arizona                           | Article II(c to g) of the Colorado River Compact (1922).                                                    | Continue mandatory conservation and cutback from 2.8 maf per year as Lake Mead level declines from 1,090 to 1,025 feet (USBR, 2019). See cutback schedule in *MandatoryConservation* sheet. These values exclude 0.95 maf per year of use by First Nations in the Lower Basin. Cut back an addition amount per year to represent the 500-Plus Plan (Allhands, 2021). Buy water to reduce mandatory conservation.  Save some water for future years. |
+| Nevada                            | Article II(c to g) of the Colorado River Compact (1922).                                                    | Continue mandatory conservation and cutback from 0.3 maf per year as Lake Mead level declines from 1,090 to 1,025 feet (USBR, 2019). See cutback schedule in *MandatoryConservation* sheet. These values exclude 0.95 maf per year of use by First Nations in the Lower Basin. Cut back an addition amount per year to represent the 500-Plus Plan (Allhands, 2021). Buy water to reduce mandatory conservation.  Save some water for future years. |
+| Mexico                            | 1944 U.S.-Mexico Treaty and subsequent Minutes                                                              | Continue mandatory conservation and cutback from 1.5 maf per year as Lake Mead levels decline (IBWC, 2021). See *MandatoryConservation* sheet. Conserve more water beyond mandatory targets. Lease water to get money for non-water projects.                                                                                                                                                                                                       |
+| Tribal Nations of the Lower Basin | Include more accounts (USBR, 2020) Tribal water study (Ten Tribes Partnership, 2018)                        | Develop and use 0.95 maf of settled water rights by Tribal Nations in the Lower Basin. Lease settled, undeveloped water to other users to acquire capital to build new projects. Save water for future use.                                                                                                                                                                                                                                         |
 
 A participant can play one or more accounts.
 
-The First Nations account allows First Nations to manage their water
-independently from the Basin State in which the First Nation was located. This
-set up differed from current operations where Basin States administer water
-rights for the First Nations within their state boundaries.
+The First Nations account allows First Nations of the Lower Basin to manage
+their water independently from the Basin State in which the First Nation was
+located. This set up differed from current operations where Basin States
+administer water rights for the First Nations within their state boundaries.
+
+Delete the entry in Cell A10 to remove the Tribal Nations of the Lower Basin
+
+user. Removing will reallocate 0.95 maf of settled water rights – add 0.48 maf
+
+to the Arizona and 0.48 maf to California.
 
 ## 1A. Explain cell types
 

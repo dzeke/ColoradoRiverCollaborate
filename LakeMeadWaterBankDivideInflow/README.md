@@ -14,17 +14,17 @@ We see uses of the tool for two purposes:
 
 
 To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx), 
-move to Google Sheets, and invite participants. There are accounts for Reclamation (Protect Zone), California, Arizona, Nevada, and Mexico.
+move to Google Sheets, and invite participants. There are accounts for Reclamation (Protect Zone), California, Arizona, Nevada, Mexico, and Tribal Nations in the Lower Basin.
 Over one or more years, participants consume, save, and trade water in the accounts. Read on for directions to use.
 
 ## Rquirements
-**Facilitator**: 1 person to setup in Google Sheets (see Setup below), invite participants, and organize play.											
+**Session Guide**: 1 person to setup in Google Sheets (see Setup below), invite participants, and organize play.											
 
-**Number of People**: 2 or more (facilitator may also participate).
+**Number of People**: 2 or more (Session Guide may also participate).
 
 **Time**: 1 to 3 hours.
 
-**Software**: Facilitator has a Google Account.
+**Software**: Session Guide has a Google Account.
 
 ## Directions to Guide a Model Session
 
@@ -42,11 +42,11 @@ Over one or more years, participants consume, save, and trade water in the accou
    1. For example, in Rows 4-10, particants select a **User** and enter the **User's Vulnerability**, and **Strategy to manage vulnerability**. If fewer than 6 participants, participants select multiple parties.
    1. In 🟩 `Cell B19`, enter the Lake Mead starting storage. Find current elevation [here](https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html).
    1. In 🟩 `Cell B20`, the Reclamation user sets the elevation for the protection zone - Lake Mead will never fall below this level.
+   1. In  🟩 `Cell B20`, enter the total Water Conservation Account (Intentionally Created Surplus) Balance. This value includes California, Arizona, Nevada, and Mexico.
    1. Enter the Lake Mead Inflow for Year 1 in 🟩 `Cell C28`. Cells below will populate.
    1. Participants continue to enter values in Year 1 (Column C) down to Row 137 in row blocks with 🟦 `Blue text`.
    1. Move to Year 2 (Column D). Enter Lake Powell natural flow in 🟩 `Cell D28`.
 1. Find linked help for each row in 🟨 `Column N`.
-1. View the **Master-Plots** worksheet to compare entries to current operations (Law of River) [[This feature is not yet implemented]].
 1. The **ReadMe-Directions** Worksheet also has these directions and describes all worksheets in the Workbook.
   
 ## Further Reading
