@@ -42,10 +42,10 @@ Over one or more years, participants consume, save, and trade water in the accou
    1. For example, in Rows 4-10, particants select a **User** and enter the **User's Vulnerability**, and **Strategy to manage vulnerability**. If fewer than 6 participants, participants select multiple parties.
    1. In 🟩 `Cell B19`, enter the Lake Mead starting storage. Find current elevation [here](https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html).
    1. In 🟩 `Cell B20`, the Reclamation user sets the elevation for the protection zone - Lake Mead will never fall below this level.
-   1. In  🟩 `Cell B20`, enter the total Water Conservation Account (Intentionally Created Surplus) Balance. This value includes California, Arizona, Nevada, and Mexico.
+   1. In  🟩 `Cell B21`, enter the total Water Conservation Account (Intentionally Created Surplus) Balance. This value includes California, Arizona, Nevada, and Mexico.
    1. Enter the Lake Mead Inflow for Year 1 in 🟩 `Cell C28`. Cells below will populate.
    1. Participants continue to enter values in Year 1 (Column C) down to Row 137 in row blocks with 🟦 `Blue text`.
-   1. Move to Year 2 (Column D). Enter Lake Powell natural flow in 🟩 `Cell D28`.
+1. Move to Year 2 (Column D). Enter Lake Powell natural flow in 🟩 `Cell D28`.
 1. Find linked help for each row in 🟨 `Column N`.
 1. The **ReadMe-Directions** Worksheet also has these directions and describes all worksheets in the Workbook.
   
