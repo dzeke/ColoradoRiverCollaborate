@@ -345,6 +345,8 @@ The total reservoir evaporation is divided among water users in proportion to
 their account balance (Equation 1, evaporation terms in maf per year, balance
 and storage terms in maf).
 
+![](media/b0f6fb8c83d308f61784c4ce08a64809.png)
+
 For example, if Lake Mead active storage is 7.2 maf and Lake Mead evaporation is
 0.4 maf for the year, and:
 
@@ -358,33 +360,82 @@ For example, if Lake Mead active storage is 7.2 maf and Lake Mead evaporation is
 
 # Split Lake Mead inflow among accounts
 
-Participants split the basin natural inflow among accounts (Figure 7). Basin
-natural inflows include natural inflow to Lake Powell, plus intervening Grand
-Canyon inflow, plus Mead to Imperial Dam intervening inflow (see Sections 2A-C).
+Participants split the Lake Mead inflow among accounts (See Row 28). There are
+lots of ways to split inflow among the users.
 
-![](media/47d5061c3fea7a491418f52e09e7f66a.png)
+To maintain the Reclamation protection elevation, this user is assigned *the
+first block of inflow to* exactly offset to it’s share of the annual reservoir
+evaporation (Row 46). This volume will vary from year to year as Lake Mead
+storage and evaporation vary.
 
-**Figure 7. Split natural flow among Colorado River basin accounts.**
+Splits of reservoir inflow among the other users can leverage prior shortage
+sharing agreements, including the recent Lower Basin Alternative (Buschatzke et
+al., 2024). This proposal allocated user reductions as a percentage of the total
+mandatory reduction (Table 7). Thus A user’s share of the reservoir inflow is
+their historical allocation minus the agreed-on shortage volume (Table 8).
+Several examples follow to illustrate the conversion of share of *shortage* to
+share of *inflow.*
 
-There are lots of ways to split inflow among the basin accounts. Table 6
-justifies the default splits shown in Figure 7 that draw on existing operations.
+**Table 7. Prior agreed Lower Basin shortages and shares of shortages
+(Buschatzke et al., 2024).**
 
-**Table 6. Assign inflow to accounts**
+![](media/890b5051342d5bbbc12d06dcb9c5bc97.emf)
 
-|    | **Step**                                                                                                                                                                                                                                                                                                                              | **Existing Operations**                               |
-|----|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| 1. | Assign the **shared, reserve account** the *first block of inflow* to exactly offset the evaporation volume of the account. This assignment keeps the shared, reserve balance steady year to year. Volume depends on reservoir storage.                                                                                               | Drought Contingency Plans (USBR, 2019)                |
-| 2. | Assigned inflow to equal Lake Havasu / Parker evaporation and evapotranspiration. This assignment is drawn from inflow assignments to Mexico, Lower Basin, and First Nations in the Lower Basin.                                                                                                                                      | None. Existing operations do not discus these losses. |
-| 3. | Assigned **First Nations** the next *1.94 maf* per year of decreed water rights because First Nations managed their water independently of Basin States. The volume is 1.06 plus 0.952 maf in the Upper and Lower Basins minus First Nations in the Lower Basin’s share of Havasu/Parker losses. The amount excludes claimed amounts. | Tribal Water Study (Ten Tribes Partnership, 2018).    |
-| 4. | Assigned the **Colorado River Delta** the next *0.016 maf* of inflow. This volume is 67% of the 9-year, 0.21 maf volume pledged by the U.S. and Mexico.                                                                                                                                                                               | Minute 323 (IBWC, 2021)                               |
-| 5. | Assigned **Mexico** the next *1.5 maf* of inflow *minus mandatory conservation minus Mexico’s portion* of Havasu/Parker losses. Mandatory conservation volumes increase as Lake Mead level’s decreases (see Section 3C).                                                                                                              | 1944 Treaty, Minutes 319 and 323 (IBWC, 2021)         |
-| 6. | Split the next 2.4 maf per year natural flow between the **Upper** and **Lower Basins** because the Basins have 1.2 and 2.45 maf per year of pre-1922 water rights after deducting use by First Nations.                                                                                                                              | (Leeflang, 2021; Ten Tribes Partnership, 2018)        |
-| 7. | Assign the **Lower Basin** the next 5.3 *maf* of natural flow. 5.2 maf plus 1.2 maf pre-1922 use plus 0.95 maf of First Nations use below Hoover dam plus half of Mexico’s assignment resulted in 8.2 maf per year that is the Lake Powell objective release.                                                                         | 1922 Compact Article III(d)                           |
-| 7. | Assign the **Upper Basin** *all remaining* Lake Powell natural flow.                                                                                                                                                                                                                                                                  | 1922 Compact Article III(d)                           |
+**Table 8. Share of Lake Mead inflow by volume and percentage.**
 
-Figure 7 and Table 6 are one way to assign natural inflow to the basin accounts.
-Other methods may prioritize the Colorado River Delta, First Nations, and Mexico
-differently.
+![](media/3aaae78ca11d7f44fd3fc7a050bafea7.emf)
+
+**Example calculations of share of Lake Mead inflow by volume and percentage
+(Table A2) are:**
+
+1.  Total Lake Mead inflow [B] = 9.0 ─ Total Shortage [A].
+
+    1.  For example, a total shortage of 0.4 maf yields a Lake Mead inflow of
+        9.0 ─ 0.4 = 8.6 maf per year.
+
+2.  Share of Reservoir Inflow:
+
+    -   Arizona [C] = 2.8 ─ Share of Shortage as Volume in Table A1.
+
+        1.  For example, at 8.6 maf of reservoir inflow, Arizona’s share is 2.8
+            ─ 0.28 = 2.52 maf.
+
+    -   Nevada [D] = 0.3 ─ Share of Shortage as Volume in Table A1.
+
+        1.  For example, at 8.0 maf of reservoir inflow, Nevada’s share is 0. 3
+            ─ 0.03 = 0.27 maf.
+
+    -   California [E] = 4.4 ─ Share of Shortage as Volume in Table A1.
+
+        1.  For example, at 7.5 maf of reservoir inflow, California’s share is
+            4.4 ─ 0.44 = 3.96 maf.
+
+    -   Mexico [F] = 1.5 ─ Share of Shortage as Volume in Table A1.
+
+        1.  For example, at 7.5 maf of reservoir inflow, Mexico’s share is 1.5 ─
+            0.25 = 1.25 maf.
+
+3.  Total Reservoir Inflow [G] = [C] + [D] + [E] + [F]
+
+4.  A user’s Percent of Reservoir Inflow is their share by volume divided by the
+    total volume.
+
+    1.  Arizona [H] = [C] / [G]
+
+    2.  Nevada [I] = [D] / [G]
+
+    3.  And so forth.
+
+5.  Total Percentage of Reservoir Inflow [L] = [H] + [I] + [J] + [K] = 100%.
+
+**Observations**
+
+1.  Nevada and Mexico’s percent shares of the reservoir inflow remain constant
+    at 3.3% and 16.67%, respectively. These percentage shares are the same share
+    of their historical allocations.
+
+2.  Arizona’s percentage share of Lake Mead inflow decreases as the inflow
+    decreases whereas California’s share of Lake Mead inflow increases.
 
 # Step 5. Participant Dashboards – Conserve, Consume, and Trade
 
