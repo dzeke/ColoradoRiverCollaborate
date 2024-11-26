@@ -155,45 +155,60 @@ variations of 0.25 maf or less in Lake Mead storage volume.
 
 Reservoir start storage is taken from the [data
 portal](https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html) (USBR,
-2021c). Text in Column D lists the date.
+2021c). Text in Column D lists the date. Figure 1 shows Lake Mead storage over
+time (Solid black line).
+
+![A graph of water and water conservation Description automatically generated
+with medium confidence](media/6b1c8702d79a4c42d582bec134c4d9c1.png)
+
+**Figure 1. Lake Mead Storage (solid black line), Water Conservation (ICS)
+Account Balances (light blue fill), and anticipated lake volume absent the water
+conservation program (dashed red line). The conservation program kept Lake Mead
+level above elevation 1,020 feet (5.9 million acre-feet) during low lake levels
+in 2022.**
 
 ### (iii) Protection elevation
 
 The Reclamation user decides the Lake Mead elevation to protect against further
 drawdown. An elevation of 1,020 feet was defined in the Lower Basin Drought
-Contingency Plan (USBR, 2019). More recently there has been discussion to lower
-the protect elevation to 1,000 feet (Buschatzke et al., 2024). The Lake Mead
-Water Bank maintains the protection elevation because the Reclamation user is
-always assigned a share of inflow that exactly equals the account’s share of
-evaporation. The protection volume is calculated from the Elevation-Area-Volume
-curve for Lake Mead. See worksheet *Mead-Elevation-Area*.
+Contingency Plan (Figure 1, dark blue fill labeled Protect)(USBR, 2019). More
+recently there has been discussion to lower the protect elevation to 1,000 feet
+(Buschatzke et al., 2024). The Lake Mead Water Bank maintains the protection
+elevation because the Reclamation user is always assigned a share of inflow that
+exactly equals the account’s share of evaporation. The protection volume is
+calculated from the Elevation-Area-Volume curve for Lake Mead. See worksheet
+*Mead-Elevation-Area*.
 
 ### (iv) Storage above Protect Zone
 
 This storage value is the Reservoir start storage (Cell C19) minus the
-Protection volume (Cell C20). The Storage above the Protect Zone represents the
-active storage that can be assigned to user accounts (see Row 35).
+Protection volume (Cell C20)(Figure 1, light and medium blue fills labeled Water
+Conservation Accounts and Public Pool). The Storage above the Protect Zone
+represents the active storage that can be assigned to user accounts (see Row
+35).
 
 ### (v) Water Conservation Program (ICS) Total Balance.
 
 This entry is the sum of all existing water conservation program account
-balances. These balances are also referred to as the Intentionally Created
-Surplus (ICS) account balances and are reported at (USBR, 2021b). Reclamation
-typically publishes values in Spring for the prior calendar year. Figure 1 shows
-a compilation of the individual and total account balances over time. Mexico’s
-water conservation account balance is not shown in the Figure.
+balances (Figure 1, light blue fill). These balances are also referred to as the
+Intentionally Created Surplus (ICS) account balances and are reported at (USBR,
+2021b). Figure 2 shows Water Conservation Account balances over time for the
+three Lower Basin states. Reclamation typically publishes values in Spring for
+the prior calendar year. Note, Mexico’s water conservation account balance is
+not shown in Figure 2.
 
 ![A graph of different colored bars Description automatically generated with
 medium confidence](media/fb068f98d855c3c2aad9423fce82b26c.png)
 
-**Figure 1. Lake Mead Water Conservation (ICS) Account balances over time**
+**Figure 2. Lake Mead Water Conservation (ICS) Account balances over time**
 
 ### **(vi) Remaining Storage above the Protect and ICS Balances**
 
 This storage is calculated as the Lake Mead storage above the protection zone
-(Cell C21) minus the total water conservation program balances (Cell C21). This
-storage represents additional storage that may be allocated to the Lower Basin
-states or other users (see Step 3 Split storage in Row 35.
+(Cell C21) minus the total water conservation program balances (Cell C21; Blue
+Public pool in Figure 2). This storage represents additional storage that may be
+allocated to the Lower Basin states or other users (see Step 3 Split storage in
+Row 35).
 
 # Step 2. Specify Lake Mead Inflow
 
@@ -212,40 +227,41 @@ calculate Lake Mead inflow.**
 
 Because Lake Mead inflow is uncertain—and likely differing from historical
 inflows because of climate change—we can only specify inflow as a scenario
-(Table 4)(Rosenberg, 2022).
+(Table 5)(Rosenberg, 2022).
 
-**Table 4. Scenarios of Lake Mead Inflow (Rosenberg, 2022)**.
+**Table 5. Scenarios of Lake Mead Inflow (Rosenberg, 2022)**.
 
 ![A white sheet with black text Description automatically
 generated](media/ac83cf6f7de3ca3fd5914400fb7c06cd.png)
 
-Historical Lake Mead inflows since 1990 aried from 8 to 16 million acre-feet
-(Figure 2) with the preponderance of inflows between 9 and 10 maf per year
-(corresponding to a Lake Powell release between 8.23 and 9 maf per year).
+For reference, historical Lake Mead inflows since 1990 varied from 8 to 16
+million acre-feet per year (Figure 3) with the preponderance of inflows between
+9 and 10 maf per year (corresponding to a Lake Powell release between 8.23 and 9
+maf per year; Figure 4).
 
 ![A graph showing a line Description automatically
 generated](media/8ba39f9c30237f80872d9c7682e6cb3b.png)
 
-**Figure 2. Lake Mead inflow as measured by nearest USGS gages.**
+**Figure 3. Lake Mead inflow as measured by nearest USGS gages.**
 
 ![A graph of a number of blue bars Description automatically generated with
 medium confidence](media/8109c4025d3cee2e29b1a3d04f9e623c.png)
 
-**Figure 3. Histogram of Lake Mead inflows as measured by the nearest gages.**
+**Figure 4. Histogram of Lake Mead inflows as measured by the nearest gages.**
 
 Additionally note that Colorado River flow near Peachtree is the annual Lake
 Powell release plus 600,000 to 1 million acre-feet of gains along Grand Canyon
-(Rosenberg, 2022; Wang and Schmidt, 2020; Figure 4).
+(Rosenberg, 2022; Wang and Schmidt, 2020; Figure 5).
 
 ![](media/504930ff99a905946ec9839391007127.png)
 
-**Figure 4. Mean Grand Canyon tributary flow (Glen Canyon Dam to Lake Mead) for
+**Figure 5. Mean Grand Canyon tributary flow (Glen Canyon Dam to Lake Mead) for
 different sequence lengths.**
 
-Note that different methods to estimate Lake Mead inflow give different values.
-For example:
+Further note that different methods to estimate Lake Mead inflow give different
+values (Figure 6). For example:
 
--   Nearest USGS gages
+-   Nearest USGS gages.
 
 -   Inflow data downloaded from the Reclamation Application Programming
     Interface (API; https:
@@ -260,46 +276,54 @@ For example:
     elevation-storage-area relationship from Colorado River Simulation System
     (CRSS) model.
 
-In this work, we used gages closest to Lake Mead because these values gave the
+![A graph showing the number of usbs Description automatically
+generated](media/1b4411c777905d9116fc7821eb20ccff.png)
+
+**Figure 6. Differing values for Lake Mead inflow as estimated by different
+methods.**
+
+This work uses gages closest to Lake Mead because these values gave the
 *largest* annual inflows.
 
-# Step 3. Split existing reservoir storage among accounts (year 1 only)
+# Step 3. Split existing Lake Mead storage among accounts (year 1 only)
 
-Participants split the starting combined reservoir storage (Figure 6) entered in
-Section 1B among the basin accounts. There are many possibilities. Here, the
-default values in Column B apply Interim Guidelines Intentionally Created
-Surplus (ICS) accounts, the Lower and Upper Basin drought contingency plans and
-the Minute 323 to the U.S.-Mexico Treaty (IBWC, 2021; USBR, 2019).
+Participants split the starting Lake Mead active storage specified in Row 19
+among the users. This split is a joint choice (Orange Cells B36 to B41). There
+are many possibilities.
 
--   Assign the 11.6 maf protection volume to the shared, reserve account. 11.6
-    maf is the sum of 5.9 maf protection volume for Lake Powell plus 5.7 maf
-    protection volume for Lake Mead (USBR, 2019).
+However, suggestions for the split can be informed by the prior choice for the
+Reclamation Protect Elevation (Cell B20) and existing Water Conservation (ICS)
+Account Balances (Figures 1 and 2; Table 6). When using existing Water
+Conservation Account balances, users can access **all** of the prior conserved
+water (rollover) and current account balance at **any time** because the
+protection volume ensures a minimum storage volume and account balances must
+always stay zero or positive. In this setup, *there is no trigger to prohibit
+debits.*
 
--   Assign the 0.17 maf in Mexico’s Lake Mead conservation account to Mexico
-    (USBR, 2021b).
+**Table 6. Suggested split of existing Lake Mead storage**
 
--   Assign the 2.8 maf balance in Lower Basin Lake Mead conservation (ICS)
-    accounts to the Lower Basin.
+| **User**    | **Suggested initial volume**                                                                             |
+|-------------|----------------------------------------------------------------------------------------------------------|
+| Reclamation | Protection volume entered in Row 20. This level is shown as elevation 1,020 feet in Figure 1.            |
+| California  | Water Conservation (ICS) account balance shown in Figure 2 (rollover).                                   |
+| Arizona     | Water Conservation (ICS) account balance shown in Figure 2 (rollover).                                   |
+| Nevada      | Water Conservation (ICS) account balance shown in Figure 2 (rollover).                                   |
+| Mexico      | Water Conservation account balance under Minutes 323 to the U.S.-Mexico Treaty (IBWC, 2021; USBR, 2019). |
+| Other users | Remaining water in the Public Pool shown in Figure 1.                                                    |
 
--   Assign the remaining Lake Mead storage to the Lower Basin.
+If the Lake Mead active storage minus the Water Conservation Account balances:
 
--   Assign the remaining storage in Lake Powell to the Upper Basin.
+-   Fall below the Reclamation protect elevation (such as in 2022 in Figure 1),
+    the states will need to negotiate the split. In this case, states will
+    receive less than their water conservation account balance.
 
--   In these assignments, the Colorado River Delta and First Nations do not get
-    any storage.
+-   Are above the Reclamation protect elevation (such as in 2008 to 2021 and
+    2023), the additional water (Public pool in Figure 1) can be assigned to
+    other users such as Tribal Nations of the Lower Basin.
 
 In actuality, the participants will negotiate over a share of the existing
 reservoir storage. In these negotiations, participants will get the same or more
-storage water as they get with current operations. In the current operations
-there are no Lake Powell storage accounts and only Lake Mead conservation
-accounts for Lower Basin and Mexico.
-
-![](media/1036aa6d2f63875ec7e5bd838f6c9b87.png)
-
-![](media/9a195e29d15576b7bffbb944cfbba5e6.png)
-
-**Figure 6. Assign combined Lake Powell and Lake Mead storage (top) to basin
-accounts (bottom).**
+storage water as they get with current operations.
 
 ## 3A. Begin of year reservoir storage
 
