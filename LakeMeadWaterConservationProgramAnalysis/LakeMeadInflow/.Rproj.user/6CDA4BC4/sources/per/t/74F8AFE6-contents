@@ -685,6 +685,27 @@ ggplot() +
 dfInflowsWide <- dcast(dfInflowsToPlot, Year ~ Method, value.var = "MeadInflow")
 dfInflowsWide$Diff <-  dfInflowsWide$`USGS Gages` - dfInflowsWide$`USBR Application Program Interface`
 
+##############
+###   FIGURE 4b
+###   Plot Inflow as histogram for USGS method
+###############
+
+ggplot() +
+  geom_histogram(data = dfInflowsToPlot %>% filter(Year < cYear, Method == "USGS Gages"), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Blue") +
+  #geom_histogram(data = dfInflowsToPlot %>% filter(Method %in% cMethodsToPlot[2]), aes(x = MeadInflow), binwidth = 1, color = "Black", fill = "Red") +
+  
+ # facet_grid(. ~ Method) +
+  scale_x_continuous(breaks = c(8,10,12,14,16)) +
+  theme_bw() +
+  
+  labs(x="Lake Mead Inflow\n(MAF per year)", y="Number of Years") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  theme(text = element_text(size=20), 
+        legend.position = "none")
+
+
+
 
 #################
 ###   FIGURE 5
@@ -814,7 +835,14 @@ ggplot() +
 # Figure 8. Time series of USGS inflow
 
 ggplot(data=dfGCFFlowsUSGS %>% filter(Year < cYear)) +
-  geom_line(aes(x = Year, y = MeadInflow))
+  geom_line(aes(x = Year, y = MeadInflow),  linewidth = 2) +
+  scale_x_continuous(breaks = seq(1990,2024,2)) +
+  labs(x="", y="Mead Inflow\n(MAF per year)") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  
+  theme_bw() +  
+  theme(text = element_text(size=20))
 
 ##############
 ###   FIGURE 9

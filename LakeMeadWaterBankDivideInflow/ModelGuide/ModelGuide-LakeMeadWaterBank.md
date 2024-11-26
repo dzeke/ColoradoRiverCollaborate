@@ -59,6 +59,9 @@ persons not familiar with current Colorado River operations).
 Follow the setup and play instructions (Box 1). The rest of the document
 provides guidance on each step.
 
+![A screenshot of a computer program Description automatically
+generated](media/227ebdb582ee4f1bf23a4a5c53efe041.png)
+
 ## Types of Use
 
 The model can be used in two modes:
@@ -154,7 +157,7 @@ Reservoir start storage is taken from the [data
 portal](https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html) (USBR,
 2021c). Text in Column D lists the date.
 
-### (iii) Protection elevations
+### (iii) Protection elevation
 
 The Reclamation user decides the Lake Mead elevation to protect against further
 drawdown. An elevation of 1,020 feet was defined in the Lower Basin Drought
@@ -192,88 +195,73 @@ This storage is calculated as the Lake Mead storage above the protection zone
 storage represents additional storage that may be allocated to the Lower Basin
 states or other users (see Step 3 Split storage in Row 35.
 
-# Step 2. Specify natural inflow to Lake Powell
+# Step 2. Specify Lake Mead Inflow
 
-Participants together choose a natural inflow to Lake Powell as the water in the
-Green, San Juan, mainstem Colorado, and other tributaries that would flow into
-Lake Powell if there were no upstream human consumptive use or reservoirs. Once
-a Lake Powell natural flow is specified, the rows below populate with data.
+Participants together choose the Lake Mead inflow for the year. This inflow
+represents the sum of gaged flows for the gages most immediately upstream of
+Lake Mead (Table 4).
 
-Because future flows are uncertain, specify natural inflow to Lake Powell as a
-scenario of possible future flows. Develop a scenario from:
+**Table 4. Stream gages most immediately upstream of Lake Mead and used to
+calculate Lake Mead inflow.**
 
-1.  The most recent 22 years, where estimated natural inflow to Lake Powell
-    varied from 6 to 20 maf per year (Figure 2).
+| **Gage Name**                                              | **USGS Number** | **Years**       | **Link**                                                                                        |
+|------------------------------------------------------------|-----------------|-----------------|-------------------------------------------------------------------------------------------------|
+| A. Colorado River nr Peach Springs                         | 9404200         | 1990 to Present | [Here](https://waterdata.usgs.gov/monitoring-location/09404200/#parameterCode=00065&)           |
+| B. Virgin River at Littlefield                             | 9415000         | 1990 to Present | [Here](https://waterdata.usgs.gov/monitoring-location/09415000/#parameterCode=00065&period=P7D) |
+| C. Las Vegas Wash Below LAKE LAS VEGAS NR BOULDER CITY, NV | 9419800         | 2002 to Present | [Here](https://waterdata.usgs.gov/monitoring-location/09419800/)                                |
 
-2.  Flow values reconstructed from the historical (1905 to 2015) or paleo (1416
-    to 2015) periods (Meko et al., 2017; Prairie, 2020). See workbook tab
-    *HydrologicScenarios* for some flow scenarios from these periods.
+Because Lake Mead inflow is uncertain—and likely differing from historical
+inflows because of climate change—we can only specify inflow as a scenario
+(Table 4)(Rosenberg, 2022).
 
-3.  The mean natural flow of low-flow sequences in the paleo reconstructed or
-    recent observed periods (Figure 3). For example, the 5-year drought that
-    started in 1580 AD had the lowest reconstructed 5-year average flow: 9 maf
-    per year.
+**Table 4. Scenarios of Lake Mead Inflow (Rosenberg, 2022)**.
 
-4.  Devise a time series of flows on your own or adapt values year-to-year as
-    model time progresses.
+![A white sheet with black text Description automatically
+generated](media/ac83cf6f7de3ca3fd5914400fb7c06cd.png)
 
-5.  Optionally, refer to unregulated inflows from 1960 to 1999 (USBR,
-    2021d)(Figure 4) and add \~3 maf to get a natural flow. The addition
-    represents non-reservoir consumptive use in the Upper Basin. Figure 5 shows
-    how to convert from unregulated to natural flow.
+Historical Lake Mead inflows since 1990 aried from 8 to 16 million acre-feet
+(Figure 2) with the preponderance of inflows between 9 and 10 maf per year
+(corresponding to a Lake Powell release between 8.23 and 9 maf per year).
 
-![](media/b57879648c06879037af4e2573b81241.png)
+![A graph showing a line Description automatically
+generated](media/8ba39f9c30237f80872d9c7682e6cb3b.png)
 
-**Figure 2. Estimated natural inflow to Lake Powell (USBR, 2021a)**
+**Figure 2. Lake Mead inflow as measured by nearest USGS gages.**
 
-![](media/83c6e979375d6b1b644dd9a9f413c51e.png)
+![A graph of a number of blue bars Description automatically generated with
+medium confidence](media/8109c4025d3cee2e29b1a3d04f9e623c.png)
 
-**Figure 3. Sequence-average plot of the tree-ring reconstructed flow of the
-Colorado River at Lees Ferry (Salehabadi et al., 2020).**
+**Figure 3. Histogram of Lake Mead inflows as measured by the nearest gages.**
 
-![](media/9e513f8f357cf9e3758d943c8a253767.png)
-
-**Figure 4. Unregulated flow to Lake Powell (USBR, 2021d). Add \~ 3 maf for
-natural flow.**
-
-![](media/e2e03f375e85e6262a6f39c2b3604617.png)
-
-**Figure 5. Process to go from gaged (measured) flow to natural flow (Wheeler et
-al., 2019).**
-
-The model uses natural flow as in input because the model first credits a share
-of the year’s natural flow to each basin account. Then participants consume and
-conserve water. Consumed water is subtracted from the account balance to obtain
-the end-of-year reservoir storage.
-
-## 2A. Intervening Grand Canyon Flow
-
-Enter the intervening flow from the Paria, Little Colorado, and Virgin rivers
-plus seeps on the Grand Canyon from Glen Canyon Dam to Lake Mead. By default,
-the model uses an intervening Grad Canyon flow of 0.8 maf per year. This
-intervening flow excludes Lake Powell release or other upstream consumptive use
-on the rivers. A compilation of USGS gaged data from 1990 to 2020 show a mean
-intervening Grand Canyon flow of 0.9 maf per year with 5-year sequences below
-0.75 maf (Figure 5)(Rosenberg, 2021a).
+Additionally note that Colorado River flow near Peachtree is the annual Lake
+Powell release plus 600,000 to 1 million acre-feet of gains along Grand Canyon
+(Rosenberg, 2022; Wang and Schmidt, 2020; Figure 4).
 
 ![](media/504930ff99a905946ec9839391007127.png)
 
-**Figure 5. Mean Grand Canyon tributary flow (Glen Canyon Dam to Lake Mead) for
+**Figure 4. Mean Grand Canyon tributary flow (Glen Canyon Dam to Lake Mead) for
 different sequence lengths.**
 
-## 2B. Mead to Imperial Dam intervening flow
+Note that different methods to estimate Lake Mead inflow give different values.
+For example:
 
-Enter the intervening flow from Hoover Dam to Imperial dam. By default, this
-intervening flow is 0.2 maf per year and was estimated from the natural flow
-data set below Hoover Dam (Prairie, 2020).
+-   Nearest USGS gages
 
-## 2C. Havasu/Parker evaporation and evapotranspiration
+-   Inflow data downloaded from the Reclamation Application Programming
+    Interface (API; https:
 
-This value represents evaporation from Lakes Havasu and Parker and the
-evapotranspiration of riverbank vegetation from Hoover Dam down to Lake Havasu.
-A default value of 0.6 maf per year is used and represents the value used in
-Lake Mead accounting. Find annual estimates of the Havasu/Parker evaporations
-and evapotranspiration from 1995 to 2014 at USBR (2021b).
+-   //www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html).
+
+-   Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake
+    Mead evaporation data also retrieved from the Reclamation API.
+
+-   Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake
+    Mead evaporation (1990 to present). Here we use evaporation data from
+    elevation-storage-area relationship from Colorado River Simulation System
+    (CRSS) model.
+
+In this work, we used gages closest to Lake Mead because these values gave the
+*largest* annual inflows.
 
 # Step 3. Split existing reservoir storage among accounts (year 1 only)
 
@@ -758,10 +746,6 @@ Science Drained the Colorado River*, University of Arizona Press.
 Leeflang, B. (2021). "Colorado River Coding: Pre 1922 Compact Water Use."
 <https://doi.org/10.5281/zenodo.5501466>.
 
-Meko, D., Bigio, E., and Woodhouse, C. A. (2017). "Colorado River at Lees Ferry,
-CO River (Updated Skill)." *Treeflow*.
-[https://www.treeflow.info/content/upper-colorado\#field-ms-calibration-validation](https://www.treeflow.info/content/upper-colorado#field-ms-calibration-validation).
-
 Moreo, M. T. (2015). "Evaporation data from Lake Mead and Lake Mohave, Nevada
 and Arizona, March 2010 through April 2015." U.S. Geological Survey Data
 Release. <http://dx.doi.org/10.5066/F79C6VG3>.
@@ -781,6 +765,11 @@ for Lake Mead: Current Accounts and Next Steps." ICS folder,
 Rosenberg, D. E. (2021c). "Invest in Farm Water Conservation to Curtail Buy and
 Dry." *Submitted to Journal of Water Resources Planning and Management*, 3.
 <https://digitalcommons.usu.edu/water_pubs/169/>.
+
+Rosenberg, D. E. (2022). "Adapt Lake Mead Releases to Inflow to Give Managers
+More Flexibility to Slow Reservoir Drawdown." *Journal of Water Resources
+Planning and Management*, 148(10), 02522006.
+<https://doi.org/10.1061/(ASCE)WR.1943-5452.0001592>.
 
 Salehabadi, H., Tarboton, D., Kuhn, E., Udall, B., Wheeler, K., E.Rosenberg, D.,
 Goeking, S., and Schmidt, J. C. (2020). "Stream flow and Losses of the Colorado
