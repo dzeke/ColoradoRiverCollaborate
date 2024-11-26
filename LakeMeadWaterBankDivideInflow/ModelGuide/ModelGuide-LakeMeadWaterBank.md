@@ -155,7 +155,7 @@ variations of 0.25 maf or less in Lake Mead storage volume.
 
 Reservoir start storage is taken from the [data
 portal](https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html) (USBR,
-2021c). Text in Column D lists the date. Figure 1 shows Lake Mead storage over
+2021b). Text in Column D lists the date. Figure 1 shows Lake Mead storage over
 time (Solid black line).
 
 ![A graph of water and water conservation Description automatically generated
@@ -192,7 +192,7 @@ represents the active storage that can be assigned to user accounts (see Row
 This entry is the sum of all existing water conservation program account
 balances (Figure 1, light blue fill). These balances are also referred to as the
 Intentionally Created Surplus (ICS) account balances and are reported at (USBR,
-2021b). Figure 2 shows Water Conservation Account balances over time for the
+2021a). Figure 2 shows Water Conservation Account balances over time for the
 three Lower Basin states. Reclamation typically publishes values in Spring for
 the prior calendar year. Note, Mexico’s water conservation account balance is
 not shown in Figure 2.
@@ -379,14 +379,16 @@ share of *inflow.*
 **Table 7. Prior agreed Lower Basin shortages and shares of shortages
 (Buschatzke et al., 2024).**
 
-![](media/890b5051342d5bbbc12d06dcb9c5bc97.emf)
+![A table with numbers and a number of percentages Description automatically
+generated](media/b8a8cc9cf7330d60a5855339770d16ea.png)
 
 **Table 8. Share of Lake Mead inflow by volume and percentage.**
 
-![](media/3aaae78ca11d7f44fd3fc7a050bafea7.emf)
+![A screenshot of a report Description automatically
+generated](media/30cb93de317fe7987f7470d791197b61.png)
 
 **Example calculations of share of Lake Mead inflow by volume and percentage
-(Table A2) are:**
+(Table 8) are:**
 
 1.  Total Lake Mead inflow [B] = 9.0 ─ Total Shortage [A].
 
@@ -440,12 +442,14 @@ share of *inflow.*
 # Step 5. Participant Dashboards – Conserve, Consume, and Trade
 
 Each participant has a dashboard where they can trade, conserve, and consume
-their available water (Figure 8).
-![](media/01cc590a3794cac0adbe1ae9f78eb803.png)
+their available water (Figure 7).
 
-**Figure 8. Upper Basin Dashboard annotated. A Lake Powell natural flow of 9 maf
-gives the Upper Basin 5.7 maf of available water to sell or consume. No trades
-or withdraws have been entered.**
+![A screenshot of a computer Description automatically
+generated](media/2875cf635e6f1a22301b08f37ffbb5d4.png)
+
+**Figure 7. Reclamation Protect Zono Dashboard annotated. There is 4.8 maf of
+water available. No trades or withdraws have been entered. So the ending balance
+is also 4.8 maf.**
 
 ### (i) Buy or sell water from other participants(s)
 
@@ -459,14 +463,15 @@ from Mexico -- enter as a formula: = 0.5 + 0.2
 When a buying account requires a selling account to invest financial proceeds in
 new farm or urban water conservation efforts, the money stays in the local
 community and the seller can make more water available in future years
-(Rosenberg, 2021c).
+(Rosenberg, 2021b).
 
 ### (ii) Compensation
 
 Enter compensation – payments for buying, receipts for sales – in \$ millions.
 Enter as a formula. Multiply the sale price in \$/acre-foot by the buy or sell
-volume in maf. Table 7 shows rough Colorado River water prices. Table 8 shows
-example compensation for different water prices and target water volumes.
+volume in maf. Table 7 shows compensation and water prices for recentvoluntary,
+compensated, and mandatory Colorado River Basin water conservation programs
+(Allhands, 2021; UCRC, 2018; UCRC, 2024; USBR, 2021a; USBR, 2021c).
 
 -   For example, a purchase of 0.5 maf at \$500 per acre-foot is (0.5)(500) =
     \$250 million.
@@ -477,18 +482,13 @@ example compensation for different water prices and target water volumes.
 
 Compensation = (0.5)(500) + (0.2)(1,200) = \$850 million.
 
-The recently proposed 500-Plus plan seeks to reduce Lower Basin water use by 0.5
-maf per year (Allhands, 2021). Potential compensation amounts are shown in green
-fill in Table 8.
+The Lake Mead water conservation program has conserved more water than other
+voluntary, compensated, or mandatory
 
-**Table 7. Approximate Colorado River water prices**
+**Table 7. Colorado River Basin water conservation programs and
+accomplishments.**
 
-![](media/28229d397a3a17019c57a5a3b29a7f71.png)
-
-**Table 8. Compensation at different water prices to purchase different target
-water volumes (\$ billion)**
-
-![](media/7b25952e9fc457bdb3acbec75b68727f.png)
+**![](media/95b60ced914d89d02bf133f50b2dead5.png)**
 
 ### (iii) Net Trade Volume all Participants
 
@@ -524,206 +524,44 @@ them!
 The account balance at the end of the year after deducting withdraws and
 consumptive use. End of Year balance = Available Water – Withdraw.
 
-## 5A. Shared, Reserve Dashboard
-
-The dashboard for the shared, reserve account is orange fill – all accounts must
-agree to a purchase or sale (Figure 9).
-
-![](media/3149c863a5f01b081dbfff9690e7f434.png)
-
-**Figure 9. Shared, Reserve account choices are a joint decision by all
-participants.**
-
-The current recommendation is keep the shared, reserve account balance steady –
-no sales or gifts to participants in distress.
-
-Selling or gifting water from the shared, reserve account to other accounts will
-lower Lake Powell and/or Lake Mead levels:
-
--   Reduce storage in Lake Powell, heat the water temperature of Lake Powell
-    storage (less stratification), increase the release water temperature, and
-    push native, endangered fish of the Grand Canyon into unchartered territory
-    \-- more susceptible to prey by non-native fish. Higher Lake Powell levels
-    and colder releases maintain the status quo for endangered fish. The
-    worksheet *PowellReleaseTemperature* provides a table and figure of the
-    impacts on fish of less water storage in Lake Powell.
-
--   Reduce the head available for hydropower generation, and speed the time that
-    reservoirs reach their minimum power pools (where they can no longer
-    generate energy). When energy generation declines, power customers must go
-    on the spot energy market to purchase the energy shortfall. The model of
-    Colorado River basin accounts not quantify the impacts of reduced hydropower
-    generation.
-
-Both impacts will depend on how combined storage is split between Lake Powell
-and Lake Mead (see next section).
-
 # Step 6. Summary of Participant Actions
 
 Shows participant actions grouped by Purchases and Sales, Account Withdraws, and
 Account end-of-year balances. These groupings can help see whether sales
 balanced purchases and also overall water consumption for the year.
 
-## 6A. Combined Storage – End of Year
+## Lake Mead – End of Year
 
-The combined storage – end of the year is the combined storage in Lake Powell
-and Lake Mead at the end of the year after all account withdraws and consumptive
-use. This volume is the sum of the end-of-year- balances in all accounts.
+The Lake Mead storage at the end of the year after all account withdraws and
+consumptive use. This volume is the sum of the end-of-year-balances in all user
+accounts (including the Reclamation protect volume).
 
-# Step 7. Assign Combined Storage to Powell and Mead
+# Step 7. Move to next year
 
-All participants together assign the end-of-year combined storage to Lake Powell
-and Lake Mead. Enter as percent where 50% splits the combined storage equally
-between the two reservoirs and 75% places more storage in Lake Powell.
+Move to next year. Move to Step 2 Specify Lake Mead inflow in the next year
+(next column). Repeat Steps 2 to 7 for each year.
 
-After entering a percent split, the following items will calculate:
+The purpose of this modeling activity is to provoke thought and discussion about
+new Lake Mead operations. So continue to play years so long as the discussion
+provokes new insights.
 
-### (i) Powell and Mead storage volumes and levels
+# Step 8. Finish
 
-The model uses the elevation-area-volume relationships for the reservoirs to
-calculate storage level from volume. See the left and right hand side of Figure
-11 for critical levels and volumes such as dead pool (0 maf storage) and minimum
-power pool (penstock elevations) to avoid.
-
-### (ii) Lake Powell release to achieve Powell and Mead storage volumes
-
-This is the annual release from Lake Powell to achieve the specified storage
-volumes in Lake Powell and Lake Mead. Compare to numbers such as 7 to 9 maf per
-year that are the target of equalization releases (Figure 13)(USBR, 2007). Note
-that as combined storage declines, it will become harder to achieve the 7-9 maf
-targets. This Powell release is calculated as (all terms maf):
-
-Powell Release = -[Powell end storage] + [Powell start storage] + [Powell
-natural inflow] – [Upper Basin consume] – [Powell evaporation] (Equation 3)
-
-A negative release is infeasible and means too much water is already in Lake
-Mead. Specify a lower percentage in Step 7 – lower Powell end storage.
-
-### (iii) Turbine release water temperature
-
-The temperature of water released through the Lake Powell penstocks to generate
-hydropower. This data is pulled from observations of release water temperature
-and temperature profiles at Wahweap (Wheeler et al., 2021, Appendix 1).
-
-### (iv) Suitability for native, endangered fish of the Grand Canyon
-
-As Lake Powell release water temperature rises, outcomes become more uncertain
-for endangered, native fish of the Grand Canyon. The endangered, native fish
-become more susceptible to competition and prey by introduced non-native fish.
-Colder releases preserve the status quo. Table 9 shows the breakpoints of
-temperature suitability for native fish (Wheeler et al., 2021, Appendix 1).
-
-### (v) Suitability for tailwater trout
-
-The tailwater trout are an introduced species, require colder water, and live in
-the Colorado River reach from Glen Canyon Dam to Lee Ferry (and possibly below).
-Table 9 shows the breakpoints of temperature suitability for tailwater trout
-(Wheeler et al., 2021, Appendix 1).
-
-Box 2 shows an example of the impacts of 13.8 maf of combined storage if assign
-65% of that storage to Lake Powell.
-
-![](media/e4d47644b056c99b716ce3ffffc9f0c6.png)
-
-## 7A. Consider four issues to split the combined storage between the two reservoirs:
-
-### (i) Preserve status quo for endangered, native fish of the Grand Canyon
-
-As Lake Powell water storage drops to the turbine release elevation of 3,490
-feet (4 maf), the water stored in Lake Powell heats (less stratification),
-increases release water temperature through the hydropower turbines, and
-increases uncertainty in outcome for endangered, native fish of the Grand
-Canyon. The endangered, native fish become more susceptible to prey by
-non-native fish (Figure 10, left). Higher Lake Powell levels and colder water
-releases preserve the status quo. Table 9 summarizes the important Lake Powell
-elevation break points for fish. To delay these negative impacts on fish,
-managers can forego release and hydropower generation through the turbines and
-instead release water through the low elevation river outlets (elevation 3,370
-feet; 0 maf; Figure 11). For example, an 18oC release through the river outlets
-requires 5.9 maf less storage than an 18oC release through hydropower turbines
-(elevation 3,600 feet on Figure 11 left plot compared to 3,525 feet on right
-plot). This information is also presented on the *PowellReleaseTemperature*
-worksheet.
-
-**![](media/f970c7704b7304b95cc35179a850cfdd.png)**
-
-**Figure 10. Lake Powell release water temperatures through the hydropower
-turbines (elevation 3,490 feet; left) and river outlets (elevation 3,370 feet;
-right) for different water surface elevations (Wheeler et al., 2021). Dashed
-black line represents Nov 16, 2021 storage.**
-
-**  
-**
-
-**Table 9. Effects of Summer Lake Powell Elevation on Fish**
-
-![](media/537447e0fae8a59cab74e5b713473cbd.png)
-
-![](media/877589caf87b4d9ac26001628c8596cb.png)
-
-Figure 11. Glen Canyon Dam river outlets (red) are \~ 100 feet below the
-penstocks (blue)
-
-### (ii) Reduce Hydropower Generation
-
-Reduced water surface elevation reduces hydropower generation and speeds the
-time that reservoirs reach their minimum power pools (elevations 3,490 and 955
-feet in Lake Powell and Lake Mead) where the reservoirs can no longer generate
-energy. When energy generation declines, Lake Powell and Lake Mead energy
-customers must go on the spot energy market to purchase the energy shortfall.
-The model of Colorado River basin accounts does not quantify the impacts of
-reduced hydropower generation.
-
-### (iii) Reduce evaporation loss
-
-The combined evaporated volume changes less than 0.12 maf to preferentially
-store water in Lake Mead or Lake Powell (Figure 12, red numbers). These volumes
-are inside the margin of error of the evaporated volumes (Figure 12, black bars)
-calculated from the evaporation rates (Section 1Bi). This analysis suggests
-there is no water supply or evaporation benefit to preferentially store combined
-storage in Lake Powell or Lake Mead.
-
-![](media/d095609b8bf5c3f1101d49faec90b82c.png)
-
-**Figure 12. Combined evaporated volume changes little (red numbers) to
-preferentially store water in Lake Mead or Lake Powell.**
-
-### (iv) Current operations
-
-Since 2007, the current operations sought to equalize storage in Lake Powell and
-Lake Mead (enter 50%)(USBR, 2007). Prior to 2007, managers kept more storage in
-Lake Mead (Figure 13).
-
-![](media/7128adb1e89cc18da0e645df2d567c43.png)
-
-**Figure 13. Lake Powell-Lake Mead coordination rules (blue fill) and historical
-lake levels before and after the 2007 interim guidelines (pink and purple
-lines)(Wheeler et al., 2019).**
-
-# Step 8. Move to next year
-
-Move to next year. Move to Step 2 Specify natural inflow to Lake Powell in the
-next year (next column). Repeat Steps 2 to 7 for each year.
-
-The purpose of the Colorado River basin accounts activity is to provoke thought
-and discussion about new Lake Powell and Lake Mead operations. So continue to
-play years so long as the discussion provokes new insights.
-
-# Step 9. Finish
-
-Congratulations. You finished! If you wish to provide feedback – things you
-liked, things to improve – please send an email to david.rosenberg@usu.edu.
+**Congratulations. You finished!** If you wish to provide feedback – new
+insights, things you liked, things to improve – please send an email to
+david.rosenberg@usu.edu.
 
 # Data, Model, and Code Availability
 
 The data, code, and directions to generate figures in this post are available on
-Github.com at Rosenberg (2021b).
+Github.com at
+<https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterBankDivideInflow>.
 
 # Requested Citation
 
-David E. Rosenberg (2021). "Model Guide: Colorado River Basin Accounts." Utah
-State University.
-<https://github.com/dzeke/ColoradoRiverCoding/tree/main/ModelMusings>.
+Rosenberg (2024). “Lake Mead Water Bank based on the Principle of Divide
+Reservoir Inflow." Utah State University, Logan, UT.
+<https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterBankDivideInflow>.
 
 # Appendix 1. Summary of Current Colorado River Operations
 
@@ -809,26 +647,15 @@ IBWC." United States Section,
 Kuhn, E., and Fleck, J. (2019). *Science Be Dammed: How Ignoring Inconvenient
 Science Drained the Colorado River*, University of Arizona Press.
 
-Leeflang, B. (2021). "Colorado River Coding: Pre 1922 Compact Water Use."
-<https://doi.org/10.5281/zenodo.5501466>.
-
 Moreo, M. T. (2015). "Evaporation data from Lake Mead and Lake Mohave, Nevada
 and Arizona, March 2010 through April 2015." U.S. Geological Survey Data
 Release. <http://dx.doi.org/10.5066/F79C6VG3>.
 
-Prairie, J. (2020). "Colorado River Basin Natural Flow and Salt Data." U.S.
-Bureau of Reclamation.
-<https://www.usbr.gov/lc/region/g4000/NaturalFlow/current.html>.
-
-Rosenberg, D. E. (2021a). "Colorado River Coding: Grand Canyon Intervening
-Flow." GrandCanyonInterveningFlow folder,
-<https://doi.org/10.5281/zenodo.5501466>.
-
-Rosenberg, D. E. (2021b). "Colorado River Coding: Intentionally Created Surplus
+Rosenberg, D. E. (2021a). "Colorado River Coding: Intentionally Created Surplus
 for Lake Mead: Current Accounts and Next Steps." ICS folder,
 <https://doi.org/10.5281/zenodo.5501466>.
 
-Rosenberg, D. E. (2021c). "Invest in Farm Water Conservation to Curtail Buy and
+Rosenberg, D. E. (2021b). "Invest in Farm Water Conservation to Curtail Buy and
 Dry." *Submitted to Journal of Water Resources Planning and Management*, 3.
 <https://digitalcommons.usu.edu/water_pubs/169/>.
 
@@ -836,12 +663,6 @@ Rosenberg, D. E. (2022). "Adapt Lake Mead Releases to Inflow to Give Managers
 More Flexibility to Slow Reservoir Drawdown." *Journal of Water Resources
 Planning and Management*, 148(10), 02522006.
 <https://doi.org/10.1061/(ASCE)WR.1943-5452.0001592>.
-
-Salehabadi, H., Tarboton, D., Kuhn, E., Udall, B., Wheeler, K., E.Rosenberg, D.,
-Goeking, S., and Schmidt, J. C. (2020). "Stream flow and Losses of the Colorado
-River in the Southern Colorado Plateau." Center for Colorado River Studies, Utah
-State University, Logan, Utah.
-<https://qcnr.usu.edu/coloradoriver/files/WhitePaper4.pdf>.
 
 Schmidt, J. C., Kraft, M., Tuzlak, D., and Walker, A. (2016). "Fill Mead First:
 a technical assessment." Utah State University, Logan, Utah.
@@ -851,6 +672,14 @@ Ten Tribes Partnership. (2018). "Colorado River Basin Ten Tribes Partnership
 Tribal Water Study." U.S. Department of the Interior, Bureau of Reclamation, Ten
 Tribes Partnership.
 <https://www.usbr.gov/lc/region/programs/crbstudy/tws/finalreport.html>.
+
+UCRC. (2018). "Colorado River System Conservation Pilot Program in the Upper
+Colorado River Basin." *Upper Colorado River Commission*.
+<http://www.ucrcommission.com/RepDoc/SCPPDocuments/2018__SCPP_FUBRD.pdf>.
+
+UCRC. (2024). "Colorado River System Conservation Pilot Program in the Upper
+Colorado River Basin." *Upper Colorado River Commission*.
+<http://www.ucrcommission.com/wp-content/uploads/2024/06/2023_SCPP_Report_June2024.pdf>.
 
 USBR. (2007). "Record of Decision: Colorado River Interim Guidelines for Lower
 Basin Shortages and Coordinated Operations for Lakes Powell and Mead." U.S.
@@ -870,22 +699,18 @@ Shortages and Coordinated Operations for Lake Powell and Lake Mead." U.S. Bureau
 of Reclamation, U.S. Department of Interior.
 <https://www.usbr.gov/ColoradoRiverBasin/documents/7.D.Review_FinalReport_12-18-2020.pdf>.
 
-USBR. (2021a). "21st Century Colorado River: Hydrology and Risk of Lake Mead
-Reaching Critically Low Elevations." U.S. Bureau of Reclamation.
-<https://github.com/dzeke/ColoradoRiverCoding/raw/main/500PlusPlan/MeadRisk-LBActionsWebianr11-5-21.pdf>.
-
-USBR. (2021b). "Boulder Canyon Operations Office - Program and Activities: Water
+USBR. (2021a). "Boulder Canyon Operations Office - Program and Activities: Water
 Accounting Reports." U.S. Bureau of Reclamation.
 <https://www.usbr.gov/lc/region/g4000/wtracct.html>.
 
-USBR. (2021c). "Lake Mead at Hoover Dam, End of Month Elevation." Lower Colorado
+USBR. (2021b). "Lake Mead at Hoover Dam, End of Month Elevation." Lower Colorado
 River Operations, U.S. Buruea of Reclamation,
 <https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html> [Accessed on:
 October 5, 2021].
 
-USBR. (2021d). "Lake Powell Unregulated Inflow."
-<https://www.usbr.gov/uc/water/crsp/studies/images/PowellForecast.png> [Accessed
-on: September 28, 2021].
+USBR. (2021c). "Pilot System Conservation Program." U.S. Bureau of Reclamation,
+<https://www.usbr.gov/lc/region/programs/PilotSysConsProg/pilotsystem.html>
+[Accessed on: October 14, 2021].
 
 USGS. (2016). "Colorado River Basin map." U.S. Geological Survey.
 <https://www.usgs.gov/media/images/colorado-river-basin-map>.
