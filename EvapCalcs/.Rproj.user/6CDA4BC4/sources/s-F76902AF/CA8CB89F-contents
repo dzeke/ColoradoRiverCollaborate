@@ -321,9 +321,15 @@ dfPowellEqLevels$EqMeadLev <- interp2(xi = dfPowellEqLevels$Volume*1000000,x=dfM
 
 
 
+#dfMeadValsAdd <- data.frame(Reservoir = "Mead",
+#                            variable = c("Mead Flood Pool","Powell Eq. Level (2019)","DCP trigger","ISG trigger","SNWA Intake #1","Mead Eq. Tier","SNWA Intake #2","Mead Power","SNWA Intake #3"),
+#                            level = c(max(dfReservedFlood$Mead_level),dfPowellEqLevels$EqMeadLev[12],1090,1075,1050,1025,1000,955,860))
+
 dfMeadValsAdd <- data.frame(Reservoir = "Mead",
-                            variable = c("Mead Flood Pool","Powell Eq. Level (2019)","DCP trigger","ISG trigger","SNWA Intake #1","Mead Eq. Tier","SNWA Intake #2","Mead Power","SNWA Intake #3"),
-                            level = c(max(dfReservedFlood$Mead_level),dfPowellEqLevels$EqMeadLev[12],1090,1075,1050,1025,1000,955,860))
+                            variable = c("Mead Flood Pool","Pierce Rapid","DCP Trigger","SNWA Intake #1","Protect (2019 DCP)","Protect (2023 SEIS)","Mead Power","SNWA Intake #3"),
+                            level = c(max(dfReservedFlood$Mead_level),1135,1090,1050,1020,1000,955,860))
+
+
 nRowMead <- nrow(dfMeadValsAdd)
 dfMeadValsAdd$value <- 0
 #Interpolate live storage volume
@@ -338,7 +344,7 @@ dfMeadAllPools <- rbind(dfMeadVals,dfMeadValsAdd)
 
 #Pull out the desired rows
 #dfMeadPoolsPlot <- dfMeadAllPools[c(3,6,7,9:13,16),]
-cMeadVarNames <- c("Inactive Capacity", "Mead Power", "SNWA Intake #2", "Mead Eq. Tier", "SNWA Intake #1", "DCP trigger", "Powell Eq. Level (2019)",
+cMeadVarNames <- c("Inactive Capacity", "Mead Power", "Protect (2023 SEIS)", "Protect (2019 DCP)", "SNWA Intake #1", "DCP Trigger", "Pierce Rapid",
                   "Mead Flood Pool", "Live Capacity")
 dfMeadPoolsPlot <- dfMeadAllPools %>% filter(variable %in% cMeadVarNames) %>% arrange(level)
 dfMeadPoolsPlot$name <- as.character(dfMeadPoolsPlot$variable)
@@ -393,6 +399,7 @@ ggplot() +
   labs(x="Mead Active Storage (MAF)", y="Evaporated Volume (MAF per year)") +
   theme(text = element_text(size=20),  legend.title = element_blank(), legend.text=element_text(size=14), legend.position = c(0.7,0.8))
 
+ggsave("MeadEvapVsStorage.png")
 
 #Plot #3. Water Volume (Cutback and Evaporated Volume) versus Mead active storage on the same plot
 ggplot() +

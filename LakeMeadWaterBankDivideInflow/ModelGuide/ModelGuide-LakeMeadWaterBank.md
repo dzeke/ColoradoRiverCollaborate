@@ -1,6 +1,6 @@
 # Model Guide
 
-## Immersive Model: Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow
+## Immersive Model for Lake Mead B based on the Principle of Divide Reservoir Inflow
 
 David E. Rosenberg \| Utah State University \|
 [david.rosenberg@usu.edu](mailto:david.rosenberg@usu.edu)
@@ -12,29 +12,28 @@ November 25, 2024
 # I**ntroduction**
 
 The purpose of this tool is to give users the opportunity to immerse in water
-user roles and experiment with a Lake Mead Water Bank. The Bank works on the
-principles of **A) Divide reservoir inflow**, **B) Subtract evaporation**, and
-**C) Users withdraw and conserve within their available water**, others choices,
-and real-time discussion of choices. We see uses of the tool for two purposes:.
-We see use of the tool for two purposes:
+user roles for a Lake Mead model based on the principle of divide reservoir
+info. The process is: **A) Divide reservoir inflow**, **B) Subtract
+evaporation**, and **C) Users withdraw and conserve within their available
+water**, others choices, and real-time discussion of choices. We see uses of the
+tool for two purposes:. We see use of the tool for two purposes:
 
 -   As researchers we want to learn *Why* basin partners choose assumptions and
     *how* extreme; *Why* and *how* basin partners articulate their risk of
     uncertain future water supply and manage their vulnerability; and *Which*
     new insights they take from a model session.
 
--   Provoke discussion about new alternatives for Colorado River management post
-    2026 and their possible benefits to:
+-   Provoke thought and discussion to:
 
     -   Stabilize and recover reservoir storage under conditions of low storage
         *and* low inflow, and
 
-    -   Give users more autonomy to manage their vulnerability to water
-        shortages.
+    -   Give users more autonomy to manage their conflicting vulnerabilities to
+        water shortages.
 
 This document provides context information for each individual and group choice
 within the immersive model. The document also explains how choices build on
-existing Colorado River management (Appendix A). The document also suggest
+existing Colorado River management (Appendix A). The document also suggests
 potential values to enter for user choices.
 
 Find quick links to this support information -- the sections and subsections of
@@ -150,6 +149,11 @@ variations of 0.25 maf or less in Lake Mead storage volume.
 | **Reservoir** | **Midpoint** | **Range** |
 |---------------|--------------|-----------|
 | Mead          | 6.0          | 5.5 – 6.4 |
+
+![A graph of a line graph Description automatically generated with medium
+confidence](media/b8c3487b2edaa090c29e635c0b64b2c1.png)
+
+**Range of Lake Mead Evaporation vs Active Storage**
 
 ### (ii) Start storage
 
