@@ -1,6 +1,6 @@
 # Model Guide
 
-## Immersive Model for Lake Mead B based on the Principle of Divide Reservoir Inflow
+## Immersive Model for Lake Mead based on the Principle of Divide Reservoir Inflow
 
 David E. Rosenberg \| Utah State University \|
 [david.rosenberg@usu.edu](mailto:david.rosenberg@usu.edu)
