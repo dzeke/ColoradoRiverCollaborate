@@ -1,9 +1,9 @@
-# Immersive Model: Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow
+# Immersive Model for Lake Mead Based on the Principle of Division of Reservoir Inflow
 
-### [Lets Start (visual directions)](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow-LetsStart.pdf) (pdf file)
+### [Lets Start (visual directions)](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ImmersiveModelLakeMeadDivideInflow-LetsStart.pdf) (pdf file)
 ### [Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md) (Help file)
 ### [Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx) (Excel)
-### [Draft Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterConservationProgramAnalysis/LakeMeadWaterConservationProgramAnalysis.docx) (Github)
+### [Draft Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterConservationProgramAnalysis.docx) (Github)
 
 ## Overview														
 The purpose of this immerisve online collaborative model is to give collaborators the opportunity to experiment with a Lake Mead Water Bank. The Bank works on the principles of **A) Divide reservoir inflow**, **B. Subtract evaporation**, and **C) Users consume and conserve within their available water**, others choices, and real-time discussion of choices.
@@ -60,8 +60,8 @@ Over one or more years, participants consume, save, and trade water in the accou
 David E. Rosenberg, Erik Porse (2024). "Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow." Utah State University, Logan, UT. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterBankDivideInflow.
 
 ## File Descriptions
-1. **[[LakeMeadWaterBankDivideInflow.xlsx](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)** - An Excel file with the Lake Mead Water Bank tool. Follow **Facillation Directions** (above) or open **ReadMe-Directions** Worksheet.
-1. **[LakeMeadWaterBankDivideInflows-LetsStart.pdf](https://github.com/dzeke/ColoradoRiverCoding/raw/main/ModelMusings/ColoradoRiverBasinAccounts-LetsStart.pdfn)** - A PDF file that shows how to start the activity (visual directions).
+1. **[LakeMeadWaterBankDivideInflow.xlsx](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)** - An Excel file with the Lake Mead Water Bank tool. Follow **Facillation Directions** (above) or open **ReadMe-Directions** Worksheet.
+1. **[ImmersiveModelLakeMeadDivideInflow-LetsStart.pdf](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ImmersiveModelLakeMeadDivideInflow-LetsStart.pdf)** - A PDF file that shows how to start the activity (visual directions).
 1. **[Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md)** folder - Online help file that provides context and explanations for each spreadsheet row. In **Master** Worksheet, link to help in ![#FFE5B4](https://via.placeholder.com/15/FFE5B4/000000?text=+) `Column N`. [[Still Need to Implement]]
 1. **[Draft Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterConservationProgramAnalysis.docx)** - Draft manuscript for the immersive model in Word format.
 1. **Support-Old** folder:
