@@ -6,7 +6,7 @@
 ### [Draft Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterConservationProgramAnalysis.docx) (Microsoft WORD)
 
 ## Overview														
-The purpose of this immersive online collaborative model is to give collaborators the opportunity to immerse in and personify water user roles for a Lake Mead model based on the principle of division of reservoir inflow.  The Bank works on the principles of **A) Divide reservoir inflow**, **B. Subtract evaporation**, and **C) Users consume and conserve within their available water**, others choices, and real-time discussion of choices.
+The purpose of this immersive online collaborative model is to give collaborators the opportunity to immerse in and personify water user roles for a Lake Mead model based on the principle of division of reservoir inflow.  The model works on the principles of **A) Divide reservoir inflow**, **B. Subtract evaporation**, and **C) Users consume and conserve within their available water**, others choices, and real-time discussion of choices.
 We see uses of the tool for two purposes:
 
 1. As researchers we want to learn: Why basin partners choose assumptions and how extreme; *Why* and *how* basin partners manage their risk of uncertain future water supply; Which new insights they take from a model session. 
