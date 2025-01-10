@@ -1,22 +1,22 @@
 # Model Guide
 
-## Immersive Model for Lake Mead based on the Principle of Divide Reservoir Inflow
+## Immersive Model for Lake Mead Based on the Principle of Divide Reservoir Inflow
 
 David E. Rosenberg \| Utah State University \|
 [david.rosenberg@usu.edu](mailto:david.rosenberg@usu.edu)
 
 \| <http://rosenberg.usu.edu>
 
-November 25, 2024
+January 10, 2025
 
 # I**ntroduction**
 
-The purpose of this tool is to give users the opportunity to immerse in water
-user roles for a Lake Mead model based on the principle of divide reservoir
-info. The process is: **A) Divide reservoir inflow**, **B) Subtract
-evaporation**, and **C) Users withdraw and conserve within their available
-water**, others choices, and real-time discussion of choices. We see uses of the
-tool for two purposes:. We see use of the tool for two purposes:
+The purpose of this tool is to give users the opportunity to immerse in and
+personify water user roles for a Lake Mead model based on the principle of
+divide reservoir info. The process is: **A) Divide reservoir inflow**, **B)
+Subtract evaporation**, and **C) Users withdraw and conserve within their
+available water**, others choices, and real-time discussion of choices. We see
+uses of the tool for two purposes:
 
 -   As researchers we want to learn *Why* basin partners choose assumptions and
     *how* extreme; *Why* and *how* basin partners articulate their risk of
@@ -26,7 +26,7 @@ tool for two purposes:. We see use of the tool for two purposes:
 -   Provoke thought and discussion to:
 
     -   Stabilize and recover reservoir storage under conditions of low storage
-        *and* low inflow, and
+        *and* low inflow.
 
     -   Give users more autonomy to manage their conflicting vulnerabilities to
         water shortages.
@@ -58,8 +58,7 @@ persons not familiar with current Colorado River operations).
 Follow the setup and play instructions (Box 1). The rest of the document
 provides guidance on each step.
 
-![A screenshot of a computer program Description automatically
-generated](media/227ebdb582ee4f1bf23a4a5c53efe041.png)
+![](media/e73e49d1f47932110e1aac0dd6af5425.png)
 
 ## Types of Use
 
