@@ -13,7 +13,7 @@ January 10, 2025
 
 The purpose of this tool is to give users the opportunity to immerse in and
 personify water user roles for a Lake Mead model based on the principle of
-divide reservoir info. The process is: **A) Divide reservoir inflow**, **B)
+divide reservoir inflow. The process is: **A) Divide reservoir inflow**, **B)
 Subtract evaporation**, and **C) Users withdraw and conserve within their
 available water**, others choices, and real-time discussion of choices. We see
 uses of the tool for two purposes:
