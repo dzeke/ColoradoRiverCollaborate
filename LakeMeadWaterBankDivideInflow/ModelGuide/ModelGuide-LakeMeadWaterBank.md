@@ -222,18 +222,20 @@ for each Tribal Nation are shown in Table 1e.
 **Table 1d. Location of settled water rights of Tribal Nations within Lower
 Basin States**.
 
-![](media/7ab39ad9df619380422d38e2e87ea170.emf)
+![A table with numbers and text Description automatically
+generated](media/6fe34cf6e5eb2d852d451ba384aeba63.png)
 
 **Table 1e. Location of each Tribal Nation and amount of settled water rights**
 
-![](media/220a3388458e5bea8c6d9cf8f281a70f.emf)
+![A table with numbers and text Description automatically
+generated](media/9861a30a428c92924d0c609a039c53be.png)
 
 Tables 1d and 1e and the associated calculations are also shown in the
 **TribalWater** worksheet within the Excel model file.
 
 ### **(vii) Percent of Tribal Nation water in Arizona**
 
-### **This cell specifies the percent of settled water rights for Tribal Nations of the Lower Basin that are located in Arizona (see also Table 1d and 1e).** This cell is calculated as 100% - the percentage entered in Cell B24.
+### **This cell specifies the percent of settled water rights for Tribal Nations of the Lower Basin that are located in Arizona (see also Table 1d and 1e).** This cell is calculated as 100% minus the percentage entered for California in Cell B24.
 
 # Step 2. Specify Lake Mead Inflow
 
