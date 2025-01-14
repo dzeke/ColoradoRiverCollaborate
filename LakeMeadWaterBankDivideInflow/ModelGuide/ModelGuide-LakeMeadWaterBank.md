@@ -86,7 +86,7 @@ Participants can explore:
 The Reclamation, California, Arizona, Nevada, and Mexico accounts represent
 entities defined in the 1922 Colorado River Compact, US-Mexico Treaty of 1948,
 subsequent Minutes 319 and 323, Lower Basin drought contingency plans, and
-pledges to include more accounts (Table 1)(1922; IBWC, 2021; USBR, 2019; USBR,
+pledges to include more accounts (Table 1a)(1922; IBWC, 2021; USBR, 2019; USBR,
 2020). The Tribal Nations of the Lower Basin users represents Tribal Nations and
 their settled water rights (Ten Tribes Partnership, 2018).
 
@@ -99,7 +99,7 @@ their settled water rights (Ten Tribes Partnership, 2018).
     Nations](http://www.naturalresourcespolicy.org/images/col-river-basin/map-tribes-crb.jpg)
     (Ten Tribes Partnership, 2018)
 
-**Table 1. Accounts, Reason(s) to include in model, and Potential Strategies**
+**Table 1a. Accounts, Reason(s) to include in model, and Potential Strategies**
 
 | **Account**                       |                                                                                                             | **Potential Strategy(s)**                                                                                                                                                                                                                                                                                                                                                                                                                           |
 |-----------------------------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -108,7 +108,7 @@ their settled water rights (Ten Tribes Partnership, 2018).
 | Arizona                           | Article II(c to g) of the Colorado River Compact (1922).                                                    | Continue mandatory conservation and cutback from 2.8 maf per year as Lake Mead level declines from 1,090 to 1,025 feet (USBR, 2019). See cutback schedule in *MandatoryConservation* sheet. These values exclude 0.95 maf per year of use by First Nations in the Lower Basin. Cut back an addition amount per year to represent the 500-Plus Plan (Allhands, 2021). Buy water to reduce mandatory conservation.  Save some water for future years. |
 | Nevada                            | Article II(c to g) of the Colorado River Compact (1922).                                                    | Continue mandatory conservation and cutback from 0.3 maf per year as Lake Mead level declines from 1,090 to 1,025 feet (USBR, 2019). See cutback schedule in *MandatoryConservation* sheet. These values exclude 0.95 maf per year of use by First Nations in the Lower Basin. Cut back an addition amount per year to represent the 500-Plus Plan (Allhands, 2021). Buy water to reduce mandatory conservation.  Save some water for future years. |
 | Mexico                            | 1944 U.S.-Mexico Treaty and subsequent Minutes                                                              | Continue mandatory conservation and cutback from 1.5 maf per year as Lake Mead levels decline (IBWC, 2021). See *MandatoryConservation* sheet. Conserve more water beyond mandatory targets. Lease water to get money for non-water projects.                                                                                                                                                                                                       |
-| Tribal Nations of the Lower Basin | Include more accounts (USBR, 2020) Tribal water study (Ten Tribes Partnership, 2018)                        | Develop and use 0.95 maf of settled water rights by Tribal Nations in the Lower Basin. Lease settled, undeveloped water to other users to acquire capital to build new projects. Save water for future use.                                                                                                                                                                                                                                         |
+| Tribal Nations of the Lower Basin | Include more accounts (USBR, 2020) Tribal water study (Ten Tribes Partnership, 2018)                        | Currently 0.47 of 0.95 million acre-feet of settled water rights are used and consumed (Ten Tribes Partnership, 2018). Lease settled, undeveloped water to other users to acquire capital to build new projects. Save water for future use.                                                                                                                                                                                                         |
 
 A participant can play one or more accounts.
 
@@ -119,15 +119,14 @@ administer water rights for the First Nations within their state boundaries.
 
 Delete the entry in Cell A10 to remove the Tribal Nations of the Lower Basin
 
-user. Removing will reallocate 0.95 maf of settled water rights – add 0.48 maf
-
-to the Arizona and 0.48 maf to California.
+user. Removing will assign 0.95 maf of settled water rights to Arizona and
+California.
 
 ## 1A. Explain cell types
 
-Four model cell types are defined by fill color (Table 2).
+Four model cell types are defined by fill color (Table 1b).
 
-**Table 2. Model Cell Types**
+**Table 1b. Model Cell Types**
 
 ![](media/d0cf234ab869f6af3f049b1c58fbe2d1.png)
 
@@ -136,14 +135,14 @@ Four model cell types are defined by fill color (Table 2).
 ### **(i) Evaporation rates**
 
 Evaporation rates for Lake Mead are presently entered as the midpoint within
-reported ranges of measurements (Table 3)(Schmidt et al., 2016). Evaporation
+reported ranges of measurements (Table 1c)(Schmidt et al., 2016). Evaporation
 rates for Lake Mead are presently measured using state-of-the-art
 eddy-covariance however there is a several year delay in reporting values
 (Moreo, 2015). A sensitivity analysis found that the lower and upper bounds on
 Lake Mead evaporation rates for a five year study for Lake Mead draw down saw
 variations of 0.25 maf or less in Lake Mead storage volume.
 
-**Table 3. Reservoir evaporation rates (feet per year)**
+**Table 1c. Reservoir evaporation rates (feet per year)**
 
 | **Reservoir** | **Midpoint** | **Range** |
 |---------------|--------------|-----------|
@@ -213,13 +212,36 @@ Public pool in Figure 2). This storage represents additional storage that may be
 allocated to the Lower Basin states or other users (see Step 3 Split storage in
 Row 35).
 
+### **(vii) Percent of Tribal Nation water in California**
+
+This cell (B24) indicates the percentage of the 0.95 million acre-feet of total
+settled water rights of Tribal Nations in the Lower Basin that are located in
+California (Table 1d)(Ten Tribes Partnership, 2018). The location and amounts
+for each Tribal Nation are shown in Table 1e.
+
+**Table 1d. Location of settled water rights of Tribal Nations within Lower
+Basin States**.
+
+![](media/7ab39ad9df619380422d38e2e87ea170.emf)
+
+**Table 1e. Location of each Tribal Nation and amount of settled water rights**
+
+![](media/220a3388458e5bea8c6d9cf8f281a70f.emf)
+
+Tables 1d and 1e and the associated calculations are also shown in the
+**TribalWater** worksheet within the Excel model file.
+
+### **(vii) Percent of Tribal Nation water in Arizona**
+
+### **This cell specifies the percent of settled water rights for Tribal Nations of the Lower Basin that are located in Arizona (see also Table 1d and 1e).** This cell is calculated as 100% - the percentage entered in Cell B24.
+
 # Step 2. Specify Lake Mead Inflow
 
 Participants together choose the Lake Mead inflow for the year. This inflow
 represents the sum of gaged flows for the gages most immediately upstream of
-Lake Mead (Table 4).
+Lake Mead (Table 2a).
 
-**Table 4. Stream gages most immediately upstream of Lake Mead and used to
+**Table 2a. Stream gages most immediately upstream of Lake Mead and used to
 calculate Lake Mead inflow.**
 
 | **Gage Name**                                              | **USGS Number** | **Years**       | **Link**                                                                                        |
@@ -230,9 +252,9 @@ calculate Lake Mead inflow.**
 
 Because Lake Mead inflow is uncertain—and likely differing from historical
 inflows because of climate change—we can only specify inflow as a scenario
-(Table 5)(Rosenberg, 2022).
+(Table 2b)(Rosenberg, 2022).
 
-**Table 5. Scenarios of Lake Mead Inflow (Rosenberg, 2022)**.
+**Table 2b. Scenarios of Lake Mead Inflow (Rosenberg, 2022)**.
 
 ![A white sheet with black text Description automatically
 generated](media/ac83cf6f7de3ca3fd5914400fb7c06cd.png)
@@ -304,14 +326,14 @@ are many possibilities.
 
 However, suggestions for the split can be informed by the prior choice for the
 Reclamation Protect Elevation (Cell B20) and existing Water Conservation (ICS)
-Account Balances (Figures 1 and 2; Table 6). When using existing Water
+Account Balances (Figures 1 and 2; Table 2c). When using existing Water
 Conservation Account balances, users can access **all** of the prior conserved
 water (rollover) and current account balance at **any time** because the
 protection volume ensures a minimum storage volume and account balances must
 always stay zero or positive. In this setup, *there is no trigger to prohibit
 debits.*
 
-**Table 6. Suggested split of existing Lake Mead storage**
+**Table 2c. Suggested split of existing Lake Mead storage**
 
 | **User**    | **Suggested initial volume**                                                                             |
 |-------------|----------------------------------------------------------------------------------------------------------|
@@ -374,12 +396,12 @@ storage and evaporation vary.
 Splits of reservoir inflow among the other users can leverage prior shortage
 sharing agreements, including the recent Lower Basin Alternative (Buschatzke et
 al., 2024). This proposal allocated user reductions as a percentage of the total
-mandatory reduction (Table 7). Thus A user’s share of the reservoir inflow is
+mandatory reduction (Table 4a). Thus A user’s share of the reservoir inflow is
 their historical allocation minus the agreed-on shortage volume (Table 8).
 Several examples follow to illustrate the conversion of share of *shortage* to
 share of *inflow.*
 
-**Table 7. Prior agreed Lower Basin shortages and shares of shortages
+**Table 4a. Prior agreed Lower Basin shortages and shares of shortages
 (Buschatzke et al., 2024).**
 
 ![A table with numbers and a number of percentages Description automatically
