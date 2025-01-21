@@ -5,14 +5,20 @@
 ### [Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx) (Excel)
 ### [Draft Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterConservationProgramAnalysis.docx) (Microsoft WORD)
 
-## Overview														
+## Purpose														
 The purpose of this immersive online collaborative model is to give collaborators the opportunity to immerse in and personify water user roles for a Lake Mead model based on the principle of division of reservoir inflow.  The model works on the principles of **A) Divide reservoir inflow**, **B. Subtract evaporation**, and **C) Users consume and conserve within their available water**, others choices, and real-time discussion of choices.
 We see uses of the tool for two purposes:
 
 1. As researchers we want to learn: Why basin partners choose assumptions and how extreme; *Why* and *how* basin partners manage their risk of uncertain future water supply; Which new insights they take from a model session. 
 1. Provoke thought and discussion to: A) Stabilize and recover reservoir storage under conditions of low storage and low inflow, and B) Give users more autonomy to manage their conflicting vulnerabilities to water shortages.										
 
+## Key Ideas
+1. Lake Mead water level is the sum of the protection elevation plus each user's available water.
+1. Each user manages all their available water not just prior conserved water.
+![User Available Water](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/5decdc4b51d5a9ff4d0ac1185446aabf.png "User Available Water")
 
+
+1. 
 
 
 To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx), 
