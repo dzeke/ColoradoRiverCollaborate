@@ -18,7 +18,7 @@ We see uses of the tool for two purposes:
 1. Each user manages all their available water not just prior conserved water.
 ![User Available Water](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/5decdc4b51d5a9ff4d0ac1185446aabf.png "User Available Water")
 1. Tribal Nations of the Lower Basin manage their own settled water rights.
-![Lake Mead Storage](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/TribalWater.png "Lake Mead Storage") 
+![Tribal Nations Water](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/TribalWaterFromStates.png "Tribal Nations Water") 
 
 
 To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx), 
