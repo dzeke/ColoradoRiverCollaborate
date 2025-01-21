@@ -14,11 +14,11 @@ We see uses of the tool for two purposes:
 
 ## Key Ideas
 1. Lake Mead water level is the sum of the protection elevation plus each user's available water.
+![Lake Mead Storage](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/LakeMeadStorageFromAvailableWater.png "Lake Mead Storage")
 1. Each user manages all their available water not just prior conserved water.
 ![User Available Water](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/5decdc4b51d5a9ff4d0ac1185446aabf.png "User Available Water")
-
-
-1. 
+1. Tribal Nations of the Lower Basin manage their own settled water rights.
+![Lake Mead Storage](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/TribalWater.png "Lake Mead Storage") 
 
 
 To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx), 
