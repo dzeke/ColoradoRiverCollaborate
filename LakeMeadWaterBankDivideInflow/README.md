@@ -17,7 +17,7 @@ We see uses of the tool for two purposes:
 <img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/LakeMeadStorageFromAvailableWater.png" width=50% height=50%>
 
 **2) Each user manages all their available water not just prior conserved water.**
-<img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/5decdc4b51d5a9ff4d0ac1185446aabf.png" width=75%>
+<img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/5d5e1f07842cc149e1993f61d5e69a12.png" width=75%>
 
 **3) Tribal Nations of the Lower Basin manage their own settled water rights.**
 <img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/TribalWaterFromStates.png" width=50%>
