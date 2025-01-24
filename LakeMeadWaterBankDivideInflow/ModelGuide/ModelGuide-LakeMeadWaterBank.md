@@ -190,13 +190,13 @@ in 2022.**
 
 ### (iii) Protection elevation
 
-The Reclamation user decides the Lake Mead elevation to protect against further
-drawdown. An elevation of 1,020 feet was defined in the Lower Basin Drought
-Contingency Plan (Figure 1, dark blue fill labeled Protect)(USBR, 2019). More
-recently there has been discussion to lower the protect elevation to 1,000 feet
-(Buschatzke et al., 2024). The Lake Mead Water Bank maintains the protection
-elevation because the Reclamation user is always assigned a share of inflow that
-exactly equals the account’s share of evaporation. The protection volume is
+The Reclamation user decides the Lake Mead elevation/volume to protect against
+further drawdown. An elevation of 1,020 feet was defined in the Lower Basin
+Drought Contingency Plan (Figure 1, dark blue fill labeled Protect)(USBR, 2019).
+More recently there has been discussion to lower the protect elevation to 1,000
+feet (Buschatzke et al., 2024). The model maintains the Protection
+elevation/volume because the Reclamation user is always assigned a share of
+inflow that exactly equals its share of evaporation. The protection volume is
 calculated from the Elevation-Area-Volume curve for Lake Mead. See worksheet
 *Mead-Elevation-Area*.
 
@@ -205,18 +205,17 @@ calculated from the Elevation-Area-Volume curve for Lake Mead. See worksheet
 This storage value is the Reservoir start storage (Cell C19) minus the
 Protection volume (Cell C20)(Figure 1, light and medium blue fills labeled Water
 Conservation Accounts and Public Pool). The Storage above the Protect Zone
-represents the active storage that can be assigned to user accounts (see Row
-35).
+represents the active storage that can be assigned to other users (see Row 35).
 
 ### (v) Water Conservation Program (ICS) Total Balance.
 
 This entry is the sum of all existing water conservation program account
-balances (Figure 1, light blue fill). These balances are also referred to as the
-Intentionally Created Surplus (ICS) account balances and are reported at (USBR,
-2021a). Figure 2 shows Water Conservation Account balances over time for the
-three Lower Basin states. Reclamation typically publishes values in Spring for
-the prior calendar year. Note, Mexico’s water conservation account balance is
-not shown in Figure 2.
+balances from 2007 to present (Figure 1, light blue fill). These balances are
+also referred to as the Intentionally Created Surplus (ICS) account balances and
+are reported at (USBR, 2021a). Figure 2 shows Water Conservation Account
+balances over time for the three Lower Basin states. Reclamation typically
+publishes values in Spring for the prior calendar year. Note, Mexico’s water
+conservation account balance is not shown in Figure 2.
 
 ![A graph of different colored bars Description automatically generated with
 medium confidence](media/fb068f98d855c3c2aad9423fce82b26c.png)
@@ -227,9 +226,9 @@ medium confidence](media/fb068f98d855c3c2aad9423fce82b26c.png)
 
 This storage is calculated as the Lake Mead storage above the protection zone
 (Cell C21) minus the total water conservation program balances (Cell C21; Blue
-Public pool in Figure 2). This storage represents additional storage that may be
-allocated to the Lower Basin states or other users (see Step 3 Split storage in
-Row 35).
+Public pool in Figure 1). This storage represents additional storage that may be
+allocated to the Lower Basin states or other users such as Tribal Nations of the
+Lower Basin (see Step 3 Split storage in Row 35).
 
 ### **(vii) Percent of Tribal Nation water in California**
 
