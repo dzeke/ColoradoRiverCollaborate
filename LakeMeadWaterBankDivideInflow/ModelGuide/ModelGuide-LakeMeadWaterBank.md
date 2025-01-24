@@ -552,14 +552,29 @@ sell to another user. Sales decrease and purchases increase available water (Eq.
 
 ### (v) Enter Withdraw within Available Water
 
-Account withdraws are consumptive use. This consumptive use occurs by a
-participant physically withdrawing from Lake Mead.
+Account withdraws are consumptive use. This consumptive use occurs by a user
+physically withdrawing from Lake Mead.
 
 Enter withdraws and consumptive use according to the strategy identified in Step
 1 or modify that strategy based on current conditions.
 
 Check that other collaborators do not withdraw more water than is available to
 them!
+
+For reference, recent withdrawals are calculated as a user’s historical
+allocation minus their Lake Mead Conservation Account credit (Table 8). Tribal
+Nations of the Lower Basin have recently consumed about 460,000 of their 0.95
+million settled water rights (Table 9)(Ten Tribes Partnership, 2018).
+
+**Table 8. Recent user withdrawals calculated as historical allocation minus
+Lake Mead Water Conservation account credit (million acre-feet).**
+
+![](media/4c5108e3bc3b4d1c81121ea7315b20de.emf)
+
+**Table 9. Diversion and consumptive use by Tribal Nations of the Lower Basin
+(acre-feet).**
+
+![](media/fa2f1e1038d6a62060b1e816edda6194.emf)
 
 ### (vi) End of Year Balance
 
