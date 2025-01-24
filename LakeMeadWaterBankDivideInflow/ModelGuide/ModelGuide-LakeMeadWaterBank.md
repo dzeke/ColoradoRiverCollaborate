@@ -561,16 +561,16 @@ Enter withdraws and consumptive use according to the strategy identified in Step
 Check that other collaborators do not withdraw more water than is available to
 them!
 
-For reference, recent withdrawals are calculated as a user’s historical
-allocation minus their Lake Mead Conservation Account credit (Table 8). Tribal
-Nations of the Lower Basin have recently consumed about 460,000 of their 0.95
-million settled water rights (Table 9)(Ten Tribes Partnership, 2018).
+For reference, recent withdrawals are shown in Table 8 (USBR, 2021a). These
+withdrawals include to Tribal Nations within each state . Tribal Nations of the
+Lower Basin have recently consumed about 460,000 of their 0.95 million settled
+water rights (Table 9)(Ten Tribes Partnership, 2018).
 
 **Table 8. Recent user withdrawals calculated as historical allocation minus
 Lake Mead Water Conservation account credit (million acre-feet).**
 
 ![A table with numbers and a number of states Description automatically
-generated](media/b8380bc268672a4eb56181031b5e2d16.png)
+generated](media/d3f9132b7170ab4d0c07a9747336b6f6.png)
 
 **Table 9. Diversion and consumptive use by Tribal Nations of the Lower Basin
 (acre-feet).**
