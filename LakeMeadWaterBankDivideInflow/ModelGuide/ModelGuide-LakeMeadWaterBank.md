@@ -31,7 +31,7 @@ uses of the tool for two purposes:
     -   Give users more autonomy to manage their conflicting vulnerabilities to
         water shortages.
 
-Key Model Ideas
+# Key Model Ideas
 
 1.  **Lake Mead water level is the sum of the protection elevation plus each
     user’s available water.**
@@ -39,7 +39,7 @@ Key Model Ideas
     ![A diagram of water evaporation Description automatically
     generated](media/4890d2b6825df736576fb0d97b5371f3.png)
 
-1.  **Each user manages all their available water not just prior conserved
+2.  **Each user manages all their available water not just prior conserved
     water.**
 
 ![A white background with black text Description automatically
