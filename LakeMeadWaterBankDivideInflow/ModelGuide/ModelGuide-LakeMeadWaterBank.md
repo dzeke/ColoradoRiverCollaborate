@@ -569,12 +569,14 @@ million settled water rights (Table 9)(Ten Tribes Partnership, 2018).
 **Table 8. Recent user withdrawals calculated as historical allocation minus
 Lake Mead Water Conservation account credit (million acre-feet).**
 
-![](media/4c5108e3bc3b4d1c81121ea7315b20de.emf)
+![A table with numbers and a number of states Description automatically
+generated](media/b8380bc268672a4eb56181031b5e2d16.png)
 
 **Table 9. Diversion and consumptive use by Tribal Nations of the Lower Basin
 (acre-feet).**
 
-![](media/fa2f1e1038d6a62060b1e816edda6194.emf)
+![A table with numbers and text Description automatically
+generated](media/d72f1e9d8c332c564c4f3413ef9519a8.png)
 
 ### (vi) End of Year Balance
 
