@@ -563,11 +563,10 @@ them!
 
 For reference, recent withdrawals are shown in Table 8 (USBR, 2021a). These
 withdrawals include to Tribal Nations within each state . Tribal Nations of the
-Lower Basin have recently consumed about 460,000 of their 0.95 million settled
-water rights (Table 9)(Ten Tribes Partnership, 2018).
+Lower Basin have recently consumed about 460,000 of their 0.95 million acre-feet
+of settled water rights (Table 9)(Ten Tribes Partnership, 2018).
 
-**Table 8. Recent user withdrawals calculated as historical allocation minus
-Lake Mead Water Conservation account credit (million acre-feet).**
+**Table 8. Recent Lower Basin and Mexico user withdrawals (million acre-feet).**
 
 ![A table with numbers and a number of states Description automatically
 generated](media/d3f9132b7170ab4d0c07a9747336b6f6.png)
