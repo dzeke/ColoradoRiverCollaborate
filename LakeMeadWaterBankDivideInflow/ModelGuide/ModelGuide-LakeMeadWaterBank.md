@@ -7,7 +7,7 @@ David E. Rosenberg \| Utah State University \|
 
 \| <http://rosenberg.usu.edu>
 
-January 10, 2025
+January 24, 2025
 
 # I**ntroduction**
 
@@ -31,9 +31,28 @@ uses of the tool for two purposes:
     -   Give users more autonomy to manage their conflicting vulnerabilities to
         water shortages.
 
-This document provides context information for each individual and group choice
-within the immersive model. The document also explains how choices build on
-existing Colorado River management (Appendix A). The document also suggests
+Key Model Ideas
+
+1.  **Lake Mead water level is the sum of the protection elevation plus each
+    user’s available water.**
+
+    ![A diagram of water evaporation Description automatically
+    generated](media/4890d2b6825df736576fb0d97b5371f3.png)
+
+1.  **Each user manages all their available water not just prior conserved
+    water.**
+
+![A white background with black text Description automatically
+generated](media/5d5e1f07842cc149e1993f61d5e69a12.png)
+
+1.  **Tribal Nations of the Lower Basin manage their own settled water rights**
+
+![A graph with different colored text Description automatically generated with
+medium confidence](media/18f464fdb3c589da78c43865b1c33b2c.png)
+
+This User Guide provides context information for each individual and group
+choice within the immersive model. The document also explains how choices build
+on existing Colorado River management (Appendix A). The document also suggests
 potential values to enter for user choices.
 
 Find quick links to this support information -- the sections and subsections of
@@ -526,25 +545,21 @@ indicates there is a buyer for every seller.
 ### (iv) Available Water
 
 Available water is the water available to a participant to consume, conserve, or
-sell to another account. Sales decrease and purchases increase available water
-(Eq. 2).
+sell to another user. Sales decrease and purchases increase available water (Eq.
+2).
 
-| ![](media/5decdc4b51d5a9ff4d0ac1185446aabf.png) | (Eq. 2) |
+| ![](media/b067b34f64dc5f62cef840cc605c1345.png) | (Eq. 2) |
 |-------------------------------------------------|---------|
 
 ### (v) Enter Withdraw within Available Water
 
 Account withdraws are consumptive use. This consumptive use occurs by a
-participant physically withdrawing from the combined Lake Powell-Lake Mead
-system at Hoover dam (Lower Basin, Mexico, or Delta). Consumptive use can also
-occur by diverting instream flow before that flow enters the combined system
-(Upper Basin). In the later case, the Upper Basin diverts the water and its
-basin account is deducted the corresponding consumptive use.
+participant physically withdrawing from Lake Mead.
 
 Enter withdraws and consumptive use according to the strategy identified in Step
-1 or modifications to that strategy based on current conditions.
+1 or modify that strategy based on current conditions.
 
-Check that other participants do not withdraw more water than is available to
+Check that other collaborators do not withdraw more water than is available to
 them!
 
 ### (vi) End of Year Balance
