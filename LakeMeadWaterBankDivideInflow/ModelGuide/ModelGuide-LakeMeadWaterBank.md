@@ -191,21 +191,25 @@ in 2022.**
 ### (iii) Protection elevation
 
 The Reclamation user decides the Lake Mead elevation/volume to protect against
-further drawdown. An elevation of 1,020 feet was defined in the Lower Basin
-Drought Contingency Plan (Figure 1, dark blue fill labeled Protect)(USBR, 2019).
-More recently there has been discussion to lower the protect elevation to 1,000
-feet (Buschatzke et al., 2024). The model maintains the Protection
-elevation/volume because the Reclamation user is always assigned a share of
-inflow that exactly equals its share of evaporation. The protection volume is
-calculated from the Elevation-Area-Volume curve for Lake Mead. See worksheet
-*Mead-Elevation-Area*.
+further drawdown. A default value of 1,020 feet (5.7 million acre-feet) is used
+because this level was specified in the Lower Basin Drought Contingency Plan
+(Figure 1, dark blue fill labeled Protect)(USBR, 2019). More recently there has
+been discussion to lower the protect elevation to 1,000 feet (Buschatzke et al.,
+2024). When lowering the Lake Mead protection elevation, the storage above the
+Protect Zone increases so that more of the starting reservoir storage is
+assigned to the other users as their initial available water. The model
+maintains the Protection elevation/volume because the Reclamation user is always
+assigned a share of inflow that exactly equals its share of evaporation. The
+protection volume is calculated from the Elevation-Area-Volume curve for Lake
+Mead. See worksheet *Mead-Elevation-Area*.
 
 ### (iv) Storage above Protect Zone
 
 This storage value is the Reservoir start storage (Cell C19) minus the
 Protection volume (Cell C20)(Figure 1, light and medium blue fills labeled Water
 Conservation Accounts and Public Pool). The Storage above the Protect Zone
-represents the active storage that can be assigned to other users (see Row 35).
+represents the active storage that can be assigned to other users as their
+initial available (see Row 35).
 
 ### (v) Water Conservation Program (ICS) Total Balance.
 
@@ -228,7 +232,8 @@ This storage is calculated as the Lake Mead storage above the protection zone
 (Cell C21) minus the total water conservation program balances (Cell C21; Blue
 Public pool in Figure 1). This storage represents additional storage that may be
 allocated to the Lower Basin states or other users such as Tribal Nations of the
-Lower Basin (see Step 3 Split storage in Row 35).
+Lower Basin as their initial available water (see Step 3 Split storage in Row
+35).
 
 ### **(vii) Percent of Tribal Nation water in California**
 
@@ -528,13 +533,16 @@ compensated, and mandatory Colorado River Basin water conservation programs
 
 Compensation = (0.5)(500) + (0.2)(1,200) = \$850 million.
 
-The Lake Mead water conservation program has conserved more water than other
-voluntary, compensated, or mandatory
+The program has conserved more water than other voluntary, compensated, or
+mandatory Colorado River Basin water conservation program and is less expense
+than other options such as desalination (Table 7; Allhands, 2021; James, 2021;
+UCRC, 2018; UCRC, 2024; USBR, 2021a; USBR, 2021c).
 
 **Table 7. Colorado River Basin water conservation programs and
 accomplishments.**
 
-**![](media/95b60ced914d89d02bf133f50b2dead5.png)**
+![A screenshot of a table Description automatically
+generated](media/b5b255b980576b5abeaf469be54e5718.png)
 
 ### (iii) Net Trade Volume all Participants
 
@@ -705,6 +713,10 @@ IBWC. (2021). "Minutes between the United States and Mexican Sections of the
 IBWC." United States Section,
 <https://www.ibwc.gov/Treaties_Minutes/Minutes.html> [Accessed on: July 22,
 2021].
+
+James, I. (2021). "Southwest braces for water cutbacks as drought deepens along
+the Colorado River." *Arizona Republic*.
+<https://www.azcentral.com/story/news/local/arizona-environment/2021/04/06/colorado-river-drought-deepens-arizona-prepares-water-cutbacks/4808587001/>.
 
 Kuhn, E., and Fleck, J. (2019). *Science Be Dammed: How Ignoring Inconvenient
 Science Drained the Colorado River*, University of Arizona Press.
