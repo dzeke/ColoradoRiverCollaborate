@@ -67,7 +67,7 @@ Over one or more years, participants consume, save, and trade water in the accou
 1. Wang, J., Rosenberg, D. E., Schmidt, J. C., and Wheeler, K. G. (2020). "Managing the Colorado River for an Uncertain Future." Center for Colorado River Studies, Utah State University, Logan, Utah. https://digitalcommons.usu.edu/cee_facpub/3768/
 
 ## Requested Citation (permanent link)
-David E. Rosenberg, Hadia Akbar, Erik Porse (2025). "Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow." Utah State University, Logan, UT. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterBankDivideInflow.
+David E. Rosenberg, Hadia Akbar, Anabelle Myers, Erik Porse (2025). "Lake Mead Water Bank based on the Principle of Divide Reservoir Inflow." Utah State University, Logan, UT. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/LakeMeadWaterBankDivideInflow.
 
 ## File Descriptions
 1. **[LakeMeadWaterBankDivideInflow.xlsx](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)** - An Excel file with the Lake Mead Water Bank tool. Follow **Facillation Directions** (above) or open **ReadMe-Directions** Worksheet.
