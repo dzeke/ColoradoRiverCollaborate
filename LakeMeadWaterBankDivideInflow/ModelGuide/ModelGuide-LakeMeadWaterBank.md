@@ -274,8 +274,8 @@ conditions.
 
 **Table 2a. Scenarios of Lake Mead Inflow**
 
-![A table of information AI-generated content may be
-incorrect.](media/14790e4e3cbc7a1abfb7cdabd8ceb5c6.png)
+![A white sheet with black text AI-generated content may be
+incorrect.](media/e4fc71eb5784605c5cf05b65ac1df925.png)
 
 There are two ways to interpret the extreme scenarios of inflow to Lake Mead:
 
