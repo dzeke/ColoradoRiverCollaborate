@@ -286,22 +286,22 @@ There are two ways to interpret the extreme scenarios of inflow to Lake Mead:
     is *no* Upper Basin consumptive use.
 
 2.  **An extreme low Lake Powell release** needed to stabilize Lake Powell plus
-    **gains along Grand Canyon**. is hneeded Lake Powell releases Although the
-    natural flow values from represent the inflow to Lee’s Ferry, they can also
-    be used to represent inflow value to Lake Mead during arid years.
+    **gains along Grand Canyon**.
 
 The magnitude of extreme low natural inflow to Lake Powell has been determined
 by using 21 ensembles on the worksheet *HydrologicScenarios* (Salehabadi et al.,
-2024). Using code written in Python, the three consecutive smallest values in
-each ensemble and each trace were found. This was done by iterating through all
-traces in all ensembles and calculating the average of three consecutive values
-for each cell. Using the smallest average, the position of the beginning value
-of the consecutive three was found.
+2024). Each ensemble typically had 100 traces. Using code written in Python, the
+three consecutive smallest values in each ensemble and each trace were found.
+This was done by iterating through all traces in all ensembles and calculating
+the average of three consecutive values for each cell. Using the smallest
+average, the position of the beginning value of the consecutive three was found.
 
 For reference, historical Lake Mead inflows since 1990 varied from 8 to 16
 million acre-feet per year (Figure 3) with the preponderance of inflows between
 9 and 10 maf per year (corresponding to a Lake Powell release between 8.23 and 9
-maf per year; Figure 4).
+maf per year; Figure 4). Additionally note that gains along Grand Canyon over
+the same period were 600,000 to 1 million acre-feet per year (Rosenberg, 2022;
+Wang and Schmidt, 2020; Figure 5).
 
 ![A graph showing a line Description automatically
 generated](media/8ba39f9c30237f80872d9c7682e6cb3b.png)
@@ -312,10 +312,6 @@ generated](media/8ba39f9c30237f80872d9c7682e6cb3b.png)
 medium confidence](media/8109c4025d3cee2e29b1a3d04f9e623c.png)
 
 **Figure 4. Histogram of Lake Mead inflows as measured by the nearest gages.**
-
-Additionally note that Colorado River flow near Peachtree is the annual Lake
-Powell release plus 600,000 to 1 million acre-feet of gains along Grand Canyon
-(Rosenberg, 2022; Wang and Schmidt, 2020; Figure 5).
 
 ![](media/504930ff99a905946ec9839391007127.png)
 
