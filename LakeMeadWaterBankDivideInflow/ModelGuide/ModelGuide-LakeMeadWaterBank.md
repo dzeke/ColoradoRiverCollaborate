@@ -262,32 +262,46 @@ Tables 1d and 1e and the associated calculations are also shown in the
 
 # Step 2. Specify Lake Mead Inflow
 
-Participants together choose the Lake Mead inflow for the year. This inflow
-represents the sum of gaged flows for the gages most immediately upstream of
-Lake Mead (Table 2a).
+Each Lake Mead inflow for the year will be specified by the person guiding the
+model session at the beginning of each timestep (Table 2a). These choices will
+ensure an accurate representation of uncertainty, unreliability, and variability
+in flow for Colorado River Basin management. Because Lake Mead inflow is
+uncertain—and likely differing from historical inflows because of aridity—we can
+only specify inflow as a scenario (Rosenberg, 2022). We are particularly
+interested in scenarios of extreme low inflow to Lake Mead because if we can
+manage for extreme conditions, then we can also manage for less extreme
+conditions.
 
-**Table 2a. Stream gages most immediately upstream of Lake Mead and used to
-calculate Lake Mead inflow.**
+**Table 2a. Scenarios of Lake Mead Inflow**
 
-| **Gage Name**                                              | **USGS Number** | **Years**       | **Link**                                                                                        |
-|------------------------------------------------------------|-----------------|-----------------|-------------------------------------------------------------------------------------------------|
-| A. Colorado River nr Peach Springs                         | 9404200         | 1990 to Present | [Here](https://waterdata.usgs.gov/monitoring-location/09404200/#parameterCode=00065&)           |
-| B. Virgin River at Littlefield                             | 9415000         | 1990 to Present | [Here](https://waterdata.usgs.gov/monitoring-location/09415000/#parameterCode=00065&period=P7D) |
-| C. Las Vegas Wash Below LAKE LAS VEGAS NR BOULDER CITY, NV | 9419800         | 2002 to Present | [Here](https://waterdata.usgs.gov/monitoring-location/09419800/)                                |
+![A white sheet with black text AI-generated content may be
+incorrect.](media/e4fc71eb5784605c5cf05b65ac1df925.png)
 
-Because Lake Mead inflow is uncertain—and likely differing from historical
-inflows because of climate change—we can only specify inflow as a scenario
-(Table 2b)(Rosenberg, 2022).
+There are two ways to interpret the extreme scenarios of inflow to Lake Mead:
 
-**Table 2b. Scenarios of Lake Mead Inflow (Rosenberg, 2022)**.
+1.  **Low natural inflow to Lake Powell** minus **Lake Powell evaporation** plus
+    **gains along Grand Canyon**. Under extreme conditions, the Lake Powell
+    evaporation equals gains along Grand Canyon so the natural inflow to Lees
+    Ferry translates to the inflow to Lake Mead. This method also assumes there
+    is *no* Upper Basin consumptive use.
 
-![A white sheet with black text Description automatically
-generated](media/ac83cf6f7de3ca3fd5914400fb7c06cd.png)
+2.  **An extreme low Lake Powell release** needed to stabilize Lake Powell plus
+    **gains along Grand Canyon**.
+
+The magnitude of extreme low natural inflow to Lake Powell has been determined
+by using 21 ensembles on the worksheet *HydrologicScenarios* (Salehabadi et al.,
+2024). Each ensemble typically had 100 traces. Using code written in Python, the
+three consecutive smallest values in each ensemble and each trace were found.
+This was done by iterating through all traces in all ensembles and calculating
+the average of three consecutive values for each cell. Using the smallest
+average, the position of the beginning value of the consecutive three was found.
 
 For reference, historical Lake Mead inflows since 1990 varied from 8 to 16
 million acre-feet per year (Figure 3) with the preponderance of inflows between
 9 and 10 maf per year (corresponding to a Lake Powell release between 8.23 and 9
-maf per year; Figure 4).
+maf per year; Figure 4). Additionally note that gains along Grand Canyon over
+the same period were 600,000 to 1 million acre-feet per year (Rosenberg, 2022;
+Wang and Schmidt, 2020; Figure 5).
 
 ![A graph showing a line Description automatically
 generated](media/8ba39f9c30237f80872d9c7682e6cb3b.png)
@@ -298,10 +312,6 @@ generated](media/8ba39f9c30237f80872d9c7682e6cb3b.png)
 medium confidence](media/8109c4025d3cee2e29b1a3d04f9e623c.png)
 
 **Figure 4. Histogram of Lake Mead inflows as measured by the nearest gages.**
-
-Additionally note that Colorado River flow near Peachtree is the annual Lake
-Powell release plus 600,000 to 1 million acre-feet of gains along Grand Canyon
-(Rosenberg, 2022; Wang and Schmidt, 2020; Figure 5).
 
 ![](media/504930ff99a905946ec9839391007127.png)
 
@@ -314,9 +324,8 @@ values (Figure 6). For example:
 -   Nearest USGS gages.
 
 -   Inflow data downloaded from the Reclamation Application Programming
-    Interface (API; https:
-
--   //www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html).
+    Interface (API;
+    https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html).
 
 -   Back calculate from Lake Mead storage, release, Nevada Diversion, and Lake
     Mead evaporation data also retrieved from the Reclamation API.
@@ -325,15 +334,6 @@ values (Figure 6). For example:
     Mead evaporation (1990 to present). Here we use evaporation data from
     elevation-storage-area relationship from Colorado River Simulation System
     (CRSS) model.
-
-![A graph showing the number of usbs Description automatically
-generated](media/1b4411c777905d9116fc7821eb20ccff.png)
-
-**Figure 6. Differing values for Lake Mead inflow as estimated by different
-methods.**
-
-This work uses gages closest to Lake Mead because these values gave the
-*largest* annual inflows.
 
 ## 2A. Begin of year reservoir storage
 
@@ -729,10 +729,11 @@ Rosenberg, D. E. (2021). "Invest in Farm Water Conservation to Curtail Buy and
 Dry." *Submitted to Journal of Water Resources Planning and Management*, 3.
 <https://digitalcommons.usu.edu/water_pubs/169/>.
 
-Rosenberg, D. E. (2022). "Adapt Lake Mead Releases to Inflow to Give Managers
-More Flexibility to Slow Reservoir Drawdown." *Journal of Water Resources
-Planning and Management*, 148(10), 02522006.
-<https://doi.org/10.1061/(ASCE)WR.1943-5452.0001592>.
+Salehabadi, H., Tarboton, D. G., Wheeler, K. G., Smith, R., and Baker, S.
+(2024). "Quantifying and Classifying Streamflow Ensembles Using a Broad Range of
+Metrics for an Evidence-Based Analysis: Colorado River Case Study." *Water
+Resources Research*, 60(7), e2024WR037225.
+<https://doi.org/10.1029/2024WR037225>.
 
 Schmidt, J. C., Kraft, M., Tuzlak, D., and Walker, A. (2016). "Fill Mead First:
 a technical assessment." Utah State University, Logan, Utah.
@@ -777,9 +778,9 @@ USBR. (2021c). "Pilot System Conservation Program." U.S. Bureau of Reclamation,
 <https://www.usbr.gov/lc/region/programs/PilotSysConsProg/pilotsystem.html>
 [Accessed on: October 14, 2021].
 
-USBR. (2023a). "Integrated Technical Education Workgroup." Reclamation,
-<https://www.usbr.gov/ColoradoRiverBasin/post2026/itew.html> [Accessed on:
-September 18, 2023].
+USBR. (2023a). "Integrated Technical Education Workgroup." U.S. Bureau of
+Reclamation, <https://www.usbr.gov/ColoradoRiverBasin/post2026/itew.html>
+[Accessed on: September 18, 2023].
 
 USBR. (2023b). "Post-2026 Colorado River Reservoir Operational Strategies for
 Lake Powell and Lake Mead: Summary of the Federal Register Notice Input
