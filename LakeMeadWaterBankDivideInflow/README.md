@@ -27,7 +27,7 @@ To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCo
 move to Google Sheets, and invite participants. There are accounts for Reclamation (Protect Zone), California, Arizona, Nevada, Mexico, and Tribal Nations in the Lower Basin.
 Over one or more years, participants consume, save, and trade water in the accounts. Read on for directions to use.
 
-## Rquirements
+## Requirements
 **Session Guide**: 1 person to setup in Google Sheets (see Setup below), invite participants, and organize play.											
 
 **Number of People**: 2 or more (Session Guide may also participate).
