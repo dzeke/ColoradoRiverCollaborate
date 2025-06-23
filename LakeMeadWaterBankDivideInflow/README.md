@@ -20,7 +20,7 @@ We see uses of the tool for two purposes:
 <img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/5d5e1f07842cc149e1993f61d5e69a12.png" width=75%>
 
 **3) Tribal Nations of the Lower Basin manage their own settled water rights.**
-<img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/TribalWaterFromStates.png" width=50%>
+<img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/TribalNationsFigureWithBorder.png" width=50%>
 
 
 To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx), 
