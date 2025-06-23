@@ -522,8 +522,7 @@ community and the seller can make more water available in future years
 ### (ii) Compensation
 
 Enter compensation – payments for buying, receipts for sales – in \$ millions.
-Enter as a formula. Multiply the sale price in \$/acre-foot by the buy or sell
-volume in maf. Table 7 shows compensation and water prices for recentvoluntary,
+Enter price per acre-ft. The total compensation will be automatically calculated. Table 7 shows compensation and water prices for recentvoluntary,
 compensated, and mandatory Colorado River Basin water conservation programs
 (Allhands, 2021; UCRC, 2018; UCRC, 2024; USBR, 2021a; USBR, 2021c).
 
