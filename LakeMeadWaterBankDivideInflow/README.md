@@ -20,14 +20,14 @@ We see uses of the tool for two purposes:
 <img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/5d5e1f07842cc149e1993f61d5e69a12.png" width=75%>
 
 **3) Tribal Nations of the Lower Basin manage their own settled water rights.**
-<img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/TribalWaterFromStates.png" width=50%>
+<img src="https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/media/TribalNationsFigureWithBorder.png" width=50%>
 
 
 To use, download the [Excel Model File](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx), 
 move to Google Sheets, and invite participants. There are accounts for Reclamation (Protect Zone), California, Arizona, Nevada, Mexico, and Tribal Nations in the Lower Basin.
 Over one or more years, participants consume, save, and trade water in the accounts. Read on for directions to use.
 
-## Rquirements
+## Requirements
 **Session Guide**: 1 person to setup in Google Sheets (see Setup below), invite participants, and organize play.											
 
 **Number of People**: 2 or more (Session Guide may also participate).
