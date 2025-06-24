@@ -48,10 +48,10 @@ uses of the tool for two purposes:
 ![A white background with black text Description automatically
 generated](media/5d5e1f07842cc149e1993f61d5e69a12.png)
 
-1.  **Tribal Nations of the Lower Basin manage their own settled water rights**
+3.  **Tribal Nations of the Lower Basin manage their own settled water rights**
 
 ![A graph with different colored text Description automatically generated with
-medium confidence](media/18f464fdb3c589da78c43865b1c33b2c.png)
+medium confidence](media/TribalNationsFigureNoBorder.png)
 
 This User Guide provides context information for each individual and group
 choice within the immersive model. The document also explains how choices build
