@@ -12,7 +12,6 @@ These codes read daily Reclamation data for Colorado River reservoirs from U.S. 
 1. **USBRDataImport.ipynb** - Jupyter notebook file. Loads in selected reservoirs and fields.
 1. **PowellDataImport.ipynb** - Jupyter notebook file. Loads in fields for Lake Powell.
 1. **PowellEvap.ipynb** - Juputer notebook file. Loads in Evaporation Data for Lake Powell.
-1. **
 1. **ReclamationMetaData.csv** - All reservoirs, all reservoir fields, units of measurement, etc.
 1. **ReservoirsAndFields.csv** - Cross-tabulation of the *ReclamationMetaData.csv* file showing selected reservoirs (rows) and fields of measurement for the reservoir (columns). This file is output by the notebook. 
 
