@@ -1,15 +1,20 @@
 # Import Colorado River reservoir data from Reclamation
 David E. Rosenberg
 February 27, 2024
+Updated: July 9, 2025
 
 ## Overview
 
 These codes read daily Reclamation data for Colorado River reservoirs from U.S. Bureau of Reclamation's (Reclamation) web portal https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/25.csv). Here, as an example, 919 is the code for Lake Powell. And 25 is the code for reservoir evaporation.
 
 ## Files
-**PowellDataImport.ipynb** - Jupyter notebook file
-**ReclamationMetaData.csv** - All reservoirs, all reservoir fields, units of measurement, etc.
-**ReservoirsAndFields.csv** - Cross-tabulation of the *ReclamationMetaData.csv* file showing selected reservoirs (rows) and fields of measurement for the reservoir (columns). This file is output by the notebook. 
+
+1. **USBRDataImport.ipynb** - Jupyter notebook file. Loads in selected reservoirs and fields.
+1. **PowellDataImport.ipynb** - Jupyter notebook file. Loads in fields for Lake Powell.
+1. **PowellEvap.ipynb** - Juputer notebook file. Loads in Evaporation Data for Lake Powell.
+1. **
+1. **ReclamationMetaData.csv** - All reservoirs, all reservoir fields, units of measurement, etc.
+1. **ReservoirsAndFields.csv** - Cross-tabulation of the *ReclamationMetaData.csv* file showing selected reservoirs (rows) and fields of measurement for the reservoir (columns). This file is output by the notebook. 
 
 ## Data wrangling strategy
 First the code reads in the Metadata for all available reservoirs and data fields from the file 'https://raw.githubusercontent.com/dzeke/ColoradoRiverCollaborate/main/Powell10year/AsPython/ReclamationMetaData.csv.' This metadata includes reservoir name, site id, field name, field ids, units of measurement, and so forth.
