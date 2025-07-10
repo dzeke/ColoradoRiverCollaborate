@@ -1,0 +1,88 @@
+---
+title: "Plot Greenhouse Temperature Data"
+author: "David E. Rosenberg"
+date: "May 14, 2023"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Description
+
+This Markdown file loads Greenhouse temperature data from a Google Sheet then plots the data in an interactive timeseries viewer - dygraph
+
+```{r Greenplot, echo=FALSE, warning=FALSE, message=FALSE}
+
+## Read Greenhouse data from Google Sheet and plot in dygraphs
+
+# David Rosenberg
+# March 16, 2023
+# Updated March 28, 2023 to fill spaces with NA
+
+#Versions to use
+#R version 4.1.1. Download from https://cran.r-project.org/.
+#R Studio 2021.09.0. Download from https://www.rstudio.com/.
+
+# Remove everything
+rm(list=ls())
+
+cPackages <- c("versions", "googlesheets4", "dygraphs", "tidyquant", "xts", "tidyverse", "tidyquant","lubridate", "stringr" )
+
+# Install packages not yet installed
+installed_packages <- cPackages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(cPackages[!installed_packages])
+}
+# Packages loading
+invisible(lapply(cPackages, library, character.only = TRUE))
+
+
+#Load the required library 
+
+#Load correct versions of libraries
+#install.versions('cli', '3.4.0')
+
+
+#Read google sheets data into R
+#x <- read_sheet('https://docs.google.com/spreadsheets/d/1tHLUTlAmzTD9x-3RxqSyf2IwYfvKhWXMp_n0GDVbNDE/edit#gid=0')
+x <- read_sheet('1tHLUTlAmzTD9x-3RxqSyf2IwYfvKhWXMp_n0GDVbNDE')
+
+# Convert Google Date/Time/Zone to POSIXct
+x$DateTimeStr <- (str_trunc((x$Time), 24, side="right", ellipsis = ""))
+
+x$DateTime <- as.POSIXct(x$DateTimeStr, format = '%a %b %d %Y %H:%M:%S')
+
+#Calculate difference between date/time in row and subsequent row
+x$DateTimeDiff <- c(NA, diff(x$DateTime))
+#Assign NA to row with DateTimeDiff > 1000
+x$DateTimeDiff[1] <- 0
+x[x$DateTimeDiff > 1000,seq(2,9,1)] <- NA
+
+# Split into Temperature and Humidity data frames
+dfTemp <- x[,c(11,2,4,6,8,9)]
+dfHumidity <- x[,c(11,3,5,7)]
+
+#Convert to xts
+xTemp <- xts(cbind(dfTemp$`Indoor Temp`,dfTemp$`Guesthouse Temp`,dfTemp$`Greenhouse Temp`,dfTemp$`Water Temp`,dfTemp$`Outside Temp`), order.by=dfTemp$DateTime)
+
+
+
+
+```
+
+# Figure 1. Timeseries
+```{r GreenFig1, echo=FALSE, warning=FALSE, message=FALSE}
+
+#Plot the dygraph
+
+dygraph(xTemp) %>% dyRangeSelector() %>%
+  dySeries("V1", label = "Indoor") %>%
+  dySeries("V2", label = "Guesthouse") %>%
+  dySeries("V3", label = "Greenhouse") %>%
+  dySeries("V4", label = "Water barrel") %>%
+  dySeries("V5", label = "Outside") %>%
+  dyLimit(32, color = "red")
+
+```
