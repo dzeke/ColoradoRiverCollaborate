@@ -566,10 +566,11 @@ incorrect.](media/116ba55f46390816a36f1a492b850e04.png)**
 
 # Step 5. Participant Dashboards – Conserve, Consume, and Trade
 
-![A close-up of a table AI-generated content may be
-incorrect.](media/09c2666a3b9e681d90560dff2aa2e636.png)Each participant has a
-dashboard where they can trade, conserve, and consume their available water
-(Figure 5a).
+Each participant has a dashboard where they can trade, conserve, and consume
+their available water (Figure 5a).
+
+![A screenshot of a computer screen AI-generated content may be
+incorrect.](media/346538d39e148ed938e19a659da551f5.png)
 
 **Figure 5a. Reclamation Protect Dashboard annotated. Starting storage is 1,055
 feet (8.0 maf), the reservoir protect elevation is 1,005 feet (4.8 maf), and
