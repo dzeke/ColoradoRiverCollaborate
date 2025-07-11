@@ -77,17 +77,15 @@ Requirements
 Review the main canons of existing Colorado River management (Appendix A;
 persons not familiar with current Colorado River operations).
 
-Follow the setup and play instructions (Box 1). The rest of the document
-provides guidance on each step.
-
 ![A screenshot of a computer program AI-generated content may be
-incorrect.](media/c559c4dbc423098503d497b4675b135a.png)
+incorrect.](media/c8ba8e4c5d350b4a07946f486309e487.png)Follow the setup and play
+instructions (Box 1). The rest of the document provides guidance on each step.
 
 ## Types of Use
 
 The model can be used in two modes:
 
-1.  Synchronously by multiple participant where each participant manages one or
+1.  Synchronously by multiple participants where each participant manages one or
     more accounts (in Google Drive).
 
 2.  By a single participant (manages all accounts).
@@ -174,19 +172,19 @@ variations of 0.25 maf or less in Lake Mead storage volume.
 ![A graph of a line graph Description automatically generated with medium
 confidence](media/b8c3487b2edaa090c29e635c0b64b2c1.png)
 
-**Range of Lake Mead Evaporation vs Active Storage**
+**Figure 1a. Range of Lake Mead Evaporation vs Active Storage**
 
 ### (ii) Start storage
 
 Reservoir start storage is taken from the [data
 portal](https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html) (USBR,
-2021b). Text in Column D lists the date. Figure 1a shows Lake Mead storage over
+2021b). Text in Column D lists the date. Figure 1b shows Lake Mead storage over
 time (Solid black line).
 
 ![A graph of water and water conservation Description automatically generated
 with medium confidence](media/6b1c8702d79a4c42d582bec134c4d9c1.png)
 
-**Figure 1a. Lake Mead Storage (solid black line), Water Conservation (ICS)
+**Figure 1b. Lake Mead Storage (solid black line), Water Conservation (ICS)
 Account Balances (light blue fill), and anticipated lake volume absent the water
 conservation program (dashed red line). The conservation program kept Lake Mead
 level above elevation 1,020 feet (5.9 million acre-feet) during low lake levels
@@ -223,12 +221,12 @@ also referred to as the Intentionally Created Surplus (ICS) account balances and
 are reported at (USBR, 2021a). Figure 1b shows Water Conservation Account
 balances over time for the three Lower Basin states. Reclamation typically
 publishes values in Spring for the prior calendar year. Note, Mexico’s water
-conservation account balance is not shown in Figure 1b.
+conservation account balance is not shown in Figure 1c.
 
 ![A graph of different colored bars Description automatically generated with
 medium confidence](media/fb068f98d855c3c2aad9423fce82b26c.png)
 
-**Figure 1b. Lake Mead Water Conservation (ICS) Account balances over time**
+**Figure 1c. Lake Mead Water Conservation (ICS) Account balances over time**
 
 ### **(vi) Remaining Storage above the Protect and ICS Balances**
 
@@ -243,8 +241,18 @@ Row 35).
 
 This cell (B24) indicates the percentage of the 0.95 million acre-feet of total
 settled water rights of Tribal Nations in the Lower Basin that are located in
-California (Table 1d)(Ten Tribes Partnership, 2018). The location and amounts
-for each Tribal Nation are shown in Table 1e.
+California (Figure 1c).
+
+![A pie chart with numbers and a number of states AI-generated content may be
+incorrect.](media/ca9e80fb94d14438d180ce5c55a6236b.png)
+
+**Figure 1c. How 0.95 maf of settled water rights of Tribal Nations of the Lower
+Basin are drawn from each Lower Basin state.**
+
+The volumes and percentages of the Tribal callout pie section in Figure 1c were
+calculated from the volumes of settled water rights and their location as
+enumerated in Reclamation’s Tribal Water Study (Tables 1d and 1e)(Ten Tribes
+Partnership, 2018).
 
 **Table 1d. Location of settled water rights of Tribal Nations within Lower
 Basin States**.
@@ -262,7 +270,7 @@ Tables 1d and 1e and the associated calculations are also shown in the
 
 ### **(vii) Percent of Tribal Nation water in Arizona**
 
-### **This cell specifies the percent of settled water rights for Tribal Nations of the Lower Basin that are located in Arizona (see also Table 1d and 1e).** This cell is calculated as 100% minus the percentage entered for California in Cell B24.
+### **This cell specifies the percent of settled water rights for Tribal Nations of the Lower Basin that are located in Arizona (see also Figure 1c, Table 1d, and Table 1c).** This cell is calculated as 100% minus the percentage entered for California in Cell B24.
 
 # Step 2. Specify Lake Mead Inflow
 
@@ -300,25 +308,25 @@ the average of three consecutive values for each cell. Using the smallest
 average, the position of the beginning value of the consecutive three was found.
 
 For reference, historical Lake Mead inflows since 1990 varied from 8 to 16
-million acre-feet per year (Figure 3) with the preponderance of inflows between
+million acre-feet per year (Figure 2a) with the preponderance of inflows between
 9 and 10 maf per year (corresponding to a Lake Powell release between 8.23 and 9
-maf per year; Figure 4). Additionally note that gains along Grand Canyon over
+maf per year; Figure 2b). Additionally note that gains along Grand Canyon over
 the same period were 600,000 to 1 million acre-feet per year (Rosenberg, 2022;
-Wang and Schmidt, 2020; Figure 5).
+Wang and Schmidt, 2020; Figure 2c).
 
 ![A graph showing a line Description automatically
 generated](media/8ba39f9c30237f80872d9c7682e6cb3b.png)
 
-**Figure 3. Lake Mead inflow as measured by nearest USGS gages.**
+**Figure 2a. Lake Mead inflow as measured by nearest USGS gages.**
 
 ![A graph of a number of blue bars Description automatically generated with
 medium confidence](media/8109c4025d3cee2e29b1a3d04f9e623c.png)
 
-**Figure 4. Histogram of Lake Mead inflows as measured by the nearest gages.**
+**Figure 2b. Histogram of Lake Mead inflows as measured by the nearest gages.**
 
 ![](media/504930ff99a905946ec9839391007127.png)
 
-**Figure 5. Mean Grand Canyon tributary flow (Glen Canyon Dam to Lake Mead) for
+**Figure 2c. Mean Grand Canyon tributary flow (Glen Canyon Dam to Lake Mead) for
 different sequence lengths.**
 
 Further note that different methods to estimate Lake Mead inflow give different
@@ -413,72 +421,101 @@ For example, if Lake Mead active storage is 7.2 maf and Lake Mead evaporation is
 
 # Step 4. Split Lake Mead inflow among accounts
 
-Participants split the Lake Mead inflow among accounts (See Row 28). There are
-lots of ways to split inflow among the users.
+Participants split the Lake Mead inflow among accounts [Rows 52 to 61, where the
+flow in Row 52 equals the reservoir inflow entered in Row 28].
 
-To maintain the Reclamation protection elevation, this user is assigned *the
-first block of inflow to* exactly offset to it’s share of the annual reservoir
-evaporation (Row 46). This volume will vary from year to year as Lake Mead
-storage and evaporation vary.
+To **maintain the Reclamation protection elevation**, this user is assigned *the
+first block of inflow on Row 53* that exactly offsets to its share of the annual
+reservoir evaporation (Row 46). This volume will vary from year to year as Lake
+Mead storage and evaporation vary.
 
-Splits of reservoir inflow among the other users can leverage prior shortage
-sharing agreements, including the recent Lower Basin Alternative (Buschatzke et
-al., 2024). This proposal allocated user reductions as a percentage of the total
-mandatory reduction (Table 4c). Thus A user’s share of the reservoir inflow is
-their historical allocation minus the agreed-on shortage volume (Table 4b).
-Several examples follow to illustrate the conversion of share of *shortage* to
-share of *inflow.*
+**There are lots of ways to split the remaining reservoir inflow among the
+users.** These splits can be (i) By pro-rata shares of historical allocations,
+(ii) Giving California some priority over Arizona, (iii) Including Tribal
+Nations of the Lower Basin, (iv) Combinations of i to iii, or (v) other methods.
 
-The gray highlighted cells represent historical allocations and the lilac
-highlighted cells represent how the total Lake Mead Inflow will be split among
-accounts in the model simulation years.
+As a default, we use percentages shown in grey highlighted Row 5 of Table 4a.
 
-**Table 4a. Based Off of 2024 Lower Basin Shortage Agreement: Tribal Nations
-Included in Lake Mead Inflow Allocation.**
+**Table 4a. Splits of reservoir inflow based on 2024 Lower Basin Shortage
+Agreement with Tribal Nations included.**
 
-![A table with numbers and a number of people AI-generated content may be
-incorrect.](media/13b873699c17cd443538e3bea91adf54.png)
+![](media/b53c9ee9aeae742eec9132282c8b5bf3.emf)
 
-**Example calculations to include the Tribal Nations in the share of Lake Mead
-inflow allocation (Table 4a) are:**
+We derived these values as follows.
+
+1.  At full allocation (zero shortage; Row 1 of Table 4a), we first give 0.95
+    million acre-feet per year to Tribal Nations of the Lower Basin (Table 4a,
+    Row [1] Column [G]; callout pie section in Figure 4a). This volume
+    corresponds to their settled water rights enumerated in Reclamation’s Tribal
+    Water Study (Ten Tribes Partnership, 2018).
+
+2.  We deduct volumes from the three other Lower Basin states based on the
+    locations of the Tribal water users (Remainder of Figure 4a; Table 4a, Row
+    1, Columns [C] to [G]).
+
+3.  Next, we draw on percentage shares of total shortage specified in the recent
+    Lower Basin Alternative (Buschatzke et al., 2024)(Table 4b). This proposal
+    allocated user reductions as a percentage of the total mandatory reduction
+    (Table 4b). Note, percent shares of shortages to Nevada and Mexico remain
+    constant across Total Shortage Volumes.
+
+4.  To simplify, we select volume/percent shortages associated with 1.5 maf of
+    total shortage (Table 4b, Rows [3] and [8]) .
+
+5.  We calculate Lake Mead Inflow (Table 4a, Column [B]) by subtracting the
+    Total Shortage Volume (Table 4a Column [A]) shortage volume from the full
+    allocation of 9.0 maf.
+
+6.  Similarly, we calculate each user’s volume share of the inflow (Columns [C]
+    to [G]) as their allocation at 9.0 maf of inflow (Row [1]) minus the Total
+    Shortage (Column [A]) multiplied by the user’s agreed-upon share of the
+    shortage (from Step 4).
+
+7.  Finally, we calculate each users percentage share of the inflow as their
+    volume (Table 4a, Columns [H] to [L]) by the total available water (Column
+    [B]).
+
+**![A pie chart with numbers and a number of states AI-generated content may be
+incorrect.](media/d31a9ef1b56395ad7ea6fcf1bc445251.png)**
+
+**Figure 4a. Chart Detailing the Tribal Nations Share of Lake Mead Inflow.** The
+main portion of the pie chart represents the volume of water Arizona, Nevada,
+and California will receive during a full inflow year to Lake Mead.
+
+![A table with numbers and text AI-generated content may be
+incorrect.](media/b3169f8149953fe0f050119c8d83c24c.png)**Table 4b. Prior agreed
+Lower Basin shortages and shares of shortages (Buschatzke et al., 2024).**
+
+**Here are some example calculations that include the Tribal Nations in the
+share of Lake Mead inflow allocation (Table 4a):**
 
 1.  Total Lake Mead inflow [B] = 9.0 ─ Total Shortage [A].
 
-    1.  For example, a total shortage of 0.4 maf yields a Lake Mead inflow of
-        9.0 ─ 0.4 = 8.6 maf per year.
+    1.  For example, a total shortage of 1.5 maf yields a Lake Mead inflow of
+        9.0 ─ 1.5 = 7.5 maf per year.
 
-2.  Share of Reservoir Inflow:
+2.  At 9.0 maf of total inflow [Row 1], each user’s share of the reservoir
+    inflow:
 
-    -   Arizona [C] = Arizona [C] (from Table 4b) – Tribal Nations [T] \*
-        Arizona’s percent of the Tribal Nations 0.95 maf.
+    -   Arizona’s volume share [C] = Arizona’s Historical Allocation – Arizona’s
+        percent of the Tribal Nations (from Figure 4a) \* Tribal Nations volume
+        [G].
 
-        1.  For example, at 7.5 reservoir inflow, Arizona’s share is 2.15 – 0.79
-            \* 0.822 = 1.50 maf.
+        1.  For example, Arizona’s share [C] = 2.8 – 0.822 \* 0.95 = 2.02 maf.
 
-    -   Nevada [D] = Nevada [D] (from Table 4b) – Tribal Nations [T] \* Nevada’s
-        percent of the Tribal Nations 0.95 maf.
+    -   Nevada’s share [D] = 0.3 – 0.013 \* 0.94 = 0.29 maf.
 
-        1.  For example, at 7.5 reservoir inflow, Nevada’s share is 0.25 – 0.79
-            \* 0.013 = 0.24 maf.
+        1.  California’s share [E] = 4.4 – 0.164 \* 0.95 = 4.24 maf.
 
-    -   California [E] = California [E] (from Table 4b) – Tribal Nations [T] \*
-        California’s percent of the Tribal Nations 0.95 maf.
+    -   Mexico [F] and Tribal Nations [G] are unchanged from their historical
+        allocations (1.5 and 0.95 maf).
 
-        1.  For example, at 6.3 reservoir inflow, California’s share is 3.41–
-            0.67 \* 0.164 = 3.30 maf.
+    -   Total Reservoir Inflow = [C] + [D] + [E] + [F] + [E] =
 
-    -   Tribal Nations [T] = The percentage of Tribal Nations Lake Mead inflow
-        [T] \* Lake Mead Inflow [B]
+        1.  2.02 + 0.29 \_4.24 + 1.5 + 0.95 = 9.0 maf
 
-        1.  For example, at 8.0 reservoir inflow, the Tribal Nations’ share is
-            0.106 \* 8.0 = 0.85 maf.
-
-3.  Total Reservoir Inflow [G] = [C] + [D] + [E] + [F] + [T]
-
-4.  Percent of Lake Mead Inflow calculations are as follows:
-
-5.  A user’s Percent of Reservoir Inflow is their share by volume divided by the
-    total volume.
+    1.  A user’s Percent of Reservoir Inflow is their share by volume divided by
+        the total volume.
 
     -   Arizona [H] = [C] / [G]
 
@@ -486,45 +523,20 @@ inflow allocation (Table 4a) are:**
 
     -   And so forth.
 
--   Tribal Nations [T] = Tribal Nations full inflow amount [T] / Lake Mead full
-    inflow [B].
+-   Tribal Nations [L] = [G] / Lake Mead full inflow [B].Total Percentage of
+    Reservoir Inflow [L] = [H] + [I] + [J] + [K] + [T] = 100%.
 
-    i. For example, at 7.5 reservoir inflow, the Tribal Nations’ percentage of
-    Lake Mead inflow is 0.95 / 9.0 = 10.6%
+3\. At 6.3 maf of total inflow [Row 6], each user’s share of the reservoir inflow
+is their historical allocation minus their share of the associated shortage
+minus their share of the Tribal Water. For example:
 
-1.  Total Percentage of Reservoir Inflow [L] = [H] + [I] + [J] + [K] + [T] =
-    100%.
+Tribal Nation’s share [G] = 0.106 \* 6.3 = 0.95 – 0.106 \* 2.7 = 0.67 maf.
 
-**![A pie chart with numbers and a number of states AI-generated content may be
-incorrect.](media/4228d0189cd75c26fe50a00382142cc4.png)Figure 4a. Chart
-Detailing the Tribal Nations Share of Lake Mead Inflow.**
+Arizona’s share [C] = 2.8 – 0.43 \* 2.7 – 0.822 \* 0.67 = 1.08 maf
 
-1.  The main portion of the pie chart represents the volume of water Arizona,
-    Nevada, and California will receive during a full inflow year to Lake Mead.
+California’s share [E] = 4.4 – 0.367 \* 2.7 – 0.164 \* 0.67 = 3.30 maf.
 
-    1.  This was calculated by subtracting the Tribal Nation’s full allocation
-        multiplied by the percentage of Tribal water stored in the referenced
-        state, from the historic allocated volume of the referenced state.
-
-        1.  For example for Arizona, at 9.0 maf inflow, 2.80 maf – (0.95 maf \*
-            82.2%) = 2.02 maf.
-
-2.  The pie piece that is resting above the main portion of the pie represents
-    the volume of water that the Tribal Nations will receive during a full
-    inflow water year to Lake Mead. The individual slices of this pie piece
-    represent the amount of water that is being stored in Arizona, Nevada, and
-    California, that belongs to the Tribal Nations.
-
-    1.  The volumes were calculated by subtracting the allocations at full
-        inflow with the inclusion of the Tribal Nations from the historical
-        allocations at full inflow without the inclusion of the Tribal Nations.
-
-        1.  For example, for Arizona, at 9.0 maf inflow, 2.80 maf – 2.02 maf =
-            0.78 maf.
-
-3.  At 9.0 maf inflow to Lake Mead, Arizona will receive 2.02 maf, Nevada will
-    receive 0.29 maf, California will receive 4.24 maf, and the Tribal Nations
-    will receive 0.95 maf.
+Mexico’s share [F] = 1.5 – 0.167 \* 2.7 = 1.05 maf.
 
 **Observations**
 
@@ -543,66 +555,14 @@ Detailing the Tribal Nations Share of Lake Mead Inflow.**
 1.  For example, at 5.3 reservoir inflow, California’s inflow is 0.496 \* 5.30 =
     2.63 maf.
 
-**Table 4b. Share of Lake Mead inflow by volume and percentage.**
+**When excluding Tribal Users, the percentage shares of reservoir inflow
+simplify (Table 4c).**
+
+**Table 4c. Share of Lake Mead inflow by volume and percentage excluding Tribal
+Nations.**
 
 **![A table with numbers and a number of text AI-generated content may be
 incorrect.](media/116ba55f46390816a36f1a492b850e04.png)**
-
-**Example calculations of share of Lake Mead inflow by volume and percentage
-(Table 4b) are:**
-
-1.  Total Lake Mead Inflow calculations are the same as Table 4a above.
-
-2.  Share of Reservoir Inflow:
-
-    -   Arizona [C] = 2.8 ─ Share of Shortage as Volume in Table A1.
-
-        1.  For example, at 8.6 maf of reservoir inflow, Arizona’s share is 2.8
-            ─ 0.28 = 2.52 maf.
-
-    -   Nevada [D] = 0.3 ─ Share of Shortage as Volume in Table A1.
-
-        1.  For example, at 8.0 maf of reservoir inflow, Nevada’s share is 0. 3
-            ─ 0.03 = 0.27 maf.
-
-    -   California [E] = 4.4 ─ Share of Shortage as Volume in Table A1.
-
-        1.  For example, at 7.5 maf of reservoir inflow, California’s share is
-            4.4 ─ 0.44 = 3.96 maf.
-
-    -   Mexico [F] = 1.5 ─ Share of Shortage as Volume in Table A1.
-
-        1.  For example, at 7.5 maf of reservoir inflow, Mexico’s share is 1.5 ─
-            0.25 = 1.25 maf.
-
-3.  Total Reservoir Inflow [G] = [C] + [D] + [E] + [F]
-
-4.  A user’s Percent of Reservoir Inflow is their share by volume divided by the
-    total volume.
-
-    1.  Arizona [H] = [C] / [G]
-
-    2.  Nevada [I] = [D] / [G]
-
-    3.  And so forth.
-
-5.  Total Percentage of Reservoir Inflow [L] = [H] + [I] + [J] + [K] = 100%.
-
-**Observations**
-
-1.  Nevada and Mexico’s percent shares of the reservoir inflow remain constant
-    at 3.3% and 16.67%, respectively. These percentage shares are the same share
-    of their historical allocations.
-
-2.  Arizona’s percentage share of Lake Mead inflow decreases as the inflow
-    decreases whereas California’s share of Lake Mead inflow increases.
-
-3.  The cells highlighted in gray represent historical allocations of Lake Mead
-    Inflow.
-
-![A table with numbers and text AI-generated content may be
-incorrect.](media/b3169f8149953fe0f050119c8d83c24c.png)**Table 4c. Prior agreed
-Lower Basin shortages and shares of shortages (Buschatzke et al., 2024).**
 
 # Step 5. Participant Dashboards – Conserve, Consume, and Trade
 
@@ -611,10 +571,12 @@ incorrect.](media/09c2666a3b9e681d90560dff2aa2e636.png)Each participant has a
 dashboard where they can trade, conserve, and consume their available water
 (Figure 5a).
 
-**Figure 5a. Reclamation Protect Dashboard annotated. Starting storage is 1,061
-feet (8.5 maf), the reservoir protect elevation is 1,005 feet (4.8 maf), and
-there is 9.5 maf inflow this year. Thus, there is 4.8 maf of water available. No
-trades or withdraws have been entered. So the ending balance is also 4.8 maf.**
+**Figure 5a. Reclamation Protect Dashboard annotated. Starting storage is 1,055
+feet (8.0 maf), the reservoir protect elevation is 1,005 feet (4.8 maf), and
+there is 8.0 maf inflow this year. There is 0.44 maf total evaporation for the
+year, of which Reclamation’s share is 0.26 maf. Thus, Reclamation has 4.8 maf of
+water available. No trades or withdraws have been entered. So the ending balance
+is also 4.8 maf.**
 
 ### (i) Buy or sell water from other participants(s)
 
@@ -630,17 +592,29 @@ new farm or urban water conservation efforts, the money stays in the local
 community and the seller can make more water available in future years
 (Rosenberg, 2021).
 
-### (ii) Compensation
+### (ii) Pricing
 
-Enter compensation – payments for buying, receipts for sales – in \$ millions.
-Enter a positive \$ per acre-foot if selling water and a negative \$ per
-acre-foot if buying water. The total compensation will be automatically
-calculated. Table 5a shows compensation and water prices for recent voluntary,
-compensated, and mandatory Colorado River Basin water conservation programs
-(Allhands, 2021; UCRC, 2018; UCRC, 2024; USBR, 2021a; USBR, 2021c).
+Enter the price in \$ per acre-foot – if buying, enter as a negative (-) and if
+selling, enter as a positive (+).
 
--   For example, a purchase of 0.5 maf at \$500 per acre-foot is (0.5)(500) =
-    \$250 million.
+Table 5a shows water prices and compensation for recent voluntary, compensated,
+and mandatory Colorado River Basin water conservation programs (Allhands, 2021;
+UCRC, 2018; UCRC, 2024; USBR, 2021a; USBR, 2021c). The program has conserved
+more water than other voluntary, compensated, or mandatory Colorado River Basin
+water conservation program and is less expense than other options such as
+desalination (Table 5a; Allhands, 2021; James, 2021; UCRC, 2018; UCRC, 2024;
+USBR, 2021a; USBR, 2021c)
+
+**Table 5a. Colorado River Basin water conservation programs and
+accomplishments.**
+
+**![A table with numbers and a number of items AI-generated content may be
+incorrect.](media/adcd5cc5bbcdece7812c013e317f3785.png)**
+
+### (iii) Compensation
+
+The total compensation will be automatically calculated. For example, a purchase
+of 0.5 maf at \$500 per acre-foot is (0.5)(500) = \$250 million.
 
 -   If a participant buys 0.5 maf at \$500 per acre-foot from one participant
     and 0.2 maf at \$1,200 per acre-foot from a second participant, the
@@ -648,22 +622,12 @@ compensated, and mandatory Colorado River Basin water conservation programs
 
 Compensation = (0.5)(500) + (0.2)(1,200) = \$850 million.
 
-The program has conserved more water than other voluntary, compensated, or
-mandatory Colorado River Basin water conservation program and is less expense
-than other options such as desalination (Table 5a; Allhands, 2021; James, 2021;
-UCRC, 2018; UCRC, 2024; USBR, 2021a; USBR, 2021c).
-
-**Table 5a. Colorado River Basin water conservation programs and
-accomplishments.**
-
-**![](media/adcd5cc5bbcdece7812c013e317f3785.png)**
-
-### (iii) Net Trade Volume all Participants
+### (iv) Net Trade Volume all Participants
 
 Confirm the net trade volume for all participants is zero. A zero balance
 indicates there is a buyer for every seller.
 
-### (iv) Available Water
+### (v) Available Water
 
 Available water is the water available to a participant to consume, conserve, or
 sell to another user. Sales decrease and purchases increase available water (Eq.
@@ -672,7 +636,7 @@ sell to another user. Sales decrease and purchases increase available water (Eq.
 | ![](media/b067b34f64dc5f62cef840cc605c1345.png) | (Eq. 2) |
 |-------------------------------------------------|---------|
 
-### (v) Enter Withdraw within Available Water
+### (vi) Enter Withdraw within Available Water
 
 Account withdraws are consumptive use. This consumptive use occurs by a user
 physically withdrawing from Lake Mead.
@@ -700,7 +664,7 @@ generated](media/d3f9132b7170ab4d0c07a9747336b6f6.png)
 ![A table with numbers and text Description automatically
 generated](media/d72f1e9d8c332c564c4f3413ef9519a8.png)
 
-### (vi) End of Year Balance
+### (vii) End of Year Balance
 
 The account balance at the end of the year after deducting withdraws and
 consumptive use. End of Year balance = Available Water – Withdraw.
