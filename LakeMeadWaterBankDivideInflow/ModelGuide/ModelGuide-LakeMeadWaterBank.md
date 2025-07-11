@@ -569,8 +569,7 @@ incorrect.](media/116ba55f46390816a36f1a492b850e04.png)**
 Each participant has a dashboard where they can trade, conserve, and consume
 their available water (Figure 5a).
 
-![A screenshot of a computer screen AI-generated content may be
-incorrect.](media/346538d39e148ed938e19a659da551f5.png)
+![](media/f290eaf0fa8e6f8d49607c9c6fa5cbf4.png)
 
 **Figure 5a. Reclamation Protect Dashboard annotated. Starting storage is 1,055
 feet (8.0 maf), the reservoir protect elevation is 1,005 feet (4.8 maf), and
