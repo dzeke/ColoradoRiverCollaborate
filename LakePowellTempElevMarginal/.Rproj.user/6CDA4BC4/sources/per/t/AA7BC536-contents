@@ -58,23 +58,27 @@ sStartDate = '2024-05-01' # May 1, 2025
 sFormat = 'table'
 
 # As CSV
-sAPI_Request <- paste0('https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=uchdb2&sdi=1862%2C1872%2C4167%2C4166&tstp=HR&t1=',sStartDate,'T00:00&t2=',vDateToday,'2025-07-10T00:00&table=R&mrid=0&format=',sFormat)
+sAPI_Request <- paste0('https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=uchdb2&sdi=1862%2C1872%2C4167%2C4166&tstp=HR&t1=',sStartDate,'T00:00&t2=',vDateToday,'T00:00&table=R&mrid=0&format=',sFormat)
 
 sWebpage <- read_html(sAPI_Request)
 
 tables <- sWebpage %>% html_table()
 
-dfTable <- tables[1]
+dfTable <- as.data.frame(tables[1])
 
-dfReleases <- read.csv(file = sAPI_Request, header = FALSE)
-x <- read_sheet('https://docs.google.com/spreadsheets/d/1tHLUTlAmzTD9x-3RxqSyf2IwYfvKhWXMp_n0GDVbNDE/edit#gid=0')
-#Save Incase need again
-x2 <- x
+#Turn to meaningful column names
+cColNames <- colnames(dfTable)
+cColNames[2:5] <- c("PowerRelease", "TotalRelease", "BypassRelease", "SpillwayRelease")
+colnames(dfTable) <- cColNames 
 
-#Turn erroneous values to NA
-dfCols <- data.frame(colNum = c(2,4,8,9),
-                     minVal = c(40,40,32,-20),
-                     maxVal = c(90,90,100,140))
+#Save to csv
+write.csv(dfTable, "LakePowellReleases.csv")
+
+
+# #Turn erroneous values to NA
+# dfCols <- data.frame(colNum = c(2,4,8,9),
+#                      minVal = c(40,40,32,-20),
+#                      maxVal = c(90,90,100,140))
 
 for(i in 1:nrow(dfCols)){
    x[,dfCols$colNum[i]] <- replace(x[,dfCols$colNum[i]], x[,dfCols$colNum[i]] < dfCols$minVal[i], NA)
