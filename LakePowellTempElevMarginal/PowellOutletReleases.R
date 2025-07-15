@@ -64,25 +64,29 @@ sWebpage <- read_html(sAPI_Request)
 
 tables <- sWebpage %>% html_table()
 
-dfTable <- as.data.frame(tables[1])
+dfReleases <- as.data.frame(tables[1])
 
 #Turn to meaningful column names
-cColNames <- colnames(dfTable)
+cColNames <- colnames(dfReleases)
 cColNames[2:5] <- c("PowerRelease", "TotalRelease", "BypassRelease", "SpillwayRelease")
-colnames(dfTable) <- cColNames 
+colnames(dfReleases) <- cColNames 
 
 #Save to csv
-write.csv(dfTable, "LakePowellReleases.csv")
+write.csv(dfReleases, "LakePowellReleases.csv")
+
+# Read in Temperature data from Grand Canyon Monitoring and Research Center
+dfTemperature <- read.csv(file = "Data/gcmrc20250709125927.tsv", sep = "\t")
+colnames(dfTemperature) <- c("DateTime", "TemperatureC")
 
 
 # Convert API Date Time to POSIXct
-dfTable$DateTimePos <- as.POSIXct(as.character(dfTable$DATETIME), format = "%m/%d/%Y %H:%M")
+dfReleases$DateTimePos <- as.POSIXct(as.character(dfReleases$DATETIME), format = "%m/%d/%Y %H:%M")
 
 # Replace NaNs with NA in all columns
-dfTable <- na.omit(dfTable)
+dfReleases <- na.omit(dfReleases)
 
 #Convert to xts
-dfXts <- xts(cbind(dfTable$PowerRelease, dfTable$BypassRelease, dfTable$SpillwayRelease, dfTable$TotalRelease), order.by=dfTable$DateTimePos)
+dfXts <- xts(cbind(dfReleases$PowerRelease, dfReleases$BypassRelease, dfReleases$SpillwayRelease, dfReleases$TotalRelease), order.by=dfReleases$DateTimePos)
 
 
 #Plot the dygraph
