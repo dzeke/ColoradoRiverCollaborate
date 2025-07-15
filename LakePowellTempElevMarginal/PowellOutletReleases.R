@@ -75,44 +75,22 @@ colnames(dfTable) <- cColNames
 write.csv(dfTable, "LakePowellReleases.csv")
 
 
-# #Turn erroneous values to NA
-# dfCols <- data.frame(colNum = c(2,4,8,9),
-#                      minVal = c(40,40,32,-20),
-#                      maxVal = c(90,90,100,140))
+# Convert API Date Time to POSIXct
+dfTable$DateTimePos <- as.POSIXct(as.character(dfTable$DATETIME), format = "%m/%d/%Y %H:%M")
 
-for(i in 1:nrow(dfCols)){
-   x[,dfCols$colNum[i]] <- replace(x[,dfCols$colNum[i]], x[,dfCols$colNum[i]] < dfCols$minVal[i], NA)
-   x[,dfCols$colNum[i]] <- replace(x[,dfCols$colNum[i]], x[,dfCols$colNum[i]] > dfCols$maxVal[i], NA)
-   
-}
-
-# Convert Google Date/Time/Zone to POSIXct
-x$DateTimeStr <- (str_trunc((x$Time), 24, side="right", ellipsis = ""))
-
-x$DateTime <- as.POSIXct(x$DateTimeStr, format = '%a %b %d %Y %H:%M:%S')
-
-#Calculate difference between date/time in row and subsequent row
-x$DateTimeDiff <- c(NA, diff(x$DateTime))
-#Assign NA to row with DateTimeDiff > 1000
-x$DateTimeDiff[1] <- 0
-x[x$DateTimeDiff > 1000,seq(2,9,1)] <- NA
-
-# Split into Temperature and Humidity data frames
-dfTemp <- x[,c(11,2,4,6,8,9)]
-dfHumidity <- x[,c(11,3,5,7)]
+# Replace NaNs with NA in all columns
+dfTable <- na.omit(dfTable)
 
 #Convert to xts
-xTemp <- xts(cbind(dfTemp$`Indoor Temp`,dfTemp$`Guesthouse Temp`,dfTemp$`Greenhouse Temp`,dfTemp$`Water Temp`,dfTemp$`Outside Temp`), order.by=dfTemp$DateTime)
+dfXts <- xts(cbind(dfTable$PowerRelease, dfTable$BypassRelease, dfTable$SpillwayRelease, dfTable$TotalRelease), order.by=dfTable$DateTimePos)
 
-#Write to csv
-write.csv(xTemp, file="GreenhouseData.csv")
 
 #Plot the dygraph
 
-dygraph(xTemp) %>% dyRangeSelector() %>%
-  dySeries("V1", label = "Indoor") %>%
-  dySeries("V2", label = "Guesthouse") %>%
-  dySeries("V3", label = "Greenhouse") %>%
-  dySeries("V4", label = "Water barrel") %>%
-  dySeries("V5", label = "Outside") %>%
+dygraph(dfXts) %>% dyRangeSelector() %>%
+  dySeries("V1", label = "PowerRelease") %>%
+  dySeries("V2", label = "BypassRelease") %>%
+  dySeries("V3", label = "SpillwayRelease") %>%
+  dySeries("V4", label = "TotalRelease") %>%
+#  dySeries("V5", label = "Outside") %>%
   dyLimit(32, color = "red")
