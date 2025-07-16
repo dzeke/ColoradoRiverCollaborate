@@ -80,10 +80,14 @@ dfReleases$DateTimePos <- as.POSIXct(as.character(dfReleases$DATETIME), format =
 # Read in Temperature data from Grand Canyon Monitoring and Research Center
 dfTemperature <- read.csv(file = "Data/gcmrc20250709125927.tsv", sep = "\t")
 colnames(dfTemperature) <- c("DateTime", "TemperatureC")
+
+#Convert -999 to NA
+
+
 # Convert Date Time to POSIXct
 dfTemperature$DateTimePos <- as.POSIXct(as.character(dfTemperature$DateTime), format = "%Y-%d-%m %H:%M:%S")
 
-#Left Join the Temperature data to the release data
+#Left Join the Temperature data to the release data so only have hourly data.
 dfReleasesTemp <- left_join(dfReleases, dfTemperature, by = c("DateTimePos" = "DateTimePos"))
 
 # Replace NaNs with NA in all columns
