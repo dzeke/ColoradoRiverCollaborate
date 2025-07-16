@@ -74,16 +74,20 @@ colnames(dfReleases) <- cColNames
 #Save to csv
 write.csv(dfReleases, "LakePowellReleases.csv")
 
-# Read in Temperature data from Grand Canyon Monitoring and Research Center
-dfTemperature <- read.csv(file = "Data/gcmrc20250709125927.tsv", sep = "\t")
-colnames(dfTemperature) <- c("DateTime", "TemperatureC")
-
-
 # Convert API Date Time to POSIXct
 dfReleases$DateTimePos <- as.POSIXct(as.character(dfReleases$DATETIME), format = "%m/%d/%Y %H:%M")
 
+# Read in Temperature data from Grand Canyon Monitoring and Research Center
+dfTemperature <- read.csv(file = "Data/gcmrc20250709125927.tsv", sep = "\t")
+colnames(dfTemperature) <- c("DateTime", "TemperatureC")
+# Convert Date Time to POSIXct
+dfTemperature$DateTimePos <- as.POSIXct(as.character(dfTemperature$DateTime), format = "%Y-%d-%m %H:%M:%S")
+
+#Left Join the Temperature data to the release data
+dfReleasesTemp <- left_join(dfReleases, dfTemperature, by = c("DateTimePos" = "DateTimePos"))
+
 # Replace NaNs with NA in all columns
-dfReleases <- na.omit(dfReleases)
+dfReleasesTemp <- na.omit(dfReleasesTemp)
 
 #Convert to xts
 dfXts <- xts(cbind(dfReleases$PowerRelease, dfReleases$BypassRelease, dfReleases$SpillwayRelease, dfReleases$TotalRelease), order.by=dfReleases$DateTimePos)
