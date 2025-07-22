@@ -109,6 +109,7 @@ colnames(dfTemperature) <- c("DateTime", "TemperatureC")
 # Filter for top of the hour (00:00)
 dfTemperature$Minute <- minute(dfTemperature$DateTime)
 dfTemperature <- dfTemperature %>% filter(Minute == 0)
+dfTemperature$TemperatureCRound <- round(dfTemperature$TemperatureC, 1)
 dfTemperature$TemperatureC <- na_if(dfTemperature$TemperatureC, -999)
 #Convert DateTime to POSIXct
 dfTemperature$DateTimePos <- as.POSIXct(as.character(dfTemperature$DateTime), format = "%Y-%m-%d %H:%M:%S")
@@ -131,10 +132,14 @@ dfReleasesTemperature <- na.omit(dfReleasesTemperature)
 dfXtsReleasesTemperature <- xts(cbind(dfReleasesTemperature$PowerRelease, dfReleasesTemperature$BypassRelease, dfReleasesTemperature$SpillwayRelease, dfReleasesTemperature$TotalRelease, dfReleasesTemperature$TemperatureC), order.by = dfReleasesTemperature$DateTimePos)
 
 #Plot the Release dygraph
-dygraph(dfXtsReleasesTemperature, ylab = "Release (cfs)") %>% dyRangeSelector() %>%
-  dySeries("V1", label = "PowerRelease") %>%
+dygraph(dfXtsReleasesTemperature) %>% dyRangeSelector() %>%
+  dyAxis("y", label = "Release (cfs)") %>%
+  #dyAxis("y2", label = "Temperature (oC)", independentTicks = TRUE, axisLabelFormatter = htmlwidgets::JS("function(value) {return value.toFixed(1);")) %>% ## Round to 1 decimal places for y2-axis) %>%
+  dyAxis("y2", label = "Temperature (oC)", independentTicks = TRUE) %>%
+  
+    dySeries("V1", label = "PowerRelease") %>%
   dySeries("V2", label = "BypassRelease") %>%
   dySeries("V3", label = "SpillwayRelease") %>%
   dySeries("V4", label = "TotalRelease")  %>%
-  dySeries("V5", label = "Temperature", axis = "y2")
+  dySeries("V5", label = "Temperature", axis = "y2", strokeWidth = 3)
 
