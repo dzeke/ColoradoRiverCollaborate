@@ -1,10 +1,14 @@
-## Powell Outlet Releases and plot in dygraphs
-## We also load Glen Canyon Dam release temperature
+## Powell Outlet Releases and Temperature plot in dygraphs
+## 
 #
 # This script does two things:
 #   1. Download Glen Canyon Dam Turbine, River Outlet, and Total Releases from Reclamation's Data Portal and plot as an interactive Time-Series (DyGraph)
-#   2. Plot Release Temperature Data from Grand Canyon Monitoring and Research Center Website
+#   2. Download Release Temperature Data from Grand Canyon Monitoring and Research Center Website
 #
+#   Then Plot:
+#     A. individual DyGraphs (interactive timeserires plots) for the Releases and Temperature
+#     B. Combined DyGraph plot with Temperature on the second left axis.
+
 # More details on the Data Sources
 #   1. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrc20250709125927.tsv (csv file). Grand Canyon Monitoring and Research Center https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
 #   2. Glen Canyon Dam hourly release data. Reclamation HDB Online Data Query Tool
@@ -25,7 +29,7 @@
 #     https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=uchdb2&sdi=1862%2C1872%2C4167%2C4166&tstp=HR&t1=2024-05-01T00:00&t2=2025-07-10T00:00&table=R&mrid=0&format=csv
 #
 # David Rosenberg
-# July 10, 2025
+# July 22, 2025
 
 #Versions to use
 #R version 4.1.1. Download from https://cran.r-project.org/.
@@ -79,8 +83,6 @@ write.csv(dfReleases, "LakePowellReleases.csv")
 # Convert API Date Time to POSIXct
 dfReleases$DateTimePos <- as.POSIXct(as.character(dfReleases$DATETIME), format = "%m/%d/%Y %H:%M")
 
-#Left Join the Temperature data to the release data so only have hourly data.
-#dfReleasesTemp <- left_join(dfReleases, dfTemperature, by = c("DateTimePos" = "DateTimePos"))
 
 # Replace NaNs with NA in all columns
 dfReleases <- na.omit(dfReleases)
@@ -89,7 +91,7 @@ dfReleases <- na.omit(dfReleases)
 dfXtsRelease <- xts(cbind(dfReleases$PowerRelease, dfReleases$BypassRelease, dfReleases$SpillwayRelease, dfReleases$TotalRelease), order.by=dfReleases$DateTimePos)
 
 #Plot the Release dygraph
-dygraph(dfXtsRelease) %>% dyRangeSelector() %>%
+dygraph(dfXtsRelease, ylab = "Release (cfs)") %>% dyRangeSelector() %>%
   dySeries("V1", label = "PowerRelease") %>%
   dySeries("V2", label = "BypassRelease") %>%
   dySeries("V3", label = "SpillwayRelease") %>%
@@ -115,8 +117,24 @@ dfTemperature <- na.omit(dfTemperature)
 #Convert to xts
 dfXtsTemperature <- xts(cbind(dfTemperature$TemperatureC), order.by=dfTemperature$DateTimePos)
 
-dygraph(dfXtsTemperature) %>% dyRangeSelector() %>%
+dygraph(dfXtsTemperature, ylab = "Temperature (oC)") %>% dyRangeSelector() %>%
   dySeries("V1", label = "Temperature") #%>%
 
 
+###### Do a combined Release-Temperature plot
+
+#Left Join the Temperature data to the release data so only have hourly data.
+dfReleasesTemperature <- left_join(dfReleases, dfTemperature, by = c("DateTimePos" = "DateTimePos"))
+dfReleasesTemperature <- na.omit(dfReleasesTemperature)
+
+#Convert to xts
+dfXtsReleasesTemperature <- xts(cbind(dfReleasesTemperature$PowerRelease, dfReleasesTemperature$BypassRelease, dfReleasesTemperature$SpillwayRelease, dfReleasesTemperature$TotalRelease, dfReleasesTemperature$TemperatureC), order.by = dfReleasesTemperature$DateTimePos)
+
+#Plot the Release dygraph
+dygraph(dfXtsReleasesTemperature, ylab = "Release (cfs)") %>% dyRangeSelector() %>%
+  dySeries("V1", label = "PowerRelease") %>%
+  dySeries("V2", label = "BypassRelease") %>%
+  dySeries("V3", label = "SpillwayRelease") %>%
+  dySeries("V4", label = "TotalRelease")  %>%
+  dySeries("V5", label = "Temperature", axis = "y2")
 
