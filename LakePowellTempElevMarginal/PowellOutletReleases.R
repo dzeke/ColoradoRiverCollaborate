@@ -51,7 +51,9 @@ invisible(lapply(cPackages, library, character.only = TRUE))
 install.versions('cli', '3.4.0')
 
 
-# Read Reclamation API data data into R
+#######
+###Read Reclamation API Release data data into R
+
 # Get Today's date as ending time
 vDateToday = Sys.Date()
 sStartDate = '2024-05-01' # May 1, 2025
@@ -77,32 +79,44 @@ write.csv(dfReleases, "LakePowellReleases.csv")
 # Convert API Date Time to POSIXct
 dfReleases$DateTimePos <- as.POSIXct(as.character(dfReleases$DATETIME), format = "%m/%d/%Y %H:%M")
 
-# Read in Temperature data from Grand Canyon Monitoring and Research Center
-dfTemperature <- read.csv(file = "Data/gcmrc20250709125927.tsv", sep = "\t")
-colnames(dfTemperature) <- c("DateTime", "TemperatureC")
-
-#Convert -999 to NA
-
-
-# Convert Date Time to POSIXct
-dfTemperature$DateTimePos <- as.POSIXct(as.character(dfTemperature$DateTime), format = "%Y-%d-%m %H:%M:%S")
-
 #Left Join the Temperature data to the release data so only have hourly data.
-dfReleasesTemp <- left_join(dfReleases, dfTemperature, by = c("DateTimePos" = "DateTimePos"))
+#dfReleasesTemp <- left_join(dfReleases, dfTemperature, by = c("DateTimePos" = "DateTimePos"))
 
 # Replace NaNs with NA in all columns
-dfReleasesTemp <- na.omit(dfReleasesTemp)
+dfReleases <- na.omit(dfReleases)
 
 #Convert to xts
-dfXts <- xts(cbind(dfReleases$PowerRelease, dfReleases$BypassRelease, dfReleases$SpillwayRelease, dfReleases$TotalRelease), order.by=dfReleases$DateTimePos)
+dfXtsRelease <- xts(cbind(dfReleases$PowerRelease, dfReleases$BypassRelease, dfReleases$SpillwayRelease, dfReleases$TotalRelease), order.by=dfReleases$DateTimePos)
 
-
-#Plot the dygraph
-
-dygraph(dfXts) %>% dyRangeSelector() %>%
+#Plot the Release dygraph
+dygraph(dfXtsRelease) %>% dyRangeSelector() %>%
   dySeries("V1", label = "PowerRelease") %>%
   dySeries("V2", label = "BypassRelease") %>%
   dySeries("V3", label = "SpillwayRelease") %>%
-  dySeries("V4", label = "TotalRelease") %>%
+  dySeries("V4", label = "TotalRelease") # %>%
 #  dySeries("V5", label = "Outside") %>%
-  dyLimit(32, color = "red")
+#dyLimit(32, color = "red")
+
+
+
+###### Read in Temperature data from Grand Canyon Monitoring and Research Center
+####
+dfTemperature <- read.csv(file = "Data/gcmrc20250709125927.tsv", sep = "\t")
+colnames(dfTemperature) <- c("DateTime", "TemperatureC")
+
+# Filter for top of the hour (00:00)
+dfTemperature$Minute <- minute(dfTemperature$DateTime)
+dfTemperature <- dfTemperature %>% filter(Minute == 0)
+dfTemperature$TemperatureC <- na_if(dfTemperature$TemperatureC, -999)
+#Convert DateTime to POSIXct
+dfTemperature$DateTimePos <- as.POSIXct(as.character(dfTemperature$DateTime), format = "%Y-%m-%d %H:%M:%S")
+dfTemperature <- na.omit(dfTemperature)
+
+#Convert to xts
+dfXtsTemperature <- xts(cbind(dfTemperature$TemperatureC), order.by=dfTemperature$DateTimePos)
+
+dygraph(dfXtsTemperature) %>% dyRangeSelector() %>%
+  dySeries("V1", label = "Temperature") #%>%
+
+
+
