@@ -143,3 +143,24 @@ dygraph(dfXtsReleasesTemperature) %>% dyRangeSelector() %>%
   dySeries("V4", label = "TotalRelease")  %>%
   dySeries("V5", label = "Temperature", axis = "y2", strokeWidth = 3)
 
+#### Build a histogram of daily change in temperature when bypass releases are happening.
+ 
+dfReleasesTemperature$Day <- day(dfReleasesTemperature$DateTime)
+dfReleasesTemperature$Month <- month(dfReleasesTemperature$DateTime)
+dfReleasesTemperature$Year <- year(dfReleasesTemperature$DateTime)
+
+#Calculate average temperature when bypass release is active
+dfDailyBypassTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperature$BypassRelease > 2000) %>%
+                  group_by(Year, Month, Day) %>% summarise (AverageBypassTemp = mean(TemperatureC))
+#Calculate average temperature when bypass release is not active (turbine only release)
+dfDailyTurbineTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperature$BypassRelease == 0) %>%
+  group_by(Year, Month, Day) %>% summarise (AverageTurbineTemp = mean(TemperatureC))
+
+#Right join so we get daily Bypass Temperature and Turbine temperature on the same day
+dfDailyTemp <- left_join(dfDailyBypassTemperature, dfDailyTurbineTemperature, by = c("Day"="Day", "Month" = "Month", "Year" = "Year"))
+dfDailyTemp$Difference <- dfDailyTemp$AverageTurbineTemp - dfDailyTemp$AverageBypassTemp
+
+
+   ggplot(dfDailyTemp, aes(x = Difference)) +
+     geom_histogram(binwidth = 0.5)
+
