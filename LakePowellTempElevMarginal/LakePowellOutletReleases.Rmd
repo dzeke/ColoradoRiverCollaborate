@@ -2,7 +2,7 @@
 title: "Lake Powell Outlet Releases and Temperature"
 author: "David E. Rosenberg"
 date: "July 28, 2025"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -40,12 +40,25 @@ David E. Rosenberg (2025), "Lake Powell Outlet Releases and Temperature." Utah S
 # Remove everything
 rm(list=ls())
 
-cPackages <- c("versions", "googlesheets4", "dygraphs", "tidyquant", "xts", "tidyverse", "tidyquant","lubridate", "stringr", "rvest", "RColorBrewer" )
+#cPackages <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2")
+# 
+# # Then we select only the packages that aren't currently installed.
+#   install.lib <- cPackages[!cPackages %in% installed.packages()]
+# # And finally we install the missing packages, including their dependency.
+#   for(lib in cPackages) install.packages(lib,dependencies=TRUE)
+#   # After the installation process completes, we load all packages.
+#   dum <- sapply(load.lib,require,character=TRUE)
 
-options(repos="https://CRAN.R-project.org")
+
+cPackages <- c("googlesheets4", "dygraphs", "tidyquant", "xts", "tidyverse", "tidyquant","lubridate", "stringr", "rvest", "RColorBrewer", "ggplot2", "dplyr", "expss", "reshape2", "pracma", "directlabels", "plyr")
+
+#options(repos="https://CRAN.R-project.org")
 
 # Install packages not yet installed
 installed_packages <- cPackages %in% rownames(installed.packages())
+
+print(installed_packages)
+
 if (any(installed_packages == FALSE)) {
   #install.packages(cPackages[!installed_packages])
   install.packages(cPackages[!installed_packages], dependencies = TRUE)
@@ -54,10 +67,10 @@ if (any(installed_packages == FALSE)) {
 invisible(lapply(cPackages, library, character.only = TRUE))
 
 
-#Load the required library 
+#Load the required library
 
 #Load correct versions of libraries
-install.versions('cli', '3.4.0')
+#install.versions('cli', '3.4.0')
 
 #Details on data sources and loading data
 # More details on the Data Sources
