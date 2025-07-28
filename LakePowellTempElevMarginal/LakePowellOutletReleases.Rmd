@@ -47,7 +47,8 @@ options(repos="https://CRAN.R-project.org")
 # Install packages not yet installed
 installed_packages <- cPackages %in% rownames(installed.packages())
 if (any(installed_packages == FALSE)) {
-  install.packages(cPackages[!installed_packages])
+  #install.packages(cPackages[!installed_packages])
+  install.packages(cPackages[!installed_packages], dependencies = TRUE)
 }
 # Packages loading
 invisible(lapply(cPackages, library, character.only = TRUE))
