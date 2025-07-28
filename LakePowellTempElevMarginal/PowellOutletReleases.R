@@ -6,8 +6,9 @@
 #   2. Download Release Temperature Data from Grand Canyon Monitoring and Research Center Website
 #
 #   Then Plot:
-#     A. individual DyGraphs (interactive timeserires plots) for the Releases and Temperature
-#     B. Combined DyGraph plot with Temperature on the second left axis.
+#     A. Combined DyGraph (interactive timeseries plot) with Releases on left axis and Temperature on the second right axis.
+#     B. Histogram of daily temperature differences
+#     C. Histogram of daily temperature differences broken out by month (facet)
 
 # More details on the Data Sources
 #   1. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrc20250709125927.tsv (csv file). Grand Canyon Monitoring and Research Center https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
@@ -29,7 +30,7 @@
 #     https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=uchdb2&sdi=1862%2C1872%2C4167%2C4166&tstp=HR&t1=2024-05-01T00:00&t2=2025-07-10T00:00&table=R&mrid=0&format=csv
 #
 # David Rosenberg
-# July 22, 2025
+# July 28, 2025
 
 #Versions to use
 #R version 4.1.1. Download from https://cran.r-project.org/.
@@ -131,7 +132,7 @@ dfReleasesTemperature <- na.omit(dfReleasesTemperature)
 #Convert to xts
 dfXtsReleasesTemperature <- xts(cbind(dfReleasesTemperature$PowerRelease, dfReleasesTemperature$BypassRelease, dfReleasesTemperature$SpillwayRelease, dfReleasesTemperature$TotalRelease, dfReleasesTemperature$TemperatureC), order.by = dfReleasesTemperature$DateTimePos)
 
-#Plot the Release dygraph
+#Plot the Release - Temperature dygraph
 dygraph(dfXtsReleasesTemperature) %>% dyRangeSelector() %>%
   dyAxis("y", label = "Release (cfs)") %>%
   #dyAxis("y2", label = "Temperature (oC)", independentTicks = TRUE, axisLabelFormatter = htmlwidgets::JS("function(value) {return value.toFixed(1);")) %>% ## Round to 1 decimal places for y2-axis) %>%
