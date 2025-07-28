@@ -90,13 +90,13 @@ dfReleases <- na.omit(dfReleases)
 #Convert to xts
 dfXtsRelease <- xts(cbind(dfReleases$PowerRelease, dfReleases$BypassRelease, dfReleases$SpillwayRelease, dfReleases$TotalRelease), order.by=dfReleases$DateTimePos)
 
-#Plot the Release dygraph
-dygraph(dfXtsRelease, ylab = "Release (cfs)") %>% dyRangeSelector() %>%
-  dySeries("V1", label = "PowerRelease") %>%
-  dySeries("V2", label = "BypassRelease") %>%
-  dySeries("V3", label = "SpillwayRelease") %>%
-  dySeries("V4", label = "TotalRelease") # %>%
-#  dySeries("V5", label = "Outside") %>%
+# #Plot the Release dygraph
+# dygraph(dfXtsRelease, ylab = "Release (cfs)") %>% dyRangeSelector() %>%
+#   dySeries("V1", label = "PowerRelease") %>%
+#   dySeries("V2", label = "BypassRelease") %>%
+#   dySeries("V3", label = "SpillwayRelease") %>%
+#   dySeries("V4", label = "TotalRelease") # %>%
+# #  dySeries("V5", label = "Outside") %>%
 #dyLimit(32, color = "red")
 
 
@@ -118,8 +118,8 @@ dfTemperature <- na.omit(dfTemperature)
 #Convert to xts
 dfXtsTemperature <- xts(cbind(dfTemperature$TemperatureC), order.by=dfTemperature$DateTimePos)
 
-dygraph(dfXtsTemperature, ylab = "Temperature (oC)") %>% dyRangeSelector() %>%
-  dySeries("V1", label = "Temperature") #%>%
+# dygraph(dfXtsTemperature, ylab = "Temperature (oC)") %>% dyRangeSelector() %>%
+#   dySeries("V1", label = "Temperature") #%>%
 
 
 ###### Do a combined Release-Temperature plot
@@ -164,3 +164,8 @@ dfDailyTemp$Difference <- dfDailyTemp$AverageTurbineTemp - dfDailyTemp$AverageBy
    ggplot(dfDailyTemp, aes(x = Difference)) +
      geom_histogram(binwidth = 0.5)
 
+ggplot(dfDailyTemp, aes(x = Diffewrence)) +
+  geom_histogram(binwidth = 0.5) +
+  facet_wrap( ~ Month)
+   
+   
