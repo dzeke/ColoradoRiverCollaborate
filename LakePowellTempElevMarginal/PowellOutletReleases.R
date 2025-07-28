@@ -148,13 +148,14 @@ dygraph(dfXtsReleasesTemperature) %>% dyRangeSelector() %>%
 dfReleasesTemperature$Day <- day(dfReleasesTemperature$DateTime)
 dfReleasesTemperature$Month <- month(dfReleasesTemperature$DateTime)
 dfReleasesTemperature$Year <- year(dfReleasesTemperature$DateTime)
+dfReleasesTemperature$MonthName <- month.name[dfReleasesTemperature$Month]
 
 #Calculate average temperature when bypass release is active
 dfDailyBypassTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperature$BypassRelease > 2000) %>%
-                  group_by(Year, Month, Day) %>% summarise (AverageBypassTemp = mean(TemperatureC))
+                  group_by(Year, Month, MonthName, Day) %>% summarise (AverageBypassTemp = mean(TemperatureC))
 #Calculate average temperature when bypass release is not active (turbine only release)
 dfDailyTurbineTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperature$BypassRelease == 0) %>%
-  group_by(Year, Month, Day) %>% summarise (AverageTurbineTemp = mean(TemperatureC))
+  group_by(Year, Month, MonthName, Day) %>% summarise (AverageTurbineTemp = mean(TemperatureC))
 
 #Right join so we get daily Bypass Temperature and Turbine temperature on the same day
 dfDailyTemp <- left_join(dfDailyBypassTemperature, dfDailyTurbineTemperature, by = c("Day"="Day", "Month" = "Month", "Year" = "Year"))
@@ -199,7 +200,7 @@ ggplot(dfDailyTemp, aes(x = Difference)) +
   #Make one combined legend
   #guides(color = guide_legend(""), linetype = guide_legend("")) +
   
-  facet_wrap( ~ Month) +
+  facet_wrap( ~ factor(dfDailyTemp$MonthName.x, levels = month.name ), ncol = 1) +
   
   theme_bw() +
   
