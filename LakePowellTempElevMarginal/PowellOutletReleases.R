@@ -38,7 +38,7 @@
 # Remove everything
 rm(list=ls())
 
-cPackages <- c("versions", "googlesheets4", "dygraphs", "tidyquant", "xts", "tidyverse", "tidyquant","lubridate", "stringr", "rvest" )
+cPackages <- c("versions", "googlesheets4", "dygraphs", "tidyquant", "xts", "tidyverse", "tidyquant","lubridate", "stringr", "rvest", "RColorBrewer" )
 
 # Install packages not yet installed
 installed_packages <- cPackages %in% rownames(installed.packages())
@@ -160,12 +160,52 @@ dfDailyTurbineTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperat
 dfDailyTemp <- left_join(dfDailyBypassTemperature, dfDailyTurbineTemperature, by = c("Day"="Day", "Month" = "Month", "Year" = "Year"))
 dfDailyTemp$Difference <- dfDailyTemp$AverageTurbineTemp - dfDailyTemp$AverageBypassTemp
 
+#Load the color palettes
+palBlues <- brewer.pal(9, "Blues")
+palReds <- brewer.pal(9, "Reds")
+palGreys <- brewer.pal(9, "Greys")
 
-   ggplot(dfDailyTemp, aes(x = Difference)) +
-     geom_histogram(binwidth = 0.5)
+# Histogram of daily temperature changes
 
-ggplot(dfDailyTemp, aes(x = Diffewrence)) +
-  geom_histogram(binwidth = 0.5) +
-  facet_wrap( ~ Month)
-   
+ggplot(dfDailyTemp, aes(x = Difference)) +
+  geom_histogram(binwidth = 0.5, fill = palGreys[3], color = "black") +
+
+  #scale_color_manual(values = cColorsToPlot) +
+  #scale_linetype_manual(values = c("solid","longdash")) +
+  
+  scale_x_continuous(breaks = seq(-0.5,3,0.5)) +
+  
+  #Make one combined legend
+  #guides(color = guide_legend(""), linetype = guide_legend("")) +
+  
+  theme_bw() +
+  
+  labs(x="Difference between Day and Night temperatures (oC)", y="Number of Days") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+
+
+# Histogram of daily temperature changes by Month
+
+ggplot(dfDailyTemp, aes(x = Difference)) +
+  geom_histogram(binwidth = 0.5, fill = palGreys[3], color = "black") +
+  
+  #scale_color_manual(values = cColorsToPlot) +
+  #scale_linetype_manual(values = c("solid","longdash")) +
+  
+  scale_x_continuous(breaks = seq(-0.5,3,0.5)) +
+  
+  #Make one combined legend
+  #guides(color = guide_legend(""), linetype = guide_legend("")) +
+  
+  facet_wrap( ~ Month) +
+  
+  theme_bw() +
+  
+  labs(x="Difference between Day and Night temperatures (oC)", y="Number of Days") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+
    
