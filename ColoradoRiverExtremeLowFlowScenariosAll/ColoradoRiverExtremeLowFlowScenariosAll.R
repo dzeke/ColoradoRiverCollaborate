@@ -51,16 +51,19 @@ dfExtremeFlows <- read_excel(sExtremeFlowFile, sheet = "ExtremeFlows")
 # dfExtremeFlows <- read.csv(file = sExtremeFlowFile, header = FALSE, sep = ",", quote = "\"",
 #          dec = ".", fill = TRUE, comment.char = "#")
 
+# Add a column to specify the sort order
+dfExtremeFlows$Order <- seq(1, nrow(dfExtremeFlows), 1)
+
 # Turn the first column into a factor
-dfExtremeFlows$`Extreme Low Flow Method` <- factor(dfExtremeFlows$`Extreme Low Flow Method`)
+dfExtremeFlows$ExtremeLowMethod <- factor(dfExtremeFlows$`Extreme Low Flow Method`, levels = dfExtremeFlows$Order)
 
 cColorsToPlot <- brewer.pal(9, "Blues")
 
 #### Figure 1 - Lines as 
 
 ggplot() +
-  geom_segment(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = `Extreme Low Flow Method`, xend = `Maximum (maf)`, 
-                                          yend = `Extreme Low Flow Method`)) +
+  geom_segment(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = ExtremeLowMethod, xend = `Maximum (maf)`, 
+                                          yend = `Extreme Low Flow Method`), size = 5) +
   #scale_color_manual(values = cColorsToPlot) +
   #scale_linetype_manual(values = c("solid","longdash")) +
   
@@ -75,7 +78,7 @@ ggplot() +
   #labs(x="Flow (million acre-feet per year)", y="", color="Annual Release Volume") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
-  theme(text = element_text(size=20), legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+  theme(text = element_text(size=12), legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
 
   
 
