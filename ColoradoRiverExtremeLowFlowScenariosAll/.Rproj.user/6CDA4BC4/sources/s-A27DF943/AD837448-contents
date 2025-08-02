@@ -1,17 +1,25 @@
 ####################
 #     ColoradoRiverExtremeLowFlowScenarios.R
 #
-#     The purpose of this code file is to load the Lake Powell Monthly release schedule from the Colorado River Simulation System
-#     And plot the data by month of the year and annual release volume.
+# This project compiles and compares scenarios of extreme low Coloardo River flows used in 6 different prior studies.
+# The purpose is to compare the inflow scenarios across the studies that used river flow as an operations criteria.
 #
-#     We want to visualize the high release months corresponding to maximum energy generation.
+# The data for this comparision are located in the Excel file **ColoradoRiverExtremeLowFlowFlowScenarios.xlsx**.
 #
-#     The file with the CRSS data is Powell-MonthlyReleaseSchedule.txt
-#     This data comes form the Powell.MonthlyReleaseTable slot in CRSS.
-#    
+# A line segment plot shows the range of extreme low flows used in each study. The figure additionally shows the strategy
+# used to stabilize reservoir storage for each study.
+
+# The studies are:
+#  A. Wang, J., and Rosenberg, D. E. (2023). "Adapting Colorado River Basin Depletions to Available Water to Live within Our Means." Journal of Water Resources Planning and Management, 149(7), 04023026. https://doi.org/10.1061/JWRMD5.WRENG-5555.
+#  B. Rosenberg, D. E. (2024a). "Lessons from immersive online collaborative modeling to discuss more adaptive reservoir operations." Journal of Water Resources Planning and Management, 150(7). https://doi.org/10.1061/JWRMD5.WRENG-5893.
+#  C. Rosenberg, D. E. (2022). "Adapt Lake Mead Releases to Inflow to Give Managers More Flexibility to Slow Reservoir Drawdown." Journal of Water Resources Planning and Management, 148(10), 02522006. https://doi.org/10.1061/(ASCE)WR.1943-5452.0001592.
+#  D. Abualqumboz, M., Chamberlain, B., and Rosenberg, D. (2024). "Adaptively Managing Lake Powell Releases to Respond to Reservoir Inflow and Evaporation." Utah State University Digital Commons. https://digitalcommons.usu.edu/cee_stures/12/.
+#  E. Rosenberg, D. E. (2024b). "Reclamation Web Tool - Minimum Glen Canyon Dam Annual Release to protect Lake Powell Minimum Power Pool." Github, https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/Post2026WebTool [Accessed on: July 3, 2025].
+#  F. Myers, A. (2025). "Immersive Modeling for Lake Mead". https://github.com/Anabelle374/ImmersiveModelLakeMead"
+#
 #
 #     David E. Rosenberg
-#     September 11, 2023
+#     August 2, 2025
 #     david.rosenberg@usu.edu
 
 #
