@@ -1,17 +1,25 @@
-# Lake Powell monthly releases by annual release target
+# Colorado River Extreme Low Inflows
 
-This document plots Lake Powell monthly release volumes by month and annual volume. The purpose is to identify the high release months that correspond to high energy load
-months. The file with the CRSS data is **Powell-MonthlyReleaseSchedule.txt**. This data comes form the Powell.MonthlyReleaseTable slot in the Colorado River Simulation System (CRSS) model. 
-This data is also presented in the [Long-Term Experimental and Management Plan](https://www.usbr.gov/uc/progact/amp/ltemp.html) (2016).
+This document compiles and compares scenarios of extreme low Coloardo River inflows used in 6 different prior studies.
+The purpose is to compare the inflow scenarios across a variety of studies that used river flow as an operations criteria.
 
-A plot is shown for Monthly Release volume vs month for different time series of Annual releases.
+The data for this comparision are located in the Excel file **ColoradoRiverExtremeFlowScenarios.xlsx**.
+
+A line segment plot shows the range of extreme low inflows used in each study.
+
+The studies are:
+    A.
+	B.
+	C.
+	D.
+	E.
+	F.
 
 ## Findings
-1. The high release volume months are January, February, March, June, July, and August.
 
 ## Requested Citation
-David E. Rosenberg (2023), “Lake Powell Monthly Release Volumes.” Utah State University. Logan, Utah.
-https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/PowellMonthlyRelease.
+David E. Rosenberg, Anabelle Myers, Erik Porse (2025), “How Extreme Low Colorado River Flows to Use?” Utah State University. Logan, Utah.
+https://github.com/dzeke/ColoradoRiverCollaborate.
 
 ## View Results
 Open the file **[PowellMonthlyRelease.pdf](PowellMonthlyRelease.pdf)**
