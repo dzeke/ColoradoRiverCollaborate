@@ -1,11 +1,12 @@
-# Colorado River Extreme Low Inflows
+# Colorado River Extreme Low Flow Scenarios All
 
 This document compiles and compares scenarios of extreme low Coloardo River inflows used in 6 different prior studies.
-The purpose is to compare the inflow scenarios across a variety of studies that used river flow as an operations criteria.
+The purpose is to compare the inflow scenarios across the studies that used river flow as an operations criteria.
 
-The data for this comparision are located in the Excel file **ColoradoRiverExtremeFlowScenarios.xlsx**.
+The data for this comparision are located in the Excel file **ColoradoRiverExtremeLowFlowFlowScenarios.xlsx**.
 
-A line segment plot shows the range of extreme low inflows used in each study.
+A line segment plot shows the range of extreme low flows used in each study. The figure additionally shows the strategy
+used to stabilize reservoir storage for each study.
 
 The studies are:
     A.
@@ -19,10 +20,10 @@ The studies are:
 
 ## Requested Citation
 David E. Rosenberg, Anabelle Myers, Erik Porse (2025), “How Extreme Low Colorado River Flows to Use?” Utah State University. Logan, Utah.
-https://github.com/dzeke/ColoradoRiverCollaborate.
+https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/ColoradoRiverExtremeLowInflowsAll
 
 ## View Results
-Open the file **[PowellMonthlyRelease.pdf](PowellMonthlyRelease.pdf)**
+Open the file **[ColoradoRiverExtremeLowFlowScneariosAll.pdf](ColoradoRiverExtremeLowFlowScneariosAll.pdf)**
 
 ## Requirements to Run
 * R version 4.1.1. Download from https://cran.r-project.org/.
