@@ -55,7 +55,8 @@ dfExtremeFlows <- read_excel(sExtremeFlowFile, sheet = "ExtremeFlows")
 dfExtremeFlows$Order <- seq(nrow(dfExtremeFlows),1, -1)
 
 # Turn the first column into a factor
-dfExtremeFlows$ExtremeLowMethod <- factor(dfExtremeFlows$`Extreme Low Flow Method`, levels = sort(unique(dfExtremeFlows$`Extreme Low Flow Method` ), decreasing = TRUE))
+dfExtremeFlows$ExtremeLowMethod <- sort(dfExtremeFlows$`Extreme Low Flow Method`, decreasing = TRUE)
+#dfExtremeFlows$ExtremeLowMethod <- factor(dfExtremeFlows$`Extreme Low Flow Method`, levels = sort(unique(dfExtremeFlows$`Extreme Low Flow Method` ), decreasing = TRUE))
 
 nRows = nrow(dfExtremeFlows)
 
@@ -63,14 +64,17 @@ cColorsToPlot <- brewer.pal(9, "Blues")
 
 #### Figure 1 - Lines as 
 
-ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = ExtremeLowMethod, xend = `Maximum (maf)`, 
-                                  yend = ExtremeLowMethod )) +
+ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximum (maf)`, 
+                                  yend = Order )) +
   geom_segment(size = 5) +
   #scale_color_manual(values = cColorsToPlot) +
   #scale_linetype_manual(values = c("solid","longdash")) +
   
   scale_x_continuous(limits = c(2,14), breaks = seq(2,14,2), sec.axis = sec_axis(~ . * 1, breaks = seq(2,14,2))) +
-  #scale_y_discrete(1, nRows, breaks = seq(nRows,1,-1), labels = dfExtremeFlows$ExtremeLowMethod) +
+  scale_y_continuous(limits = c(1, nRows), breaks = seq(1,nRows,1), labels = dfExtremeFlows$ExtremeLowMethod) + # sec.axis = sec_axis(~ . * 1, labels = dfExtremeFlows$`Strategy to Stabilize Lake Levels`)) +
+  
+  
+    #scale_y_discrete(1, nRows, breaks = seq(nRows,1,-1), labels = dfExtremeFlows$ExtremeLowMethod) +
   
   #Make one combined legend
   #guides(color = guide_legend(""), linetype = guide_legend("")) +
