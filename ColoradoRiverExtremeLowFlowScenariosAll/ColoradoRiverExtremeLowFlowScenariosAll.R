@@ -46,6 +46,8 @@ rm(list = ls())  #Clear history
 sExtremeFlowFile <- 'ColoradoRiverExtremeLowFlowScenarios.xlsx'
 dfExtremeFlows <- read_excel(sExtremeFlowFile, sheet = "ExtremeFlows")
 
+# Replace NA with spaces
+dfExtremeFlows[is.na(dfExtremeFlows)] <- ""
 # # CSV version
 # sExtremeFlowFile <- 'ColoradoRiverExtremeLowFlowScenarios.csv'
 # dfExtremeFlows <- read.csv(file = sExtremeFlowFile, header = FALSE, sep = ",", quote = "\"",
@@ -54,8 +56,10 @@ dfExtremeFlows <- read_excel(sExtremeFlowFile, sheet = "ExtremeFlows")
 # Add a column to specify the sort order
 dfExtremeFlows$Order <- seq(nrow(dfExtremeFlows),1, -1)
 
-# Turn the first column into a factor
+# Reverse sort so Method A. plots on top at order value 9
 dfExtremeFlows$ExtremeLowMethod <- sort(dfExtremeFlows$`Extreme Low Flow Method`, decreasing = TRUE)
+dfExtremeFlows$Strategy <- rev(dfExtremeFlows$`Strategy to Stabilize Lake Levels`)
+#dfExtremeFlows$Strategy <- sort(dfExtremeFlows$`Strategy to Stabilize Lake Levels`, decreasing = TRUE)
 #dfExtremeFlows$ExtremeLowMethod <- factor(dfExtremeFlows$`Extreme Low Flow Method`, levels = sort(unique(dfExtremeFlows$`Extreme Low Flow Method` ), decreasing = TRUE))
 
 nRows = nrow(dfExtremeFlows)
@@ -70,8 +74,8 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   #scale_color_manual(values = cColorsToPlot) +
   #scale_linetype_manual(values = c("solid","longdash")) +
   
-  scale_x_continuous(limits = c(2,14), breaks = seq(2,14,2), sec.axis = sec_axis(~ . * 1, breaks = seq(2,14,2))) +
-  scale_y_continuous(limits = c(1, nRows), breaks = seq(1,nRows,1), labels = dfExtremeFlows$ExtremeLowMethod) + # sec.axis = sec_axis(~ . * 1, labels = dfExtremeFlows$`Strategy to Stabilize Lake Levels`)) +
+  scale_x_continuous(limits = c(2,14), breaks = seq(2,14,2), minor_breaks = NULL, sec.axis = sec_axis(~ . * 1, breaks = seq(2,14,2))) +
+  scale_y_continuous(limits = c(1, nRows), breaks = seq(1,nRows,1), labels = dfExtremeFlows$ExtremeLowMethod, sec.axis = sec_axis(~ . * 1, breaks = seq(1,nRows,1), labels = dfExtremeFlows$Strategy)) +
   
   
     #scale_y_discrete(1, nRows, breaks = seq(nRows,1,-1), labels = dfExtremeFlows$ExtremeLowMethod) +
@@ -85,7 +89,7 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   #labs(x="", y="") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
-  theme(text = element_text(size=12), legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+  theme(text = element_text(size=8), legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
 
   
 
