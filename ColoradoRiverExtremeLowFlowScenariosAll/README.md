@@ -9,12 +9,12 @@ A line segment plot shows the range of extreme low flows used in each study. The
 used to stabilize reservoir storage for each study.
 
 The studies are:
-A. Wang, J., and Rosenberg, D. E. (2023). "Adapting Colorado River Basin Depletions to Available Water to Live within Our Means." Journal of Water Resources Planning and Management, 149(7), 04023026. https://doi.org/10.1061/JWRMD5.WRENG-5555.
-A. Rosenberg, D. E. (2024a). "Lessons from immersive online collaborative modeling to discuss more adaptive reservoir operations." Journal of Water Resources Planning and Management, 150(7). https://doi.org/10.1061/JWRMD5.WRENG-5893.
-A. Rosenberg, D. E. (2022). "Adapt Lake Mead Releases to Inflow to Give Managers More Flexibility to Slow Reservoir Drawdown." Journal of Water Resources Planning and Management, 148(10), 02522006. https://doi.org/10.1061/(ASCE)WR.1943-5452.0001592.
-A. Abualqumboz, M., Chamberlain, B., and Rosenberg, D. (2024). "Adaptively Managing Lake Powell Releases to Respond to Reservoir Inflow and Evaporation." Utah State University Digital Commons. https://digitalcommons.usu.edu/cee_stures/12/.
-A. Rosenberg, D. E. (2024b). "Reclamation Web Tool - Minimum Glen Canyon Dam Annual Release to protect Lake Powell Minimum Power Pool." Github, https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/Post2026WebTool [Accessed on: July 3, 2025].
-A. Myers (2025). "Immersive Modeling for Lake Mead". https://github.com/Anabelle374/ImmersiveModelLakeMead"
+1. Wang, J., and Rosenberg, D. E. (2023). "Adapting Colorado River Basin Depletions to Available Water to Live within Our Means." Journal of Water Resources Planning and Management, 149(7), 04023026. https://doi.org/10.1061/JWRMD5.WRENG-5555.
+1. Rosenberg, D. E. (2024a). "Lessons from immersive online collaborative modeling to discuss more adaptive reservoir operations." Journal of Water Resources Planning and Management, 150(7). https://doi.org/10.1061/JWRMD5.WRENG-5893.
+1. Rosenberg, D. E. (2022). "Adapt Lake Mead Releases to Inflow to Give Managers More Flexibility to Slow Reservoir Drawdown." Journal of Water Resources Planning and Management, 148(10), 02522006. https://doi.org/10.1061/(ASCE)WR.1943-5452.0001592.
+1. Abualqumboz, M., Chamberlain, B., and Rosenberg, D. (2024). "Adaptively Managing Lake Powell Releases to Respond to Reservoir Inflow and Evaporation." Utah State University Digital Commons. https://digitalcommons.usu.edu/cee_stures/12/.
+1. Rosenberg, D. E. (2024b). "Reclamation Web Tool - Minimum Glen Canyon Dam Annual Release to protect Lake Powell Minimum Power Pool." Github, https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/Post2026WebTool [Accessed on: July 3, 2025].
+1. Myers, A. (2025). "Immersive Modeling for Lake Mead". https://github.com/Anabelle374/ImmersiveModelLakeMead"
 
 
 ## Findings
