@@ -57,17 +57,20 @@ dfExtremeFlows$Order <- seq(nrow(dfExtremeFlows),1, -1)
 # Turn the first column into a factor
 dfExtremeFlows$ExtremeLowMethod <- factor(dfExtremeFlows$`Extreme Low Flow Method`, levels = sort(unique(dfExtremeFlows$`Extreme Low Flow Method` ), decreasing = TRUE))
 
+nRows = nrow(dfExtremeFlows)
+
 cColorsToPlot <- brewer.pal(9, "Blues")
 
 #### Figure 1 - Lines as 
 
-ggplot() +
-  geom_segment(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = `ExtremeLowMethod`, xend = `Maximum (maf)`, 
-                                          yend = `Extreme Low Flow Method`), size = 5) +
+ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = ExtremeLowMethod, xend = `Maximum (maf)`, 
+                                  yend = ExtremeLowMethod )) +
+  geom_segment(size = 5) +
   #scale_color_manual(values = cColorsToPlot) +
   #scale_linetype_manual(values = c("solid","longdash")) +
   
-  scale_x_continuous(2, 14, breaks = seq(2,14,2)) +
+  scale_x_continuous(limits = c(2,14), breaks = seq(2,14,2), sec.axis = sec_axis(~ . * 1, breaks = seq(2,14,2))) +
+  #scale_y_discrete(1, nRows, breaks = seq(nRows,1,-1), labels = dfExtremeFlows$ExtremeLowMethod) +
   
   #Make one combined legend
   #guides(color = guide_legend(""), linetype = guide_legend("")) +
@@ -75,7 +78,7 @@ ggplot() +
   theme_bw() +
   
   labs(x="Flow (million acre-feet per year)", y="") +
-  #labs(x="Flow (million acre-feet per year)", y="", color="Annual Release Volume") +
+  #labs(x="", y="") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=12), legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
