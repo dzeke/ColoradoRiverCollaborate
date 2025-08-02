@@ -41,15 +41,15 @@ rm(list = ls())  #Clear history
 
 
 
-### Read in the Monthly Release datas
-# Note used in calc of Mead Inflow. But keep anyway for backward compatibility
-sCRSSDataFile <- 'Powell-MonthlyReleaseSchedule.txt'
+### Read in the Extreme Flow values
+# Excel version
+sExtremeFlowFile <- 'ColoradoRiverExtremeLowFlowScenarios.xlsx'
+dfExtremeFlows <- read_excel(sExtremeFlowFile, sheet = "ExtremeFlows")
 
-dfExtremeFlows <- read_excel(sExcelFile, sheet = "Balances")
-
-
-dfMonthlyRelease <- read.csv(file = sCRSSDataFile, header = FALSE, sep = " ", quote = "\"",
-         dec = ".", fill = TRUE, comment.char = "#")
+# # CSV version
+# sExtremeFlowFile <- 'ColoradoRiverExtremeLowFlowScenarios.csv'
+# dfExtremeFlows <- read.csv(file = sExtremeFlowFile, header = FALSE, sep = ",", quote = "\"",
+#          dec = ".", fill = TRUE, comment.char = "#")
 
 # Rename the columns/variables to the annual flow amount
 
