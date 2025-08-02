@@ -51,55 +51,28 @@ dfExtremeFlows <- read_excel(sExtremeFlowFile, sheet = "ExtremeFlows")
 # dfExtremeFlows <- read.csv(file = sExtremeFlowFile, header = FALSE, sep = ",", quote = "\"",
 #          dec = ".", fill = TRUE, comment.char = "#")
 
-# Rename the columns/variables to the annual flow amount
+# Turn the first column into a factor
+dfExtremeFlows$`Extreme Low Flow Method` <- factor(dfExtremeFlows$`Extreme Low Flow Method`)
 
-nAnnualVolumes <- c(7, 7.48, 8.23, seq(9.0, 17.5, 0.5), 18, 20, 30, 50, 75,100)
-colnames(dfMonthlyRelease) <- as.character(nAnnualVolumes)
-#Remove the 100 column
-#dfMonthlyRelease <- subset(dfMonthlyRelease, select = -c("100"))
-
-#Add column for numeric month
-dfMonthlyRelease$Month <- c(10, 11, 12, seq(1,9,1))
-#Add column for text month
-dfMonthlyRelease$MonthTxt <- month.abb[dfMonthlyRelease$Month]
-
-#Reshape wide format (annual releases as columns) to long
-dfMonthlyReleaseLong <- reshape(data = dfMonthlyRelease, 
-                                idvar = c("Month","MonthTxt"), 
-                                varying = as.character(nAnnualVolumes), 
-                                v.names = "Monthly Release", 
-                                timevar = "Annual Release Volume",
-                                times = as.character(nAnnualVolumes),
-                                #new.row.names = 1:(length(nAnnualVolumes)*12)
-                                direction="long")
-
-#Convert Annual Release Volume to numeric
-dfMonthlyReleaseLong$`Annual Release Volume` <- as.numeric(dfMonthlyReleaseLong$`Annual Release Volume`)
-dfMonthlyReleaseLong$`Annual Release VolumeMAF` <- as.factor(as.numeric(dfMonthlyReleaseLong$`Annual Release Volume`))
-
-#Plot by month
-
-
-cColorsToPlot <- colorRampPalette((brewer.pal(9, "Blues")))(length(nAnnualVolumes))
+cColorsToPlot <- brewer.pal(9, "Blues")
 
 #### Figure 1 - Lines as 
 
 ggplot() +
-  #Data after 1989
-  geom_line(data = dfMonthlyReleaseLong %>% filter(`Annual Release Volume` < 20), aes(x=Month , y=`Monthly Release`/1e6, color=`Annual Release VolumeMAF`), size=1.5) +
-  theme_bw() +
-  
-  scale_color_manual(values = cColorsToPlot) +
+  geom_segment(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = `Extreme Low Flow Method`, xend = `Maximum (maf)`, 
+                                          yend = `Extreme Low Flow Method`)) +
+  #scale_color_manual(values = cColorsToPlot) +
   #scale_linetype_manual(values = c("solid","longdash")) +
   
-  scale_x_continuous(1, 12, breaks = seq(1,12,1), labels = month.abb[seq(1,12,1)]) +
+  scale_x_continuous(2, 14, breaks = seq(2,14,2)) +
   
   #Make one combined legend
-  guides(color = guide_legend(""), linetype = guide_legend("")) +
+  #guides(color = guide_legend(""), linetype = guide_legend("")) +
   
   theme_bw() +
   
-  labs(x="Month", y="Release Volume\n(MAF per mo nth)", color="Annual Release Volume") +
+  labs(x="Flow (million acre-feet per year)", y="") +
+  #labs(x="Flow (million acre-feet per year)", y="", color="Annual Release Volume") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=20), legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
