@@ -52,17 +52,17 @@ dfExtremeFlows <- read_excel(sExtremeFlowFile, sheet = "ExtremeFlows")
 #          dec = ".", fill = TRUE, comment.char = "#")
 
 # Add a column to specify the sort order
-dfExtremeFlows$Order <- seq(1, nrow(dfExtremeFlows), 1)
+dfExtremeFlows$Order <- seq(nrow(dfExtremeFlows),1, -1)
 
 # Turn the first column into a factor
-dfExtremeFlows$ExtremeLowMethod <- factor(dfExtremeFlows$`Extreme Low Flow Method`, levels = dfExtremeFlows$Order)
+dfExtremeFlows$ExtremeLowMethod <- factor(dfExtremeFlows$`Extreme Low Flow Method`, levels = sort(unique(dfExtremeFlows$`Extreme Low Flow Method` ), decreasing = TRUE))
 
 cColorsToPlot <- brewer.pal(9, "Blues")
 
 #### Figure 1 - Lines as 
 
 ggplot() +
-  geom_segment(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = ExtremeLowMethod, xend = `Maximum (maf)`, 
+  geom_segment(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = `ExtremeLowMethod`, xend = `Maximum (maf)`, 
                                           yend = `Extreme Low Flow Method`), size = 5) +
   #scale_color_manual(values = cColorsToPlot) +
   #scale_linetype_manual(values = c("solid","longdash")) +
