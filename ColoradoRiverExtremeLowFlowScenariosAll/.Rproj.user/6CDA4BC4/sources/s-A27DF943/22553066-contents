@@ -1,5 +1,5 @@
 ####################
-#     PowellMonthlyRelease.R
+#     ColoradoRiverExtremeLowFlowScenarios.R
 #
 #     The purpose of this code file is to load the Lake Powell Monthly release schedule from the Colorado River Simulation System
 #     And plot the data by month of the year and annual release volume.
