@@ -74,7 +74,9 @@ David E. Rosenberg, Hadia Akbar, Anabelle Myers, Erik Porse (2025). "Lake Mead W
 1. **[ImmersiveModelLakeMeadDivideInflow-LetsStart.pdf](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ImmersiveModelLakeMeadDivideInflow-LetsStart.pdf)** - A PDF file that shows how to start the activity (visual directions).
 1. **[Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md)** folder - Online help file that provides context and explanations for each spreadsheet row. In **Master** Worksheet, link to help in `Column N`.
 1. **[Draft Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterConservationProgramAnalysis.docx)** - Draft manuscript for the immersive model in Word format.
-1. **Support-Old** folder:
+1. **IRB** folder: Folder with approved Institutional Review Board documents - protocol, informed consent 1/2 page post it board, invite letters.
+1. **ModelGuide** folder: Folder with Word, pdf, and markdown versions of the model User's Guide.
+1. **Support-Old** folder: Older folders not presently used for this model.
    1. **Hydrology** - Excel files used to generate scenarios on **HydrologicScenarios** Worksheet. **CRB_29gages.xlsx**: Gages in the Colorado River basin used to estimate natural flow. **NaturalFlows1906-2018_20200110.xlsx**: Natural flow hydrology downloaded from the USBR website and modified to pick out particular 10- and 20- year sequences of flows from the observed and paleo reconstructed records.
    1. **InflowSplit** - R code to generate figure in manuscript that shows split of whole basin inflow amoung accounts.
    1. **ParticipantAnalysis** - Files to analyze one session
