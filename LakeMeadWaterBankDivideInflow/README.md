@@ -10,7 +10,7 @@ The purpose of this immersive online collaborative model is to give collaborator
 We see uses of the tool for two purposes:
 
 1. As researchers we want to learn: Why basin partners choose assumptions and how extreme; *Why* and *how* basin partners manage their risk of uncertain future water supply; Which new insights they take from a model session. 
-1. Provoke thought and discussion to: A) Stabilize and recover reservoir storage under conditions of low storage and low inflow, and B) Give users more autonomy to manage their conflicting vulnerabilities to water shortages.										
+1. Provoke thought and discussion to: A) Stabilize and recover reservoir storage under conditions of extreme low storage and inflow, and B) Give users more autonomy to manage their conflicting vulnerabilities to water shortages.										
 
 ## Key Ideas
 **1) Lake Mead water level is the sum of the protection elevation plus each user's available water.**
@@ -72,7 +72,7 @@ David E. Rosenberg, Hadia Akbar, Anabelle Myers, Erik Porse (2025). "Lake Mead W
 ## File Descriptions
 1. **[LakeMeadWaterBankDivideInflow.xlsx](https://github.com/dzeke/ColoradoRiverCollaborate/raw/refs/heads/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterBankDivideInflow.xlsx)** - An Excel file with the Lake Mead Water Bank tool. Follow **Facillation Directions** (above) or open **ReadMe-Directions** Worksheet.
 1. **[ImmersiveModelLakeMeadDivideInflow-LetsStart.pdf](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ImmersiveModelLakeMeadDivideInflow-LetsStart.pdf)** - A PDF file that shows how to start the activity (visual directions).
-1. **[Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md)** folder - Online help file that provides context and explanations for each spreadsheet row. In **Master** Worksheet, link to help in ![#FFE5B4](https://via.placeholder.com/15/FFE5B4/000000?text=+) `Column N`. [[Still Need to Implement]]
+1. **[Model Guide](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/ModelGuide/ModelGuide-LakeMeadWaterBank.md)** folder - Online help file that provides context and explanations for each spreadsheet row. In **Master** Worksheet, link to help in `Column N`.
 1. **[Draft Manuscript](https://github.com/dzeke/ColoradoRiverCollaborate/blob/main/LakeMeadWaterBankDivideInflow/LakeMeadWaterConservationProgramAnalysis.docx)** - Draft manuscript for the immersive model in Word format.
 1. **Support-Old** folder:
    1. **Hydrology** - Excel files used to generate scenarios on **HydrologicScenarios** Worksheet. **CRB_29gages.xlsx**: Gages in the Colorado River basin used to estimate natural flow. **NaturalFlows1906-2018_20200110.xlsx**: Natural flow hydrology downloaded from the USBR website and modified to pick out particular 10- and 20- year sequences of flows from the observed and paleo reconstructed records.
