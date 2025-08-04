@@ -59,6 +59,10 @@ dfExtremeFlows$Order <- seq(nrow(dfExtremeFlows),1, -1)
 # Reverse sort so Method A. plots on top at order value 9
 dfExtremeFlows$ExtremeLowMethod <- sort(dfExtremeFlows$`Extreme Low Flow Method`, decreasing = TRUE)
 dfExtremeFlows$Strategy <- rev(dfExtremeFlows$`Strategy to Stabilize Lake Levels`)
+
+# Split Methods and Strategies to add newline to wrap text
+dfExtremeFlows$MethodSplit <- str_split(dfExtremeFlows$ExtremeLowMethod, "  ")
+
 #dfExtremeFlows$Strategy <- sort(dfExtremeFlows$`Strategy to Stabilize Lake Levels`, decreasing = TRUE)
 #dfExtremeFlows$ExtremeLowMethod <- factor(dfExtremeFlows$`Extreme Low Flow Method`, levels = sort(unique(dfExtremeFlows$`Extreme Low Flow Method` ), decreasing = TRUE))
 
@@ -89,7 +93,7 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   #labs(x="", y="") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
-  theme(text = element_text(size=8), legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+  theme(text = element_text(size=14), legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
 
   
 
