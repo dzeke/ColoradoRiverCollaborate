@@ -114,7 +114,8 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   theme(text = element_text(size=16),  legend.title=element_blank(), 
         legend.text=element_text(size=14), axis.text.x = element_text(size=12),
         panel.grid.minor = element_blank(),
-        legend.position = "top")
+        legend.position = "top",
+        aspect.ratio = 1.5)
 
   
 
