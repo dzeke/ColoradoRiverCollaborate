@@ -59,6 +59,10 @@ nRows <- nrow(dfExtremeFlows)
 # Add a column to specify the sort order
 dfExtremeFlows$Order <- seq(nRows, 1, -1)
 
+# Combine Flow Location and Flow Type columns to get a single text string to use as the fill color
+
+dfExtremeFlows$TypeLocation <- paste0(dfExtremeFlows$`Flow Location`, '-', dfExtremeFlows$`Flow Type`)
+
 # Split Methods and Strategies to add newline to wrap text
 for (i in 1:nRows){
   splitstr <- str_split(dfExtremeFlows$`Extreme Low Flow Method`[i], "  ")
