@@ -81,16 +81,20 @@ dfExtremeFlows$Strategy <- rev(dfExtremeFlows$`Strategy to Stabilize Lake Levels
 #dfExtremeFlows$Strategy <- sort(dfExtremeFlows$`Strategy to Stabilize Lake Levels`, decreasing = TRUE)
 #dfExtremeFlows$ExtremeLowMethod <- factor(dfExtremeFlows$`Extreme Low Flow Method`, levels = sort(unique(dfExtremeFlows$`Extreme Low Flow Method` ), decreasing = TRUE))
 
-cColorsToPlot <- brewer.pal(9, "Blues")
+cBluesToPlot <- brewer.pal(9, "Blues")
+cRedsToPlot <- brewer.pal(9, "Reds")
 
 #### Figure 1 - Lines as 
 
-ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximum (maf)`, 
+ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximum (maf)`, color = TypeLocation, 
                                   yend = Order )) +
   geom_segment(size = 10) +
-  #scale_color_manual(values = cColorsToPlot) +
+  
   #scale_linetype_manual(values = c("solid","longdash")) +
   
+  scale_color_manual( values = c("Lee Ferry-Natural" = cBluesToPlot[7], "Lake Powell-Regulated Inflow" = cBluesToPlot[4], "Lake Powell-Release" = cBluesToPlot[2], "Lake Mead-Regulated Inflow" = cRedsToPlot[7])) +
+  #scale_color_manual(values = cColorsToPlot) +
+  # Set the x and y axis limits, breaks. Left Y axis for flow method and secondary right Y axis for Stabilize strategy
   scale_x_continuous(limits = c(2,14), breaks = seq(2,14,2), minor_breaks = seq(2,14,2), sec.axis = sec_axis(~ . * 1, breaks = seq(2,14,2))) +
   scale_y_continuous(limits = c(1, nRows), breaks = seq(1,nRows,1), labels = dfExtremeFlows$ExtremeLowMethod, sec.axis = sec_axis(~ . * 1, breaks = seq(1,nRows,1), labels = dfExtremeFlows$Strategy)) +
   
