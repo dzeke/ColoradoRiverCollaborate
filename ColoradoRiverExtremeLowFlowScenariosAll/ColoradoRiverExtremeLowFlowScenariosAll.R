@@ -97,9 +97,12 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   #scale_color_manual(values = cColorsToPlot) +
   # Set the x and y axis limits, breaks. Left Y axis for flow method and secondary right Y axis for Stabilize strategy
   scale_x_continuous(limits = c(2,14), breaks = seq(2,14,2), minor_breaks = seq(2,14,2), sec.axis = sec_axis(~ . * 1, breaks = seq(2,14,2))) +
-  scale_y_continuous(limits = c(1, nRows), breaks = seq(1,nRows,1), labels = dfExtremeFlows$ExtremeLowMethod,
-                     sec.axis = sec_axis(~ . * 1, breaks = seq(1,nRows,1), labels = dfExtremeFlows$Strategy,
-                                         name = "Strategy to Stabilize Reservoir Storage")) +
+  scale_y_continuous(limits = c(1, nRows), breaks = seq(1,nRows,1), labels = dfExtremeFlows$ExtremeLowMethod) +
+  
+  # Includes secondary axis of strategies
+  #   scale_y_continuous(limits = c(1, nRows), breaks = seq(1,nRows,1), labels = dfExtremeFlows$ExtremeLowMethod,
+  #                   sec.axis = sec_axis(~ . * 1, breaks = seq(1,nRows,1), labels = dfExtremeFlows$Strategy,
+  #                                       name = "Strategy to Stabilize Reservoir Storage")) +
   
   
     #scale_y_discrete(1, nRows, breaks = seq(nRows,1,-1), labels = dfExtremeFlows$ExtremeLowMethod) +
@@ -114,9 +117,9 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=18),  legend.title=element_blank(), 
-        legend.text=element_text(size=14), axis.text.x = element_text(size=16),
+        legend.text=element_text(size=12), axis.text.x = element_text(size=16),
         panel.grid.minor = element_blank(),
-        legend.position = "top",
+        legend.position = "right",
         aspect.ratio = 1.5)
 
   
