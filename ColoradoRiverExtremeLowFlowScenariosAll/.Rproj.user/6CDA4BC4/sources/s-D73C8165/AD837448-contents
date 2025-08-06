@@ -65,9 +65,9 @@ dfExtremeFlows$TypeLocation <- paste0(dfExtremeFlows$`Flow Location`, '-', dfExt
 
 # Split Methods and Strategies to add newline to wrap text
 for (i in 1:nRows){
-  splitstr <- str_split(dfExtremeFlows$`Extreme Low Flow Method`[i], "  ")
+  splitstr <- str_split(dfExtremeFlows$`Extreme Low Flow Method`[i], ":")
   dfExtremeFlows$`Extreme Low Flow Method`[i] <- str_c(splitstr[[1]], collapse = "\n")
-  splitstr <- str_split(dfExtremeFlows$`Strategy to Stabilize Lake Levels`[i], "  ")
+  splitstr <- str_split(dfExtremeFlows$`Strategy to Stabilize Lake Levels`[i], ":")
   dfExtremeFlows$`Strategy to Stabilize Lake Levels`[i] <- str_c(splitstr[[1]], collapse = "\n")
   }
 
@@ -92,7 +92,7 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   
   #scale_linetype_manual(values = c("solid","longdash")) +
   
-  scale_color_manual( values = c("Lee Ferry-Natural" = cBluesToPlot[8], "Lake Powell-Regulated Inflow" = cBluesToPlot[6], "Lake Powell-Release" = cBluesToPlot[5], "Lake Mead-Regulated Inflow" = cRedsToPlot[7]),
+  scale_color_manual( values = c("Lee Ferry-Natural" = cBluesToPlot[8], "Lake Powell-Regulated Inflow" = cBluesToPlot[6], "Lake Powell-Release" = cBluesToPlot[3], "Lake Mead-Regulated Inflow" = cRedsToPlot[7]),
                         breaks = c(dfExtremeFlows$TypeLocation[1], dfExtremeFlows$TypeLocation[3], dfExtremeFlows$TypeLocation[4], dfExtremeFlows$TypeLocation[5])) +
   #scale_color_manual(values = cColorsToPlot) +
   # Set the x and y axis limits, breaks. Left Y axis for flow method and secondary right Y axis for Stabilize strategy
@@ -111,8 +111,8 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   #labs(x="", y="") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
-  theme(text = element_text(size=16),  legend.title=element_blank(), 
-        legend.text=element_text(size=14), axis.text.x = element_text(size=12),
+  theme(text = element_text(size=18),  legend.title=element_blank(), 
+        legend.text=element_text(size=14), axis.text.x = element_text(size=16),
         panel.grid.minor = element_blank(),
         legend.position = "top",
         aspect.ratio = 1.5)
