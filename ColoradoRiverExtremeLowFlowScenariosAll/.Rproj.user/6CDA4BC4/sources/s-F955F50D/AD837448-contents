@@ -112,7 +112,7 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   
   theme_bw() +
   
-  labs(x="Flow (million acre-feet per year)", y="Extreme Low Flow Method") +
+  labs(x="Flow (million acre-feet per year)", y="Extreme Low Flow Method\n(year work done)") +
   #labs(x="", y="") +
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
