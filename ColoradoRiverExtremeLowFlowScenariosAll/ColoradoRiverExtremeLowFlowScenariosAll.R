@@ -93,7 +93,8 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   #scale_linetype_manual(values = c("solid","longdash")) +
   
   scale_color_manual( values = c("Lee Ferry-Natural" = cBluesToPlot[8], "Lake Powell-Regulated Inflow" = cBluesToPlot[6], "Lake Powell-Release" = cBluesToPlot[3], "Lake Mead-Regulated Inflow" = cRedsToPlot[7]),
-                        breaks = c(dfExtremeFlows$TypeLocation[1], dfExtremeFlows$TypeLocation[3], dfExtremeFlows$TypeLocation[4], dfExtremeFlows$TypeLocation[5])) +
+                        breaks = c(dfExtremeFlows$TypeLocation[1], dfExtremeFlows$TypeLocation[5], dfExtremeFlows$TypeLocation[6], dfExtremeFlows$TypeLocation[7])) +
+  
   #scale_color_manual(values = cColorsToPlot) +
   # Set the x and y axis limits, breaks. Left Y axis for flow method and secondary right Y axis for Stabilize strategy
   scale_x_continuous(limits = c(2,14), breaks = seq(2,14,2), minor_breaks = seq(2,14,2), sec.axis = sec_axis(~ . * 1, breaks = seq(2,14,2))) +
@@ -117,9 +118,10 @@ ggplot(data = dfExtremeFlows, aes(x = `Minimum (maf)`, y = Order, xend = `Maximu
   #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=18),  legend.title=element_blank(), 
-        legend.text=element_text(size=14), axis.text.x = element_text(size=16),
+        legend.text=element_text(size=16), axis.text.x = element_text(size=16),
         panel.grid.minor = element_blank(),
-        legend.position = c(1, 0.25),
+        legend.position = c(0.95, 0.9),
+        legend.box.background = element_rect(colour = "black", fill = NA),
         aspect.ratio = 1.5)
 
   
