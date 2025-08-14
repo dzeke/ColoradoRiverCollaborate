@@ -2,9 +2,8 @@
 title: "Lake Powell Outlet Releases and Temperature"
 author: "David E. Rosenberg"
 date: "July 28, 2025"
-output:
-  html_document: default
-  pdf_document: default
+output: html_document
+always_allow_html: true
 ---
 
 ```{r setup, include=FALSE}
@@ -16,16 +15,17 @@ knitr::opts_chunk$set(echo = TRUE)
 This is an R Markdown document. This document plots Lake Powell Outlet Releases and Temperature in an interactive graph (dygraphs). The document also shows histographs of daily difference in release temperature and differences
 broken out by month.
 
-Key steps
-  1. Download Glen Canyon Dam Turbine, River Outlet, and Total Releases from Reclamation's Data Portal and plot as an interactive Time-Series (DyGraph)
-  2. Download Release Temperature Data from Grand Canyon Monitoring and Research Center Website
-      A. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrcTemp.tsv (csv file). Grand Canyon Monitoring and Research Center https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
-      B. Glen Canyon Dam hourly release data. Reclamation HDB Online Data Query Tool at https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
+## Key steps:
+
+1. Download Glen Canyon Dam Turbine, River Outlet, and Total Releases from Reclamation's Data Portal and plot as an interactive Time-Series (DyGraph)
+2. Download Release Temperature Data from Grand Canyon Monitoring and Research Center Website
+####      A. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrcTemp.tsv (csv file). Grand Canyon Monitoring and Research Center https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
+####      B. Glen Canyon Dam hourly release data. Reclamation HDB Online Data Query Tool at https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
   
-  3. Plot
-      A. Combined DyGraph (interactive timeseries plot) with Releases on left axis and Temperature on the second right axis.
-      B. Histogram of daily temperature differences
-      C. Histogram of daily temperature differences broken out by month (facet)
+3. Plot
+    A. Combined DyGraph (interactive timeseries plot) with Releases on left axis and Temperature on the second right axis.
+    B. Histogram of daily temperature differences
+    C. Histogram of daily temperature differences broken out by month (facet)
 
 ## Versions to use to reproduce results
    A. R version 4.1.1. Download from https://cran.r-project.org/.
@@ -175,6 +175,58 @@ dygraph(dfXtsReleasesTemperature) %>% dyRangeSelector() %>%
   dySeries("V3", label = "SpillwayRelease") %>%
   dySeries("V4", label = "TotalRelease")  %>%
   dySeries("V5", label = "Temperature", axis = "y2", strokeWidth = 3)
+
+```
+
+# Figure 2. Histogram of Daily Temperature Changes
+```{r PowellOutletreleaseFig2, echo=FALSE, warning=FALSE, message=FALSE}
+#### Build a histogram of daily change in temperature when bypass releases are happening.
+ 
+dfReleasesTemperature$Day <- day(dfReleasesTemperature$DateTime)
+dfReleasesTemperature$Month <- month(dfReleasesTemperature$DateTime)
+dfReleasesTemperature$Year <- year(dfReleasesTemperature$DateTime)
+dfReleasesTemperature$MonthName <- month.name[dfReleasesTemperature$Month]
+
+#Calculate average temperature when bypass release is active
+dfDailyBypassTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperature$BypassRelease > 2000) %>%
+                  group_by(Year, Month, MonthName, Day) %>% summarise (AverageBypassTemp = mean(TemperatureC))
+#Calculate average temperature when bypass release is not active (turbine only release)
+dfDailyTurbineTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperature$BypassRelease == 0) %>%
+  group_by(Year, Month, MonthName, Day) %>% summarise (AverageTurbineTemp = mean(TemperatureC))
+
+colnames(dfDailyBypassTemperature)
+colnames(dfDailyTurbineTemperature)
+#Right join so we get daily Bypass Temperature and Turbine temperature on the same day
+if(FALSE) {
+dfDailyTemp <- left_join(dfDailyBypassTemperature, dfDailyTurbineTemperature, by = c("Day"="Day", "Month" = "Month", "Year" = "Year"))
+dfDailyTemp$Difference <- dfDailyTemp$AverageTurbineTemp - dfDailyTemp$AverageBypassTemp
+
+#Load the color palettes
+palBlues <- brewer.pal(9, "Blues")
+palReds <- brewer.pal(9, "Reds")
+palGreys <- brewer.pal(9, "Greys")
+
+# Histogram of daily temperature changes
+
+ggplot(dfDailyTemp, aes(x = Difference)) +
+  geom_histogram(binwidth = 0.5, fill = palGreys[3], color = "black") +
+
+  #scale_color_manual(values = cColorsToPlot) +
+  #scale_linetype_manual(values = c("solid","longdash")) +
+  
+  scale_x_continuous(breaks = seq(-0.5,3,0.5)) +
+  
+  #Make one combined legend
+  #guides(color = guide_legend(""), linetype = guide_legend("")) +
+  
+  theme_bw() +
+  
+  labs(x="Difference between Day and Night temperatures (oC)", y="Number of Days") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+
+}
 
 ```
 
