@@ -188,16 +188,18 @@ dfReleasesTemperature$Year <- year(dfReleasesTemperature$DateTime)
 dfReleasesTemperature$MonthName <- month.name[dfReleasesTemperature$Month]
 
 #Calculate average temperature when bypass release is active
-dfDailyBypassTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperature$BypassRelease > 2000) %>%
-                  group_by(Year, Month, MonthName, Day) %>% summarise (AverageBypassTemp = mean(TemperatureC))
+dfDailyBypassTemperature <- dfReleasesTemperature %>% dplyr::filter(dfReleasesTemperature$BypassRelease > 2000) %>%
+                  dplyr::group_by(Year, Month, MonthName, Day) %>% dplyr::summarise (AverageBypassTemp = mean(TemperatureC))
 #Calculate average temperature when bypass release is not active (turbine only release)
-dfDailyTurbineTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperature$BypassRelease == 0) %>%
-  group_by(Year, Month, MonthName, Day) %>% summarise (AverageTurbineTemp = mean(TemperatureC))
+dfDailyTurbineTemperature <- dfReleasesTemperature %>% dplyr::filter(dfReleasesTemperature$BypassRelease == 0) %>%
+  dplyr::group_by(Year, Month, MonthName, Day) %>% dplyr::summarise (AverageTurbineTemp = mean(TemperatureC))
 
-colnames(dfDailyBypassTemperature)
-colnames(dfDailyTurbineTemperature)
+head(dfReleasesTemperature, 10)
+head(dfDailyTurbineTemperature, 10)
+head(dfDailyBypassTemperature, 10)
+
 #Right join so we get daily Bypass Temperature and Turbine temperature on the same day
-if(FALSE) {
+
 dfDailyTemp <- left_join(dfDailyBypassTemperature, dfDailyTurbineTemperature, by = c("Day"="Day", "Month" = "Month", "Year" = "Year"))
 dfDailyTemp$Difference <- dfDailyTemp$AverageTurbineTemp - dfDailyTemp$AverageBypassTemp
 
@@ -226,7 +228,7 @@ ggplot(dfDailyTemp, aes(x = Difference)) +
   #      legend.position = c(0.8,0.7))
   theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
 
-}
+
 
 ```
 

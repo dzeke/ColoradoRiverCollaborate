@@ -160,8 +160,6 @@ dfDailyTurbineTemperature <- dfReleasesTemperature %>% filter(dfReleasesTemperat
   group_by(Year, Month, MonthName, Day) %>% summarise (AverageTurbineTemp = mean(TemperatureC))
 
 #Right join so we get daily Bypass Temperature and Turbine temperature on the same day
-print
-
 dfDailyTemp <- left_join(dfDailyBypassTemperature, dfDailyTurbineTemperature, by = c("Day"="Day", "Month" = "Month", "Year" = "Year"))
 dfDailyTemp$Difference <- dfDailyTemp$AverageTurbineTemp - dfDailyTemp$AverageBypassTemp
 
