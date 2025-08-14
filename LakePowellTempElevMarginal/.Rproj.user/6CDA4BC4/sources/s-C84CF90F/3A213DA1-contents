@@ -2,6 +2,7 @@
 ## 
 #
 # This script does 3 things:
+#
 #   1. Injests temperature profile data from the USGS Lake Powell profiles: 
 #         Andrews, C.M., and Deemer, B.R., 2022, Limnology data from Lake Powell, desert southwest USA (ver. 2.1, September 2024): U.S. Geological Survey data release, https://doi.org/10.5066/P9ZIKVYW. 
 #       https://www.sciencebase.gov/catalog/item/62b39805d34e8f4977cb788c
@@ -30,7 +31,7 @@
 # Remove everything
 rm(list=ls())
 
-cPackages <- c("versions", "googlesheets4", "dygraphs", "tidyquant", "xts", "tidyverse", "tidyquant","lubridate", "stringr", "rvest", "RColorBrewer" )
+cPackages <- c("versions", "googlesheets4", "dygraphs", "tidyquant", "xts", "tidyverse", "tidyquant","lubridate", "stringr", "rvest", "RColorBrewer", "readxl" )
 
 # Install packages not yet installed
 installed_packages <- cPackages %in% rownames(installed.packages())
@@ -57,6 +58,11 @@ sProfileDataFile <- 'data/ProfileData_LakePOwell_1965-2022.csv'
 dfStationData <- read.csv(sStationDataFile)
 dfSiteVisitData <- read.csv(sSiteVisitDataFile)
 dfProfileData <- read.csv(sProfileDataFile)
+
+# Read elevation-storage data in from Excel
+sExcelFile <- 'data/Lake_Powell_Area_Capacity_Table_report_Final.xlsx'
+dfPowellBathymetry <- read_excel(sExcelFile, sheet = "2017Bathymetry",  range = "A1:D582")
+
 
 # As CSV
 
