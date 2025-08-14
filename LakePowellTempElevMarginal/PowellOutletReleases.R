@@ -11,7 +11,8 @@
 #     C. Histogram of daily temperature differences broken out by month (facet)
 
 # More details on the Data Sources
-#   1. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrc20250709125927.tsv (csv file). Grand Canyon Monitoring and Research Center https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
+#   1. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrc20250709125927.tsv (csv file). Grand Canyon Monitoring and Research Center
+#        https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
 #   2. Glen Canyon Dam hourly release data. Reclamation HDB Online Data Query Tool
 
 #You can manually query data using the following page and entering the following info: https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
@@ -91,12 +92,12 @@ dfReleases <- na.omit(dfReleases)
 #Convert to xts
 dfXtsRelease <- xts(cbind(dfReleases$PowerRelease, dfReleases$BypassRelease, dfReleases$SpillwayRelease, dfReleases$TotalRelease), order.by=dfReleases$DateTimePos)
 
-# #Plot the Release dygraph
-# dygraph(dfXtsRelease, ylab = "Release (cfs)") %>% dyRangeSelector() %>%
-#   dySeries("V1", label = "PowerRelease") %>%
-#   dySeries("V2", label = "BypassRelease") %>%
-#   dySeries("V3", label = "SpillwayRelease") %>%
-#   dySeries("V4", label = "TotalRelease") # %>%
+#Plot the Release dygraph
+dygraph(dfXtsRelease, ylab = "Release (cfs)") %>% dyRangeSelector() %>%
+  dySeries("V1", label = "PowerRelease") %>%
+  dySeries("V2", label = "BypassRelease") %>%
+  dySeries("V3", label = "SpillwayRelease") %>%
+  dySeries("V4", label = "TotalRelease") # %>%
 # #  dySeries("V5", label = "Outside") %>%
 #dyLimit(32, color = "red")
 
@@ -104,7 +105,7 @@ dfXtsRelease <- xts(cbind(dfReleases$PowerRelease, dfReleases$BypassRelease, dfR
 
 ###### Read in Temperature data from Grand Canyon Monitoring and Research Center
 ####
-dfTemperature <- read.csv(file = "Data/gcmrc20250709125927.tsv", sep = "\t")
+dfTemperature <- read.csv(file = "Data/gcmrcTemp.tsv", sep = "\t")
 colnames(dfTemperature) <- c("DateTime", "TemperatureC")
 
 # Filter for top of the hour (00:00)

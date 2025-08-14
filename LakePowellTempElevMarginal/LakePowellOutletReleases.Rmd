@@ -2,7 +2,9 @@
 title: "Lake Powell Outlet Releases and Temperature"
 author: "David E. Rosenberg"
 date: "July 28, 2025"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -17,7 +19,7 @@ broken out by month.
 Key steps
   1. Download Glen Canyon Dam Turbine, River Outlet, and Total Releases from Reclamation's Data Portal and plot as an interactive Time-Series (DyGraph)
   2. Download Release Temperature Data from Grand Canyon Monitoring and Research Center Website
-      A. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrc20250709125927.tsv (csv file). Grand Canyon Monitoring and Research Center https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
+      A. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrcTemp.tsv (csv file). Grand Canyon Monitoring and Research Center https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
       B. Glen Canyon Dam hourly release data. Reclamation HDB Online Data Query Tool at https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
   
   3. Plot
@@ -128,7 +130,7 @@ dfXtsRelease <- xts(cbind(dfReleases$PowerRelease, dfReleases$BypassRelease, dfR
 
 ###### Read in Temperature data from Grand Canyon Monitoring and Research Center
 ####
-dfTemperature <- read.csv(file = "Data/gcmrc20250709125927.tsv", sep = "\t")
+dfTemperature <- read.csv(file = "Data/gcmrcTemp.tsv", sep = "\t")
 colnames(dfTemperature) <- c("DateTime", "TemperatureC")
 
 # Filter for top of the hour (00:00)
