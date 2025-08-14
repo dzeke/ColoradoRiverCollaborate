@@ -8,7 +8,7 @@
 #       
 #       Files: StationData_LakePowell_1964-2022.csv (Station Meta data)
 #              SiteVisitData_LakePowell_1964-2022.csv (Site visit meta data, including Lake Elevation and Intake Depth)
-#              ProfileData_LakePOwell_1964-2022.csv (Temperature-Depth data)
+#              ProfileData_LakePOwell_1965-2022.csv (Temperature-Depth data)
 #
 #   2. Lake Powell Bathymetry (2017) from Bradley, D., and Collins, K. (2022). "Lake Powell 2017 Area and Capacity Tables." ENV-2021-98, Reclamation. https://doi.org/10.5066/P9O3IPG3.
 
@@ -48,17 +48,17 @@ install.versions('cli', '3.4.0')
 
 
 #######
-###Read data data into R
+###Read all data data into R
 
+sStationDataFile <- 'data/StationData_LakePowell_1964-2022.csv'
+sSiteVisitDataFile <- 'data/SiteVisitData_LakePowell_1964-2022.csv'
+sProfileDataFile <- 'data/ProfileData_LakePOwell_1965-2022.csv'
+
+dfStationData <- read.csv(sStationDataFile)
+dfSiteVisitData <- read.csv(sSiteVisitDataFile)
+dfProfileData <- read.csv(sProfileDataFile)
 
 # As CSV
-sAPI_Request <- paste0('https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=uchdb2&sdi=1862%2C1872%2C4167%2C4166&tstp=HR&t1=',sStartDate,'T00:00&t2=',vDateToday,'T00:00&table=R&mrid=0&format=',sFormat)
-
-sWebpage <- read_html(sAPI_Request)
-
-tables <- sWebpage %>% html_table()
-
-dfReleases <- as.data.frame(tables[1])
 
 #Turn to meaningful column names
 cColNames <- colnames(dfReleases)
