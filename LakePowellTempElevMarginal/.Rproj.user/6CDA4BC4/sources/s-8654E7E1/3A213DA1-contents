@@ -48,6 +48,14 @@ invisible(lapply(cPackages, library, character.only = TRUE))
 install.versions('cli', '3.4.0')
 
 
+# New function interp2 to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
+interp2 <- function(x, y, xi = x, ...) {
+  yi <- rep(NA, length(xi));
+  sel <- which(xi >= range(x)[1] & xi <= range(x)[2]);
+  yi[sel] <- interp1(x = x, y = y, xi = xi[sel], ...);
+  return(yi);
+}
+
 #######
 ###Read all data data into R
 
@@ -64,11 +72,22 @@ sExcelFile <- 'data/Lake_Powell_Area_Capacity_Table_report_Final.xlsx'
 dfPowellBathymetry <- read_excel(sExcelFile, sheet = "2017Bathymetry",  range = "A1:D582")
 
 ####### Join the data
-#Join Profile data to site visit data
-dfProfileJoined <- left_join(dfProfileData, dfSiteVisitData, by = c("TripID" = "TripID", "StationID" = "StationID", "CollectionDateTime" = "CollectionDateTime"))
+# Join Profile data to site visit data
+# Seems like this statement should work (joining on the datetime), but we lose the intake and elevation data
+#dfProfileJoined <- left_join(dfProfileData, dfSiteVisitData, by = c("TripID" = "TripID", "StationID" = "StationID", "CollectionDateTime" = "CollectionDateTime"))
+dfProfileJoined <- left_join(dfProfileData, dfSiteVisitData, by = c("TripID" = "TripID", "StationID" = "StationID"))
 # Join Profile and StationData
 dfProfileJoined <- left_join(dfProfileJoined, dfStationData, by = c("StationID" = "StationID"))
-# As CSV
+
+# Convert meters to feet
+dfProfileJoined$Depth_ft <- 3.28 * dfProfileJoined$Depth_m
+dfProfileJoined$LakeElevation_ft <- 3.28 * dfProfileJoined$LakeElevation_m
+dfProfileJoined$BottomSounding_ft <- 3.28 * dfProfileJoined$BottomSounding_m
+dfProfileJoined$IntakeDepth_ft <- 3.28 * dfProfileJoined$IntakeDepth_m
+
+#Interpolate reservoir storage from lake elevation
+###dfProfileJoined$ActiveVolume_acft <- interp2(xi = dfProfileJoined$LakeElevation_ft,x=dfMeadElevStor$`Elevation (ft)` , y=dfMeadElevStor$`Live Storage (ac-ft)`, method="linear")
+
 
 #Turn to meaningful column names
 cColNames <- colnames(dfReleases)
