@@ -63,7 +63,11 @@ dfProfileData <- read.csv(sProfileDataFile)
 sExcelFile <- 'data/Lake_Powell_Area_Capacity_Table_report_Final.xlsx'
 dfPowellBathymetry <- read_excel(sExcelFile, sheet = "2017Bathymetry",  range = "A1:D582")
 
-
+####### Join the data
+#Join Profile data to site visit data
+dfProfileJoined <- left_join(dfProfileData, dfSiteVisitData, by = c("TripID" = "TripID", "StationID" = "StationID", "CollectionDateTime" = "CollectionDateTime"))
+# Join Profile and StationData
+dfProfileJoined <- left_join(dfProfileJoined, dfStationData, by = c("StationID" = "StationID"))
 # As CSV
 
 #Turn to meaningful column names
