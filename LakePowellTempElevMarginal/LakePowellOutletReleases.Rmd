@@ -1,7 +1,7 @@
 ---
 title: "Lake Powell Outlet Releases and Temperature"
 author: "David E. Rosenberg"
-date: "July 28, 2025"
+date: "August 15, 2025"
 output: html_document
 always_allow_html: true
 ---
@@ -19,17 +19,19 @@ broken out by month.
 
 1. Download Glen Canyon Dam Turbine, River Outlet, and Total Releases from Reclamation's Data Portal and plot as an interactive Time-Series (DyGraph)
 2. Download Release Temperature Data from Grand Canyon Monitoring and Research Center Website
-####      A. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrcTemp.tsv (csv file). Grand Canyon Monitoring and Research Center https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
-####      B. Glen Canyon Dam hourly release data. Reclamation HDB Online Data Query Tool at https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
+
+    1. Glen Canyon Dam Release Water Temperature near Page AZ - gcmrcTemp.tsv (csv file). Grand Canyon Monitoring and Research Center https://www.gcmrc.gov/discharge_qw_sediment/station/GCDAMP/09379901#.
+    2. Glen Canyon Dam hourly release data. Reclamation HDB Online Data Query Tool at https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
   
 3. Plot
-    A. Combined DyGraph (interactive timeseries plot) with Releases on left axis and Temperature on the second right axis.
-    B. Histogram of daily temperature differences
-    C. Histogram of daily temperature differences broken out by month (facet)
+    1. Combined DyGraph (interactive timeseries plot) with Releases on left axis and Temperature on the second right axis.
+    2. Histogram of daily temperature differences
+    3. Histogram of daily temperature differences broken out by month (facet)
 
 ## Versions to use to reproduce results
-   A. R version 4.1.1. Download from https://cran.r-project.org/.
-   B. R Studio 2021.09.0. Build 351 - Download from https://www.rstudio.com/.
+
+1. R version 4.1.1. Download from https://cran.r-project.org/.
+2. R Studio 2021.09.0. Build 351 - Download from https://www.rstudio.com/.
    
 ## Key findings
 
@@ -194,9 +196,10 @@ dfDailyBypassTemperature <- dfReleasesTemperature %>% dplyr::filter(dfReleasesTe
 dfDailyTurbineTemperature <- dfReleasesTemperature %>% dplyr::filter(dfReleasesTemperature$BypassRelease == 0) %>%
   dplyr::group_by(Year, Month, MonthName, Day) %>% dplyr::summarise (AverageTurbineTemp = mean(TemperatureC))
 
-head(dfReleasesTemperature, 10)
-head(dfDailyTurbineTemperature, 10)
-head(dfDailyBypassTemperature, 10)
+# Print out first several rows of each dataframe for debugging
+#head(dfReleasesTemperature, 10)
+#head(dfDailyTurbineTemperature, 10)
+#head(dfDailyBypassTemperature, 10)
 
 #Right join so we get daily Bypass Temperature and Turbine temperature on the same day
 

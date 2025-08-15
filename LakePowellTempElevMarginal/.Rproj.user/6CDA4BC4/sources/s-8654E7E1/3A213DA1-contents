@@ -63,6 +63,7 @@ dfProfileData <- read.csv(sProfileDataFile)
 sExcelFile <- 'data/Lake_Powell_Area_Capacity_Table_report_Final.xlsx'
 dfPowellBathymetry <- read_excel(sExcelFile, sheet = "2017Bathymetry",  range = "A1:D582")
 
+# Join the data
 
 # As CSV
 
