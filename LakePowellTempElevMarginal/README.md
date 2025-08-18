@@ -1,8 +1,23 @@
 # How does Lake Powell Release Temperature Change with small (marginal) increases in lake elevation?
 
-Data, scripts, and script outputs that support the analysis for How does Lake Powell release temperature change with small (marginal) changes in elevation?
-This analysis supports the study of small seasonal changes in reservoir elevation to help disrupt Small Mouth Bass in Grand Canyon.
-Briefly, at a particular month/year, we want the temperature profile at the dam face. We then calculate the change in temperature from the temperature at the penstock elevation to small elevations below
+Data, scripts, and script outputs that support the analysis for seasonal changes in reservoir elevation to help disrupt Small Mouth Bass in Grand Canyon.How does Lake Powell release temperature change with small (marginal) changes in elevation?
+
+This script answers the following questions:
+
+1. When were there releases through the low-level Glen Canyon dam river outlets? How much volume was released each year?
+1. How does temperature immediately downstream of Glen Canyon dam vary on days with releases through the low-level river outlets?
+1. How much will release temperature though the penstocks decrease with small (2, 5, or maybe 10 feet) increases in Lake Powell elevation?
+1. How much water volume is needed to achieve those small increases in lake level?
+
+Briefly, we read in Glen Canyon Turbine and River outlet release data from Reclamation's web portal. We also read in Temperature data from
+from Glen Canyon Monitoring and Research Center webpage.
+
+We create the following outputs:
+
+1. Interactive time series plot that shows turbine, river outlet, and total releases plus river temperature. Plot as a dyGraph.
+1. Histogram of daily temperature change on days with river outlet releases (i.e., average for period with river outlet releases compared to
+average for period with only turbine releases.
+1. Temperature vs elevation profile at the dam face. We then calculate the change in temperature from the temperature at the penstock elevation to small elevations below
 the penstock elevation, such as 2, 5, 7.5, or 10 meters.
 
 ## Data Sources
