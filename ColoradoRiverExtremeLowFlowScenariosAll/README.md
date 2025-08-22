@@ -16,7 +16,7 @@ The studies are:
 1. Rosenberg, D. E. (2022). "Adapt Lake Mead Releases to Inflow to Give Managers More Flexibility to Slow Reservoir Drawdown." Journal of Water Resources Planning and Management, 148(10), 02522006. https://doi.org/10.1061/(ASCE)WR.1943-5452.0001592.
  
 ## View Results
-Open the file **[ColoradoRiverExtremeLowFlowScneariosAll.pdf](ColoradoRiverExtremeLowFlowScneariosAll.pdf)**
+Open the file **[ColoradoRiverExtremeLowFlowScneariosAll.pdf](ColoradoRiverExtremeLowFlowScenariosAll.pdf)**
 
 ## Requirements to Run
 * R version 4.1.1. Download from https://cran.r-project.org/.
