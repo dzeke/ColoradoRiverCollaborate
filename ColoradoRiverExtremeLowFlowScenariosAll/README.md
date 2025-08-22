@@ -37,7 +37,7 @@ Open the file **[ColoradoRiverExtremeLowFlowScneariosAll.pdf](ColoradoRiverExtre
 1. **ColoradoRiverExtremeLowFlowScenariosAll.Rproject** - R project file. Use to open the project in R Studio.
 
 ## Link to Full Blog Post
-**[How Low a Colorado River Flow to Go?](https://usu.app.box.com/file/1962917545522?s=1wkm7bfm86cih76zf0ar6z9c548hr0a7)**
+**[How Low a Colorado River Flow to Go?](https://usu.app.box.com/file/1962917545522?s=1wkm7bfm86cih76zf0ar6z9c548hr0a7)** Insights from numerically stabilizing Lake Powell and Lake Mead during crisis.
 
 ## Requested Citation
 David E. Rosenberg, Anabelle Myers, Erik Porse (2025), “How Extreme Low Colorado River Flows to Use?” Utah State University. Logan, Utah.
