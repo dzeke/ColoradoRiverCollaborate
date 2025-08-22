@@ -37,6 +37,9 @@ Open the file **[ColoradoRiverExtremeLowFlowScneariosAll.pdf](ColoradoRiverExtre
 1. **ColoradoRiverExtremeLowFlowScenarios.xlsx** - File with minimum and maximum extreme low flows for each study. All values million acre-feet.
 1. **ColoradoRiverExtremeLowFlowScenarios.csv** - Comma separated values version of the Excel file with minimum and maximum extreme low flows used for each study. All values million acre-feet.
 
+## Link to Full Blog Post
+**[How Low a Colorado River Flow to Go?](https://usu.app.box.com/file/1962917545522?s=1wkm7bfm86cih76zf0ar6z9c548hr0a7)**
+
 ## Requested Citation
 David E. Rosenberg, Anabelle Myers, Erik Porse (2025), “How Extreme Low Colorado River Flows to Use?” Utah State University. Logan, Utah.
 https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/ColoradoRiverExtremeLowInflowsAll
