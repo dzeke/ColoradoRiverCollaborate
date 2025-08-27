@@ -111,15 +111,41 @@ dfProfileJoinedStats <- dfProfileJoined %>% filter(StationID %in% sStations)
 
 # Summarize years of data and locations for those points
 dfProfileSummary <- dfProfileJoinedStats %>% group_by(StationID, Description) %>% summarize(MinYear = min(Year), MaxYear = max(Year), Latitude = mean(Latitude), Longitude = mean(Longitude))
-, levels = sStations)
+
 
 # Summarize years/months/days where profile data exists for sites of interest 
 dfSiteProfileSummary <- dfProfileJoinedStats %>% group_by(StationID, Description, PosDate) %>% summarize(Latitude = mean(Latitude), Longitude = mean(Longitude))
 # Convert SiteId to a factor
 dfSiteProfileSummary$StationAsFactor <- as.factor(dfSiteProfileSummary$StationID)
 
-# Plot a figure to show the dates profile data were taken at each site
-ggplot(dfSitePro)
+# Plot a figure to show the dates profile data were taken at each site were sites are factors on the Y axis
+ggplot(dfSiteProfileSummary, aes(x = PosDate, y = StationAsFactor)) +
+  geom_point() +
+  
+  theme_bw() +
+  
+  labs(x="", y="Site") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+
+
+# Plot a figure to show the dates profile data were taken at each site were sites are factors on the Y axis
+ggplot(data = dfSiteProfileSummary, aes(x = PosDate, y = PosDate) ) +
+ 
+  geom_point(data = dfSiteProfileSummary %>% filter(StationAsFactor %in% sStations[4], year(PosDate) <= 1980), color = "blue") +
+  geom_point(data = dfSiteProfileSummary %>% filter(StationAsFactor %in% sStations[5], year(PosDate) <= 1980), color = "red") +
+  
+  theme_bw() +
+  
+  labs(x="", y="", color = "Station")
+  #labs(x="", y="Site") +
+  #theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+  #      legend.position = c(0.8,0.7))
+  theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+
+
+
 
 ##### Print a map of Lake Powell to see where the Locations are
 
