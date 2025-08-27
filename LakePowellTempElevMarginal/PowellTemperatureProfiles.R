@@ -92,8 +92,10 @@ dfProfileJoined$IntakeDepth_ft <- 3.28 * dfProfileJoined$IntakeDepth_m
 # Convert Date to POSIXct format R understands
 dfProfileJoined$PosDate <- as.POSIXct(dfProfileJoined$CollectionDateTime.x, format = "%m/%d/%Y %H:%M")
 
-# Calculate the year
+# Calculate the year, month, and dat
 dfProfileJoined$Year <- year(dfProfileJoined$PosDate)
+dfProfileJoined$Month <- month(dfProfileJoined$PosDate)
+dfProfileJoined$day <- day(dfProfileJoined$PosDate)
 
 # Calculate the intake elevation in feet to check that elevations are all the same
 dfProfileJoined$IntakeElevationMid_ft <- dfProfileJoined$LakeElevation_ft - dfProfileJoined$IntakeDepth_ft
@@ -109,6 +111,15 @@ dfProfileJoinedStats <- dfProfileJoined %>% filter(StationID %in% sStations)
 
 # Summarize years of data and locations for those points
 dfProfileSummary <- dfProfileJoinedStats %>% group_by(StationID, Description) %>% summarize(MinYear = min(Year), MaxYear = max(Year), Latitude = mean(Latitude), Longitude = mean(Longitude))
+, levels = sStations)
+
+# Summarize years/months/days where profile data exists for sites of interest 
+dfSiteProfileSummary <- dfProfileJoinedStats %>% group_by(StationID, Description, PosDate) %>% summarize(Latitude = mean(Latitude), Longitude = mean(Longitude))
+# Convert SiteId to a factor
+dfSiteProfileSummary$StationAsFactor <- as.factor(dfSiteProfileSummary$StationID)
+
+# Plot a figure to show the dates profile data were taken at each site
+ggplot(dfSitePro)
 
 ##### Print a map of Lake Powell to see where the Locations are
 
