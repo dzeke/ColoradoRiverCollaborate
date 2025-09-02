@@ -85,7 +85,7 @@ dfProfileJoined <- left_join(dfProfileJoined, dfStationData, by = c("StationID" 
 
 # Convert meters to feet
 dfProfileJoined$Depth_ft <- 3.28 * dfProfileJoined$Depth_m
-dfProfileJoined$LakeElevation_ft <- 3.28 * dfProfileJoined$LakeElevation_m
+dfProfileJoined$SurfaceElevation_ft <- 3.28 * dfProfileJoined$LakeElevation_m
 dfProfileJoined$BottomSounding_ft <- 3.28 * dfProfileJoined$BottomSounding_m
 dfProfileJoined$IntakeDepth_ft <- 3.28 * dfProfileJoined$IntakeDepth_m
 
@@ -98,7 +98,7 @@ dfProfileJoined$Month <- month(dfProfileJoined$PosDate)
 dfProfileJoined$day <- day(dfProfileJoined$PosDate)
 
 # Calculate the intake elevation in feet to check that elevations are all the same
-dfProfileJoined$IntakeElevationMid_ft <- dfProfileJoined$LakeElevation_ft - dfProfileJoined$IntakeDepth_ft
+dfProfileJoined$IntakeElevationMid_ft <- dfProfileJoined$SurfaceElevation_ft - dfProfileJoined$IntakeDepth_ft
 dfProfileJoined$MinimumPowerPool_ft <- 3490
 
 dfProfileSummary <- dfProfileJoined %>% group_by(StationID, Description) %>% summarize(MinYear = min(Year), MaxYear = max(Year), Latitude = mean(Latitude), Longitude = mean(Longitude))
@@ -149,6 +149,10 @@ ggplot(data = dfSiteProfileSummary, aes(x = PosDate, y = PosDate) ) +
 
 ##### Print a map of Lake Powell to see where the Locations are
 
+### Work more with Profile data
+# Convert depth to reservoir level
+dfProfileJoinedStats$Elevation_ft <- dfProfileJoinedStats$SurfaceElevation_ft - dfProfileJoinedStats$Depth_ft
+  
 
 #Interpolate reservoir storage from lake elevation
 ###dfProfileJoined$ActiveVolume_acft <- interp2(xi = dfProfileJoined$LakeElevation_ft,x=dfMeadElevStor$`Elevation (ft)` , y=dfMeadElevStor$`Live Storage (ac-ft)`, method="linear")
