@@ -24,9 +24,10 @@ broken out by month.
     2. Glen Canyon Dam hourly release data. Reclamation HDB Online Data Query Tool at https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
   
 3. Plot
-    1. Combined DyGraph (interactive timeseries plot) with Releases on left axis and Temperature on the second right axis.
-    2. Histogram of daily temperature differences
-    3. Histogram of daily temperature differences broken out by month (facet)
+    1. Release hydrographs only as a DyGraph (interactive timeseries plot).
+    2. Combined DyGraph (interactive timeseries plot) with Releases on left axis and Temperature on the second right axis.
+    3. Histogram of daily temperature differences
+    4. Histogram of daily temperature differences broken out by month (facet)
 
 ## Versions to use to reproduce results
 
@@ -151,6 +152,24 @@ dfXtsTemperature <- xts(cbind(dfTemperature$TemperatureC), order.by=dfTemperatur
 #   dySeries("V1", label = "Temperature") #%>%
 
 
+```
+
+# Figure 1. Interactive Lake Powell Release Hydrographs
+```{r PowellOutletreleaseFig1, echo=FALSE, warning=FALSE, message=FALSE}
+
+#Plot just the Release dygraph
+dygraph(dfXtsRelease, ylab = "Release (cfs)") %>% dyRangeSelector() %>%
+  dySeries("V1", label = "PowerRelease") %>%
+  dySeries("V2", label = "BypassRelease") %>%
+  dySeries("V3", label = "SpillwayRelease") %>%
+  dySeries("V4", label = "TotalRelease") # %>%
+
+
+```
+
+# Figure 2. Interactive Lake Powell Release and Temperature Hydrographs
+```{r PowellOutletreleaseFig2, echo=FALSE, warning=FALSE, message=FALSE}
+
 ###### Do a combined Release-Temperature plot
 
 #Left Join the Temperature data to the release data so only have hourly data.
@@ -159,11 +178,6 @@ dfReleasesTemperature <- na.omit(dfReleasesTemperature)
 
 #Convert to xts
 dfXtsReleasesTemperature <- xts(cbind(dfReleasesTemperature$PowerRelease, dfReleasesTemperature$BypassRelease, dfReleasesTemperature$SpillwayRelease, dfReleasesTemperature$TotalRelease, dfReleasesTemperature$TemperatureC), order.by = dfReleasesTemperature$DateTimePos)
-
-```
-
-# Figure 1. Interactive Lake Powell Release and Temperature Hydrographs
-```{r PowellOutletreleaseFig1, echo=FALSE, warning=FALSE, message=FALSE}
 
 
 #Plot the Release - Temperature dygraph
@@ -180,8 +194,8 @@ dygraph(dfXtsReleasesTemperature) %>% dyRangeSelector() %>%
 
 ```
 
-# Figure 2. Histogram of Daily Temperature Changes
-```{r PowellOutletreleaseFig2, echo=FALSE, warning=FALSE, message=FALSE}
+# Figure 3. Histogram of Daily Temperature Changes
+```{r PowellOutletreleaseFig3, echo=FALSE, warning=FALSE, message=FALSE}
 #### Build a histogram of daily change in temperature when bypass releases are happening.
  
 dfReleasesTemperature$Day <- day(dfReleasesTemperature$DateTime)
