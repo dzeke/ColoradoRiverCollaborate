@@ -31,7 +31,7 @@
 # Remove everything
 rm(list=ls())
 
-cPackages <- c("versions", "googlesheets4", "dygraphs", "tidyquant", "xts", "tidyverse", "tidyquant","lubridate", "stringr", "rvest", "RColorBrewer", "readxl", "ggmap" )
+cPackages <- c("versions", "googlesheets4", "dygraphs", "tidyquant", "xts", "tidyverse", "tidyquant","lubridate", "stringr", "rvest", "RColorBrewer", "readxl", "ggmap", "pracma" )
 
 # Install packages not yet installed
 installed_packages <- cPackages %in% rownames(installed.packages())
@@ -119,7 +119,7 @@ dfSiteProfileSummary <- dfProfileJoinedStats %>% group_by(StationID, Description
 dfSiteProfileSummary$StationAsFactor <- as.factor(dfSiteProfileSummary$StationID)
 
 # Plot a figure to show the dates profile data were taken at each site were sites are factors on the Y axis
-ggplot(dfSiteProfileSummary, aes(x = PosDate, y = StationAsFactor)) +
+ggplot(dfSiteProfileSummary %>% filter(year(PosDate) >= 2018), aes(x = PosDate, y = StationAsFactor)) +
   geom_point() +
   
   theme_bw() +
@@ -153,9 +153,17 @@ ggplot(data = dfSiteProfileSummary, aes(x = PosDate, y = PosDate) ) +
 # Convert depth to reservoir level
 dfProfileJoinedStats$Elevation_ft <- dfProfileJoinedStats$SurfaceElevation_ft - dfProfileJoinedStats$Depth_ft
   
-
 #Interpolate reservoir storage from lake elevation
-###dfProfileJoined$ActiveVolume_acft <- interp2(xi = dfProfileJoined$LakeElevation_ft,x=dfMeadElevStor$`Elevation (ft)` , y=dfMeadElevStor$`Live Storage (ac-ft)`, method="linear")
+dfProfileJoined$ActiveVolume_maf <- interp2(xi = dfProfileJoined$SurfaceElevation_ft, x=dfPowellBathymetry$`ELEVATION (feet)`, y=dfPowellBathymetry$`CAPACITY (acre-feet)`, method="linear") / 1e6 #Million Acre-feet
 
 
+# Plot the temperature profiles
+ggplot(data = dfProfileJoined %>% filter(Year >= 2018), aes(x= Temperature_C, y = SurfaceElevation_ft - Depth_ft)) +
+  geom_line() + 
+  facet_wrap ( ~ PosDate) + 
+  theme_bw() + 
+  labs(x=" Temperature (oC)", y = "Elevation (feet)") +
+  theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+
+  
 
