@@ -156,11 +156,12 @@ dfProfileJoinedStats$Elevation_ft <- dfProfileJoinedStats$SurfaceElevation_ft - 
 #Interpolate reservoir storage from lake elevation
 dfProfileJoined$ActiveVolume_maf <- interp2(xi = dfProfileJoined$SurfaceElevation_ft, x=dfPowellBathymetry$`ELEVATION (feet)`, y=dfPowellBathymetry$`CAPACITY (acre-feet)`, method="linear") / 1e6 #Million Acre-feet
 
+dfOneProfile <- dfProfileJoined %>% filter(Year == 2022, Month == 12, day == 8, StationID == sStations[4])
 
 # Plot the temperature profiles
-ggplot(data = dfProfileJoined %>% filter(Year >= 2018), aes(x= Temperature_C, y = SurfaceElevation_ft - Depth_ft)) +
+ggplot(data = dfOneProfile , aes(x= Temperature_C, y = SurfaceElevation_ft - Depth_ft)) +
   geom_line() + 
-  facet_wrap ( ~ PosDate) + 
+  #facet_wrap ( ~ PosDate) + 
   theme_bw() + 
   labs(x=" Temperature (oC)", y = "Elevation (feet)") +
   theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
