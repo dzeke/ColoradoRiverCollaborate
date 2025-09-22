@@ -156,41 +156,54 @@ dfProfileJoinedStats$Elevation_ft <- dfProfileJoinedStats$SurfaceElevation_ft - 
 #Interpolate reservoir storage from lake elevation
 dfProfileJoined$ActiveVolume_maf <- interp2(xi = dfProfileJoined$SurfaceElevation_ft, x=dfPowellBathymetry$`ELEVATION (feet)`, y=dfPowellBathymetry$`CAPACITY (acre-feet)`, method="linear") / 1e6 #Million Acre-feet
 
+#Calculate elevation from surface elevation and depth
+dfProfileJoined$Elevation_ft <- dfProfileJoined$SurfaceElevation_ft - dfProfileJoined$Depth_ft
 # Create a single Year - Month column
 dfProfileJoined$YearMonth <- paste(dfProfileJoined$Year, sep = "-", dfProfileJoined$Month)
 
 # Reorder as a factor so 2022-1, 2022-2, 2022-3, ..., 2022-9, 2022-10, 2022-11, 2022-12)
 cUniqueYearMonth <- unique(dfProfileJoined$YearMonth)
-
 dfProfileJoined$YearMonth <- ordered(dfProfileJoined$YearMonth, levels = cUniqueYearMonth)
+
+#Reorder Month as a factor to
+cUniqueMonth <- unique(dfProfileJoined$Month)
+dfProfileJoined$MonthFact <- ordered(dfProfileJoined$Month, levels = cUniqueMonth)
 
 
 #Filter for a particular year(s)
-dfOneProfile <- dfProfileJoined %>% filter(Year == 2022, StationID == sStations[4])
+nStartYear <- 2017
+nStartMonth <- 5
+
+dfOneProfile <- dfProfileJoined %>% filter(Year >= nStartYear, Month >= nStartMonth, StationID == sStations[4])
 # Filter for the last points for use in labeling the end of the line with ggrepel
 last_points <- dfOneProfile %>% group_by(YearMonth) %>% slice(which.max(Temperature_C))
 
+nNumYears <- max(dfOneProfile$Year) - nStartYear + 1
+nNumMonths <- max(dfOneProfile$Month) - nStartMonth + 1
 # Plot the temperature profiles
 
 palBluesBase <- brewer.pal(9, "Blues")
 myColorRamp <- colorRampPalette(palBluesBase)
-palBluesBig <- myColorRamp(24)
+palBluesBig <- myColorRamp(nNumYears*nNumMonths*2)
 
-ggplot(data = dfOneProfile , aes(x= Temperature_C, y = SurfaceElevation_ft - Depth_ft, color = YearMonth)) +
+
+#Temperature profiles, all years and months from light to dark blue
+ggplot(data = dfOneProfile , aes(x= Temperature_C, y = Elevation_ft , color = YearMonth)) +
   geom_line(size = 1) + 
   #Add horizonal lines for Minimum Power Pool and River outlets
   geom_hline(yintercept = 3490, color = "red", linetype = "dashed", size = 1.5) + 
   geom_hline(yintercept = 3370, color = "red", linetype = "dashed", size = 1.5) +
   
-  geom_label_repel(data = last_points, aes(label = YearMonth, color = YearMonth),
+  geom_label_repel(data = last_points, aes(label = Month, color = YearMonth),
                    nudge_x = 0.5, # Adjust as needed for spacing
                    na.rm = TRUE) + # Remove labels for NA values
   
-  #facet_wrap ( ~ Year + Month) + 
-  scale_color_manual(values = palBluesBig[13:24]) +
+  facet_wrap ( ~ Year) + 
+  scale_color_manual(values = palBluesBig[(nNumYears*nNumMonths+1):(nNumYears*nNumMonths*2)]) +
+  #scale_color_manual(values = palBluesBig[seq(24,48,2)]) +
   theme_bw() + 
   labs(x=" Temperature (oC)", y = "Elevation (feet)") +
-  theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
+  theme(text = element_text(size=20), legend.position = "none") #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
 
   
 
