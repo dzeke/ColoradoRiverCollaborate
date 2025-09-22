@@ -171,7 +171,7 @@ dfProfileJoined$MonthFact <- ordered(dfProfileJoined$Month, levels = cUniqueMont
 
 
 #Filter for a particular year(s)
-nStartYear <- 2017
+nStartYear <- 2022
 nStartMonth <- 5
 
 nMinPowerPoolElevation <- 3490
@@ -190,7 +190,7 @@ myColorRamp <- colorRampPalette(palBluesBase)
 palBluesBig <- myColorRamp(nNumMonths*2)
 
 
-#Temperature profiles, selected years, months from light to dark blue
+#Plot Temperature profiles, selected years, months from light to dark blue, horizontal lines in red for Minimum power pool and river outlet elevations
 ggplot(data = dfOneProfile , aes(x= Temperature_C, y = Elevation_ft , color = MonthFact)) +
   geom_line(size = 1) + 
   #Add horizonal lines for Minimum Power Pool and River outlets
@@ -208,5 +208,10 @@ ggplot(data = dfOneProfile , aes(x= Temperature_C, y = Elevation_ft , color = Mo
   labs(x=" Temperature (oC)", y = "Elevation (feet)") +
   theme(text = element_text(size=20), legend.position = "none") #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
 
-  
+# Filter 1 month of temperature profiles
+dfOneMonth <- dfOneProfile %>% filter(Year == max(Year), Month == 10) %>% arrange(Elevation_ft)
+# Calculate the temperature at the minimum power pool elevation for each year and month
+nTurbineTemperatures <- interp2(xi = nMinPowerPoolElevation, y=dfOneMonth$Temperature_C, x=dfOneMonth$Elevation_ft, method="linear")
+
+
 
