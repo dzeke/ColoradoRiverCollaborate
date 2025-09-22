@@ -174,6 +174,9 @@ dfProfileJoined$MonthFact <- ordered(dfProfileJoined$Month, levels = cUniqueMont
 nStartYear <- 2017
 nStartMonth <- 5
 
+nMinPowerPoolElevation <- 3490
+nRiverOutletElevation <- 3370
+
 dfOneProfile <- dfProfileJoined %>% filter(Year >= nStartYear, Month >= nStartMonth, StationID == sStations[4])
 # Filter for the last points for use in labeling the end of the line with ggrepel
 last_points <- dfOneProfile %>% group_by(YearMonth) %>% slice(which.max(Temperature_C))
@@ -187,12 +190,12 @@ myColorRamp <- colorRampPalette(palBluesBase)
 palBluesBig <- myColorRamp(nNumMonths*2)
 
 
-#Temperature profiles, all years and months from light to dark blue
+#Temperature profiles, selected years, months from light to dark blue
 ggplot(data = dfOneProfile , aes(x= Temperature_C, y = Elevation_ft , color = MonthFact)) +
   geom_line(size = 1) + 
   #Add horizonal lines for Minimum Power Pool and River outlets
-  geom_hline(yintercept = 3490, color = "red", linetype = "dashed", size = 1.5) + 
-  geom_hline(yintercept = 3370, color = "red", linetype = "dashed", size = 1.5) +
+  geom_hline(yintercept = nMinPowerPoolElevation, color = "red", linetype = "dashed", size = 1.5) + 
+  geom_hline(yintercept = nRiverOutletElevation, color = "red", linetype = "dashed", size = 1.5) +
   
   geom_label_repel(data = last_points, aes(label = Month, color = MonthFact),
                    nudge_x = 0.5, # Adjust as needed for spacing
