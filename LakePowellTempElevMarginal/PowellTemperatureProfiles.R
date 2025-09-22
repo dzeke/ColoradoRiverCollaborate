@@ -156,12 +156,21 @@ dfProfileJoinedStats$Elevation_ft <- dfProfileJoinedStats$SurfaceElevation_ft - 
 #Interpolate reservoir storage from lake elevation
 dfProfileJoined$ActiveVolume_maf <- interp2(xi = dfProfileJoined$SurfaceElevation_ft, x=dfPowellBathymetry$`ELEVATION (feet)`, y=dfPowellBathymetry$`CAPACITY (acre-feet)`, method="linear") / 1e6 #Million Acre-feet
 
-dfOneProfile <- dfProfileJoined %>% filter(Year == 2022, Month == 12, day == 8, StationID == sStations[4])
+# Creat a single Year - Month column
+dfProfileJoined$YearMonth <- as.factor(paste(dfProfileJoined$Year,dfProfileJoined$Month))
+
+dfOneProfile <- dfProfileJoined %>% filter(Year == 2022, StationID == sStations[4])
 
 # Plot the temperature profiles
-ggplot(data = dfOneProfile , aes(x= Temperature_C, y = SurfaceElevation_ft - Depth_ft)) +
+
+palBluesBase <- brewer.pal(9, "Blues")
+myColorRamp <- colorRampPalette(palBluesBase)
+palBlues12 <- myColorRamp(12)
+
+ggplot(data = dfOneProfile , aes(x= Temperature_C, y = SurfaceElevation_ft - Depth_ft, color = YearMonth)) +
   geom_line() + 
-  #facet_wrap ( ~ PosDate) + 
+  #facet_wrap ( ~ Year + Month) + 
+  scale_color_manual(values = palBlues12) +
   theme_bw() + 
   labs(x=" Temperature (oC)", y = "Elevation (feet)") +
   theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
