@@ -184,22 +184,22 @@ nNumMonths <- max(dfOneProfile$Month) - nStartMonth + 1
 
 palBluesBase <- brewer.pal(9, "Blues")
 myColorRamp <- colorRampPalette(palBluesBase)
-palBluesBig <- myColorRamp(nNumYears*nNumMonths*2)
+palBluesBig <- myColorRamp(nNumMonths*2)
 
 
 #Temperature profiles, all years and months from light to dark blue
-ggplot(data = dfOneProfile , aes(x= Temperature_C, y = Elevation_ft , color = YearMonth)) +
+ggplot(data = dfOneProfile , aes(x= Temperature_C, y = Elevation_ft , color = MonthFact)) +
   geom_line(size = 1) + 
   #Add horizonal lines for Minimum Power Pool and River outlets
   geom_hline(yintercept = 3490, color = "red", linetype = "dashed", size = 1.5) + 
   geom_hline(yintercept = 3370, color = "red", linetype = "dashed", size = 1.5) +
   
-  geom_label_repel(data = last_points, aes(label = Month, color = YearMonth),
+  geom_label_repel(data = last_points, aes(label = Month, color = MonthFact),
                    nudge_x = 0.5, # Adjust as needed for spacing
                    na.rm = TRUE) + # Remove labels for NA values
   
   facet_wrap ( ~ Year) + 
-  scale_color_manual(values = palBluesBig[(nNumYears*nNumMonths+1):(nNumYears*nNumMonths*2)]) +
+  scale_color_manual(values = palBluesBig[(nNumMonths+1):(nNumMonths*2)]) +
   #scale_color_manual(values = palBluesBig[seq(24,48,2)]) +
   theme_bw() + 
   labs(x=" Temperature (oC)", y = "Elevation (feet)") +
