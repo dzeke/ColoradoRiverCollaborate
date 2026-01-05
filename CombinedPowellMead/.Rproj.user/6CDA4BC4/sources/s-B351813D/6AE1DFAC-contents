@@ -154,25 +154,27 @@ dfMeadHist$Stor <- interp1(xi = dfMeadHist$value,y=dfMeadElevStor$`Live Storage 
 #Interpolate Powell storage from level to check
 dtStart <- as.Date("1963-12-22")
 dfPowellHist <- dfPowellHistorical[15:759,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
+
+dfPOwellHist <-DateAsValueEror <- as.Date(dfPowellHist$Date)
 #Convert date text to date value
-dfPowellHist$DateAsValueError <- as.Date(dfPowellHist$Date,"%d-%b-%y")
+dfPowellHist$DateAsValueError <- as.Date(dfPowellHist$Date,"%d-%b-%Y")
 #Apparently R breaks the century at an odd place
 #Coerce the years after 2030 (really 1930) to be in prior century (as.Date conversion error)
-dfPowellHist$Year <- as.numeric(format(dfPowellHist$DateAsValueError,"%Y"))
+#dfPowellHist$Year <- as.numeric(format(dfPowellHist$DateAsValueError,"%Y"))
 dfPowellHist$DateAsValue <- dfPowellHist$DateAsValueError
 #dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] <- dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] %m-% months(12*100)
 #dfPowellHist$StorCheck <- interp1(xi = dfPowellHist$Elevation..feet.,y=dfPowellElevStor$`Live Storage (ac-ft)`,x=dfPowellElevStor$`Elevation (ft)`, method="linear")
 #dfPowellHist$StorDiff <- dfPowellHist$Storage..af. - dfPowellHist$StorCheck
 
 #Merge the Mead and Powell Storage Time series
-dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage..af.","Total.Release..cfs.")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
+dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage (af)","Total Release (cfs)")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
 #Rename columns so they are easier to distinquish
-dfJointStorage$PowellStorage <- dfJointStorage$Storage..af./1000000
-dfJointStorage$PowellRelease <- dfJointStorage$Total.Release..cfs.
+dfJointStorage$PowellStorage <- dfJointStorage$`Storage (af)`/1000000
+dfJointStorage$PowellRelease <- dfJointStorage$`Total Release (cfs)`
 dfJointStorage$MeadStorage <- dfJointStorage$Stor/1000000
 #dfJointStorage$DateAsValue <- as.Date(dfJointStorage$Date,"%d-%b-%y")
 #Remove the old columns
-dfJointStorage <- dfJointStorage[, !names(dfJointStorage) %in% c("Storage..af.","Total.Release..cfs.","Stor")]
+dfJointStorage <- dfJointStorage[, !names(dfJointStorage) %in% c("Storage (af)","Total Release (cfs)","Stor")]
 #Add a column for decade
 dfJointStorage$decade <- round_any(as.numeric(format(dfJointStorage$DateAsValue,"%Y")),10,f=floor)
 #dfJointStorage$DecadeAsClass <- dfJointStorage %>% mutate(category=cut(decade, breaks=seq(1960,2020,by=10), labels=seq(1960,2020,by=10)))
@@ -219,7 +221,9 @@ ggplot() +
   scale_color_manual(values = c("purple","red","blue"), breaks=c("Combined", "Powell", "Mead")) +
   #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
   scale_y_continuous(breaks = seq(0,50,by=10),labels=seq(0,50,by=10)) +
-  scale_x_date(limits= c(as.Date("1968-01-01"), as.Date("2030-01-01"))) +
+  scale_x_date(limits= c(as.Date("1968-01-01"), as.Date("2030-01-01")),
+               date_breaks = "10 years", # Major ticks every 10 years
+               date_labels = "%Y") +
   
   
   #    scale_y_continuous(breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]),labels=c(0,5.98,9.6,12.2,dfMaxStor[2,2]),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]), labels = c(895,1025,1075,1105,1218.8))) +
