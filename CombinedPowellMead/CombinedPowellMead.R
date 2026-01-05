@@ -111,6 +111,7 @@ sPowellHistoricalFile <- 'PowellDataUSBRJan2019.csv'
 sPowellHistoricalFile <- 'PowellDataUSBRMay2021.csv'
 sPowellHistoricalFile <- 'PowellDataUSBROct2021.csv'
 sPowellHistoricalFile <- 'PowellDataUSBRMar2022-Try2.csv'
+sPowellHistoricalFile <- 'PowellDataUSBRJan2026.csv'
 
 # File name to read in Mead end of month reservoir level in feet - cross tabulated by year (1st column) and month (subsequent columns)
 #    LAKE MEAD AT HOOVER DAM, END OF MONTH ELEVATION (FEET), Lower COlorado River Operations, U.S. Buruea of Reclamation
@@ -119,13 +120,19 @@ sPowellHistoricalFile <- 'PowellDataUSBRMar2022-Try2.csv'
 sMeadHistoricalFile <- 'MeadLevel.xlsx'
 sMeadHistoricalFile <- 'MeadLevelOct2021.xlsx'
 sMeadHistoricalFile <- 'MeadLevelMar2022.xlsx'
+sMeadHistoricalFile <- 'MeadLevelMar2022-Try2.xlsx'
+sMeadHistoricalFile <- 'MeadLevelJan2026.xlsx'
+
 
 # Read in the historical Powell data
-dfPowellHistorical <- read.csv(file=sPowellHistoricalFile, 
-                               header=TRUE, 
-                               
-                               stringsAsFactors=FALSE,
-                               sep=",")
+# Try via Tidyverse
+dfPowellHistorical <- read_csv(sPowellHistoricalFile)
+
+# dfPowellHistorical <- read.csv(file=sPowellHistoricalFile, 
+#                                header=TRUE, 
+#                                
+#                                stringsAsFactors=FALSE,
+#                                sep=",")
 
 #dfPowellHistorical <- read_excel('PowellDataUSBRMar2022-Test.xlsx')
 # Read in the historical Mead data
@@ -146,7 +153,7 @@ dfMeadHist$Stor <- interp1(xi = dfMeadHist$value,y=dfMeadElevStor$`Live Storage 
 
 #Interpolate Powell storage from level to check
 dtStart <- as.Date("1963-12-22")
-dfPowellHist <- dfPowellHistorical[15:714,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
+dfPowellHist <- dfPowellHistorical[15:759,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
 #Convert date text to date value
 dfPowellHist$DateAsValueError <- as.Date(dfPowellHist$Date,"%d-%b-%y")
 #Apparently R breaks the century at an odd place
