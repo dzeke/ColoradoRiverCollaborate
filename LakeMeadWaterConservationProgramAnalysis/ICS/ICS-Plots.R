@@ -12,7 +12,8 @@
 # Updated June 10, 2021 to include 2020 data.
 
 # Updated September 11, 2023 to include 2021 and 2022 data
-
+#
+# Updated January 13, 2026 to include up to 2024 data
 #
 # David E. Rosenberg
 # September 11, 2023
