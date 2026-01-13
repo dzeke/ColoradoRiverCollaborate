@@ -90,9 +90,12 @@ dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 10,sum,
 #9-year total
 dfPowellAnnual$NineYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 9,sum, fill=NA, align="right")
 
-#75 and 82.5 MAF ten-year targets
+#7.48 and 8.23 MAF annual targets
 dfPowellAnnual$OneYearTarget <- 7.48  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
 dfPowellAnnual$OneYearTarget82 <- dfPowellAnnual$OneYearTarget + 0.75
+dfPowellAnnual$TenYearTarget <- dfPowellAnnual$OneYearTarget * 10  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
+dfPowellAnnual$TenYearTarget82 <- dfPowellAnnual$TenYearTarget + 10*0.75
+
 
 # # Difference between 10-year and target
 # dfPowellAnnual$Diff75 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget
@@ -116,18 +119,15 @@ dfPowellAnnual$OneYearTarget82 <- dfPowellAnnual$OneYearTarget + 0.75
 #Export to CSV
 write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
 
-#Pivot the Wide format to Longer for Plotting with different colors
-
-dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualRelease, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
-
-dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualRelease", "OneYearTarget82", "OneYearTarget") )
 #Get the color palettes
 #Get the blue color bar
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
 
 #### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
-# The different plot lines
+#Pivot the Wide format to Longer for Plotting with different colors
+dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualRelease, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
+dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualRelease", "OneYearTarget82", "OneYearTarget") )
 
 ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
   #Powell release 
@@ -142,53 +142,34 @@ ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYea
   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
   #theme(text = element_text(size=20), legend.text=element_text(size=16)
 
-ggsave("PowellMonthYearDecadeRelease.png", width=9, height = 6.5, units="in")
+ggsave("PowellAnnualRelease.png", width=9, height = 6.5, units="in")
 
 
-ggplot() +
-  #Powell release - annual
-  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=AnnualRelease, color="Release"), size=2) +
+#### Figure 2. Ten-Year Powell Release compared to 10-year targets
+
+#Pivot the Wide format to Longer for Plotting with different colors
+dfPowellTenYearLong <- pivot_longer(data = dfPowellAnnual, cols = c(TenYearRelease, TenYearTarget, TenYearTarget82), names_to = "DataType", values_to = "Flow")
+dfPowellTenYearLong$DataTypeFactor <- factor(dfPowellTenYearLong$DataType, levels = c("TenYearRelease", "TenYearTarget82", "TenYearTarget") )
+
+ggplot(data = dfPowellTenYearLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
+  #Powell release 
+  geom_line(size=2) +
   
-  #  10-year sum
-  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=TenYearRelease, color="10-year"), size=2) +
-  
-  geom_line(data=dfPowellHist,aes(x=DateAsValue,y=TenYearTarget, color="Target"), size=2) +
-  # Targets
-  
+  scale_color_manual(labels = c("10-Year Release", "82.3 Target", "74.8 Target"), values = c("TenYearRelease" = pBlues[8], "TenYearTarget82" =  pReds[7], "TenYearTarget" = pReds[4])) +
+  scale_linetype_manual(labels = c("10-Year Release", "82.3 Target", "74.8 Target"), values = c("TenYearRelease" = "solid", "TenYearTarget82" =  "dashed", "TenYearTarget" = "twodash")) +
+  scale_x_continuous(breaks = seq(1970,2026,5)) +
   theme_bw() +
   #coord_fixed() +
-  labs(x="", y="Powel Release\n(million acre-feet)") +
+  labs(x="", y="Powell Release\n(million acre-feet per year)") +
   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
 #theme(text = element_text(size=20), legend.text=element_text(size=16)
 
-ggsave("PowellMonthYearDecadeRelease.png", width=9, height = 6.5, units="in")
+ggsave("PowellAnnualRelease.png", width=9, height = 6.5, units="in")
 
 
 
-#### Powell Release over time - annual
 
-ggplot() +
-  #Powell release - monthly
-  #geom_line(data=dfPowellHistAnnual,aes(x=DateAsValue,y=Total.Release..cfs.*nCFSToAF /1e6, color="Monthly"), size=2) +
-  # Powell release-  annual
-  geom_line(data=dfPowellHistAnnual,aes(x=DateAsValue,y=OneYearRelease, color="1-Year Total"), size=2) +
-  #geom_bar(data=dfPowellHistAnnual,aes(x=DateAsValue,y=OneYearRelease, color="1-Year Total")) +
-  
-  #  10-year sum
-  geom_line(data=dfPowellHistAnnual,aes(x=DateAsValue,y=TenYearRelease, color="10-Year Total"), size=2) +
-  
-  # 10-year 75 MAF target
-  geom_line(data=dfPowellHistAnnual,aes(x=DateAsValue,y=TenYearTarget, color="75 MAF Target"), size=2) +
-  # 10-year 82.3 MAF target. 82.3 = 75 to Lower Basin + 7.25 to Mexico - 0.2 Help from Paria River
-  geom_line(data=dfPowellHistAnnual,aes(x=DateAsValue,y=TenYearTarget82, color="82.3 MAF Target"), size=2) +
-  
-  theme_bw() +
-  #coord_fixed() +
-  labs(x="", y="Powel Release (million acre-feet)") +
-  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
-#theme(text = element_text(size=20), legend.text=element_text(size=16)
 
-ggsave("PowellReleaseTargets.png", width=9, height = 6.5, units="in")
 
 
 #### 10-Year Difference between Release and 82.3 target
