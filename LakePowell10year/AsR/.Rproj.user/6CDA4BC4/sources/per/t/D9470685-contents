@@ -164,7 +164,7 @@ ggplot(data = dfPowellTenYearLong %>% filter(WaterYear >= 1995), aes(x = WaterYe
   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
 #theme(text = element_text(size=20), legend.text=element_text(size=16)
 
-ggsave("PowellAnnualRelease.png", width=9, height = 6.5, units="in")
+ggsave("PowellTenYearRelease.png", width=9, height = 6.5, units="in")
 
 
 
