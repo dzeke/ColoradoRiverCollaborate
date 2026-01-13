@@ -1,108 +1,52 @@
-# Powell10Year.r
+# Powell10Year-AutoImport.r
 #
 # Plot 10-year running total release from Lake Powell
 #
 # This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
 # Please report bugs/feedback to me (contact info below)
 #
-# Data from USBR (2020) - https://www.usbr.gov/rsvrWater/HistoricalApp.html
+# Auto download data from Reclamation's HydroData portal - https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
 #
+# The data wrangling strategy is:
+#   1. Auto download the release data from Reclamation's HydroData portal into CSV file format
+#   2. Clean and covert Reclamation's date format to a format R understands
+#   3. Calculate Water Year and sum daily values to annual and 10-year running sums.
+#   4. Plot stuff.
+
 # David E. Rosenberg
-# June 1, 2020
+# January 13, 2026
 # Utah State University
 # david.rosenberg@usu.edu
 
 rm(list = ls())  #Clear history
 
-# Load required libraies
-
-if (!require(tidyverse)) { 
-  install.packages("tidyverse", repos="http://cran.r-project.org") 
-  library(tidyverse) 
-}
-
-if (!require(readxl)) { 
-  install.packages("readxl", repos="http://cran.r-project.org") 
-  library(readxl) 
-}
-
-  
-if (!require(RColorBrewer)) { 
-  install.packages("RColorBrewer",repos="http://cran.r-project.org") 
-  library(RColorBrewer) # 
-}
-
-if (!require(dplyr)) { 
-  install.packages("dplyr",repos="http://cran.r-project.org") 
-  library(dplyr) # 
-}
-
-if (!require(expss)) { 
-  install.packages("expss",repos="http://cran.r-project.org") 
-  library(expss) # 
-}
-
-if (!require(reshape2)) { 
-  install.packages("reshape2", repos="http://cran.r-project.org") 
-  library(reshape2) 
-}
-
-if (!require(pracma)) { 
-  install.packages("pracma", repos="http://cran.r-project.org") 
-  library(pracma) 
-}
-
-if (!require(lubridate)) { 
-  install.packages("lubridate", repos="http://cran.r-project.org") 
-  library(lubridate) 
-}
-
-if (!require(directlabels)) { 
-  install.packages("directlabels", repo="http://cran.r-project.org")
-  library(directlabels) 
-}
-
-
-if (!require(plyr)) { 
-  install.packages("plyr", repo="http://cran.r-project.org")
-  library(plyr) 
-}
-
-if (!require(ggplot2)) { 
-  install.packages("colorspace", type = "source")
-  library(colorspace)
-  install.packages("yaml", type = "source")
-  library(yaml)
-  install.packages("ggplot2", type = "source")
-  library(ggplot2) 
-}
+# Load required libraries in 1 go
+# List of packages
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo")
+# Then we select only the packages that aren't currently installed.
+install.lib <- load.lib[!load.lib %in% installed.packages()]
+# And finally we install the missing packages, including their dependency.
+for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+# After the installation process completes, we load all packages.
+sapply(load.lib,require,character=TRUE)
 
 
 
-if (!require(ggrepel)) { 
-  devtools::install_github("slowkow/ggrepel")
-  library(ggrepel) 
-}
+# Read in Lake Powell release from Reclamation's HydroPortal
+# Details
+# Lake Powell is Reservoir Code 919
+# Lake Powell total release is Code 42
+#
+# Thus the download query to CSV format is https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/42.csv
 
-#For rollapply - running sum
-if (!require(zoo)) { 
-  install.packages("zoo", type = "source")
-  library(zoo) 
-}
-
-
-
-
-sPowellHistoricalFile <- 'PowellDataUSBRMay2021.csv'
-sPowellHistoricalFile <- 'PowellDataUSBRJanuary2026.csv'
-#sPowellHistoricalFile <- 'PowellDataUSBRJanuary2026Daily.csv'
+sPowellReleaseDataCode <- 'https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/42.csv'
 
 # File name to read in Mead end of month reservoir level in feet - cross tabulated by year (1st column) and month (subsequent columns)
 #    LAKE MEAD AT HOOVER DAM, END OF MONTH ELEVATION (FEET), Lower COlorado River Operations, U.S. Buruea of Reclamation
 #    https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html
 
 # Read in the historical Powell data
-dfPowellHistorical <- read.csv(file=sPowellHistoricalFile, 
+dfPowellHistorical <- read.csv(file=sPowellReleaseDataCode, 
                                header=TRUE, 
                                
                                stringsAsFactors=FALSE,

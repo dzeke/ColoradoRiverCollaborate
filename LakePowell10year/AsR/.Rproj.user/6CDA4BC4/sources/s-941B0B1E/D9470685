@@ -1,9 +1,9 @@
 {
     "id": "D9470685",
-    "path": "C:/Rosenberg/Work/USU/Research/ColoradoRiver/RCode/ColoradoRiverCollaborate/LakePowell10year/AsR/Powell10Year.R",
-    "project_path": "Powell10Year.R",
+    "path": "C:/Rosenberg/Work/USU/Research/ColoradoRiver/RCode/ColoradoRiverCollaborate/LakePowell10year/AsR/Powell10Year-AutoImport.R",
+    "project_path": "Powell10Year-AutoImport.R",
     "type": "r_source",
-    "hash": "1446972641",
+    "hash": "2908940951",
     "contents": "",
     "dirty": false,
     "created": 1768255317080.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "307,0",
-        "scrollLine": "302"
+        "cursorPosition": "53,0",
+        "scrollLine": "40"
     },
     "folds": "",
-    "lastKnownWriteTime": 1768262016,
+    "lastKnownWriteTime": 1768332346,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1768262017031,
+    "last_content_update": 1768332346263,
     "read_only": false,
     "read_only_alternatives": []
 }
