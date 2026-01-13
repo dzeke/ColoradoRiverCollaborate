@@ -5,7 +5,7 @@
 # This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
 # Please report bugs/feedback to me (contact info below)
 #
-# Auto download data from Reclamation's HydroData portal - https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
+# Auto download daily data from Reclamation's HydroData portal - https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
 #
 # The data wrangling strategy is:
 #   1. Auto download the release data from Reclamation's HydroData portal into CSV file format
@@ -32,7 +32,7 @@ sapply(load.lib,require,character=TRUE)
 
 
 
-# Read in Lake Powell release from Reclamation's HydroPortal
+# Read in daily Lake Powell release from Reclamation's HydroPortal
 # Details
 # Lake Powell is Reservoir Code 919
 # Lake Powell total release is Code 42
@@ -55,36 +55,12 @@ dfPowellHistorical <- read.csv(file=sPowellReleaseDataCode,
 
 #Interpolate Powell storage from level to check
 ## For 2020 data
-dtStart <- as.Date("1963-12-22")
-dfPowellHist <- dfPowellHistorical[15:692,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
-dAddInterval <- 12  # months
 
-# For 2021 data
-dtStart <- as.Date("1963-06-29")
-dfPowellHist <- dfPowellHistorical[112:21237,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
-dAddInterval <- 365 #days
-
-# For 2026 data
-# dtStart <- as.Date("1963-06-29")
-# dfPowellHist <- dfPowellHistorical[26:22954,] #%>% filter(dfPowellHistorical$Date >= dtStart) # I don't like this hard coding but don't know a way around
-# dAddInterval <- 365 #days
-
-
+dfPowellHist <- dfPowellHistorical
+dDateInterval <- 365 # Days
 
 #Convert date text to date value
-dfPowellHist$DateAsValueError <- as.Date(dfPowellHist$Date,"%d-%b-%y")
-#Apparently R breaks the century at an odd place
-#Coerce the years after 2030 (really 1930) to be in prior century (as.Date conversion error)
-dfPowellHist$DateAsValue <- dfPowellHist$DateAsValueError
-dfPowellHist$Year <- as.numeric(format(dfPowellHist$DateAsValueError,"%Y"))
-dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] <- dfPowellHist$DateAsValue[dfPowellHist$Year > 2030] %m-% months(12*100)
-
-
-# library(xts)
-# data(sample_matrix)
-# samplexts <- as.xts(dfPowellHist)
-# to.monthly(dfPowellHist) 
-
+dfPowellHist$DateValue <- as.POSIXct(dfPowellHist$datetime)
 
 # Convert CFS to Acre-feet per month
 nCFStoAFMon <- 60.37
@@ -92,120 +68,100 @@ nCFStoAFDay <- nCFStoAFMon/30.5
 
 nCFSToAF <- nCFStoAFDay
 
-#Annual total release
-dfPowellHist$OneYearRelease <- rollapply(dfPowellHist$Total.Release..cfs.*nCFSToAF /1e6, dAddInterval,sum, fill=NA, align="right")
+#Calculate Day, Month, and Year
+dfPowellHist$Year <- year(dfPowellHist$DateValue)
+dfPowellHist$Month <- month(dfPowellHist$DateValue)
+dfPowellHist$Day <- day(dfPowellHist$DateValue)
 
-#Annual inflow
-dfPowellHist$OneYearInflow <- rollapply(dfPowellHist$Inflow....cfs.*nCFSToAF /1e6, dAddInterval,sum, fill=NA, align="right")
+#Calculate Water Year
+dfPowellHist$WaterYear <- ifelse(dfPowellHist$Month >= 10, dfPowellHist$Year + 1, dfPowellHist$Year)
 
-#Annual evaporation
-dfPowellHist$OneYearEvap <- rollapply(dfPowellHist$Evaporation..af./1e6, dAddInterval,sum, fill=NA, align="right")
+#Calculate Annual flow in million acre-feet
+dfPowellAnnual <- dfPowellHist %>% select(WaterYear, total.release) %>% group_by(WaterYear) %>% dplyr::summarize(AnnualRelease = sum(total.release)*nCFSToAF/1e6)
 
+#Trim first and last years with incomplete data
+nFirstYear <- min(dfPowellAnnual$WaterYear) + 1
+nLastYear <-  max(dfPowellAnnual$WaterYear)
 
-#Calculate evporation by rates and area
-# New function interp2 to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
-interp2 <- function(x, y, xi = x, ...) {
-  yi <- rep(NA, length(xi));
-  sel <- which(xi >= range(x)[1] & xi <= range(x)[2]);
-  yi[sel] <- interp1(x = x, y = y, xi = xi[sel], ...);
-  return(yi);
-}
-
-###This reservoir data comes from CRSS. It was exported to Excel.
-
-# Read elevation-storage data in from Excel
-sExcelFile <- 'MeadDroughtContingencyPlan.xlsx'
-dfPowellElevStor <- read_excel(sExcelFile, sheet = 'Powell-Elevation-Area',  range = "A4:D689")
-
-#Evaporation rates from CRSS
-# Evaporation Rates from Schmidt et al (2016) Fill Mead First, p. 29, Table 2 - https://qcnr.usu.edu/wats/colorado_river_studies/files/documents/Fill_Mead_First_Analysis.pdf
-dfEvapRates <- data.frame(Reservoir = c("Mead","Mead","Powell"),"Rate ft per year" = c(5.98,6.0, 5.73), Source = c("CRSS","FEIS-2008","Reclamation"), MinRate = c(NA,5.5,4.9), MaxRate = c(NA,6.4, 6.5))
-
-dfEvapRatesMonth <- data.frame(Reservoir = c(rep("Powell",12),rep("Mead",12)),
-                               Month = c(seq(1,12,by=1),seq(1,12,by=1)),
-                               EvapFeet = c(0.24, 0.19,0.29,0.38,0.5,0.63,0.7,0.77,0.69,0.52,0.41,0.36,
-                                            0.3,0.28,0.29,0.4,0.53,0.63,0.6,0.67,0.64,0.64,0.55,0.45))
-
-#### These evaporation calculations are for monthly data and need to be changed to daily
-
-#Calculate evaporated volume for Powell
-# Max evaporation is product of annual evaporation rate and area (assumes water always stays at same level through year, there is inflow!
-EvapRatesToUsePowell = as.numeric(dfEvapRates %>% filter(Reservoir %in% c("Powell"), Source %in% c("Reclamation")) %>% select(Rate.ft.per.year))
-
-#Estimate the annual evap volume from Oct 1 area and annual rate
-dfPowellHist$EvaporationAnnual <- interp2(xi = dfPowellHist$Elevation..feet.,x=dfPowellElevStor$`Elevation (ft)`,y=dfPowellElevStor$`Area (acres)`, method="linear")*EvapRatesToUsePowell/1e6
-
-dfPowellMonthRates <- dfEvapRatesMonth %>% filter(Reservoir == "Powell")
-
-#Estimate the annual evap volume from monthly area and monthly rates
-dfPowellHist$EvaporationMonthly <- interp2(xi = dfPowellHist$Elevation..feet.,x=dfPowellElevStor$`Elevation (ft)`,y=dfPowellElevStor$`Area (acres)`, method="linear")*  #Area
-  interp2(xi = month(as.Date(dfPowellHist$Date,"%d-%b-%y")),x=dfPowellMonthRates$Month,y=dfPowellMonthRates$EvapFeet, method="linear")/1e6
-
-#Annual evaporation
-dfPowellHist$ByMonthEvap <- rollapply(dfPowellHist$EvaporationMonthly, 12,sum, fill=NA, align="right")
-
-
-
+dfPowellAnnual <- dfPowellAnnual %>% filter(WaterYear > nFirstYear, WaterYear < nLastYear)
 
 #10-year total release
-dfPowellHist$TenYearRelease <- rollapply(dfPowellHist$Total.Release..cfs.*nCFSToAF /1e6, 365*10,sum, fill=NA, align="right")
+dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 10,sum, fill=NA, align="right")
 #9-year total
-dfPowellHist$NineYearRelease <- rollapply(dfPowellHist$Total.Release..cfs.*nCFSToAF /1e6, 365*9,sum, fill=NA, align="right")
+dfPowellAnnual$NineYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 9,sum, fill=NA, align="right")
 
 #75 and 82.5 MAF ten-year targets
-dfPowellHist$TenYearTarget <- 75
-dfPowellHist$TenYearTarget82 <- 75 + 7.5
+dfPowellAnnual$TenYearTarget <- 74.8  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
+dfPowellAnnual$TenYearTarget82 <- dfPowellAnnual$TenYearTarget + 7.5
+
 # Difference between 10-year and target
-dfPowellHist$Diff <- dfPowellHist$TenYearRelease - dfPowellHist$TenYearTarget82
-
-#Filter to get yearly amounts. Filter on October
-dfPowellHist$Month <- month(dfPowellHist$DateAsValue)
-dfPowellHist$Year <- year(dfPowellHist$DateAsValue)
-
-#Calculate day
-dfPowellHist$Day <- day(dfPowellHist$DateAsValue)
-
-#dfPowellHistAnnual <- dfPowellHist %>% filter(Month==10)
-dfPowellHistAnnual <- dfPowellHist %>% filter(Month==10, Day == 1)
+dfPowellAnnual$Diff75 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget
+dfPowellAnnual$Diff82 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget82
 
 
-# Add text for the decade
-# 10-year values
-dfPowellHistAnnual$Decade <- paste0(dfPowellHistAnnual$Year - 10 + 1," to ",dfPowellHistAnnual$Year)
-dfPowellHistAnnual$TenYearReleaseRnd <- round(dfPowellHistAnnual$TenYearRelease, digits=1)
-dfPowellHistAnnual$TenYearDiffRnd <- round(dfPowellHistAnnual$Diff, digits=1)
-
-# 9-year value
-dfPowellHistAnnual$NineYearPeriod <- paste0(dfPowellHistAnnual$Year - 9 + 1," to ",dfPowellHistAnnual$Year)
-dfPowellHistAnnual$NineYearReleaseRnd <- round(dfPowellHistAnnual$NineYearRelease, digits=1)
-dfPowellHistAnnual$NineYearDiffRnd <- round(dfPowellHistAnnual$NineYearRelease - 8.23*9, digits=1)
-
-# Select into two columns and reverse sort
-dfPowellByDecade <- dfPowellHistAnnual %>% arrange(Year, decreasing = TRUE) %>% select(Decade, TenYearReleaseRnd,TenYearDiffRnd, NineYearRelease) 
+# # Add text for the decade
+# # 10-year values
+# dfPowellHistAnnual$Decade <- paste0(dfPowellHistAnnual$Year - 10 + 1," to ",dfPowellHistAnnual$Year)
+# dfPowellHistAnnual$TenYearReleaseRnd <- round(dfPowellHistAnnual$TenYearRelease, digits=1)
+# dfPowellHistAnnual$TenYearDiffRnd <- round(dfPowellHistAnnual$Diff, digits=1)
+# 
+# # 9-year value
+# dfPowellHistAnnual$NineYearPeriod <- paste0(dfPowellHistAnnual$Year - 9 + 1," to ",dfPowellHistAnnual$Year)
+# dfPowellHistAnnual$NineYearReleaseRnd <- round(dfPowellHistAnnual$NineYearRelease, digits=1)
+# dfPowellHistAnnual$NineYearDiffRnd <- round(dfPowellHistAnnual$NineYearRelease - 8.23*9, digits=1)
+# 
+# # Select into two columns and reverse sort
+# dfPowellByDecade <- dfPowellHistAnnual %>% arrange(Year, decreasing = TRUE) %>% select(Decade, TenYearReleaseRnd,TenYearDiffRnd, NineYearRelease) 
 
 #Export to CSV
-write.csv(dfPowellByDecade,"DecadePowellRelease.csv" )
-#### Powell Release over time - monthly
+write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
+
+#Get the color palettes
+#Get the blue color bar
+pBlues <- brewer.pal(9,"Blues")
+pReds <- brewer.pal(9,"Reds")
+
+#### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
 
 ggplot() +
-  #Powell release - monthly
-  geom_line(data=dfPowellHist,aes(x=DateAsValue,y=Total.Release..cfs.*nCFSToAF /1e6, color="Monthly"), size=2) +
-  # Powell release-  annual
-  geom_line(data=dfPowellHist,aes(x=DateAsValue,y=OneYearRelease, color="1-year"), size=2) +
-  
-  #  10-year sum
-  geom_line(data=dfPowellHist,aes(x=DateAsValue,y=TenYearRelease, color="10-year"), size=2) +
-  
-  geom_line(data=dfPowellHist,aes(x=DateAsValue,y=TenYearTarget, color="Target"), size=2) +
-  
+  #Powell release - annual
+  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=AnnualRelease, color="Release"), size=2) +
+
+  #  8.23 Target
+  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=TenYearTarget82/10, color="8.23 Target"), size=2) +
  
+  #  7.5 Target
+  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=TenYearTarget/10, color="7.5 Target"), size=2) +
+ 
+  scale_color_manual(values = c("Release" = pBlues[8], "8.23 Target" = pReds[7], "7.5 Target" = pReds[4])) +
+  scale_x_continuous(breaks = seq(1970,2026,5)) +
   theme_bw() +
   #coord_fixed() +
-  labs(x="", y="Powel Release (million acre-feet)") +
+  labs(x="", y="Powell Release\n(million acre-feet per year)") +
   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
   #theme(text = element_text(size=20), legend.text=element_text(size=16)
 
 ggsave("PowellMonthYearDecadeRelease.png", width=9, height = 6.5, units="in")
+
+
+ggplot() +
+  #Powell release - annual
+  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=AnnualRelease, color="Release"), size=2) +
+  
+  #  10-year sum
+  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=TenYearRelease, color="10-year"), size=2) +
+  
+  geom_line(data=dfPowellHist,aes(x=DateAsValue,y=TenYearTarget, color="Target"), size=2) +
+  # Targets
+  
+  theme_bw() +
+  #coord_fixed() +
+  labs(x="", y="Powel Release\n(million acre-feet)") +
+  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
+#theme(text = element_text(size=20), legend.text=element_text(size=16)
+
+ggsave("PowellMonthYearDecadeRelease.png", width=9, height = 6.5, units="in")
+
 
 
 #### Powell Release over time - annual
