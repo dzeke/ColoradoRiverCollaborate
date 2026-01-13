@@ -91,12 +91,12 @@ dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 10,sum,
 dfPowellAnnual$NineYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 9,sum, fill=NA, align="right")
 
 #75 and 82.5 MAF ten-year targets
-dfPowellAnnual$TenYearTarget <- 74.8  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
-dfPowellAnnual$TenYearTarget82 <- dfPowellAnnual$TenYearTarget + 7.5
+dfPowellAnnual$OneYearTarget <- 7.48  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
+dfPowellAnnual$OneYearTarget82 <- dfPowellAnnual$OneYearTarget + 0.75
 
-# Difference between 10-year and target
-dfPowellAnnual$Diff75 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget
-dfPowellAnnual$Diff82 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget82
+# # Difference between 10-year and target
+# dfPowellAnnual$Diff75 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget
+# dfPowellAnnual$Diff82 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget82
 
 
 # # Add text for the decade
@@ -116,24 +116,25 @@ dfPowellAnnual$Diff82 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearT
 #Export to CSV
 write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
 
+#Pivot the Wide format to Longer for Plotting with different colors
+
+dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualRelease, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
+
+dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualRelease", "OneYearTarget82", "OneYearTarget") )
 #Get the color palettes
 #Get the blue color bar
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
 
 #### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
+# The different plot lines
 
-ggplot() +
-  #Powell release - annual
-  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=AnnualRelease, color="Release"), size=2) +
+ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
+  #Powell release 
+  geom_line(size=2) +
 
-  #  8.23 Target
-  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=TenYearTarget82/10, color="8.23 Target"), size=2) +
- 
-  #  7.5 Target
-  geom_line(data=dfPowellAnnual,aes(x=WaterYear,y=TenYearTarget/10, color="7.5 Target"), size=2) +
- 
-  scale_color_manual(values = c("Release" = pBlues[8], "8.23 Target" = pReds[7], "7.5 Target" = pReds[4])) +
+  scale_color_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualRelease" = pBlues[8], "OneYearTarget82" =  pReds[7], "OneYearTarget" = pReds[4])) +
+  scale_linetype_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualRelease" = "solid", "OneYearTarget82" =  "dashed", "OneYearTarget" = "twodash")) +
   scale_x_continuous(breaks = seq(1970,2026,5)) +
   theme_bw() +
   #coord_fixed() +
