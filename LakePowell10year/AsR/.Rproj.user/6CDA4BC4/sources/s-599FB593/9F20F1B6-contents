@@ -151,7 +151,9 @@ pReds <- brewer.pal(9,"Reds")
 ```
 
 # Figure 1: Lake Powell Annual Releases Compared to Target
-```{r PowellAnnualDecadeFig1, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+```{r PowellAnnFig1, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+
+print("I made it here")
 
 #### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
 #Pivot the Wide format to Longer for Plotting with different colors
@@ -170,5 +172,3 @@ ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYea
   labs(x="", y="Powell Release\n(million acre-feet per year)") +
   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
   #theme(text = element_text(size=20), legend.text=element_text(size=16)
-
-ggsave("PowellAnnualRelease.png", width=9, height = 6.5, units="in")

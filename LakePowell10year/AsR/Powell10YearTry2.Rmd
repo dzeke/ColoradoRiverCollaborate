@@ -5,7 +5,7 @@ date: "January 13, 2026"
 output: pdf_document
 ---
 
-```{r setup, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -21,27 +21,7 @@ This is an R Markdown document. This document reads daily USBR data on Lake Powe
 ## Requested Citation
 David E. Rosenberg (2026), "Lake Powell Annual and 10-Year Releases." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverFutures/tree/master/Powell10year.
 
-```{r PowellAnnualDecade, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
-
-# Powell10Year-AutoImport.r
-#
-# Plot 10-year running total release from Lake Powell
-#
-# This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
-# Please report bugs/feedback to me (contact info below)
-#
-# Auto download daily data from Reclamation's HydroData portal - https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
-#
-# The data wrangling strategy is:
-#   1. Auto download the release data from Reclamation's HydroData portal into CSV file format
-#   2. Clean and covert Reclamation's date format to a format R understands
-#   3. Calculate Water Year and sum daily values to annual and 10-year running sums.
-#   4. Plot stuff.
-
-# David E. Rosenberg
-# January 13, 2026
-# Utah State University
-# david.rosenberg@usu.edu
+```{r LakeMeadStorageICS1, echo=FALSE, warning=FALSE, message=FALSE}
 
 rm(list = ls())  #Clear history
 
@@ -151,7 +131,9 @@ pReds <- brewer.pal(9,"Reds")
 ```
 
 # Figure 1: Lake Powell Annual Releases Compared to Target
-```{r PowellAnnualDecadeFig1, include=FALSE, echo=FALSE, warning=FALSE, message=FALSE}
+```{r MeadStorageFig1, echo=FALSE, warning=FALSE, message=FALSE}
+
+print("I made it here")
 
 #### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
 #Pivot the Wide format to Longer for Plotting with different colors
@@ -170,5 +152,3 @@ ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYea
   labs(x="", y="Powell Release\n(million acre-feet per year)") +
   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
   #theme(text = element_text(size=20), legend.text=element_text(size=16)
-
-ggsave("PowellAnnualRelease.png", width=9, height = 6.5, units="in")
