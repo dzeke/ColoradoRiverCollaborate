@@ -130,14 +130,14 @@ dfResData$WaterYear <- ifelse(dfResData$Month >= 10, dfResData$Year + 1, dfResDa
 
 dfTemp <- dfResData %>% filter(Year == 2000, Month == 10, Day ==1)
 
-### Aggregate or filter to monthly values
+### Aggregate and filter to Monthly values
 # Aggregate To Monthly values for fields with AggregateToTimePeriod == Yes
 dfFieldsAggByTimePeriod <- dfFields %>% filter(AggregateByTimePeriod == "Yes")
 
 # For fields with AggregateToTimePeroid == Yes, we aggregate
 dfTempAgg <- dfResData %>% filter(AggregateByTimePeriod == "Yes") %>% 
                           select(WaterYear, Month, ResID, ResName, ResNameAbbrev, FieldID, FieldName, FieldUnits, Value) %>%
-                           group_by(WaterYear, Month, ResID, ResName, FieldID, FieldName, FieldUnits) %>%
+                           group_by(WaterYear, Month, ResID, ResName, ResNameAbbrev, FieldID, FieldName, FieldUnits) %>%
                             dplyr::summarize(MonthlyValue = sum(Value))           
 
 # For fields with AggregateToTimePeriod == No, we select the first day of the month
@@ -145,20 +145,33 @@ dfTempDay1 <- dfResData %>% filter(AggregateByTimePeriod == "No", Day == 1) %>%
                             select(WaterYear, Month, ResID, ResName, ResNameAbbrev, FieldID, FieldName, FieldUnits, Value) %>%
                             dplyr::rename(MonthlyValue = Value)
 
-# Merge back into a single data frame
+# Merge back into a single Monthly data frame
 dfResDataMonthly <- rbind(dfTempAgg, dfTempDay1)
 
-# Evaporation
-# Inflow
-# Inflow Volume
-# Unregulated Inflow
-# Unregulated Inflow Volume
-# Total Release
-# Release volume
+### Convert acre-feet fields to Million Acre-Feet
+dfResDataMonthly$MonthlyValue <- ifelse(dfResDataMonthly$FieldUnits == "acre-feet", dfResDataMonthly$MonthlyValue/ 1e6, dfResDataMonthly$MonthlyValue )
+dfResDataMonthly$FieldUnits <- ifelse(dfResDataMonthly$FieldUnits == "acre-feet", "million acre-feet", dfResDataMonthly$FieldUnits )
 
 
-#Calculate Annual flow in million acre-feet
-dfPowellAnnual <- dfPowellHist %>% select(WaterYear, total.release) %>% group_by(WaterYear) %>% dplyr::summarize(AnnualRelease = sum(total.release)*nCFSToAF/1e6)
+### Aggregate and filter to Water Year values
+# Aggregate To WaterYear values for fields with AggregateToTimePeriod == Yes
+
+dfTempAgg <- dfResData %>% filter(AggregateByTimePeriod == "Yes") %>% 
+  select(WaterYear, ResID, ResName, ResNameAbbrev, FieldID, FieldName, FieldUnits, Value) %>%
+  group_by(WaterYear, ResID, ResName, ResNameAbbrev, FieldID, FieldName, FieldUnits) %>%
+  dplyr::summarize(AnnualValue= sum(Value))           
+
+# For fields with AggregateToTimePeriod == No, we select the first day of the Water Year (October 1)
+dfTempDay1 <- dfResData %>% filter(AggregateByTimePeriod == "No", Month == 12, Day == 1) %>%
+  select(WaterYear, ResID, ResName, ResNameAbbrev, FieldID, FieldName, FieldUnits, Value) %>%
+  dplyr::rename(AnnualValue = Value)
+
+# Merge back into a single data frame
+dfResDataAnnual <- rbind(dfTempAgg, dfTempDay1)
+
+### Convert acre-feet fields to Million Acre-Feet
+dfResDataAnnual$AnnualValue <- ifelse(dfResDataAnnual$FieldUnits == "acre-feet", dfResDataAnnual$AnnualValue/ 1e6, dfResDataAnnual$AnnualValue )
+dfResDataAnnual$FieldUnits <- ifelse(dfResDataAnnual$FieldUnits == "acre-feet", "million acre-feet", dfResDataAnnual$FieldUnits )
 
 #Trim first and last years with incomplete data
 nFirstYear <- min(dfPowellAnnual$WaterYear) + 1
