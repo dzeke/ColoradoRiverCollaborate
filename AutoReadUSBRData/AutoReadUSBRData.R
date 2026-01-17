@@ -70,8 +70,8 @@ dfResData <- data.frame(datetime = 0, Value = 0, FieldID = 0, ResID = 0)
 
 # Loop over the reservoirs and fields
 
-#for (iRes in dfReservoirs$ResID) {
-for (iRes in 919) {  
+for (iRes in dfReservoirs$ResID) {
+#for (iRes in 921) {  
   for (iField in dfFields$FieldID) {
     
      # Create the url call
@@ -79,56 +79,40 @@ for (iRes in 919) {
  
     print(sResFieldURL)
     
-    # Read in the data
-    #tryCatch({
-      dfTemp <- read.csv(file=sResFieldURL, 
-                         header=TRUE,
-                         
-                         stringsAsFactors=FALSE,
-                         sep=",")
-      # #Add the Field ID and change the second column from the field name to value
+    dfTemp <- try(read.csv(file=sResFieldURL, 
+                           header=TRUE,
+                           
+                           stringsAsFactors=FALSE,
+                           sep=","))
+    if (!inherits(dfTemp, "try-error")) {
+      # Proceed with data processing if no error occurred
+      print(paste("Successfully read", sResFieldURL))
+      # Change the second column from the field name to value
       colnames(dfTemp)[2] <- "Value"
-       
+      # Add reservoir and field codes as new fields
       dfTemp$FieldID <- iField
       dfTemp$ResID <- iRes
-      # 
-      # 
+      #
+      #
        dfResData <- rbind(dfResData,  dfTemp)
-      
-  #  },
-  #  error = {print(paste("Did not read ", sResFieldURL ))
-   # })
+    } else {
+      print(paste("Skipping", sResFieldURL, "due to an error"))
+    }
   }
 }
 
-# Read in daily Lake Powell release from Reclamation's HydroPortal
-# Details
-# Lake Powell is Reservoir Code 919
-# Lake Powell total release is Code 42
-#
-# Thus the download query to CSV format is https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/42.csv
+# Join in field and reservoir names and associated data
+dfResData <- left_join(dfResData, dfReservoirs, by = "ResID")
+dfResData <- left_join(dfResData, dfFields, by = "FieldID")
 
+# Remove the first row
+dfResData <- dfResData %>% slice(-1)
 
-# File name to read in Mead end of month reservoir level in feet - cross tabulated by year (1st column) and month (subsequent columns)
-#    LAKE MEAD AT HOOVER DAM, END OF MONTH ELEVATION (FEET), Lower COlorado River Operations, U.S. Buruea of Reclamation
-#    https://www.usbr.gov/lc/region/g4000/hourly/mead-elv.html
-
-# Read in the historical Powell data
-dfPowellHistorical <- read.csv(file=sPowellReleaseDataCode, 
-                               header=TRUE, 
-                               
-                               stringsAsFactors=FALSE,
-                               sep=",")
-
-
-#Interpolate Powell storage from level to check
-## For 2020 data
-
-dfPowellHist <- dfPowellHistorical
 dDateInterval <- 365 # Days
 
 #Convert date text to date value
-dfPowellHist$DateValue <- as.POSIXct(dfPowellHist$datetime)
+# dfResData$DateValue <- as.POSIXct(dfResData$datetime)
+dfResData$DateValue <- ymd(dfResData$datetime)
 
 # Convert CFS to Acre-feet per month
 nCFStoAFMon <- 60.37
