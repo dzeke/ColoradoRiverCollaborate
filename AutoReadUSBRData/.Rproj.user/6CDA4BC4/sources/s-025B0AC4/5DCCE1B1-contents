@@ -26,6 +26,9 @@
 #     Total Release - 42
 #     Pool elevation - 49
 #     Release volume - 43
+#
+#  The auto read URL command is:
+#  'https://www.usbr.gov/uc/water/hydrodata/reservoir_data/RESID/csv/FIELDID.csv'
 
 #
 # The data wrangling strategy is:
@@ -61,6 +64,34 @@ dfReservoirs <- read_excel(sExcelMeta, sheet = "Reservoirs")
 dfFields <- read_excel(sExcelMeta, sheet = "Fields")
 
 
+# Create a master data frame of reservoir data
+dfResData <- data.frame(ReservoirID = 0, FieldID = 0, Value = 0)
+
+
+
+
+# Loop over the reservoirs and fields
+
+for (iRes in dfReservoirs$ResID) {
+  for (iField in dfFields$FieldID) {
+    
+     # Create the url call
+    sResFieldURL <- paste0('https://www.usbr.gov/uc/water/hydrodata/reservoir_data/', iRes, '/csv/', iField,'.csv')
+ 
+    # Read in the data
+    tryCatch({
+      dfTemp <- read.csv(file=sResFieldURL, 
+                         header=TRUE, 
+                         stringsAsFactors=FALSE,
+                         sep=",")
+      #Append the temporary data frame
+      dfResData <- rbind(dfResData,  dfTemp)
+      
+    },
+    error = {print(paste("Did not read ", sResFieldURL ))
+    })
+  }
+}
 
 # Read in daily Lake Powell release from Reclamation's HydroPortal
 # Details
@@ -69,7 +100,6 @@ dfFields <- read_excel(sExcelMeta, sheet = "Fields")
 #
 # Thus the download query to CSV format is https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/42.csv
 
-sPowellReleaseDataCode <- 'https://www.usbr.gov/uc/water/hydrodata/reservoir_data/919/csv/42.csv'
 
 # File name to read in Mead end of month reservoir level in feet - cross tabulated by year (1st column) and month (subsequent columns)
 #    LAKE MEAD AT HOOVER DAM, END OF MONTH ELEVATION (FEET), Lower COlorado River Operations, U.S. Buruea of Reclamation
