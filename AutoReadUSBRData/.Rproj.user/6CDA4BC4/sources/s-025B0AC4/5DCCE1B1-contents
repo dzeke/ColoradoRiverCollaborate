@@ -65,10 +65,8 @@ dfFields <- read_excel(sExcelMeta, sheet = "Fields")
 
 
 # Create a master data frame of reservoir data
-dfResData <- data.frame(ReservoirID = 0, FieldID = 0, Value = 0)
 
-
-
+dfResData <- data.frame(datetime = 0, Value = 0, FieldID = 0, ResID = 0)
 
 # Loop over the reservoirs and fields
 
@@ -81,10 +79,17 @@ for (iRes in dfReservoirs$ResID) {
     # Read in the data
     tryCatch({
       dfTemp <- read.csv(file=sResFieldURL, 
-                         header=TRUE, 
+                         header=TRUE,
+                         
                          stringsAsFactors=FALSE,
                          sep=",")
-      #Append the temporary data frame
+      #Add the Field ID and change the second column from the field name to value
+      colnames(dfTemp)[2] <- "Value"
+      
+      dfTemp$FieldID <- iField
+      dfTemp$ResID <- iRes
+      
+      
       dfResData <- rbind(dfResData,  dfTemp)
       
     },
