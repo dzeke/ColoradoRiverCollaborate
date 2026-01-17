@@ -120,13 +120,42 @@ nCFStoAFDay <- nCFStoAFMon/30.5
 
 nCFSToAF <- nCFStoAFDay
 
-#Calculate Day, Month, and Year
-dfPowellHist$Year <- year(dfPowellHist$DateValue)
-dfPowellHist$Month <- month(dfPowellHist$DateValue)
-dfPowellHist$Day <- day(dfPowellHist$DateValue)
+# Calculate Day, Month, and Year
+dfResData$Year <- year(dfResData$DateValue)
+dfResData$Month <- month(dfResData$DateValue)
+dfResData$Day <- day(dfResData$DateValue)
 
-#Calculate Water Year
-dfPowellHist$WaterYear <- ifelse(dfPowellHist$Month >= 10, dfPowellHist$Year + 1, dfPowellHist$Year)
+# Calculate Water Year
+dfResData$WaterYear <- ifelse(dfResData$Month >= 10, dfResData$Year + 1, dfResData$Year)
+
+dfTemp <- dfResData %>% filter(Year == 2000, Month == 10, Day ==1)
+
+### Aggregate or filter to monthly values
+# Aggregate To Monthly values for fields with AggregateToTimePeriod == Yes
+dfFieldsAggByTimePeriod <- dfFields %>% filter(AggregateByTimePeriod == "Yes")
+
+# For fields with AggregateToTimePeroid == Yes, we aggregate
+dfTempAgg <- dfResData %>% filter(AggregateByTimePeriod == "Yes") %>% 
+                          select(WaterYear, Month, ResID, ResName, ResNameAbbrev, FieldID, FieldName, FieldUnits, Value) %>%
+                           group_by(WaterYear, Month, ResID, ResName, FieldID, FieldName, FieldUnits) %>%
+                            dplyr::summarize(MonthlyValue = sum(Value))           
+
+# For fields with AggregateToTimePeriod == No, we select the first day of the month
+dfTempDay1 <- dfResData %>% filter(AggregateByTimePeriod == "No", Day == 1) %>%
+                            select(WaterYear, Month, ResID, ResName, ResNameAbbrev, FieldID, FieldName, FieldUnits, Value) %>%
+                            dplyr::rename(MonthlyValue = Value)
+
+# Merge back into a single data frame
+dfResDataMonthly <- rbind(dfTempAgg, dfTempDay1)
+
+# Evaporation
+# Inflow
+# Inflow Volume
+# Unregulated Inflow
+# Unregulated Inflow Volume
+# Total Release
+# Release volume
+
 
 #Calculate Annual flow in million acre-feet
 dfPowellAnnual <- dfPowellHist %>% select(WaterYear, total.release) %>% group_by(WaterYear) %>% dplyr::summarize(AnnualRelease = sum(total.release)*nCFSToAF/1e6)
