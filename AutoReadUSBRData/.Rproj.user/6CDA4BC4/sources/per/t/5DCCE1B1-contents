@@ -77,6 +77,7 @@ for (iRes in dfReservoirs$ResID) {
     sResFieldURL <- paste0('https://www.usbr.gov/uc/water/hydrodata/reservoir_data/', iRes, '/csv/', iField,'.csv')
  
     print(sResFieldURL)
+    
     # Read in the data
     tryCatch({
       dfTemp <- read.csv(file=sResFieldURL, 
