@@ -3,24 +3,24 @@
     "path": "C:/Rosenberg/Work/USU/Research/ColoradoRiver/RCode/ColoradoRiverCollaborate/AutoReadUSBRData/AutoReadUSBRData.R",
     "project_path": "AutoReadUSBRData.R",
     "type": "r_source",
-    "hash": "4273678447",
+    "hash": "0",
     "contents": "",
-    "dirty": false,
+    "dirty": true,
     "created": 1768607699298.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "64,0",
-        "scrollLine": "60"
+        "cursorPosition": "120,1",
+        "scrollLine": "107"
     },
     "folds": "",
     "lastKnownWriteTime": 1768625659,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1768625659337,
+    "last_content_update": 1768626238600,
     "read_only": false,
     "read_only_alternatives": []
 }
