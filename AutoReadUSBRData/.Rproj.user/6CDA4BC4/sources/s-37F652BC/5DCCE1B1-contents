@@ -1,4 +1,4 @@
-#AutoReadUSBRData.r
+# AutoReadUSBRData.r
 #
 # This script auto reads USBR Lake Powell and Lake Mead data from Reclamation's HydroData Web portal
 # 
@@ -70,7 +70,8 @@ dfResData <- data.frame(datetime = 0, Value = 0, FieldID = 0, ResID = 0)
 
 # Loop over the reservoirs and fields
 
-for (iRes in dfReservoirs$ResID) {
+#for (iRes in dfReservoirs$ResID) {
+for (iRes in 919) {  
   for (iField in dfFields$FieldID) {
     
      # Create the url call
@@ -79,24 +80,24 @@ for (iRes in dfReservoirs$ResID) {
     print(sResFieldURL)
     
     # Read in the data
-    tryCatch({
+    #tryCatch({
       dfTemp <- read.csv(file=sResFieldURL, 
                          header=TRUE,
                          
                          stringsAsFactors=FALSE,
                          sep=",")
-      #Add the Field ID and change the second column from the field name to value
+      # #Add the Field ID and change the second column from the field name to value
       colnames(dfTemp)[2] <- "Value"
-      
+       
       dfTemp$FieldID <- iField
       dfTemp$ResID <- iRes
+      # 
+      # 
+       dfResData <- rbind(dfResData,  dfTemp)
       
-      
-      dfResData <- rbind(dfResData,  dfTemp)
-      
-    },
-    error = {print(paste("Did not read ", sResFieldURL ))
-    })
+  #  },
+  #  error = {print(paste("Did not read ", sResFieldURL ))
+   # })
   }
 }
 
