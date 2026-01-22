@@ -128,6 +128,9 @@ dfResData$Day <- day(dfResData$DateValue)
 # Calculate Water Year
 dfResData$WaterYear <- ifelse(dfResData$Month >= 10, dfResData$Year + 1, dfResData$Year)
 
+# Save the Daily data frame
+dfResDataDaily <- dfResData
+
 dfTemp <- dfResData %>% filter(Year == 2000, Month == 10, Day ==1)
 
 ### Aggregate and filter to Monthly values
@@ -174,10 +177,22 @@ dfResDataAnnual$AnnualValue <- ifelse(dfResDataAnnual$FieldUnits == "acre-feet",
 dfResDataAnnual$FieldUnits <- ifelse(dfResDataAnnual$FieldUnits == "acre-feet", "million acre-feet", dfResDataAnnual$FieldUnits )
 
 #Trim first and last years with incomplete data
-nFirstYear <- min(dfPowellAnnual$WaterYear) + 1
-nLastYear <-  max(dfPowellAnnual$WaterYear)
+nFirstYear <- min(dfResDataAnnual$WaterYear) + 1
+nLastYear <-  max(dfResDataAnnual$WaterYear)
+
+dfResDataAnnual <- dfResDataAnnual %>% filter(WaterYear > nFirstYear, WaterYear < nLastYear)
+###########
+
+### Now return the dfResDataAnnual, dfResDataMonthly, and dfResDataDaily
+# Write the data frames to csv
+write.csv(dfResDataAnnual, "dfResDataAnnual.csv")
+write.csv(dfResDataMonthly, "dfResDataMonthly.csv")
+write.csv(dfResDataDaily, "dfResDataDaily.csv")
+
+
 
 dfPowellAnnual <- dfPowellAnnual %>% filter(WaterYear > nFirstYear, WaterYear < nLastYear)
+
 
 #10-year total release
 dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 10,sum, fill=NA, align="right")
