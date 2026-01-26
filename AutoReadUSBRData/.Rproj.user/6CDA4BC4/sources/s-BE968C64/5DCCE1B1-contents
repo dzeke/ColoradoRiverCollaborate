@@ -57,10 +57,7 @@ for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 sapply(load.lib,require,character=TRUE)
 
 ###### Define a function that Reads in all the available reservoir data from Reclamations HydroData webportal.
-
 # https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
-
-# Read in meta data from Excel file
 
 fReadReclamationHydroData <- function(FromHydroData) {
     
@@ -95,8 +92,12 @@ fReadReclamationHydroData <- function(FromHydroData) {
         
          # Create the url call
         sResFieldURL <- paste0('https://www.usbr.gov/uc/water/hydrodata/reservoir_data/', iRes, '/csv/', iField,'.csv')
-     
-        print(sResFieldURL)
+
+        # Log the reservoir name and field for use in error checking.
+        dfResNameTemp <- dfReservoirs %>% filter(ResID == iRes) %>% select(ResName)
+        dfFieldNameTemp <- dfFields %>% filter(FieldID == iField) %>% select(FieldName)
+        
+        # print(sResFieldURL)
         
         dfTemp <- try(read.csv(file=sResFieldURL, 
                                header=TRUE,
@@ -105,8 +106,10 @@ fReadReclamationHydroData <- function(FromHydroData) {
                                sep=","))
         if (!inherits(dfTemp, "try-error")) {
           # Proceed with data processing if no error occurred
-          print(paste("Successfully read", sResFieldURL))
-          # Change the second column from the field name to value
+          
+          print(paste("Successfully read -", dfResNameTemp$ResName[1],":", dfFieldNameTemp$FieldName[1], " - ", sResFieldURL))
+          #print(paste("Successfully read - ", sResFieldURL))
+                    # Change the second column from the field name to value
           colnames(dfTemp)[2] <- "Value"
           # Add reservoir and field codes as new fields
           dfTemp$FieldID <- iField
@@ -115,7 +118,9 @@ fReadReclamationHydroData <- function(FromHydroData) {
           #
            dfResData <- rbind(dfResData,  dfTemp)
         } else {
-          print(paste("Skipping", sResFieldURL, "due to an error"))
+          print(paste("Skipping due to error -", dfResNameTemp$ResName[1],":", dfFieldNameTemp$FieldName[1], " - ", sResFieldURL))
+          
+          #print(paste("Skipping", sResFieldURL, "due to an error"))
         }
       }
     }
@@ -211,8 +216,16 @@ fReadReclamationHydroData <- function(FromHydroData) {
 }
 
 
+lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+
+# Let's try plotting the annuall Lake Powell Release
+dfResDataAnnual <- lResData$dfResAnnual
+
+#Filter the Powell Release Volume
+dfPowellAnnual <- dfResDataAnnual %>% filter(ResName == "Lake Powell",FieldName == "Release volume")
+
 #10-year total release
-dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 10,sum, fill=NA, align="right")
+dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualValue, 10,sum, fill=NA, align="right")
 
 
 #7.48 and 8.23 MAF annual targets
@@ -251,15 +264,15 @@ pReds <- brewer.pal(9,"Reds")
 
 #### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
 #Pivot the Wide format to Longer for Plotting with different colors
-dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualRelease, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
-dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualRelease", "OneYearTarget82", "OneYearTarget") )
+dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualValue, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
+dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualValue", "OneYearTarget82", "OneYearTarget") )
 
 ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
   #Powell release 
   geom_line(size=2) +
 
-  scale_color_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualRelease" = pBlues[8], "OneYearTarget82" =  pReds[7], "OneYearTarget" = pReds[4])) +
-  scale_linetype_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualRelease" = "solid", "OneYearTarget82" =  "dashed", "OneYearTarget" = "twodash")) +
+  scale_color_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualValue" = pBlues[8], "OneYearTarget82" =  pReds[7], "OneYearTarget" = pReds[4])) +
+  scale_linetype_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualValue" = "solid", "OneYearTarget82" =  "dashed", "OneYearTarget" = "twodash")) +
   scale_x_continuous(breaks = seq(1970,2026,5)) +
   theme_bw() +
   #coord_fixed() +

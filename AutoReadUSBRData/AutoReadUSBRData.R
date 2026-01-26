@@ -57,10 +57,7 @@ for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 sapply(load.lib,require,character=TRUE)
 
 ###### Define a function that Reads in all the available reservoir data from Reclamations HydroData webportal.
-
 # https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
-
-# Read in meta data from Excel file
 
 fReadReclamationHydroData <- function(FromHydroData) {
     
@@ -95,8 +92,12 @@ fReadReclamationHydroData <- function(FromHydroData) {
         
          # Create the url call
         sResFieldURL <- paste0('https://www.usbr.gov/uc/water/hydrodata/reservoir_data/', iRes, '/csv/', iField,'.csv')
-     
-        print(sResFieldURL)
+
+        # Log the reservoir name and field for use in error checking.
+        dfResNameTemp <- dfReservoirs %>% filter(ResID == iRes) %>% select(ResName)
+        dfFieldNameTemp <- dfFields %>% filter(FieldID == iField) %>% select(FieldName)
+        
+        # print(sResFieldURL)
         
         dfTemp <- try(read.csv(file=sResFieldURL, 
                                header=TRUE,
@@ -105,8 +106,10 @@ fReadReclamationHydroData <- function(FromHydroData) {
                                sep=","))
         if (!inherits(dfTemp, "try-error")) {
           # Proceed with data processing if no error occurred
-          print(paste("Successfully read", sResFieldURL))
-          # Change the second column from the field name to value
+          
+          print(paste("Successfully read -", dfResNameTemp$ResName[1],":", dfFieldNameTemp$FieldName[1], " - ", sResFieldURL))
+          #print(paste("Successfully read - ", sResFieldURL))
+                    # Change the second column from the field name to value
           colnames(dfTemp)[2] <- "Value"
           # Add reservoir and field codes as new fields
           dfTemp$FieldID <- iField
@@ -115,7 +118,9 @@ fReadReclamationHydroData <- function(FromHydroData) {
           #
            dfResData <- rbind(dfResData,  dfTemp)
         } else {
-          print(paste("Skipping", sResFieldURL, "due to an error"))
+          print(paste("Skipping due to error -", dfResNameTemp$ResName[1],":", dfFieldNameTemp$FieldName[1], " - ", sResFieldURL))
+          
+          #print(paste("Skipping", sResFieldURL, "due to an error"))
         }
       }
     }
@@ -210,6 +215,14 @@ fReadReclamationHydroData <- function(FromHydroData) {
     return(list(dfResDaily = dfResDataDaily, dfResMonthly = dfResDataMonthly, dfResAnnual = dfResDataAnnual))
 }
 
+
+lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+
+# Let's try plotting the annuall Lake Powell Release
+dfResDataAnnual <- lResData$dfResAnnual
+
+#Filter the Powell Release Volume
+dfPowellAnnual <- dfResDataAnnual %>% filter(ResName == "Lake Powell",FieldName == "Release volume")
 
 #10-year total release
 dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 10,sum, fill=NA, align="right")
