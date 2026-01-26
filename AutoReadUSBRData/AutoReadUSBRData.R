@@ -225,7 +225,7 @@ dfResDataAnnual <- lResData$dfResAnnual
 dfPowellAnnual <- dfResDataAnnual %>% filter(ResName == "Lake Powell",FieldName == "Release volume")
 
 #10-year total release
-dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualRelease, 10,sum, fill=NA, align="right")
+dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualValue, 10,sum, fill=NA, align="right")
 
 
 #7.48 and 8.23 MAF annual targets
@@ -264,15 +264,15 @@ pReds <- brewer.pal(9,"Reds")
 
 #### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
 #Pivot the Wide format to Longer for Plotting with different colors
-dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualRelease, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
-dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualRelease", "OneYearTarget82", "OneYearTarget") )
+dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualValue, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
+dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualValue", "OneYearTarget82", "OneYearTarget") )
 
 ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
   #Powell release 
   geom_line(size=2) +
 
-  scale_color_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualRelease" = pBlues[8], "OneYearTarget82" =  pReds[7], "OneYearTarget" = pReds[4])) +
-  scale_linetype_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualRelease" = "solid", "OneYearTarget82" =  "dashed", "OneYearTarget" = "twodash")) +
+  scale_color_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualValue" = pBlues[8], "OneYearTarget82" =  pReds[7], "OneYearTarget" = pReds[4])) +
+  scale_linetype_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualValue" = "solid", "OneYearTarget82" =  "dashed", "OneYearTarget" = "twodash")) +
   scale_x_continuous(breaks = seq(1970,2026,5)) +
   theme_bw() +
   #coord_fixed() +
