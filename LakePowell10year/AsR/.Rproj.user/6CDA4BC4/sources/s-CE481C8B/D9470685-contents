@@ -30,6 +30,26 @@ for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 # After the installation process completes, we load all packages.
 sapply(load.lib,require,character=TRUE)
 
+## Read in the function to auto load USBR data
+source("../../AutoReadUSBRData/AutoReadUSBRData.r")
+
+lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+
+# Let's try plotting the annuall Lake Powell Release
+dfResDataAnnual <- lResData$dfResAnnual
+
+#Filter the Powell Release Volume
+dfPowellAnnual <- dfResDataAnnual %>% filter(ResName == "Lake Powell",FieldName == "Release volume")
+
+#10-year total release
+dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualValue, 10,sum, fill=NA, align="right")
+
+
+#7.48 and 8.23 MAF annual targets
+dfPowellAnnual$OneYearTarget <- 7.48  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
+dfPowellAnnual$OneYearTarget82 <- dfPowellAnnual$OneYearTarget + 0.75
+dfPowellAnnual$TenYearTarget <- dfPowellAnnual$OneYearTarget * 10  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
+dfPowellAnnual$TenYearTarget82 <- dfPowellAnnual$TenYearTarget + 10*0.75
 
 
 

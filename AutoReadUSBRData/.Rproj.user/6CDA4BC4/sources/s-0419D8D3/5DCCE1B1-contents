@@ -48,7 +48,7 @@ rm(list = ls())  #Clear history
 
 # Load required libraries in 1 go
 # List of packages
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo")
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here")
 # Then we select only the packages that aren't currently installed.
 install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
@@ -64,9 +64,19 @@ fReadReclamationHydroData <- function(FromHydroData) {
     # IF FromHydroData is TRUE, then read from the hydroportal. Else just load the most recent CSV files
   
     if(FromHydroData != TRUE ) {
-      dfResDataAnnual <- read.csv(file = "dfResDataAnnual.csv", header=TRUE,  sep=",")
-      dfResDataMonthly <- read.csv(file = "dfResDataMonthly.csv", header=TRUE,  sep=",")
-      dfResDataDaily <- read.csv(file = "dfResDataDaily.csv", header=TRUE,  sep=",")
+      
+      fAnnualData <- here("", "dfResDataAnnual.csv")
+      dfResDataAnnual <- read.csv(file = fAnnualData, header=TRUE,  sep=",")
+      
+      fMonthlyData <- here("","dfResDataMonthly.csv")
+      dfResDataMonthly <- read.csv(file = fMonthlyData, header=TRUE,  sep=",")
+      
+      fDailyData <- here("","dfResDataDaily.csv")
+      dfResDataDaily <- read.csv(file = fDailyData, header=TRUE,  sep=",")
+      
+      #dfResDataAnnual <- read.csv(file = "dfResDataAnnual.csv", header=TRUE,  sep=",")
+      #dfResDataMonthly <- read.csv(file = "dfResDataMonthly.csv", header=TRUE,  sep=",")
+      #dfResDataDaily <- read.csv(file = "dfResDataDaily.csv", header=TRUE,  sep=",")
       
       # return(list(first_df = dfResDataDaily, second_df = dfResDataMonthly, third_df = dfResDataAnnual))
       return(list(dfResDaily = dfResDataDaily, dfResMonthly = dfResDataMonthly, dfResAnnual = dfResDataAnnual))
@@ -74,7 +84,9 @@ fReadReclamationHydroData <- function(FromHydroData) {
     }
 
     #We will read from the HydroDataPortal
-    sExcelMeta <- 'USBRWebPortalMetaData.xlsx'
+    
+    sExcelMeta <- here("", "USBRWebPortalMetaData.xlsx")
+    
     
     dfReservoirs <- read_excel(sExcelMeta, sheet = "Reservoirs")
     dfFields <- read_excel(sExcelMeta, sheet = "Fields")
@@ -208,98 +220,104 @@ fReadReclamationHydroData <- function(FromHydroData) {
     ###########
     
     # Write the data frames to csv
-    write.csv(dfResDataAnnual, "dfResDataAnnual.csv")
-    write.csv(dfResDataMonthly, "dfResDataMonthly.csv")
-    write.csv(dfResDataDaily, "dfResDataDaily.csv")
+    # write.csv(dfResDataAnnual, "dfResDataAnnual.csv")
+    # write.csv(dfResDataMonthly, "dfResDataMonthly.csv")
+    # write.csv(dfResDataDaily, "dfResDataDaily.csv")
+    
+    write.csv(dfResDataAnnual, here("", "dfResDataAnnualTest.csv"))
+    write.csv(dfResDataMonthly, here("", "dfResDataMonthly.csv"))
+    write.csv(dfResDataDaily, here("", "dfResDataDaily.csv"))
+    
+    
     
     return(list(dfResDaily = dfResDataDaily, dfResMonthly = dfResDataMonthly, dfResAnnual = dfResDataAnnual))
 }
 
 
-lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
-
-# Let's try plotting the annuall Lake Powell Release
-dfResDataAnnual <- lResData$dfResAnnual
-
-#Filter the Powell Release Volume
-dfPowellAnnual <- dfResDataAnnual %>% filter(ResName == "Lake Powell",FieldName == "Release volume")
-
-#10-year total release
-dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualValue, 10,sum, fill=NA, align="right")
-
-
-#7.48 and 8.23 MAF annual targets
-dfPowellAnnual$OneYearTarget <- 7.48  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
-dfPowellAnnual$OneYearTarget82 <- dfPowellAnnual$OneYearTarget + 0.75
-dfPowellAnnual$TenYearTarget <- dfPowellAnnual$OneYearTarget * 10  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
-dfPowellAnnual$TenYearTarget82 <- dfPowellAnnual$TenYearTarget + 10*0.75
-
-
-# # Difference between 10-year and target
-# dfPowellAnnual$Diff75 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget
-# dfPowellAnnual$Diff82 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget82
-
-
-# # Add text for the decade
-# # 10-year values
-# dfPowellHistAnnual$Decade <- paste0(dfPowellHistAnnual$Year - 10 + 1," to ",dfPowellHistAnnual$Year)
-# dfPowellHistAnnual$TenYearReleaseRnd <- round(dfPowellHistAnnual$TenYearRelease, digits=1)
-# dfPowellHistAnnual$TenYearDiffRnd <- round(dfPowellHistAnnual$Diff, digits=1)
+# lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 # 
-# # 9-year value
-# dfPowellHistAnnual$NineYearPeriod <- paste0(dfPowellHistAnnual$Year - 9 + 1," to ",dfPowellHistAnnual$Year)
-# dfPowellHistAnnual$NineYearReleaseRnd <- round(dfPowellHistAnnual$NineYearRelease, digits=1)
-# dfPowellHistAnnual$NineYearDiffRnd <- round(dfPowellHistAnnual$NineYearRelease - 8.23*9, digits=1)
+# # Let's try plotting the annuall Lake Powell Release
+# dfResDataAnnual <- lResData$dfResAnnual
 # 
-# # Select into two columns and reverse sort
-# dfPowellByDecade <- dfPowellHistAnnual %>% arrange(Year, decreasing = TRUE) %>% select(Decade, TenYearReleaseRnd,TenYearDiffRnd, NineYearRelease) 
-
-#Export to CSV
-write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
-
-#Get the color palettes
-#Get the blue color bar
-pBlues <- brewer.pal(9,"Blues")
-pReds <- brewer.pal(9,"Reds")
-
-#### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
-#Pivot the Wide format to Longer for Plotting with different colors
-dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualValue, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
-dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualValue", "OneYearTarget82", "OneYearTarget") )
-
-ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
-  #Powell release 
-  geom_line(size=2) +
-
-  scale_color_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualValue" = pBlues[8], "OneYearTarget82" =  pReds[7], "OneYearTarget" = pReds[4])) +
-  scale_linetype_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualValue" = "solid", "OneYearTarget82" =  "dashed", "OneYearTarget" = "twodash")) +
-  scale_x_continuous(breaks = seq(1970,2026,5)) +
-  theme_bw() +
-  #coord_fixed() +
-  labs(x="", y="Powell Release\n(million acre-feet per year)") +
-  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
-  #theme(text = element_text(size=20), legend.text=element_text(size=16)
-
-ggsave("PowellAnnualRelease.png", width=9, height = 6.5, units="in")
-
-
-#### Figure 2. Ten-Year Powell Release compared to 10-year targets
-
-#Pivot the Wide format to Longer for Plotting with different colors
-dfPowellTenYearLong <- pivot_longer(data = dfPowellAnnual, cols = c(TenYearRelease, TenYearTarget, TenYearTarget82), names_to = "DataType", values_to = "Flow")
-dfPowellTenYearLong$DataTypeFactor <- factor(dfPowellTenYearLong$DataType, levels = c("TenYearRelease", "TenYearTarget82", "TenYearTarget") )
-
-ggplot(data = dfPowellTenYearLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
-  #Powell release 
-  geom_line(size=2) +
-  
-  scale_color_manual(labels = c("10-Year Release", "82.3 Target", "74.8 Target"), values = c("TenYearRelease" = pBlues[8], "TenYearTarget82" =  pReds[7], "TenYearTarget" = pReds[4])) +
-  scale_linetype_manual(labels = c("10-Year Release", "82.3 Target", "74.8 Target"), values = c("TenYearRelease" = "solid", "TenYearTarget82" =  "dashed", "TenYearTarget" = "twodash")) +
-  scale_x_continuous(breaks = seq(1970,2026,5)) +
-  theme_bw() +
-  #coord_fixed() +
-  labs(x="", y="Powell Release\n(million acre-feet per year)") +
-  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
-#theme(text = element_text(size=20), legend.text=element_text(size=16)
-
-ggsave("PowellTenYearRelease.png", width=9, height = 6.5, units="in")
+# #Filter the Powell Release Volume
+# dfPowellAnnual <- dfResDataAnnual %>% filter(ResName == "Lake Powell",FieldName == "Release volume")
+# 
+# #10-year total release
+# dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualValue, 10,sum, fill=NA, align="right")
+# 
+# 
+# #7.48 and 8.23 MAF annual targets
+# dfPowellAnnual$OneYearTarget <- 7.48  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
+# dfPowellAnnual$OneYearTarget82 <- dfPowellAnnual$OneYearTarget + 0.75
+# dfPowellAnnual$TenYearTarget <- dfPowellAnnual$OneYearTarget * 10  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
+# dfPowellAnnual$TenYearTarget82 <- dfPowellAnnual$TenYearTarget + 10*0.75
+# 
+# 
+# # # Difference between 10-year and target
+# # dfPowellAnnual$Diff75 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget
+# # dfPowellAnnual$Diff82 <- dfPowellAnnual$TenYearRelease - dfPowellAnnual$TenYearTarget82
+# 
+# 
+# # # Add text for the decade
+# # # 10-year values
+# # dfPowellHistAnnual$Decade <- paste0(dfPowellHistAnnual$Year - 10 + 1," to ",dfPowellHistAnnual$Year)
+# # dfPowellHistAnnual$TenYearReleaseRnd <- round(dfPowellHistAnnual$TenYearRelease, digits=1)
+# # dfPowellHistAnnual$TenYearDiffRnd <- round(dfPowellHistAnnual$Diff, digits=1)
+# # 
+# # # 9-year value
+# # dfPowellHistAnnual$NineYearPeriod <- paste0(dfPowellHistAnnual$Year - 9 + 1," to ",dfPowellHistAnnual$Year)
+# # dfPowellHistAnnual$NineYearReleaseRnd <- round(dfPowellHistAnnual$NineYearRelease, digits=1)
+# # dfPowellHistAnnual$NineYearDiffRnd <- round(dfPowellHistAnnual$NineYearRelease - 8.23*9, digits=1)
+# # 
+# # # Select into two columns and reverse sort
+# # dfPowellByDecade <- dfPowellHistAnnual %>% arrange(Year, decreasing = TRUE) %>% select(Decade, TenYearReleaseRnd,TenYearDiffRnd, NineYearRelease) 
+# 
+# #Export to CSV
+# write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
+# 
+# #Get the color palettes
+# #Get the blue color bar
+# pBlues <- brewer.pal(9,"Blues")
+# pReds <- brewer.pal(9,"Reds")
+# 
+# #### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
+# #Pivot the Wide format to Longer for Plotting with different colors
+# dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualValue, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
+# dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualValue", "OneYearTarget82", "OneYearTarget") )
+# 
+# ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
+#   #Powell release 
+#   geom_line(size=2) +
+# 
+#   scale_color_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualValue" = pBlues[8], "OneYearTarget82" =  pReds[7], "OneYearTarget" = pReds[4])) +
+#   scale_linetype_manual(labels = c("Annual Release", "8.23 Target", "7.48 Target"), values = c("AnnualValue" = "solid", "OneYearTarget82" =  "dashed", "OneYearTarget" = "twodash")) +
+#   scale_x_continuous(breaks = seq(1970,2026,5)) +
+#   theme_bw() +
+#   #coord_fixed() +
+#   labs(x="", y="Powell Release\n(million acre-feet per year)") +
+#   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
+#   #theme(text = element_text(size=20), legend.text=element_text(size=16)
+# 
+# ggsave("PowellAnnualRelease.png", width=9, height = 6.5, units="in")
+# 
+# 
+# #### Figure 2. Ten-Year Powell Release compared to 10-year targets
+# 
+# #Pivot the Wide format to Longer for Plotting with different colors
+# dfPowellTenYearLong <- pivot_longer(data = dfPowellAnnual, cols = c(TenYearRelease, TenYearTarget, TenYearTarget82), names_to = "DataType", values_to = "Flow")
+# dfPowellTenYearLong$DataTypeFactor <- factor(dfPowellTenYearLong$DataType, levels = c("TenYearRelease", "TenYearTarget82", "TenYearTarget") )
+# 
+# ggplot(data = dfPowellTenYearLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
+#   #Powell release 
+#   geom_line(size=2) +
+#   
+#   scale_color_manual(labels = c("10-Year Release", "82.3 Target", "74.8 Target"), values = c("TenYearRelease" = pBlues[8], "TenYearTarget82" =  pReds[7], "TenYearTarget" = pReds[4])) +
+#   scale_linetype_manual(labels = c("10-Year Release", "82.3 Target", "74.8 Target"), values = c("TenYearRelease" = "solid", "TenYearTarget82" =  "dashed", "TenYearTarget" = "twodash")) +
+#   scale_x_continuous(breaks = seq(1970,2026,5)) +
+#   theme_bw() +
+#   #coord_fixed() +
+#   labs(x="", y="Powell Release\n(million acre-feet per year)") +
+#   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
+# #theme(text = element_text(size=20), legend.text=element_text(size=16)
+# 
+# ggsave("PowellTenYearRelease.png", width=9, height = 6.5, units="in")
