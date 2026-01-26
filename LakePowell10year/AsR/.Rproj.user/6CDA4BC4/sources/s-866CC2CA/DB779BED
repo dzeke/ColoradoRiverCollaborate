@@ -3,7 +3,7 @@
     "path": "C:/Rosenberg/Work/USU/Research/ColoradoRiver/RCode/ColoradoRiverCollaborate/LakePowell10year/AsR/Powell10YearTry2.Rmd",
     "project_path": "Powell10YearTry2.Rmd",
     "type": "r_markdown",
-    "hash": "1110126321",
+    "hash": "4181484166",
     "contents": "",
     "dirty": false,
     "created": 1768607112570.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "153,72",
-        "scrollLine": "0"
+        "cursorPosition": "18,8",
+        "scrollLine": "4"
     },
     "folds": "",
-    "lastKnownWriteTime": 1768607402,
+    "lastKnownWriteTime": 1769464983,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1768607402092,
+    "last_content_update": 1769464983576,
     "read_only": false,
     "read_only_alternatives": []
 }

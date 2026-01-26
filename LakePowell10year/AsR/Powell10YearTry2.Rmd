@@ -11,12 +11,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Overview
 
-This is an R Markdown document. This document reads daily USBR data on Lake Powell  Releases (Auto download daily data from Reclamation's HydroData portal - https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html. The code aggregates data to yearly (water year starting Oct 1), 9-year, and decadal values and then compares Lake Powell releases to The 1922 Compact Article 3(d) requirement. The document alsow shows histograms of Powell inflows and realeases.
+This is an R Markdown document. This document reads daily USBR data on Lake Powell  Releases (Auto download daily data from Reclamation's HydroData portal - https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html. The code aggregates data to yearly (water year starting Oct 1), and decadal values and then compares Lake Powell releases to The 1922 Compact Article 3(d) requirement. The document alsow shows histograms of Powell inflows and realeases.
 
 * 10-year 74.8 maf requirement: Upper Basin delivers to Lower Basin by Article 3(d) of 1922 Compact
 * 10-year 82.3 maf requirement: Upper Basin delivers to Lower Basin by 1922 Compact Article 3(d) and half of 1.5 maf per year United States obligation to Mexico by 1944 Treaty.
-* Presently, the Upper Basin's 0.75 maf per year obligation to Mexico may be revised down by contigency plans in Minutes 319 and 323 to US-Mexico Treaty.
-* 9-Year target is used to show Upper Basin flexibility to allow inflow to pass to Lower Basin in current 10th year.
+
+Figures.
+
+* Figure 1:  Lake Powell Annual Releases Compared to Targets
+* Figure 2:  Lake Powell 10-year Releases Compared to Targets
 
 ## Requested Citation
 David E. Rosenberg (2026), "Lake Powell Annual and 10-Year Releases." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverFutures/tree/master/Powell10year.
@@ -127,11 +130,13 @@ write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
 
+nFontSize <- 16
+
 
 ```
 
-# Figure 1: Lake Powell Annual Releases Compared to Target
-```{r MeadStorageFig1, echo=FALSE, warning=FALSE, message=FALSE}
+# Figure 1: Lake Powell Annual Releases Compared to Targets
+```{r PowellReleaseFig1, echo=FALSE, warning=FALSE, message=FALSE}
 
 print("I made it here")
 
@@ -150,5 +155,27 @@ ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYea
   theme_bw() +
   #coord_fixed() +
   labs(x="", y="Powell Release\n(million acre-feet per year)") +
-  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
+  theme(text = element_text(size=nFontSize), legend.title=element_blank(), legend.text=element_text(size=nFontSize - 2))
   #theme(text = element_text(size=20), legend.text=element_text(size=16)
+
+```
+
+# Figure 2. Ten-Year Powell Release compared to 10-year Targets
+
+```{r PowellReleaseFig2, echo=FALSE, warning=FALSE, message=FALSE}
+#Pivot the Wide format to Longer for Plotting with different colors
+dfPowellTenYearLong <- pivot_longer(data = dfPowellAnnual, cols = c(TenYearRelease, TenYearTarget, TenYearTarget82), names_to = "DataType", values_to = "Flow")
+dfPowellTenYearLong$DataTypeFactor <- factor(dfPowellTenYearLong$DataType, levels = c("TenYearRelease", "TenYearTarget82", "TenYearTarget") )
+
+ggplot(data = dfPowellTenYearLong %>% filter(WaterYear >= 1995), aes(x = WaterYear, y = Flow , color = DataTypeFactor, linetype = DataTypeFactor)) +
+  #Powell release 
+  geom_line(size=2) +
+  
+  scale_color_manual(labels = c("10-Year Release", "82.3 Target", "74.8 Target"), values = c("TenYearRelease" = pBlues[8], "TenYearTarget82" =  pReds[7], "TenYearTarget" = pReds[4])) +
+  scale_linetype_manual(labels = c("10-Year Release", "82.3 Target", "74.8 Target"), values = c("TenYearRelease" = "solid", "TenYearTarget82" =  "dashed", "TenYearTarget" = "twodash")) +
+  scale_x_continuous(breaks = seq(1970,2026,5)) +
+  theme_bw() +
+  #coord_fixed() +
+  labs(x="", y="Powell Release\n(million acre-feet per 10-years)") +
+  theme(text = element_text(size=nFontSize), legend.title=element_blank(), legend.text=element_text(size=nFontSize-2))
+#theme(text = element_text(size=20), legend.text=element_text(size=16)
