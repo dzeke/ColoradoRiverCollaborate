@@ -1,0 +1,28 @@
+{
+    "id": "004DFFA7",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1769466483839.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "id": "5a498ef1a46d4e5f960bebeaebbe0b55",
+        "name": "lTemp",
+        "title": "lTemp",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1769465484,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1769466483839,
+    "read_only": false,
+    "read_only_alternatives": []
+}
