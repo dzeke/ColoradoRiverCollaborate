@@ -40,7 +40,7 @@
 #   6. Calculate Water Year and sum daily values to annual and 10-year running sums.
 
 # David E. Rosenberg
-# January 16, 2026
+# January 28, 2026
 # Utah State University
 # david.rosenberg@usu.edu
 
