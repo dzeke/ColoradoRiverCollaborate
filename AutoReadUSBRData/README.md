@@ -6,18 +6,18 @@ https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
 The script auto reads all available data fields for reservoirs specified in the Excel file **USBRWebPortalMetaData.xlsx**.
 
 At present, this data is:
-1. Lake Powell (919) and field (code)
-1.1. Storage - 17
-1.1. Evaporation - 25
-1.1. Inflow - 29
-     Inflow volume - 30
-     Unregulated inflow - 33
+- Lake Powell (919) and field (code)
+  - Storage - 17
+  - Evaporation - 25
+  - Inflow - 29
+  - Inflow volume - 30
+  - Unregulated inflow - 33
      Unregulated inflow volume - 34
      Total Release - 42
      Release volume - 43
      Area - 89
      Pool elevation - 49
-1. Lake Mead (921)
+- Lake Mead (921)
      Storage - 17
      Total Release - 42
      Pool elevation - 49
