@@ -63,15 +63,20 @@ fReadReclamationHydroData <- function(FromHydroData) {
     
     # IF FromHydroData is TRUE, then read from the hydroportal. Else just load the most recent CSV files
   
+    print(getwd())
+  
     if(FromHydroData != TRUE ) {
       
       fAnnualData <- here("", "dfResDataAnnual.csv")
-      dfResDataAnnual <- read.csv(file = fAnnualData, header=TRUE,  sep=",")
-      
       fMonthlyData <- here("","dfResDataMonthly.csv")
-      dfResDataMonthly <- read.csv(file = fMonthlyData, header=TRUE,  sep=",")
-      
       fDailyData <- here("","dfResDataDaily.csv")
+      
+      print(fAnnualData)
+      print(fMonthlyData)
+      print(fDailyData)
+            
+      dfResDataAnnual <- read.csv(file = fAnnualData, header=TRUE,  sep=",")
+      dfResDataMonthly <- read.csv(file = fMonthlyData, header=TRUE,  sep=",")
       dfResDataDaily <- read.csv(file = fDailyData, header=TRUE,  sep=",")
       
       #dfResDataAnnual <- read.csv(file = "dfResDataAnnual.csv", header=TRUE,  sep=",")
