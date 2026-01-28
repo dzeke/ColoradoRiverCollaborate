@@ -104,5 +104,11 @@ ggsave("PowellTenYearRelease.png", width=9, height = 6.5, units="in")
 #Export to CSV
 write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
 
+#### Spit out the most recent Lake Powell and Lake Mead Pool elevations
+dfResDataDaily <- lResData$dfResDaily
 
+#filter to values for yesterday 
+dYesterday <- today() - 1
+dfResElevations <- dfResDataDaily %>% filter(FieldName == "Pool Elevation", DateValue == dYesterday)
 
+print(dfResElevations)
