@@ -12,16 +12,16 @@ At present, this data is:
   - Inflow - 29
   - Inflow volume - 30
   - Unregulated inflow - 33
-     Unregulated inflow volume - 34
-     Total Release - 42
-     Release volume - 43
-     Area - 89
-     Pool elevation - 49
+  - Unregulated inflow volume - 34
+  - Total Release - 42
+  - Release volume - 43
+  - Area - 89
+  - Pool elevation - 49
 - Lake Mead (921)
-     Storage - 17
-     Total Release - 42
-     Pool elevation - 49
-     Release volume - 43
+  - Storage - 17
+  - Total Release - 42
+  - Pool elevation - 49
+  - Release volume - 43
 
 The auto read URL command is:
   'https://www.usbr.gov/uc/water/hydrodata/reservoir_data/RESID/csv/FIELDID.csv'
