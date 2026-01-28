@@ -67,9 +67,14 @@ fReadReclamationHydroData <- function(FromHydroData) {
   
     if(FromHydroData != TRUE ) {
       
-      fAnnualData <- here("", "dfResDataAnnual.csv")
-      fMonthlyData <- here("","dfResDataMonthly.csv")
-      fDailyData <- here("","dfResDataDaily.csv")
+      #fAnnualData <- "dfResDataAnnual.csv"
+      #fMonthlyData <- "dfResDataMonthly.csv"
+      #fDailyData <- "dfResDataDaily.csv"
+      
+      # Using here, did not work
+      fAnnualData <- here("AutoReadUSBRData", "dfResDataAnnual.csv")
+      fMonthlyData <- here("AutoReadUSBRData","dfResDataMonthly.csv")
+      fDailyData <- here("AutoReadUSBRData","dfResDataDaily.csv")
       
       print(fAnnualData)
       print(fMonthlyData)

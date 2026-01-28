@@ -30,6 +30,9 @@ for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 # After the installation process completes, we load all packages.
 sapply(load.lib,require,character=TRUE)
 
+here::i_am("LakePowell10year/AsR/Powell10Year-AutoImportFromFunc.R")
+        
+
 ## Read in the function to auto load USBR data
 source("../../AutoReadUSBRData/AutoReadUSBRData.r")
 
