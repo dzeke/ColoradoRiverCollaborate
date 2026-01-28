@@ -104,11 +104,5 @@ ggsave("PowellTenYearRelease.png", width=9, height = 6.5, units="in")
 #Export to CSV
 write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
 
-#Get the color palettes
-#Get the blue color bar
-pBlues <- brewer.pal(9,"Blues")
-pReds <- brewer.pal(9,"Reds")
-
-
 
 
