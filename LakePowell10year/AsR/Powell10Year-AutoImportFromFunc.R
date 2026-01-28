@@ -36,7 +36,7 @@ here::i_am("LakePowell10year/AsR/Powell10Year-AutoImportFromFunc.R")
 ## Read in the function to auto load USBR data
 source("../../AutoReadUSBRData/AutoReadUSBRData.r")
 
-lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
 
 # Let's try plotting the annuall Lake Powell Release
 dfResDataAnnual <- lResData$dfResAnnual

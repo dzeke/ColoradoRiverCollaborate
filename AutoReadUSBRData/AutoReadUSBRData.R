@@ -95,7 +95,7 @@ fReadReclamationHydroData <- function(FromHydroData) {
 
     #We will read from the HydroDataPortal
     
-    sExcelMeta <- here("", "USBRWebPortalMetaData.xlsx")
+    sExcelMeta <- here("AutoReadUSBRData", "USBRWebPortalMetaData.xlsx")
     
     
     dfReservoirs <- read_excel(sExcelMeta, sheet = "Reservoirs")
