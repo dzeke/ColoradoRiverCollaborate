@@ -3,7 +3,10 @@
 # This script auto reads USBR Lake Powell and Lake Mead data from Reclamation's HydroData Web portal
 # 
 # https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
-
+#
+# This script also loads Bathymetry data for Lake Powell and Lake Mead
+# This script also loads critical elevations for the two reservoirs
+#
 # This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
 # Please report bugs/feedback to me (contact info below)
 #
@@ -231,6 +234,51 @@ fReadReclamationHydroData <- function(FromHydroData) {
 
     return(list(dfResDaily = dfResDataDaily, dfResMonthly = dfResDataMonthly, dfResAnnual = dfResDataAnnual))
 }
+
+
+####### New function interp2 to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
+interp2 <- function(x, y, xi = x, ...) {
+  yi <- rep(NA, length(xi));
+  sel <- which(xi >= range(x)[1] & xi <= range(x)[2]);
+  yi[sel] <- interp1(x = x, y = y, xi = xi[sel], ...);
+  return(yi);
+}
+
+# Example use
+# interp2(xi = dfMeadEvap$`Elevation (ft)` - EvapRateToUse[1], x=dfMeadElevStor$`Elevation (ft)` , y=dfMeadElevStor$`Live Storage (ac-ft)`, method="linear")
+
+################ Read the bathymetry and critical elevation data from Excel
+ReadBathymetryCritialElevations <- function() {
+
+    # Read elevation-storage data in from Excel
+    sExcelBathymteryFile <- here("AutoReadUSBRData", "Bathymetry.xlsx")
+    sExcelBathymteryFile <- "Bathymetry.xlsx"
+    
+    print(sExcelBathymteryFile)
+    
+    dfMeadBathymetry <- read_excel(sExcelBathymetryFile, sheet = "Mead-Bathymetry")
+    dfPowellBathymetry <- read_excel(sExcelBathymetryFile, sheet = 'Powell-Bathymetry')
+    
+    ################# Read the critical elevations from Excel
+    sExcelElevationsFile <- here("AutoReadUSBRData", "ReservoirElevationDefinitions.xlsx")
+    
+    print(sExcelElevationsFile)
+    
+    dfMeadElevations <- read_excel(sExcelElevationsFile, sheet = "MeadElevations")
+    dfPowellElevations <- read_excel(sExcelElevationsFile, sheet = 'PowellElevations')
+    
+    # Calcualte volumes from critical elevations
+    dfMeadElevations$ActiveStorageMAF <- interp2(xi = dfMeadElevations$`Elevation (feet)`, x=dfMeadBathymetry$`Elevation (ft)` , y=dfMeadBathymetry$`Active Storage (ac-ft)`, method="linear") / 1e6
+    dfPowellElevations$ActiveStorageMAF <- interp2(xi = dfPowellElevations$`Elevation (feet)`, x=dfPowellBathymetry$`ELEVATION (feet)` , y=dfPowellBathymetry$`Active Storage (acre-feet)`, method="linear") / 1e6
+    
+    #Combine Elevations and Labels
+    dfMeadElevations$Label <- paste0(dfMeadElevations$`Elevation (feet)`," - ", dfMeadElevations$Description)
+    dfPowellElevations$Label <- paste0(dfPowellElevations$`Elevation (feet)`," - ", dfPowellElevations$Description)
+
+    return(list(dfMeadBathymtery = dfMeadBathymetry, dfPowellBathymetry = dfPowellBathymetry, dfMeadElevations = dfMeadElevations, dfPowellElevations = dfPowellElevations))
+    }
+
+dfTemp <- ReadBathymetryCritialElevations()
 
 # Test Trial runs
 # Read the most recently saved csv files
