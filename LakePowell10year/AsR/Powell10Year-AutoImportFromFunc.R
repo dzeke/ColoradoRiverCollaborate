@@ -32,11 +32,18 @@ sapply(load.lib,require,character=TRUE)
 
 here::i_am("LakePowell10year/AsR/Powell10Year-AutoImportFromFunc.R")
         
-
-## Read in the function to auto load USBR data
+## Read in functions to:
+#     Auto load USBR data
+#     Interpolate with NAs
+#     Load Reservoir Bathymetry and Critical Elevations
 source("../../AutoReadUSBRData/AutoReadUSBRData.r")
 
+# Read in the Reclamation Hydro Data
 lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+
+# Read in the Reservoir Bathymetry and Critical Elevations
+dfTemp <- ReadBathymetryCritialElevations()
+
 
 # Let's try plotting the annuall Lake Powell Release
 dfResDataAnnual <- lResData$dfResAnnual

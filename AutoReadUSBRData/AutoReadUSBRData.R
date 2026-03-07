@@ -252,7 +252,7 @@ ReadBathymetryCritialElevations <- function() {
 
     # Read elevation-storage data in from Excel
     sExcelBathymetryFile <- "Bathymetry.xlsx"
-    sExcelBathymeteryFile <- here("AutoReadUSBRData", sExcelBathymetryFile)
+    sExcelBathymetryFile <- here("AutoReadUSBRData", sExcelBathymetryFile)
     
     print(sExcelBathymetryFile)
     
@@ -280,7 +280,7 @@ ReadBathymetryCritialElevations <- function() {
     return(list(dfMeadBathymtery = dfMeadBathymetry, dfPowellBathymetry = dfPowellBathymetry, dfMeadElevations = dfMeadElevations, dfPowellElevations = dfPowellElevations))
     }
 
-dfTemp <- ReadBathymetryCritialElevations()
+#dfTemp <- ReadBathymetryCritialElevations()
 
 # Test Trial runs
 # Read the most recently saved csv files
