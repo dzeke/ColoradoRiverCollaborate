@@ -251,16 +251,18 @@ interp2 <- function(x, y, xi = x, ...) {
 ReadBathymetryCritialElevations <- function() {
 
     # Read elevation-storage data in from Excel
-    sExcelBathymteryFile <- here("AutoReadUSBRData", "Bathymetry.xlsx")
-    sExcelBathymteryFile <- "Bathymetry.xlsx"
+    sExcelBathymetryFile <- "Bathymetry.xlsx"
+    sExcelBathymeteryFile <- here("AutoReadUSBRData", sExcelBathymetryFile)
     
-    print(sExcelBathymteryFile)
+    print(sExcelBathymetryFile)
     
     dfMeadBathymetry <- read_excel(sExcelBathymetryFile, sheet = "Mead-Bathymetry")
     dfPowellBathymetry <- read_excel(sExcelBathymetryFile, sheet = 'Powell-Bathymetry')
     
     ################# Read the critical elevations from Excel
-    sExcelElevationsFile <- here("AutoReadUSBRData", "ReservoirElevationDefinitions.xlsx")
+    sExcelElevationsFile <- "ReservoirElevationDefinitions.xlsx"
+    
+    sExcelElevationsFile <- here("AutoReadUSBRData", sExcelElevationsFile)
     
     print(sExcelElevationsFile)
     
