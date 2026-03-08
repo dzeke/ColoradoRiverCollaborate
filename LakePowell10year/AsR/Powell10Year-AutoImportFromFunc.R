@@ -144,7 +144,7 @@ dfResStorage$Year <- ifelse(dfResStorage$Month >= 10, dfResStorage$WaterYear - 1
 dfResStorage$Date <- as.Date(paste(dfResStorage$Year,"-",dfResStorage$Month, "-01", sep = ""), format = "%Y-%m-%d")
 
 #Turn narrow into wide so separate columns for Lake Powell and Lake Mead
-dfResStorageWide <- pivot_wider(  dfResStorage %>% group_by(ResName, Date) %>% select(ResName, Date, MonthlyValue),   names_from = ResName,   values_from = MonthlyValue)
+dfResStorageWide <- pivot_wider(  dfResStorage %>% group_by(ResName, Date, Year, Month) %>% select(ResName, Date, Year, Month, MonthlyValue),   names_from = ResName,   values_from = MonthlyValue)
 
 ggplot() +
   #Powell storage
@@ -172,4 +172,63 @@ ggplot() +
   labs(x="", y="Active Storage (MAF)", color = "Reservoir") +
   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
 #theme(text = element_text(size=20), legend.text=element_text(size=16)
+
+
+################
+# Figure 4. Powell on X and Mead on Y with 1:1
+
+ggplot() +
+  #Background tiers of different blues
+#  geom_polygon(aes(fill = as.factor(DumVal), group = id)) +
+  #Plot equalization lines for years
+#  geom_line(data = dfPowellEqPlot, aes(x = Volume, y = value,group=Year, color="Equalization levels (Year)"),size=1.25, linetype=2, show.legend = FALSE) + 
+  #Label the boundary between the Upper Equalization Tier and the Equalization Tier (year dependent)
+#  geom_text(data=dfPowellEqLevelsFilt, aes( x = Volume + 0.4, y = MeadEnd/5, label = YearAsLabel), color="black", angle = 90, size = 5) +
+  # Plot a 1:1 line to total storage
+  #geom_line(data=dfOneToOneByVolume,aes(x=PowellStor,y=MeadStor, group=1, color="1:1 line (by volume)"), size=2, linetype="longdash", show.legend = FALSE) +
+
+  geom_abline(intercept = 0, slope = 1, color="1:1 line (by volume)", size=2, linetype="longdash", show.legend = FALSE) +
+    #Label the 1:1 line
+  geom_text(aes(x=3.5,y=4.2,label="1:1 line"), color="black", angle = 45, size =6, show.legend = FALSE) +
+
+  #Overplot Mead-Powell historical storage -- January of each year
+  #Before guidelines in place in Red
+  geom_path(data = dfResStorageWide %>% filter(Month == 1, Year < 2007), aes(x = `Lake Powell`, y = `Lake Mead`, color="Before Guidelines"), size=1.5, linetype=1, show.legend = TRUE) +
+  #After guidelines in place in purple
+  geom_path(data = dfResStorageWide %>% filter(Month == 1, Year >=  2007), aes(x = `Lake Powell`, y = `Lake Mead`, color="After Guidelines"), size=1.5, linetype=1, show.legend = TRUE) +
+
+
+  #Label the each January with it's year
+  geom_text_repel(data=dfResStorageWide %>% filter(Month == 1), point.padding = NA, aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, color="YearsText", angle = 0, size = 2, check_overlap = TRUE)) +
+  #p <- p + geom_text(data=dfJointStorageFiltAfter, aes( x = PowellStorage, y = MeadStorage, label = year(DateAsValue), color="AfterGuidesText", angle = 0, size = 4, check_overlap = TRUE))
+  #p <- p + geom_text_repel(data=dfJointStorageFiltAfter[-seq(0,nrow(dfJointStorageFiltBefore),2),], aes( x = PowellStorage, y = MeadStorage, label = year(DateAsValue), color="AfterGuidesText", angle = 0, size = 4, check_overlap = TRUE))
+  
+   #set colors for lines
+
+   scale_color_manual(breaks = c("Before Guidelines", "After Guidelines"),
+                            values= c(pBlues[8], pBlues[5], "black"),
+                            labels = c("Before Guidelines", "With Guidelines")) +
+  
+  #Create secondary y axes for Mead Lake Level
+  scale_y_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfTemp$dfMeadElevations$ActiveStorageMAF, labels = dfTemp$dfMeadElevations$Label)) +
+  #Create secondary x axes for Powell Lake Level
+  scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), sec.axis = sec_axis(~. +0, name = "Powell Level (feet)", breaks = dfTemp$dfPowellElevations$ActiveStorageMAF , labels = dfTemp$dfPowellElevations$`Elevation (feet)`)) +
+  
+  theme_bw() +
+  coord_fixed() +
+  
+  #guides(size = "none", colour = guide_legend("Historical volumes (year)"), fill="none") +
+  guides(size = "none", colour = guide_legend(""), fill="none") +
+  
+  labs(x="Powell Active Storage (MAF)", y="Mead Active Storage (MAF)") +
+
+       theme(text = element_text(size=14), legend.text=element_text(size=10),
+        panel.border = element_rect(colour = "black", fill="NA"),
+        legend.background = element_blank(),
+        legend.box.background = element_rect(colour = "black", fill="grey"),
+        legend.position = c(1.13,0.620))
+
+
+
+
 
