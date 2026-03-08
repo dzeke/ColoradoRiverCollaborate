@@ -39,7 +39,10 @@ here::i_am("LakePowell10year/AsR/Powell10Year-AutoImportFromFunc.R")
 source("../../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
-lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+#lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+
+
 
 # Read in the Reservoir Bathymetry and Critical Elevations
 dfTemp <- ReadBathymetryCritialElevations()
@@ -108,6 +111,7 @@ ggplot(data = dfPowellTenYearLong %>% filter(WaterYear >= 1995), aes(x = WaterYe
 #theme(text = element_text(size=20), legend.text=element_text(size=16)
 
 ggsave("PowellTenYearRelease.png", width=9, height = 6.5, units="in")
+
 #Export to CSV
 write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
 
@@ -119,3 +123,53 @@ dYesterday <- today() - 1
 dfResElevations <- dfResDataDaily %>% filter(FieldName == "Pool Elevation", DateValue == dYesterday)
 
 print(dfResElevations)
+
+
+################
+#  Figure 3. Powell, Mead, and Combined storage plot
+#
+
+# Combined, Powell, and Mead on one plot
+
+# Filter the Powell and Mead monthly storages
+
+dfResDataMonthly <- lResData$dfResMonthly
+
+#Filter the Powell and Mead storages
+dfResStorage <- dfResDataMonthly %>% filter(ResName %in% c("Lake Powell", "Lake Mead"), FieldName == "Storage")
+# Convert year and month 
+# Calculate calendar year
+dfResStorage$Year <- ifelse(dfResStorage$Month >= 10, dfResStorage$WaterYear - 1, dfResStorage$WaterYear)
+#Calculate Date as Date Type
+dfResStorage$Date <- as.Date(paste(dfResStorage$Year,"-",dfResStorage$Month, "-01", sep = ""), format = "%Y-%m-%d")
+
+#Turn narrow into wide so separate columns for Lake Powell and Lake Mead
+dfResStorageWide <- pivot_wider(  dfResStorage %>% group_by(ResName, Date) %>% select(ResName, Date, MonthlyValue),   names_from = ResName,   values_from = MonthlyValue)
+
+ggplot() +
+  #Powell storage
+  geom_line(data=dfResStorageWide ,aes(x=Date, y=`Lake Powell`, color="Powell"), size=2) +
+  #Mead Storage
+  geom_line(data=dfResStorageWide ,aes(x=Date,y=`Lake Mead`, color="Mead"), size=2) +
+  #Combined Storage
+  geom_line(data=dfResStorageWide,aes(x=Date,y=`Lake Powell` + `Lake Mead`, color="Combined"), size=2) +
+  scale_color_manual(values = c("purple","red","blue"), breaks=c("Combined", "Powell", "Mead")) +
+  #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
+  scale_y_continuous(breaks = seq(0,50,by=10),labels=seq(0,50,by=10)) +
+  scale_x_date(limits= c(as.Date("1968-01-01"), as.Date("2030-01-01")),
+               date_breaks = "10 years", # Major ticks every 10 years
+               date_labels = "%Y") +
+  
+  
+  #    scale_y_continuous(breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]),labels=c(0,5.98,9.6,12.2,dfMaxStor[2,2]),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]), labels = c(895,1025,1075,1105,1218.8))) +
+  #scale_x_discrete(breaks=cMonths, labels= cMonthsLabels) +
+  #scale_x_continuous(breaks=seq(1960,2020,by=10), labels= seq(1960,2020,by=10)) +
+  
+  
+  #scale_fill_manual(breaks=c(1:6),values = palBlues[2:7]) + #,labels = variable) + 
+  theme_bw() +
+  #coord_fixed() +
+  labs(x="", y="Active Storage (MAF)", color = "Reservoir") +
+  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18))
+#theme(text = element_text(size=20), legend.text=element_text(size=16)
+
