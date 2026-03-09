@@ -145,15 +145,15 @@ dfResStorage <- dfResDataMonthly %>% filter(ResName %in% c("Lake Powell", "Lake 
 dfResStorageWide <- pivot_wider(  dfResStorage %>% group_by(ResName, Date, Year, Month) %>% select(ResName, Date, Year, Month, MonthlyValue),   names_from = ResName,   values_from = MonthlyValue)
 
 #Filter to data after 1995
-dfResStorageWide <- dfResStorageWide %>% filter(Year >= 1995)
+dfResStorageWide1995 <- dfResStorageWide %>% filter(Year >= 1995)
 
 ggplot() +
   #Powell storage
-  geom_line(data=dfResStorageWide ,aes(x=Date, y=`Lake Powell`, color="Powell"), size=2) +
+  geom_line(data=dfResStorageWide1995 ,aes(x=Date, y=`Lake Powell`, color="Powell"), size=2) +
   #Mead Storage
-  geom_line(data=dfResStorageWide ,aes(x=Date,y=`Lake Mead`, color="Mead"), size=2) +
+  geom_line(data=dfResStorageWide1995 ,aes(x=Date,y=`Lake Mead`, color="Mead"), size=2) +
   #Combined Storage
-  geom_line(data=dfResStorageWide,aes(x=Date,y=`Lake Powell` + `Lake Mead`, color="Combined"), size=2) +
+  geom_line(data=dfResStorageWide1995,aes(x=Date,y=`Lake Powell` + `Lake Mead`, color="Combined"), size=2) +
   scale_color_manual(values = c("purple","red","blue"), breaks=c("Combined", "Powell", "Mead")) +
   #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
   scale_y_continuous(breaks = seq(0,50,by=10),labels=seq(0,50,by=10)) +
@@ -179,15 +179,7 @@ ggplot() +
 # Figure 4. Powell on X and Mead on Y with 1:1
 
 ggplot() +
-  #Background tiers of different blues
-#  geom_polygon(aes(fill = as.factor(DumVal), group = id)) +
-  #Plot equalization lines for years
-#  geom_line(data = dfPowellEqPlot, aes(x = Volume, y = value,group=Year, color="Equalization levels (Year)"),size=1.25, linetype=2, show.legend = FALSE) + 
-  #Label the boundary between the Upper Equalization Tier and the Equalization Tier (year dependent)
-#  geom_text(data=dfPowellEqLevelsFilt, aes( x = Volume + 0.4, y = MeadEnd/5, label = YearAsLabel), color="black", angle = 90, size = 5) +
   # Plot a 1:1 line to total storage
-  #geom_line(data=dfOneToOneByVolume,aes(x=PowellStor,y=MeadStor, group=1, color="1:1 line (by volume)"), size=2, linetype="longdash", show.legend = FALSE) +
-
   geom_abline(intercept = 0, slope = 1, color="1:1 line (by volume)", size=2, linetype="longdash", show.legend = FALSE) +
     #Label the 1:1 line
   geom_text(aes(x=3.5,y=4.2,label="1:1 line"), color="black", angle = 45, size =6, show.legend = FALSE) +
@@ -198,11 +190,18 @@ ggplot() +
   #After guidelines in place in purple
   geom_path(data = dfResStorageWide %>% filter(Month == 1, Year >=  2007), aes(x = `Lake Powell`, y = `Lake Mead`, color="After Guidelines"), size=1.5, linetype=1, show.legend = TRUE) +
 
-
-  #Label the each January with it's year
-  geom_text_repel(data=dfResStorageWide %>% filter(Month == 1), point.padding = NA, aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, color="YearsText", angle = 0, size = 2, check_overlap = TRUE)) +
-  #p <- p + geom_text(data=dfJointStorageFiltAfter, aes( x = PowellStorage, y = MeadStorage, label = year(DateAsValue), color="AfterGuidesText", angle = 0, size = 4, check_overlap = TRUE))
-  #p <- p + geom_text_repel(data=dfJointStorageFiltAfter[-seq(0,nrow(dfJointStorageFiltBefore),2),], aes( x = PowellStorage, y = MeadStorage, label = year(DateAsValue), color="AfterGuidesText", angle = 0, size = 4, check_overlap = TRUE))
+  #Label each January with it's year
+  #geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), point.padding = NA, aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 2)) +
+  geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 2)) +
+  
+    #geom_label(data = dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 1)) +
+  
+    # Before guidelines
+  #geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year < 2007), point.padding = NA, aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, color="Before Guidelines", angle = 0, size = 2, check_overlap = TRUE)) +
+  # After guidelines
+  #geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year >= 2007), point.padding = NA, aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, color="After Guidelines", angle = 0, size = 2, check_overlap = TRUE)) +
+  
+  
   
    #set colors for lines
 
@@ -211,9 +210,9 @@ ggplot() +
                             labels = c("Before Guidelines", "With Guidelines")) +
   
   #Create secondary y axes for Mead Lake Level
-  scale_y_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfTemp$dfMeadElevations$ActiveStorageMAF, labels = dfTemp$dfMeadElevations$Label)) +
+  scale_y_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfTemp$dfMeadElevations$ActiveStorageMAF, labels = dfTemp$dfMeadElevations$Label)) +
   #Create secondary x axes for Powell Lake Level
-  scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), sec.axis = sec_axis(~. +0, name = "Powell Level (feet)", breaks = dfTemp$dfPowellElevations$ActiveStorageMAF , labels = dfTemp$dfPowellElevations$`Elevation (feet)`)) +
+  scale_x_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), sec.axis = sec_axis(~. +0, name = "Powell Level (feet)", breaks = dfTemp$dfPowellElevations$ActiveStorageMAF , labels = dfTemp$dfPowellElevations$`Elevation (feet)`)) +
   
   theme_bw() +
   coord_fixed() +
@@ -223,12 +222,12 @@ ggplot() +
   
   labs(x="Powell Active Storage (MAF)", y="Mead Active Storage (MAF)") +
 
-       theme(text = element_text(size=14), legend.text=element_text(size=10),
-        panel.border = element_rect(colour = "black", fill="NA"),
-        legend.background = element_blank(),
-        legend.box.background = element_rect(colour = "black", fill="grey"),
-        legend.position = c(1.13,0.620))
-
+       # theme(text = element_text(size=14), legend.text=element_text(size=10),
+       #  panel.border = element_rect(colour = "black", fill="NA"),
+       #  legend.background = element_blank(),
+       #  legend.box.background = element_rect(colour = "black", fill="grey"),
+       #  legend.position = c(1.13,0.620))
+  theme(text = element_text(size=14), legend.position = "none")
 
 
 
