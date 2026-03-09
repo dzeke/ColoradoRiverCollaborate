@@ -242,10 +242,38 @@ ggplot() +
                date_labels = "%Y") +
   
   #Create secondary y axes for Powell Lake Level
-   scale_y_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), sec.axis = sec_axis(~. +0, name = "Powell Level (feet)", breaks = dfTemp$dfPowellElevations$ActiveStorageMAF , labels = dfTemp$dfPowellElevations$`Elevation (feet)`)) +
+   scale_y_continuous(limits = c(0,25), breaks = dfTemp$dfPowellElevations$ActiveStorageMAF,labels=round(dfTemp$dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfTemp$dfPowellElevations$ActiveStorageMAF , labels = dfTemp$dfPowellElevations$Label)) +
   
+  geom_hline(yintercept = dfTemp$dfPowellElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
   theme_bw() +
   
-  labs(x="", y="Powell Active Storage (MAF)")
+  labs(x="", y="Powell Active Storage (MAF)") +
+  theme(text = element_text(size=14), legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank())
+
+ 
+##########
+## Figure 6. Lake Meadage/elevation over time
+
+ggplot() +
   
+  geom_line(data = dfResStorageWide, aes(x = as.Date(Date), y = `Lake Mead`), size = 1.5) +
+  
+  scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
+               date_breaks = "5 years", # Major ticks every 10 years
+               date_labels = "%Y") +
+  
+  #Create secondary y axes for Mead Lake Level
+  scale_y_continuous(limits = c(0,25), breaks = dfTemp$dfMeadElevations$ActiveStorageMAF,labels=round(dfTemp$dfMeadElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Mead Elevation (feet)", breaks = dfTemp$dfMeadElevations$ActiveStorageMAF , labels = dfTemp$dfMeadElevations$Label)) +
+  
+  geom_hline(yintercept = dfTemp$dfMeadElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
+  theme_bw() +
+  
+  labs(x="", y="Mead Active Storage (MAF)") +
+  theme(text = element_text(size=14), legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank())
+
+
 
