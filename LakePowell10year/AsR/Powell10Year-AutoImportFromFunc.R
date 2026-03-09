@@ -39,8 +39,8 @@ here::i_am("LakePowell10year/AsR/Powell10Year-AutoImportFromFunc.R")
 source("../../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
-#lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
-lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+#lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 
 
@@ -120,10 +120,13 @@ dfResDataDaily <- lResData$dfResDaily
 
 #filter to values for yesterday 
 dYesterday <- today() - 1
-dfResElevations <- dfResDataDaily %>% filter(FieldName == "Pool Elevation", DateValue == dYesterday)
+dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dYesterday) %>% select(ResName, FieldName, Value)
 
-print(dfResElevations)
-
+# Make the Table easy to Read
+dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
+# Convert storage to million acre-feet
+dfResValues$Storage <- dfResValues$Storage / 1e6
+print(dfResValues)
 
 ################
 #  Figure 3. Powell, Mead, and Combined storage plot
@@ -137,14 +140,12 @@ dfResDataMonthly <- lResData$dfResMonthly
 
 #Filter the Powell and Mead storages
 dfResStorage <- dfResDataMonthly %>% filter(ResName %in% c("Lake Powell", "Lake Mead"), FieldName == "Storage")
-# Convert year and month 
-# Calculate calendar year
-dfResStorage$Year <- ifelse(dfResStorage$Month >= 10, dfResStorage$WaterYear - 1, dfResStorage$WaterYear)
-#Calculate Date as Date Type
-dfResStorage$Date <- as.Date(paste(dfResStorage$Year,"-",dfResStorage$Month, "-01", sep = ""), format = "%Y-%m-%d")
 
 #Turn narrow into wide so separate columns for Lake Powell and Lake Mead
 dfResStorageWide <- pivot_wider(  dfResStorage %>% group_by(ResName, Date, Year, Month) %>% select(ResName, Date, Year, Month, MonthlyValue),   names_from = ResName,   values_from = MonthlyValue)
+
+#Filter to data after 1995
+dfResStorageWide <- dfResStorageWide %>% filter(Year >= 1995)
 
 ggplot() +
   #Powell storage
@@ -156,8 +157,8 @@ ggplot() +
   scale_color_manual(values = c("purple","red","blue"), breaks=c("Combined", "Powell", "Mead")) +
   #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
   scale_y_continuous(breaks = seq(0,50,by=10),labels=seq(0,50,by=10)) +
-  scale_x_date(limits= c(as.Date("1968-01-01"), as.Date("2030-01-01")),
-               date_breaks = "10 years", # Major ticks every 10 years
+  scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
+               date_breaks = "5 years", # Major ticks every 10 years
                date_labels = "%Y") +
   
   

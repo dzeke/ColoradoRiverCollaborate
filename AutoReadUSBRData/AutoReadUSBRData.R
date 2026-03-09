@@ -198,7 +198,13 @@ fReadReclamationHydroData <- function(FromHydroData) {
     ### Convert acre-feet fields to Million Acre-Feet
     dfResDataMonthly$MonthlyValue <- ifelse(dfResDataMonthly$FieldUnits == "acre-feet", dfResDataMonthly$MonthlyValue/ 1e6, dfResDataMonthly$MonthlyValue )
     dfResDataMonthly$FieldUnits <- ifelse(dfResDataMonthly$FieldUnits == "acre-feet", "million acre-feet", dfResDataMonthly$FieldUnits )
+
+    # Calculate calendar year
+    dfResDataMonthly$Year <- ifelse(dfResDataMonthly$Month >= 10, dfResDataMonthly$WaterYear - 1, dfResDataMonthly$WaterYear)
+    #Calculate Date as Date Type
+    dfResDataMonthly$Date <- as.Date(paste(dfResDataMonthly$Year,"-",dfResDataMonthly$Month, "-01", sep = ""), format = "%Y-%m-%d")
     
+        
     
     ### Aggregate and filter to Water Year values
     # Aggregate To WaterYear values for fields with AggregateToTimePeriod == Yes
