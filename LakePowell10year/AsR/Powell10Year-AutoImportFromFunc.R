@@ -39,8 +39,8 @@ here::i_am("LakePowell10year/AsR/Powell10Year-AutoImportFromFunc.R")
 source("../../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
-lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
-#lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+#lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 
 
@@ -149,11 +149,11 @@ dfResStorageWide1995 <- dfResStorageWide %>% filter(Year >= 1995)
 
 ggplot() +
   #Powell storage
-  geom_line(data=dfResStorageWide1995 ,aes(x=Date, y=`Lake Powell`, color="Powell"), size=2) +
+  geom_line(data=dfResStorageWide1995 ,aes(x=as.Date(Date), y=`Lake Powell`, color="Powell"), size=2) +
   #Mead Storage
-  geom_line(data=dfResStorageWide1995 ,aes(x=Date,y=`Lake Mead`, color="Mead"), size=2) +
+  geom_line(data=dfResStorageWide1995 ,aes(x=as.Date(Date), y=`Lake Mead`, color="Mead"), size=2) +
   #Combined Storage
-  geom_line(data=dfResStorageWide1995,aes(x=Date,y=`Lake Powell` + `Lake Mead`, color="Combined"), size=2) +
+  geom_line(data=dfResStorageWide1995,aes(x=as.Date(Date), y=`Lake Powell` + `Lake Mead`, color="Combined"), size=2) +
   scale_color_manual(values = c("purple","red","blue"), breaks=c("Combined", "Powell", "Mead")) +
   #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
   scale_y_continuous(breaks = seq(0,50,by=10),labels=seq(0,50,by=10)) +
@@ -192,9 +192,9 @@ ggplot() +
 
   #Label each January with it's year
   #geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), point.padding = NA, aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 2)) +
-  geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 2)) +
+  #geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 2)) +
   
-    #geom_label(data = dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 1)) +
+    geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 1)) +
   
     # Before guidelines
   #geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year < 2007), point.padding = NA, aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, color="Before Guidelines", angle = 0, size = 2, check_overlap = TRUE)) +
@@ -230,5 +230,22 @@ ggplot() +
   theme(text = element_text(size=14), legend.position = "none")
 
 
+##########
+## Figure 5. Lake Powell storage/elevation over time
 
+ggplot() +
+
+  geom_line(data = dfResStorageWide, aes(x = as.Date(Date), y = `Lake Powell`), size = 1.5) +
+
+  scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
+               date_breaks = "5 years", # Major ticks every 10 years
+               date_labels = "%Y") +
+  
+  #Create secondary y axes for Powell Lake Level
+   scale_y_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), sec.axis = sec_axis(~. +0, name = "Powell Level (feet)", breaks = dfTemp$dfPowellElevations$ActiveStorageMAF , labels = dfTemp$dfPowellElevations$`Elevation (feet)`)) +
+  
+  theme_bw() +
+  
+  labs(x="", y="Powell Active Storage (MAF)")
+  
 
