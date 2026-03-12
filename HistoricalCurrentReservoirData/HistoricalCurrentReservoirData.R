@@ -263,7 +263,7 @@ ggplot() +
 
  
 ##########
-## Figure 6. Lake Meadage/elevation over time
+## Figure 6. Lake Mead storage/elevation over time
 
 ggplot() +
   
@@ -284,5 +284,32 @@ ggplot() +
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
 
+
+##################
+## Figure 7
+
+#Histogram -- frequency of annual Release volumes
+ggplot(dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Release volume"), aes(x=AnnualValue)) +
+  geom_histogram(color="darkmagenta", fill="magenta", binwidth = 2) +
+  
+  scale_x_continuous(limits = c(2,22), breaks = seq(2,22,by=2)) +
+  #scale_y_continuous(breaks = seq(0,11,by=2)) +
+  
+  labs(x="Powell Release\n(million acre feet per year)", y="Frequency\n(number of years)") +
+  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+        legend.key = element_blank())
+
+
+#################
+# Figure 8. Histogram -- frequency of annual release volumes
+ggplot(dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Inflow Volume"), aes(x=AnnualValue)) +
+  geom_histogram(color="darkmagenta", fill="magenta", binwidth = 2) +
+  
+  scale_x_continuous(limits = c(2,22), breaks = seq(2,22,by=2)) +
+  #scale_y_continuous(breaks = seq(0,11,by=2)) +
+  
+  labs(x="Powell Inflow\n(million acre feet per year)", y="Frequency\n(number of years)") +
+  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+        legend.key = element_blank())
 
 
