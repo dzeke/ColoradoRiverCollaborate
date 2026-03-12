@@ -30,13 +30,13 @@ for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 # After the installation process completes, we load all packages.
 sapply(load.lib,require,character=TRUE)
 
-here::i_am("LakePowell10year/HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
+here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
         
 ## Read in functions to:
 #     Auto load USBR data
 #     Interpolate with NAs
 #     Load Reservoir Bathymetry and Critical Elevations
-source("../../AutoReadUSBRData/AutoReadUSBRData.r")
+source("../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
 #lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
@@ -193,8 +193,15 @@ ggplot() +
   #Label each January with it's year
   #geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), point.padding = NA, aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 2)) +
   #geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 2)) +
+
+  # All years in black
+  #geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 2 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 1)) +
   
-    geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 4 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 1)) +
+  #Before guidelines
+  geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 2 == 0, Year < 2007), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 1, color = "Before Guidelines")) +
+  # After guidelines
+  geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 2 == 0, Year >= 2007), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 1, color = "After Guidelines")) +
+  
   
     # Before guidelines
   #geom_text_repel(data=dfResStorageWide %>% filter(Month == 1, Year < 2007), point.padding = NA, aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, color="Before Guidelines", angle = 0, size = 2, check_overlap = TRUE)) +
@@ -206,7 +213,9 @@ ggplot() +
    #set colors for lines
 
    scale_color_manual(breaks = c("Before Guidelines", "After Guidelines"),
-                            values= c(pBlues[8], pBlues[5], "black"),
+                          #All years in Black 
+                          # values= c(pBlues[8], pBlues[5], "black"),
+                            values= c(pBlues[6], pReds[6]),
                             labels = c("Before Guidelines", "With Guidelines")) +
   
   #Create secondary y axes for Mead Lake Level
@@ -227,7 +236,7 @@ ggplot() +
        #  legend.background = element_blank(),
        #  legend.box.background = element_rect(colour = "black", fill="grey"),
        #  legend.position = c(1.13,0.620))
-  theme(text = element_text(size=14), legend.position = "none")
+  theme(text = element_text(size=14))  # legend.position = "none")
 
 
 ##########
