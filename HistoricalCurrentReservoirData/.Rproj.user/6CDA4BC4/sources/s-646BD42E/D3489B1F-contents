@@ -312,4 +312,20 @@ ggplot(dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Inflow
   theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
         legend.key = element_blank())
 
+##############
+### Figure 9. As mixed bar (inflow) line (release) plot
+
+ggplot() +
+  #Bar graph of Powell Inflow
+  geom_bar(data = dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Inflow Volume"), aes(x = WaterYear, y=AnnualValue, fill = "Inflow"), stat="identity") +
+  #Line graph of Powell Release
+  geom_line(data = dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Release volume"), aes(x = WaterYear, y=AnnualValue, group = 1, color="Release"), size=2) +
+  scale_color_manual(" ", values = c("Inflow" = "grey50", "Release" = "blue")) +
+  scale_fill_manual("", values="grey50") +
+  labs(x="", y="Water Volume\n(million acre-feet per year)") +  
+  
+  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+        panel.background = element_blank(), 
+        legend.key = element_blank(),
+        axis.line = element_line(colour = "black"))
 
