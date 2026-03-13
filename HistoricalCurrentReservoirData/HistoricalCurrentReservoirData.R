@@ -329,3 +329,18 @@ ggplot() +
         legend.key = element_blank(),
         axis.line = element_line(colour = "black"))
 
+#### Figure 10. Powell Annual Evaporation
+ggplot(data = dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Evaporation")) +
+  geom_line(aes(x=WaterYear, y=`AnnualValue`, color=pBlues[7]), size=2) +
+
+  #geom_area(data=dfPlotData,aes(x=month,y=stor_maf, fill = variable), position='stack') +
+  #scale_y_continuous(breaks = seq(0,50,by=10),labels=seq(0,50,by=10)) +
+  #scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
+  #             date_breaks = "5 years", # Major ticks every 10 years
+  #             date_labels = "%Y") +
+  
+  #scale_fill_manual(breaks=c(1:6),values = palBlues[2:7]) + #,labels = variable) + 
+  theme_bw() +
+  #coord_fixed() +
+  labs(x="", y="Lake Powell Evaporation\n(MAF per year)") +
+  theme(text = element_text(size=20), legend.position = "none")
