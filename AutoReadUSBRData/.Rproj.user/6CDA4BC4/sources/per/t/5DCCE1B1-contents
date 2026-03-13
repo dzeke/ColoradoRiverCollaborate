@@ -286,6 +286,49 @@ ReadBathymetryCritialElevations <- function() {
     return(list(dfMeadBathymtery = dfMeadBathymetry, dfPowellBathymetry = dfPowellBathymetry, dfMeadElevations = dfMeadElevations, dfPowellElevations = dfPowellElevations))
     }
 
+#### Function: Read in ICS balances and calculate annual contributions
+
+fReadICSData <- funtion() {
+  ## Read in ICS account balance data
+  sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
+  sExcelFile <- here("AutoReadUSBRData", sExcelFile)
+  
+  dfICSBalance <- read_excel(sExcelFile, sheet = "Balances")
+  #Save the most recent year of ICS data
+  nMaxYearICSData <- max(dfICSBalance$Year)
+  #Register the largest year of reservoir data. Right now one larger than ICS
+  nMaxYearResData <- nMaxYearICSData + 1
+
+  #Duplicate the largest year and set the year to largest value plus 1
+  dfICSBalance <- rbind(dfICSBalance, dfICSBalance %>% filter(Year == nMaxYearICSData) %>% mutate(Year = nMaxYearICSData+1))
+  #Order by decreasing year
+  dfICSBalance <- dfICSBalance[order(-dfICSBalance$Year),]
+  #Turn time into a index by month. Year 1 = 1, Year 2 = 13
+  dfICSBalance$MonthIndex <- 12*(dfICSBalance$Year - dfICSBalance$Year[nrow(dfICSBalance)]) + 12
+
+  #Convert to Narrow data frame so state columns become a variable
+  dfICSBalanceNarrow <- melt(data = dfICSBalance,id.vars = "Year", measure.vars = cColNames[2:5])
+  
+  #Turn the ICS year into monthly
+  dfICSmonths = expand.grid(Year = unique(dfICSBalance$Year), month = 1:12)
+  dfICSmonths$MonthIndex <- 12*(dfICSmonths$Year - dfICSmonths$Year[nrow(dfICSmonths)]) + dfICSmonths$month
+  #Filter off first year but keep last month
+  dfICSmonths <- dfICSmonths %>% filter(dfICSmonths$MonthIndex >= 12)
+  #Calculate a date
+  dfICSmonths$Date <- as.Date(sprintf("%d-%d-01",dfICSmonths$Year, dfICSmonths$month))
+  
+  #Interpolate Lower Basin conservation account balances by Month
+  dfICSmonths$LowerBasinConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalance$MonthIndex, y = dfICSBalance$Total, method="linear" )
+  #Interpolate Mexico conservation account balance by Month
+  dfICSmonths$MexicoConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalance$MonthIndex, y = dfICSBalance$Mexico, method="linear" )
+  
+  #Set values above the max ICS date to zero
+  dfICSmonths[dfICSmonths$Year > nMaxYearICSData, c("LowerBasinConserve", "MexicoConserve")] <- 0
+  
+  return(list(dfICSBalance = dfICSBalance, dfICSBalanceNarrow = dfICSBalanceNarrow, dfICSmonths = dfICSmonths))
+  }
+
+
 #dfTemp <- ReadBathymetryCritialElevations()
 
 # Test Trial runs
