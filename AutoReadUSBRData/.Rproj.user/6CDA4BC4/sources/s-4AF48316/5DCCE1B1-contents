@@ -288,13 +288,15 @@ ReadBathymetryCritialElevations <- function() {
 
 #### Function: Read in ICS balances and calculate annual contributions
 
-fReadICSData <- funtion() {
+fReadICSData <- function() {
   ## Read in ICS account balance data
   sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
   sExcelFile <- here("AutoReadUSBRData", sExcelFile)
   
   dfICSBalance <- read_excel(sExcelFile, sheet = "Balances")
-  #Save the most recent year of ICS data
+  dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
+
+    #Save the most recent year of ICS data
   nMaxYearICSData <- max(dfICSBalance$Year)
   #Register the largest year of reservoir data. Right now one larger than ICS
   nMaxYearResData <- nMaxYearICSData + 1
@@ -306,6 +308,7 @@ fReadICSData <- funtion() {
   #Turn time into a index by month. Year 1 = 1, Year 2 = 13
   dfICSBalance$MonthIndex <- 12*(dfICSBalance$Year - dfICSBalance$Year[nrow(dfICSBalance)]) + 12
 
+  cColNames <- colnames(dfICSBalance)
   #Convert to Narrow data frame so state columns become a variable
   dfICSBalanceNarrow <- melt(data = dfICSBalance,id.vars = "Year", measure.vars = cColNames[2:5])
   
@@ -338,3 +341,4 @@ fReadICSData <- funtion() {
 # Read the downloaded data from HydroData
 # lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
 
+lTrialICS <- fReadICSData()

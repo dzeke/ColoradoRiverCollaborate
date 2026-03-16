@@ -344,3 +344,10 @@ ggplot(data = dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == 
   #coord_fixed() +
   labs(x="", y="Lake Powell Evaporation\n(MAF per year)") +
   theme(text = element_text(size=20), legend.position = "none")
+
+
+
+##################
+## ICS Data
+
+lICSdata <- fReadICSData()
