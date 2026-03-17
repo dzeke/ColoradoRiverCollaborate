@@ -294,9 +294,8 @@ fReadICSData <- function() {
   sExcelFile <- here("AutoReadUSBRData", sExcelFile)
   
   dfICSBalance <- read_excel(sExcelFile, sheet = "Balances")
-  dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
 
-    #Save the most recent year of ICS data
+  #Save the most recent year of ICS data
   nMaxYearICSData <- max(dfICSBalance$Year)
   #Register the largest year of reservoir data. Right now one larger than ICS
   nMaxYearResData <- nMaxYearICSData + 1
@@ -327,8 +326,22 @@ fReadICSData <- function() {
   
   #Set values above the max ICS date to zero
   dfICSmonths[dfICSmonths$Year > nMaxYearICSData, c("LowerBasinConserve", "MexicoConserve")] <- 0
+
+  #Format Program limits for plotting
+  dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
+  cColNamesLimits <- colnames(dfLimits)
+  dfLimitsMelt <- melt(data=dfLimits, id.vars="New levels with DCP", measure.vars = cColNamesLimits[2:5]) 
+  dfMaxBalanceCum = dfLimitsMelt %>% filter(`New levels with DCP` == "Max Balance (AF)", variable != 'Total')
+  #Reorder so Arizona is on top
+  dfMaxBalanceCum$Order <- c(3,2,1,4)
+  dfMaxBalanceCum <- dfMaxBalanceCum[order(dfMaxBalanceCum$Order),]
+  #Calculate the cumulative total
+  dfMaxBalanceCum$CumVal <- cumsum(dfMaxBalanceCum$value)
+  #Replace the Arizona label
+  dfMaxBalanceCum$StateAsChar <- as.character(dfMaxBalanceCum$variable)
+  dfMaxBalanceCum$StateAsChar[3] <- "Total/Arizona"
   
-  return(list(dfICSBalance = dfICSBalance, dfICSBalanceNarrow = dfICSBalanceNarrow, dfICSmonths = dfICSmonths))
+  return(list(dfICSBalance = dfICSBalance, dfICSBalanceNarrow = dfICSBalanceNarrow, dfICSmonths = dfICSmonths, dfMaxBalanceCum = dfMaxBalanceCum, dfICSLimits = dfLimits))
   }
 
 

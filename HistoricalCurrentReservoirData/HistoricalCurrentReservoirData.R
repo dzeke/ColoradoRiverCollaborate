@@ -351,3 +351,41 @@ ggplot(data = dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == 
 ## ICS Data
 
 lICSdata <- fReadICSData()
+
+# Figure 11. Timeseries of bar plots of ICVS balances 
+lFontSize <- 20
+
+cColNamesICSBalance <- colnames(lICSdata$dfICSBalance)
+
+ggplot() +
+  
+  geom_bar(data=lICSdata$dfICSBalanceNarrow %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  
+  #geom_hline(yintercept = nMaxBalance$Total[2]/1e6, size = 2) +
+  geom_hline(yintercept = lICSdata$dfICSLimits$Total[2]/1e6, size = 2) +
+  #geom_line(data=dfMaxBalance, aes(color="Max Balance", y=MaxBal/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
+  scale_color_manual(name="Guide2", values=c("Black")) +
+  
+  #scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
+  scale_x_continuous(breaks=seq(min(lICSdata$dfICSBalanceNarrow$Year),max(lICSdata$dfICSBalanceNarrow$Year),by=2),labels=seq(min(lICSdata$dfICSBalanceNarrow$Year),max(lICSdata$dfICSBalanceNarrow$Year),by=2)) +
+  
+  #Secondary scale with total max balance
+  #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[2])/1e6, labels = c("Max Balance"))) +
+  
+  #Secondary scale with individual state max balances
+  #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
+  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = lICSdata$dfMaxBalanceCum$CumVal/1e6, labels = lICSdata$dfMaxBalanceCum$StateAsChar)) +
+  
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color=FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Lake Mead Water Conservation\nAccount Balance\n(MAF)") +
+  theme(text = element_text(size=lFontSize),  legend.title = element_blank(), 
+        legend.text=element_text(size=lFontSize - 2),
+        legend.position= c(0.2,0.80))
+
