@@ -352,7 +352,8 @@ ggplot(data = dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == 
 
 lICSdata <- fReadICSData()
 
-# Figure 11. Timeseries of bar plots of ICVS balances 
+########################
+# Figure 11. Timeseries of bar plots of ICS balances 
 lFontSize <- 20
 
 cColNamesICSBalance <- colnames(lICSdata$dfICSBalance)
@@ -389,3 +390,34 @@ ggplot() +
         legend.text=element_text(size=lFontSize - 2),
         legend.position= c(0.2,0.80))
 
+###################
+## Figure 12. ICS Deposits/Withdraws by Year
+
+ggplot() +
+  
+  geom_bar(data=lICSdata$dfICSDepositNarrow, aes(fill=variable,y=-value/1e6,x=Year),position="stack", stat="identity") +
+
+  #geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
+  geom_line(data=lICSdata$dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
+  geom_line(data=lICSdata$dfMaxAnnualAmounts, aes(color="Max Withdrawal", y=-MaxWithdraw/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
+  scale_color_manual(name="Guide2", values=c("Black","Black")) +
+  
+  scale_x_continuous(breaks=seq(min(lICSdata$dfICSDepositNarrow$Year),max(lICSdata$dfICSDepositNarrow$Year),by=2),labels=seq(min(lICSdata$dfICSDepositNarrow$Year),max(lICSdata$dfICSDepositNarrow$Year),by=2)) +
+  scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(lICSdata$dfICSLimits$Total[1],-lICSdata$dfICSLimits$Total[3])/1e6, labels = c("Max Credit","Max Debit"))) +
+  
+  #scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), limits = c(0,as.numeric(dfMaxStor %>% filter(Reservoir %in% c("Mead")) %>% select(Volume))),
+  #                  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfMeadPoolsPlot$stor_maf, labels = dfMeadPoolsPlot$label)) +
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Credits (+) and Debits (-) to\nLake Mead Water Conservation Accounts\n(MAF per year)") +
+  theme(text = element_text(size=lFontSize - 4),  
+        axis.text.y = element_text(size = lFontSize - 4),
+        legend.title = element_blank(),
+        legend.text=element_text(size=lFontSize - 6),
+        legend.position= c(1.075,0.5))

@@ -311,7 +311,7 @@ fReadICSData <- function() {
   #Convert to Narrow data frame so state columns become a variable
   dfICSBalanceNarrow <- melt(data = dfICSBalance,id.vars = "Year", measure.vars = cColNames[2:5])
   
-  #Turn the ICS year into monthly
+  ##Turn the ICS year into monthly
   dfICSmonths = expand.grid(Year = unique(dfICSBalance$Year), month = 1:12)
   dfICSmonths$MonthIndex <- 12*(dfICSmonths$Year - dfICSmonths$Year[nrow(dfICSmonths)]) + dfICSmonths$month
   #Filter off first year but keep last month
@@ -324,10 +324,10 @@ fReadICSData <- function() {
   #Interpolate Mexico conservation account balance by Month
   dfICSmonths$MexicoConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalance$MonthIndex, y = dfICSBalance$Mexico, method="linear" )
   
-  #Set values above the max ICS date to zero
+  ##Set values above the max ICS date to zero
   dfICSmonths[dfICSmonths$Year > nMaxYearICSData, c("LowerBasinConserve", "MexicoConserve")] <- 0
 
-  #Format Program limits for plotting
+  ##Format Program limits for plotting
   dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
   cColNamesLimits <- colnames(dfLimits)
   dfLimitsMelt <- melt(data=dfLimits, id.vars="New levels with DCP", measure.vars = cColNamesLimits[2:5]) 
@@ -341,7 +341,29 @@ fReadICSData <- function() {
   dfMaxBalanceCum$StateAsChar <- as.character(dfMaxBalanceCum$variable)
   dfMaxBalanceCum$StateAsChar[3] <- "Total/Arizona"
   
-  return(list(dfICSBalance = dfICSBalance, dfICSBalanceNarrow = dfICSBalanceNarrow, dfICSmonths = dfICSmonths, dfMaxBalanceCum = dfMaxBalanceCum, dfICSLimits = dfLimits))
+  dfMaxAnnualAmounts <- data.frame(Year=dfICSBalance$Year, MaxDeposit = dfLimits$Total[1], MaxWithdraw = dfLimits$Total[3])
+  
+  
+  ## Calculate Credits/Debits from ICS balances as differences by year
+  
+  # Add a row of zeros year for the year before the first year
+  cFirstICSYear <- min(dfICSBalance$Year)
+  dfICSBalanceFirstYear <- dfICSBalance[1,]
+  dfICSBalanceFirstYear[1, 2:(ncol(dfICSBalanceFirstYear))] <- 0
+  dfICSBalanceFirstYear$Year <- cFirstICSYear - 1
+  dfICSBalanceFirstYear$Item <- paste("Balance - Dec",as.character(cFirstICSYear - 1) ,"(AF)")
+  
+  dfICSBalanceAll <- rbind(dfICSBalanceFirstYear, dfICSBalance)
+  
+  dfICSDeposit <- data.frame(diff(as.matrix(dfICSBalanceAll %>% select(Arizona,California,Nevada,Mexico,Total,Year))))
+  #Put the correct year back in
+  dfICSDeposit$Year <- dfICSBalance$Year[1:nrow(dfICSDeposit)]
+
+  #Melt the data so state columns become a variable
+  dfICSDepositNarrow <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cColNames[2:4])
+
+  
+  return(list(dfICSBalance = dfICSBalance, dfICSBalanceNarrow = dfICSBalanceNarrow, dfICSmonths = dfICSmonths, dfMaxBalanceCum = dfMaxBalanceCum, dfICSLimits = dfLimits, dfICSDepositNarrow = dfICSDepositNarrow, dfMaxAnnualAmounts = dfMaxAnnualAmounts))
   }
 
 
