@@ -300,10 +300,10 @@ fReadICSData <- function() {
   #Register the largest year of reservoir data. Right now one larger than ICS
   nMaxYearResData <- nMaxYearICSData + 1
 
-  #Duplicate the largest year and set the year to largest value plus 1
-  dfICSBalance <- rbind(dfICSBalance, dfICSBalance %>% filter(Year == nMaxYearICSData) %>% mutate(Year = nMaxYearICSData+1))
-  #Order by decreasing year
-  dfICSBalance <- dfICSBalance[order(-dfICSBalance$Year),]
+  # #Duplicate the largest year and set the year to largest value plus 1
+  # dfICSBalance <- rbind(dfICSBalance, dfICSBalance %>% filter(Year == nMaxYearICSData) %>% mutate(Year = nMaxYearICSData+1))
+  # #Order by decreasing year
+  # dfICSBalance <- dfICSBalance[order(-dfICSBalance$Year),]
   #Turn time into a index by month. Year 1 = 1, Year 2 = 13
   dfICSBalance$MonthIndex <- 12*(dfICSBalance$Year - dfICSBalance$Year[nrow(dfICSBalance)]) + 12
 
@@ -356,6 +356,8 @@ fReadICSData <- function() {
   dfICSBalanceAll <- rbind(dfICSBalanceFirstYear, dfICSBalance)
   
   dfICSDeposit <- data.frame(diff(as.matrix(dfICSBalanceAll %>% select(Arizona,California,Nevada,Mexico,Total,Year))))
+  
+  #dfICSDeposit <- data.frame(-diff(as.matrix(dfICSBalanceAll %>% select(Arizona,California,Nevada,Mexico,Total,Year))))
   #Put the correct year back in
   dfICSDeposit$Year <- dfICSBalance$Year[1:nrow(dfICSDeposit)]
 

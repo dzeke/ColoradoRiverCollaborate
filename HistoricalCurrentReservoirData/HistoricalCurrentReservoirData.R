@@ -393,9 +393,11 @@ ggplot() +
 ###################
 ## Figure 12. ICS Deposits/Withdraws by Year
 
+dfICSDepositsWithdraws <- lICSdata$dfICSDepositNarrow
+
 ggplot() +
   
-  geom_bar(data=lICSdata$dfICSDepositNarrow, aes(fill=variable,y=-value/1e6,x=Year),position="stack", stat="identity") +
+  geom_bar(data= dfICSDepositsWithdraws, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
 
   #geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
   geom_line(data=lICSdata$dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
