@@ -49,38 +49,41 @@ dfMeadElevStor <- dfBathymtry$dfMeadBathymtery
 
 # Read in the ICS data
 lICSdata <- fReadICSData()
-dfICSBalanceForStacked <- lICSdata$dfICSBalance
+# dfICSBalanceForStacked <- lICSdata$dfICSBalance
+# 
+# #Save the most recent year of ICS data
+# nMaxYearICSData <- max(dfICSBalanceForStacked$Year)
+# #Register the largest year of reservoir data. Right now one larger than ICS
+# nMaxYearResData <- nMaxYearICSData + 1
+#  
+# #Duplicate the largest year and set the year to largest value plus 1
+# dfICSBalanceForStacked <- rbind(dfICSBalanceForStacked, dfICSBalanceForStacked %>% filter(Year == nMaxYearICSData) %>% mutate(Year = nMaxYearICSData+1))
+# #Order by decreasing year
+# dfICSBalanceForStacked <- dfICSBalanceForStacked[order(-dfICSBalanceForStacked$Year),]
+# #Turn time into a index by month. Year 1 = 1, Year 2 = 13
+# dfICSBalanceForStacked$MonthIndex <- 12*(dfICSBalanceForStacked$Year - dfICSBalanceForStacked$Year[nrow(dfICSBalanceForStacked)]) + 12
+# 
+# #Turn the ICS year into monthly
+# #dcICSmonths <- lICSdata$dfICSmonths
+# 
+# dfICSmonths = expand.grid(Year = unique(dfICSBalanceForStacked$Year), month = 1:12)
+# dfICSmonths$MonthIndex <- 12*(dfICSmonths$Year - dfICSmonths$Year[nrow(dfICSmonths)]) + dfICSmonths$month
+# #Filter off first year but keep last month
+# dfICSmonths <- dfICSmonths %>% filter(dfICSmonths$MonthIndex >= 12)
+# #Calculate a date
+# dfICSmonths$Date <- as.Date(sprintf("%d-%d-01",dfICSmonths$Year, dfICSmonths$month))
+# 
+# #Interpolate Lower Basin conservation account balances by Month
+# dfICSmonths$LowerBasinConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalanceForStacked$MonthIndex, y = dfICSBalanceForStacked$Total, method="linear" )
+# #Interpolate Mexico conservation account balance by Month
+# dfICSmonths$MexicoConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalanceForStacked$MonthIndex, y = dfICSBalanceForStacked$Mexico, method="linear" )
+# 
+# #Set values above the max ICS date to zero
+# dfICSmonths[dfICSmonths$Year > nMaxYearICSData, c("LowerBasinConserve", "MexicoConserve")] <- 0
 
-#Save the most recent year of ICS data
-nMaxYearICSData <- max(dfICSBalanceForStacked$Year)
-#Register the largest year of reservoir data. Right now one larger than ICS
-nMaxYearResData <- nMaxYearICSData + 1
- 
-#Duplicate the largest year and set the year to largest value plus 1
-dfICSBalanceForStacked <- rbind(dfICSBalanceForStacked, dfICSBalanceForStacked %>% filter(Year == nMaxYearICSData) %>% mutate(Year = nMaxYearICSData+1))
-#Order by decreasing year
-dfICSBalanceForStacked <- dfICSBalanceForStacked[order(-dfICSBalanceForStacked$Year),]
-#Turn time into a index by month. Year 1 = 1, Year 2 = 13
-dfICSBalanceForStacked$MonthIndex <- 12*(dfICSBalanceForStacked$Year - dfICSBalanceForStacked$Year[nrow(dfICSBalanceForStacked)]) + 12
-
-#Turn the ICS year into monthly
-#dcICSmonths <- lICSdata$dfICSmonths
-
-dfICSmonths = expand.grid(Year = unique(dfICSBalanceForStacked$Year), month = 1:12)
-dfICSmonths$MonthIndex <- 12*(dfICSmonths$Year - dfICSmonths$Year[nrow(dfICSmonths)]) + dfICSmonths$month
-#Filter off first year but keep last month
-dfICSmonths <- dfICSmonths %>% filter(dfICSmonths$MonthIndex >= 12)
-#Calculate a date
-dfICSmonths$Date <- as.Date(sprintf("%d-%d-01",dfICSmonths$Year, dfICSmonths$month))
-
-#Interpolate Lower Basin conservation account balances by Month
-dfICSmonths$LowerBasinConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalanceForStacked$MonthIndex, y = dfICSBalanceForStacked$Total, method="linear" )
-#Interpolate Mexico conservation account balance by Month
-dfICSmonths$MexicoConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalanceForStacked$MonthIndex, y = dfICSBalanceForStacked$Mexico, method="linear" )
-
-#Set values above the max ICS date to zero
-dfICSmonths[dfICSmonths$Year > nMaxYearICSData, c("LowerBasinConserve", "MexicoConserve")] <- 0
-
+dfICSmonths <- lICSdata$dfICSmonths
+nMaxYearResData <- lICSdata$nMaxYearResData
+nMaxYearICSData <- lICSdata$nMaxYearICSData
 
 ## Data frame of key elevations
 nMeadProtectElevation <- 1020
@@ -97,123 +100,25 @@ dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Water\nC
                                Volume = c(nProtectMead/2, 8, 11.5), xPosition = c(2012, 2012, 2023),
                                Size = c(6, 6, 5))
 
-##### Uncomment this section if wish to read in Mead Elevation data from Excel file
-# ### Load Mead Storage data from cross-tabulated Excel file with year as rows and months as columns
-# sMeadHistoricalFile <- 'MeadLevelApril2024.xlsx'
-# # Read in the historical Mead data
-# dfMeadHistorical <- read_excel(sMeadHistoricalFile)
-# 
-# #Convert cross-tabulated Mead months into timeseries
-# dfMeadHist <- melt(dfMeadHistorical, id.vars = c("Year"))
-# dfMeadHist$BeginOfMonStr <- paste(dfMeadHist$Year,dfMeadHist$variable,"1",sep="-")
-# dfMeadHist$BeginOfMon <- as.Date(dfMeadHist$BeginOfMonStr, "%Y-%b-%d")
-# dfMeadHist$BeginNextMon <- dfMeadHist$BeginOfMon %m+% months(1)
-# #Filter out NAs
-# dfMeadHist <- dfMeadHist %>% filter(!is.na(dfMeadHist$value))
-# #Convert the text values to numerics
-# dfMeadHist$value <- as.numeric(dfMeadHist$value)
-# #Filter out low storages below min
-# dfMeadHist <- dfMeadHist %>% filter(dfMeadHist$value > min(dfMeadElevStor$`Elevation (ft)`))
-# dfMeadHist$Stor <- interp1(xi = dfMeadHist$value,y=dfMeadElevStor$`Live Storage (ac-ft)`,x=dfMeadElevStor$`Elevation (ft)`, method="linear")
-# 
-# #Merge the Mead and Powell Storage Time series
-# dfJointStorage <- dfMeadHist
-# 
-# #Rename columns so they are easier to distinquish
-# #dfJointStorage$PowellStorage <- dfJointStorage$Storage..af./1000000
-# #dfJointStorage$PowellRelease <- dfJointStorage$Total.Release..cfs.
-# dfJointStorage$MeadStorage <- dfJointStorage$Stor/1000000
-# #dfJointStorage <- merge(dfPowellHist[,c("DateAsValue","Storage..af.","Total.Release..cfs.")],dfMeadHist[,c("BeginNextMon","Stor")],by.x = "DateAsValue", by.y="BeginNextMon", all.x = TRUE, sort=TRUE)
-# 
-# dfJointStorage$Date <- dfJointStorage$BeginOfMon
-
-############# Load the Mead data from the USBR API
-# 1990 to Present
-#
-#             Use the HDB Data Service (usbr.gov) for all values - https://www.usbr.gov/lc/region/g4000/riverops/_HdbWebQuery.html
-#
-#                 API query - https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=2022-01-01T00:00&t2=2024-05-01T00:00&table=R&mrid=0&format=html
-#
-#                     Read in monthly data and print to html table. 
-#                     Returns an HTML page all on one line that looks like this:
-#
-#                     <HTML><HEAD><TITLE>Bureau of Reclamation HDB Data</TITLE></HEAD><BODY><TABLE BORDER=1><TR><TH>        DATETIME</TH><TH>     SDI_1776</TH><TH>     SDI_2091</TH><TH>     SDI_1721</TH><TH>     SDI_1874</TH></TR><TR><TD>01/01/2022 00:00</TD><TD> 25036.660109</TD><TD> 733181.246590</TD><TD>   8969839.40</TD><TD> 10400.87768820</TD></TR><TR><TD>02/01/2022 00:00</TD><TD> 22864.126967</TD><TD> 597592.564890</TD><TD>   8945556.40</TD><TD> 10631.16369050</TD></TR> .... <TR><TD>05/01/2024 00:00</TD><TD> 43219.74224840</TD><TD> 621530.394980</TD><TD>   8969054.80</TD><TD> 16139.41935480</TD></TR></TABLE></BODY></HTML>
-#
-#					Scrape and parse the html page using the rvest and tidyr packages			
-#
-#                 In order to use this, you will need to know the region and Site Datatype ID (SDID). 
-#                 The lake Mead data will be with the Lower Colorado Regional Offices HDB. For the different values you mentioned,
-#                 the SDID's you will need are as follows: Evaporation (SDID=1776), Inflow (SDID=2091), Storage (SDID=1721), 
-#                 and Release (SDID=1874). From there you can select the timestep you want,
-#                  Instantaneous, Hourly, Daily, Monthly, as well as for what time span you want.
-
-#Dynamically read to the current date
-CurrDate <- as.Date(Sys.Date())
-cYear <- year(CurrDate)
-cMonth <- month(CurrDate)
-
-#Calculate the prior month
-if (cMonth == 1) {
-  # We want December of the prior year
-  sDate <- sprintf("%d-%d-01", cYear-1, 12)
-  } else {
-  # We take the prior month of the same year
-  sDate <- sprintf("%d-%d-01", cYear, cMonth - 1)
-}
-
-#Construct the USBR API call by reading data up to the prior month
-usbr_url <- paste0("https://www.usbr.gov/pn-bin/hdb/hdb.pl?svr=lchdb&sdi=1776%2C2091%2C1721%2C1874&tstp=MN&t1=1990-01-01T00:00&t2=", sDate, "T00:00&table=R&mrid=0&format=html")
-
-usbr_MeadData <- read_html(usbr_url)
-
-pkg_data <- usbr_MeadData |>
-  html_element("table") |>
-  html_table()
-
-#Monthly data
-dfUSBR_API <- data.frame(pkg_data)
-
-#Save the API data to csv to improve reproducibility and in case no internet
-write.csv(dfUSBR_API, "dfUSBR_API.csv")
-
-#Turn the SDID Code # into meaningful variable names
-dfSDIDcode <- data.frame(code = c(1776, 2091, 1721, 1874),
-                         Field = c("Evaporation", "Inflow", "Storage", "Release"),
-                         Units = c("acre-feet", "??", "acre-feet", "cfs"))
-
-cSDID <- colnames(dfUSBR_API)
-cSDID[2:5] <-dfSDIDcode$Field
-colnames(dfUSBR_API) <- cSDID
-
-dfJointStorage <- dfUSBR_API
-
-lResData$dfResMonthly$
+# Read in Lake Mead Storage from the downloaded data
+dfJointStorage <- lResData$dfResMonthly %>% filter(ResName == "Lake Mead", FieldName == "Storage", Year >= 1998)
+dfJointStorage <- dfJointStorage %>% mutate(Storage = MonthlyValue)
 
 ### This statement not converting date as string to data as value correctly
-dfJointStorage$DateAsValue <- as.Date(dfJointStorage$DATETIME, "%m/%d/%Y %H:%M")
-#Add a column for decade
-dfJointStorage$decade <- round_any(as.numeric(format(dfJointStorage$DateAsValue,"%Y")),10,f=floor)
-#dfJointStorage$DecadeAsClass <- dfJointStorage %>% mutate(category=cut(decade, breaks=seq(1960,2020,by=10), labels=seq(1960,2020,by=10)))
-
-#Calculate the annual volume drop from each October 1
-#Calculate month
-dfJointStorage$month <- month(dfJointStorage$DateAsValue)
+dfJointStorage$DateAsValue <- as.Date(dfJointStorage$Date)
 
 #Left join the ICS data to the joint storage data to get the entire date range
 dfJointStorage <- left_join(dfJointStorage, dfICSmonths, by=c("DateAsValue" = "Date"))
 #Convert NAs to zeros
-dfJointStorage$Year <- year(dfJointStorage$DateAsValue)
-#dfJointStorageClean <- dfJointStorage[,2:ncol(dfJointStorage)] %>% filter(Year <= nMaxYearICSData)
+dfJointStorage$Year <- dfJointStorage$Year.x
 
 #Allow to go one more year
-#dfJointStorageClean <- dfJointStorage[,2:ncol(dfJointStorage)] %>% filter(Year <= nMaxYearResData)
-dfJointStorageClean <- dfJointStorage %>% filter(Year <= nMaxYearResData)
-
+dfJointStorageClean <- dfJointStorage %>% filter(Year <= nMaxYearResData, Year >= 1998)
 
 dfJointStorageClean[is.na(dfJointStorageClean)] <- 0
 dfTemp <- dfJointStorage %>% filter(Year <= nMaxYearResData) %>% select(DateAsValue)
 dfJointStorageClean$DateAsValue <- dfTemp$DateAsValue
-dfJointStorageClean$MeadStorage <- dfJointStorageClean$Storage / 1e6
+dfJointStorageClean$MeadStorage <- dfJointStorageClean$Storage
 dfJointStorageClean$Stor <- dfJointStorageClean$MeadStorage
 
 
@@ -251,8 +156,6 @@ dfMeadStorageStack$PublicPool = ifelse(dfMeadStorageStack$Year >= nMaxYearResDat
 
 #Calculate the Lake Mead pool level absent the water conservation program
 dfMeadStorageStack$MeadLevelWithoutICS <- dfMeadStorageStack$MeadStorage - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico
-dfMeadStorageStack$MeadLevelWithoutICS <- dfMeadStorageStack$Storage / 1e6 - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico
-
 
 #Melt the data
 dfMeadStorageStackMelt <- melt(dfMeadStorageStack, id.vars = c("DateAsValue"), measure.vars = c("Protect","PublicPool", "LowerBasin", "Mexico"))
