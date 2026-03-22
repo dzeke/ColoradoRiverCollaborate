@@ -1,17 +1,8 @@
-# Powell10Year-AutoImport.r
+# HistoricalCurrentReservoirData.r
 #
-# Plot 10-year running total release from Lake Powell
-#
-# This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
-# Please report bugs/feedback to me (contact info below)
-#
-# Auto download daily data from Reclamation's HydroData portal - https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
-#
-# The data wrangling strategy is:
-#   1. Auto download the release data from Reclamation's HydroData portal into CSV file format
-#   2. Clean and covert Reclamation's date format to a format R understands
-#   3. Calculate Water Year and sum daily values to annual and 10-year running sums.
-#   4. Plot stuff.
+# This script harvests Daily, Monthly, and Annual Lake Powell and Lake Mead data
+# from the Reclamation data portal and plots a variety of historical
+# and current reservoir data.
 
 # David E. Rosenberg
 # January 13, 2026
@@ -120,7 +111,11 @@ dfResDataDaily <- lResData$dfResDaily
 
 #filter to values for yesterday 
 dYesterday <- today() - 1
-dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dYesterday) %>% select(ResName, FieldName, Value)
+
+dMaxDay <- as.character(as.Date(max(dfResDataDaily$DateValue)) - 1)
+#dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dYesterday) %>% select(ResName, FieldName, Value)
+dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dMaxDay) %>% select(ResName, FieldName, Value)
+
 
 # Make the Table easy to Read
 dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
@@ -242,11 +237,19 @@ ggplot() +
 ##########
 ## Figure 5. Lake Powell storage/elevation over time
 
+# Calculate volumes from current storage to elevations 3,525, 3,500, and 3490
+dfPowellElevations <- dfTemp$dfPowellElevations
+dfPowellElevations$CurrentStorage <- dfResElevations %>% filter(FieldName == "Storage", ResName == "Lake Powell") %>% pull(Value) / 1e6
+dfPowellElevations$StorageAbove <- dfPowellElevations$CurrentStorage - dfPowellElevations$ActiveStorageMAF
+dfPowellElevations$StorageAboveLabel <- paste0(round(dfPowellElevations$StorageAbove, digits = 1), " maf above elev. ", format(dfPowellElevations$`Elevation (feet)`,scientific = FALSE, big.mark = ",", trim = TRUE))
+
 ggplot() +
 
   geom_line(data = dfResStorageWide, aes(x = as.Date(Date), y = `Lake Powell`), size = 1.5) +
-
-  scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
+  #geom_point(data = dfResStorageWide %>% filter(Date == max(Date)), aes(x = Date, y = `Lake Powell`), color = pReds[7] ) +
+  
+   geom_text(data = dfPowellElevations %>% filter(`Elevation (feet)` >= 3490, `Elevation (feet)` <= 3525), aes(x = as.Date("2029-01-01"), y = 2.5 + ActiveStorageMAF, label = StorageAboveLabel), color = pReds[7]) +
+    scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
                date_breaks = "5 years", # Major ticks every 10 years
                date_labels = "%Y") +
   
