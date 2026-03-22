@@ -187,6 +187,8 @@ colnames(dfUSBR_API) <- cSDID
 
 dfJointStorage <- dfUSBR_API
 
+lResData$dfResMonthly$
+
 ### This statement not converting date as string to data as value correctly
 dfJointStorage$DateAsValue <- as.Date(dfJointStorage$DATETIME, "%m/%d/%Y %H:%M")
 #Add a column for decade
@@ -258,12 +260,7 @@ dfMeadStorageStackMelt <- melt(dfMeadStorageStack, id.vars = c("DateAsValue"), m
 dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, levels=c("Mexico", "LowerBasin", "PublicPool", "Protect"))
 
 #Read in the levels from CSV
-dfMeadPoolsPlot2 <- dfBathymtry$dfMeadElevations
-#dfMeadPoolsPlot2 <- read.csv("dfMeadPoolsPlot2.csv",header=TRUE)
-
-
-# Add SNWA Intake to the third label at Mead Elevation 1,000 ft
-#dfMeadPoolsPlot2$label[3] <- paste0(dfMeadPoolsPlot2$label[3],"\nSNWA Intake #2")
+dfMeadBathymetry <- dfBathymtry$dfMeadElevations
 
 #Get the color palettes
 #Get the blue color bar
@@ -294,7 +291,7 @@ fig3 <- ggplot() +
   #Scales
   scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), date_breaks = "4 year", date_labels = "%Y", sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
   #Secondary axis as Mead level
-  scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadPoolsPlot2$stor_maf, labels = dfMeadPoolsPlot2$label)) +
+  scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
   
   
   scale_fill_manual(values=c(pBlues[3], pBlues[3], pBlues[5], pBlues[7])) +
