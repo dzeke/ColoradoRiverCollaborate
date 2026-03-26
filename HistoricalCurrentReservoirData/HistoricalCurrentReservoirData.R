@@ -243,12 +243,28 @@ dfPowellElevations$CurrentStorage <- dfResElevations %>% filter(FieldName == "St
 dfPowellElevations$StorageAbove <- dfPowellElevations$CurrentStorage - dfPowellElevations$ActiveStorageMAF
 dfPowellElevations$StorageAboveLabel <- paste0(round(dfPowellElevations$StorageAbove, digits = 1), " maf above elev. ", format(dfPowellElevations$`Elevation (feet)`,scientific = FALSE, big.mark = ",", trim = TRUE))
 
+# Filter out the last (most recent entry)
+dfResStorageWide$DateAsDate <- as.Date(dfResStorageWide$Date)
+dfLastDate <- dfResStorageWide %>% arrange(DateAsDate)
+dfLastDate <- dfLastDate[nrow(dfLastDate),] 
+
+# Combine all the current storage above critical elevations to one character string separated by newlines
+
+cPowellElevationsConcat <- dfPowellElevations %>%
+     arrange(desc(`Elevation (feet)`)) %>%  
+     filter(`Elevation (feet)` >= 3490, `Elevation (feet)` <= 3525) %>%
+    
+    select(StorageAboveLabel) %>%
+    summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
+
+cPowellElevationsConcat <- paste0("Current storage is:\n", cPowellElevationsConcat)
+
 ggplot() +
 
-  geom_line(data = dfResStorageWide, aes(x = as.Date(Date), y = `Lake Powell`), size = 1.5) +
-  #geom_point(data = dfResStorageWide %>% filter(Date == max(Date)), aes(x = Date, y = `Lake Powell`), color = pReds[7] ) +
+  geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
+  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = pReds[7], size = 4 ) +
   
-   geom_text(data = dfPowellElevations %>% filter(`Elevation (feet)` >= 3490, `Elevation (feet)` <= 3525), aes(x = as.Date("2029-01-01"), y = 2.5 + ActiveStorageMAF, label = StorageAboveLabel), color = pReds[7]) +
+   geom_text(aes(x = as.Date("2026-01-01"), y = 15, label = cPowellElevationsConcat), color = pReds[7]) +
     scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
                date_breaks = "5 years", # Major ticks every 10 years
                date_labels = "%Y") +
