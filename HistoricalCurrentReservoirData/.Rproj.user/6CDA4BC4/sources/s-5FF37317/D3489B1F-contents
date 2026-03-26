@@ -284,18 +284,39 @@ ggplot() +
 ##########
 ## Figure 6. Lake Mead storage/elevation over time
 
+dfMeadElevations <- dfTemp$dfMeadElevations
+dfMeadElevations$CurrentStorage <- dfResElevations %>% filter(FieldName == "Storage", ResName == "Lake Mead") %>% pull(Value) / 1e6
+dfMeadElevations$StorageAbove <- dfMeadElevations$CurrentStorage - dfMeadElevations$ActiveStorageMAF
+dfMeadElevations$StorageAboveLabel <- paste0(round(dfMeadElevations$StorageAbove, digits = 1), " maf above elev. ", format(dfMeadElevations$`Elevation (feet)`,scientific = FALSE, big.mark = ",", trim = TRUE))
+
+# Combine all the current storage above critical elevations to one character string separated by newlines
+cMeadElevationsConcat <- dfMeadElevations %>%
+  arrange(desc(`Elevation (feet)`)) %>%  
+  filter(`Elevation (feet)` >= 955, `Elevation (feet)` <= 1020) %>%
+  
+  select(StorageAboveLabel) %>%
+  summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
+
+cMeadElevationsConcat <- paste0("Current storage is:\n", cMeadElevationsConcat)
+
+
 ggplot() +
   
   geom_line(data = dfResStorageWide, aes(x = as.Date(Date), y = `Lake Mead`), size = 1.5) +
+  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Mead`), color = pReds[7], size = 4 ) +
   
+  geom_text(aes(x = as.Date("2026-01-01"), y = 15, label = cMeadElevationsConcat), color = pReds[7]) +
+  
+  
+    
   scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
                date_breaks = "5 years", # Major ticks every 10 years
                date_labels = "%Y") +
   
   #Create secondary y axes for Mead Lake Level
-  scale_y_continuous(limits = c(0,25), breaks = dfTemp$dfMeadElevations$ActiveStorageMAF,labels=round(dfTemp$dfMeadElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Mead Elevation (feet)", breaks = dfTemp$dfMeadElevations$ActiveStorageMAF , labels = dfTemp$dfMeadElevations$Label)) +
+  scale_y_continuous(limits = c(0,25), breaks = dfMeadElevations$ActiveStorageMAF,labels=round(dfMeadElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Mead Elevation (feet)", breaks = dfMeadElevations$ActiveStorageMAF , labels = dfMeadElevations$Label)) +
   
-  geom_hline(yintercept = dfTemp$dfMeadElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
+  geom_hline(yintercept = dfMeadElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
   theme_bw() +
   
   labs(x="", y="Mead Active Storage (MAF)") +
