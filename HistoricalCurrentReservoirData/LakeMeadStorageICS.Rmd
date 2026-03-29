@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Overview
 
-This is an R Markdown document. # Generates the following 3 plots:
+This is an R Markdown document. The document generates the following 3 plots:
 
 1. ICS account balances by state and year (stacked bar)
 1. Deposits and debits to ICS accounts by state and year (stacked bar)
@@ -147,7 +147,7 @@ ggplot() +
 
 ```
 
-# Figure 3. Lake Mead Storage and Water Conservation Account (ICS) Balances Over Time
+## Figure 3. Lake Mead Storage (black), Water Conservation Account (ICS) Balances (light blue), Storage without the Water Conservation Program (dashed red), and Protection Volume (dark blue) Over Time.
 
 ```{r ICSFig3, echo=FALSE, warning=FALSE, message=FALSE, fig.height=5.25}
 
