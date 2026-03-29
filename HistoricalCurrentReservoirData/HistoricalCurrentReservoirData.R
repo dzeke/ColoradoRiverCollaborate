@@ -34,10 +34,8 @@ source("../AutoReadUSBRData/AutoReadUSBRData.r")
 lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 
-
 # Read in the Reservoir Bathymetry and Critical Elevations
 dfTemp <- ReadBathymetryCritialElevations()
-
 
 # Let's try plotting the annuall Lake Powell Release
 dfResDataAnnual <- lResData$dfResAnnual
@@ -47,7 +45,6 @@ dfPowellAnnual <- dfResDataAnnual %>% filter(ResName == "Lake Powell",FieldName 
 
 #10-year total release
 dfPowellAnnual$TenYearRelease <- rollapply(dfPowellAnnual$AnnualValue, 10,sum, fill=NA, align="right")
-
 
 #7.48 and 8.23 MAF annual targets
 dfPowellAnnual$OneYearTarget <- 7.48  # Paria flow (0.02 maf per year adds 0.2 maf over 10 years)
