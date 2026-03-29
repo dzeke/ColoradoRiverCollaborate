@@ -232,9 +232,9 @@ ggplot() +
   #geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 2 == 0), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 1)) +
   
   #Before guidelines
-  geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 2 == 0, Year < 2007), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 0.5, color = "Before Guidelines")) +
+  geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 2 == 0, Year < 2007), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, color = "Before Guidelines"), size = 3 ) +
   # After guidelines
-  geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 2 == 0, Year >= 2007), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, size = 0.5, color = "After Guidelines")) +
+  geom_text(data = dfResStorageWide %>% filter(Month == 1, Year %% 2 == 0, Year >= 2007), aes(x = `Lake Powell`, y = `Lake Mead`, label = Year, angle = 0, color = "After Guidelines"),  size = 3 ) +
   
   
     # Before guidelines
@@ -308,7 +308,7 @@ ggplot() +
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
   geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = pReds[7], size = 4 ) +
   
-   geom_text(aes(x = as.Date("2026-01-01"), y = 15, label = cPowellElevationsConcat), color = pReds[7]) +
+   geom_text(aes(x = as.Date("2023-01-01"), y = 18, label = cPowellElevationsConcat), color = pReds[7], size = 3) +
     scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
                date_breaks = "5 years", # Major ticks every 10 years
                date_labels = "%Y") +
@@ -354,7 +354,7 @@ ggplot() +
   geom_line(data = dfResStorageWide, aes(x = as.Date(Date), y = `Lake Mead`), size = 1.5) +
   geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Mead`), color = pReds[7], size = 4 ) +
   
-  geom_text(aes(x = as.Date("2026-01-01"), y = 15, label = cMeadElevationsConcat), color = pReds[7]) +
+  geom_text(aes(x = as.Date("2022-01-01"), y = 16, label = cMeadElevationsConcat), color = pReds[7], size = 3) +
   
   
     
