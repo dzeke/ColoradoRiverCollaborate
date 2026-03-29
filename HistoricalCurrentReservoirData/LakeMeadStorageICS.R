@@ -42,6 +42,7 @@ here::i_am("HistoricalCurrentReservoirData/LakeMeadStorageICS.r")
 #     Auto load USBR data
 #     Interpolate with NAs
 #     Load Reservoir Bathymetry and Critical Elevations
+#     Load ICS data
 source("../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
@@ -61,7 +62,7 @@ pReds <- brewer.pal(9,"Reds")
 
 ########################
 # Figure 1. Timeseries of bar plots of ICS balances 
-lFontSize <- 20
+lFontSize <- 14
 
 cColNamesICSBalance <- colnames(lICSdata$dfICSBalance)
 
@@ -98,7 +99,7 @@ ggplot() +
         legend.position= c(0.2,0.80))
 
 ###################
-## Figure 12. ICS Deposits/Withdraws by Year
+## Figure 2. ICS Deposits/Withdraws by Year
 
 dfICSDepositsWithdraws <- lICSdata$dfICSDepositNarrow
 
@@ -131,37 +132,9 @@ ggplot() +
         legend.text=element_text(size=lFontSize - 6),
         legend.position= c(1.075,0.5))
 
-# dfICSBalanceForStacked <- lICSdata$dfICSBalance
-# 
-# #Save the most recent year of ICS data
-# nMaxYearICSData <- max(dfICSBalanceForStacked$Year)
-# #Register the largest year of reservoir data. Right now one larger than ICS
-# nMaxYearResData <- nMaxYearICSData + 1
-#  
-# #Duplicate the largest year and set the year to largest value plus 1
-# dfICSBalanceForStacked <- rbind(dfICSBalanceForStacked, dfICSBalanceForStacked %>% filter(Year == nMaxYearICSData) %>% mutate(Year = nMaxYearICSData+1))
-# #Order by decreasing year
-# dfICSBalanceForStacked <- dfICSBalanceForStacked[order(-dfICSBalanceForStacked$Year),]
-# #Turn time into a index by month. Year 1 = 1, Year 2 = 13
-# dfICSBalanceForStacked$MonthIndex <- 12*(dfICSBalanceForStacked$Year - dfICSBalanceForStacked$Year[nrow(dfICSBalanceForStacked)]) + 12
-# 
-# #Turn the ICS year into monthly
-# #dcICSmonths <- lICSdata$dfICSmonths
-# 
-# dfICSmonths = expand.grid(Year = unique(dfICSBalanceForStacked$Year), month = 1:12)
-# dfICSmonths$MonthIndex <- 12*(dfICSmonths$Year - dfICSmonths$Year[nrow(dfICSmonths)]) + dfICSmonths$month
-# #Filter off first year but keep last month
-# dfICSmonths <- dfICSmonths %>% filter(dfICSmonths$MonthIndex >= 12)
-# #Calculate a date
-# dfICSmonths$Date <- as.Date(sprintf("%d-%d-01",dfICSmonths$Year, dfICSmonths$month))
-# 
-# #Interpolate Lower Basin conservation account balances by Month
-# dfICSmonths$LowerBasinConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalanceForStacked$MonthIndex, y = dfICSBalanceForStacked$Total, method="linear" )
-# #Interpolate Mexico conservation account balance by Month
-# dfICSmonths$MexicoConserve <- interp1(xi = dfICSmonths$MonthIndex, x=dfICSBalanceForStacked$MonthIndex, y = dfICSBalanceForStacked$Mexico, method="linear" )
-# 
-# #Set values above the max ICS date to zero
-# dfICSmonths[dfICSmonths$Year > nMaxYearICSData, c("LowerBasinConserve", "MexicoConserve")] <- 0
+
+##############
+### Figure 3. 
 
 dfICSmonths <- lICSdata$dfICSmonths
 nMaxYearResData <- lICSdata$nMaxYearResData
@@ -247,9 +220,9 @@ dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, level
 #Read in the levels from CSV
 dfMeadBathymetry <- dfBathymtry$dfMeadElevations
 
-lFontSize = 14
 
-fig3 <- ggplot() +
+
+ggplot() +
   #Lake Mead Storage and Water Conservation Account balances as stacked area plot
   #As area
   geom_area(data=dfMeadStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
@@ -289,5 +262,4 @@ fig3 <- ggplot() +
         legend.text=element_text(size=lFontSize - 2),
         legend.position = "none")
 
-fig3
-ggsave("LakeMeadStorageICS-Figure3.png", fig3)
+#ggsave("LakeMeadStorageICS-Figure3.png", fig3)
