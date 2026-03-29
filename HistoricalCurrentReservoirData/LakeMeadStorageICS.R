@@ -1,8 +1,14 @@
 # LakeMeadStorageICS.R
 #
-# Generates a stacked line plot that show Lake Mead Storage, Water Conservation Account (ICS) Balance, and reservoir protection elevation over time.
-# The plot also shows a line of the anticipated Lake Mead storage volume were the Water Conservation Program not exist (states continued withdraws at their historical allocations).
+# Lake Mead Storage and Water Conservation (ICS) program plots.
 #
+# Generates the following 3 plots:
+#  1. ICS account balances by state and year (stacked bar)
+#  2. Deposits and debits to ICS accounts by state and year (stacked bar)
+#  3. Stacked line plot that show Lake Mead Storage, Water Conservation Account (ICS) Balance, and reservoir protection elevation over time.
+#     The plot also shows a line of the anticipated Lake Mead storage volume were the Water Conservation Program not exist (states continued withdraws at their historical allocations).
+#
+# Data wrangling strategy
 # 1. Import the reservoir elevation-volume curves
 # 2. Import the water conservation account data for Lake Mead
 # 3. Import historical reservoir storage data
@@ -13,7 +19,7 @@
 # Please report bugs/feedback to me (contact info below)
 #
 # David E. Rosenberg
-# July 23, 2024
+# March 29, 2026
 # Utah State University
 # david.rosenberg@usu.edu
 
@@ -44,11 +50,87 @@ lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 # Read in the Reservoir Bathymetry and Critical Elevations
 dfBathymtry <- ReadBathymetryCritialElevations()
-
 dfMeadElevStor <- dfBathymtry$dfMeadBathymtery
 
 # Read in the ICS data
 lICSdata <- fReadICSData()
+
+# Color palettes
+pBlues <- brewer.pal(9,"Blues")
+pReds <- brewer.pal(9,"Reds")
+
+########################
+# Figure 1. Timeseries of bar plots of ICS balances 
+lFontSize <- 20
+
+cColNamesICSBalance <- colnames(lICSdata$dfICSBalance)
+
+ggplot() +
+  
+  geom_bar(data=lICSdata$dfICSBalanceNarrow %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  
+  #geom_hline(yintercept = nMaxBalance$Total[2]/1e6, size = 2) +
+  geom_hline(yintercept = lICSdata$dfICSLimits$Total[2]/1e6, size = 2) +
+  #geom_line(data=dfMaxBalance, aes(color="Max Balance", y=MaxBal/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
+  scale_color_manual(name="Guide2", values=c("Black")) +
+  
+  #scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
+  scale_x_continuous(breaks=seq(min(lICSdata$dfICSBalanceNarrow$Year),max(lICSdata$dfICSBalanceNarrow$Year),by=2),labels=seq(min(lICSdata$dfICSBalanceNarrow$Year),max(lICSdata$dfICSBalanceNarrow$Year),by=2)) +
+  
+  #Secondary scale with total max balance
+  #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[2])/1e6, labels = c("Max Balance"))) +
+  
+  #Secondary scale with individual state max balances
+  #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
+  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = lICSdata$dfMaxBalanceCum$CumVal/1e6, labels = lICSdata$dfMaxBalanceCum$StateAsChar)) +
+  
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color=FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Lake Mead Water Conservation\nAccount Balance\n(MAF)") +
+  theme(text = element_text(size=lFontSize),  legend.title = element_blank(), 
+        legend.text=element_text(size=lFontSize - 2),
+        legend.position= c(0.2,0.80))
+
+###################
+## Figure 12. ICS Deposits/Withdraws by Year
+
+dfICSDepositsWithdraws <- lICSdata$dfICSDepositNarrow
+
+ggplot() +
+  
+  geom_bar(data= dfICSDepositsWithdraws, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  
+  #geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
+  geom_line(data=lICSdata$dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
+  geom_line(data=lICSdata$dfMaxAnnualAmounts, aes(color="Max Withdrawal", y=-MaxWithdraw/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
+  scale_color_manual(name="Guide2", values=c("Black","Black")) +
+  
+  scale_x_continuous(breaks=seq(min(lICSdata$dfICSDepositNarrow$Year),max(lICSdata$dfICSDepositNarrow$Year),by=2),labels=seq(min(lICSdata$dfICSDepositNarrow$Year),max(lICSdata$dfICSDepositNarrow$Year),by=2)) +
+  scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(lICSdata$dfICSLimits$Total[1],-lICSdata$dfICSLimits$Total[3])/1e6, labels = c("Max Credit","Max Debit"))) +
+  
+  #scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), limits = c(0,as.numeric(dfMaxStor %>% filter(Reservoir %in% c("Mead")) %>% select(Volume))),
+  #                  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfMeadPoolsPlot$stor_maf, labels = dfMeadPoolsPlot$label)) +
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Credits (+) and Debits (-) to\nLake Mead Water Conservation Accounts\n(MAF per year)") +
+  theme(text = element_text(size=lFontSize - 4),  
+        axis.text.y = element_text(size = lFontSize - 4),
+        legend.title = element_blank(),
+        legend.text=element_text(size=lFontSize - 6),
+        legend.position= c(1.075,0.5))
+
 # dfICSBalanceForStacked <- lICSdata$dfICSBalance
 # 
 # #Save the most recent year of ICS data
@@ -164,11 +246,6 @@ dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, level
 
 #Read in the levels from CSV
 dfMeadBathymetry <- dfBathymtry$dfMeadElevations
-
-#Get the color palettes
-#Get the blue color bar
-pBlues <- brewer.pal(9,"Blues")
-pReds <- brewer.pal(9,"Reds")
 
 lFontSize = 14
 
