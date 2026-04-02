@@ -1,9 +1,29 @@
 ---
 title: "Lake Powell and Lake Mead Historical and Current Reservoir Data"
 author: "David E. Rosenberg"
-date: "March 29, 2026"
+
 output: pdf_document
 ---
+
+```{r Setup1, echo=FALSE, warning=FALSE, message=FALSE, comment="", include=FALSE}
+
+rm(list = ls())  #Clear history
+
+# Load required libraries in 1 go
+# List of packages
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here")
+# Then we select only the packages that aren't currently installed.
+install.lib <- load.lib[!load.lib %in% installed.packages()]
+# And finally we install the missing packages, including their dependency.
+for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+# After the installation process completes, we load all packages.
+sapply(load.lib,require,character=TRUE)
+
+dYesterday <- today() - 1
+sTodaysDate <- (paste("This report was generated on:",month.name[month(dYesterday)],day(dYesterday),",",year(dYesterday)))
+
+```
+## `r sTodaysDate`
 
 ## Overview
 
@@ -24,19 +44,7 @@ This is a beginning R-programming effort! There could be lurking bugs or basic c
 ## Requested Citation
 David E. Rosenberg (2026), "Lake Powell and Lake Mead Historical and Current Reservoir Data." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/HistoricalCurrentReservoirData.
 
-```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
-
-rm(list = ls())  #Clear history
-
-# Load required libraries in 1 go
-# List of packages
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here")
-# Then we select only the packages that aren't currently installed.
-install.lib <- load.lib[!load.lib %in% installed.packages()]
-# And finally we install the missing packages, including their dependency.
-for(lib in install.lib) install.packages(lib,dependencies=TRUE)
-# After the installation process completes, we load all packages.
-sapply(load.lib,require,character=TRUE)
+```{r Setup2, echo=FALSE, warning=FALSE, message=FALSE}
 
 here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
         
@@ -148,6 +156,8 @@ dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","
 dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
 # Convert storage to million acre-feet
 dfResValues$Storage <- dfResValues$Storage / 1e6
+
+print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
 print(dfResValues)
 
 ```

@@ -21,6 +21,10 @@ for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 # After the installation process completes, we load all packages.
 sapply(load.lib,require,character=TRUE)
 
+dYesterday <- today() - 1
+
+print(paste("This report was generated on:",month.name[month(dYesterday)],day(dYesterday),",",year(dYesterday)))
+
 here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
         
 ## Read in functions to:
@@ -118,6 +122,9 @@ dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","
 dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
 # Convert storage to million acre-feet
 dfResValues$Storage <- dfResValues$Storage / 1e6
+
+print(paste("Reservoir Data on: ", dMaxDay))
+print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
 print(dfResValues)
 
 ################
