@@ -140,7 +140,7 @@ write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
 
 # Table 1: Current Storage and Elevations
 
-```{r ResDataTab1, echo=FALSE, warning=FALSE, message=FALSE}
+```{r ResDataTab1, echo=FALSE, warning=FALSE, message=FALSE, comment=""}
 #### Spit out the most recent Lake Powell and Lake Mead Pool elevations
 dfResDataDaily <- lResData$dfResDaily
 
@@ -384,6 +384,32 @@ ggplot() +
         panel.grid.minor = element_blank(),
         axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
 
+
+
+dfResDataDaily$DateAsDate <- ymd(dfResDataDaily$Date)
+
+
+```
+
+# Figure 6B: Lake Powell Daily Inflow and Release
+```{r ResDataFig9B, echo=FALSE, warning=FALSE, message=FALSE} 
+##############
+### Figure 9B. Daily Powell Inflow/Release for current year
+
+ggplot() +
+  #Line graph of Powell Release
+  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Release volume", WaterYear >= max(WaterYear)) , aes(x = DateAsDate, y=Value, group = 1, color="Release"), size=2) +
+  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Inflow Volume", WaterYear >= max(WaterYear)), aes(x = DateAsDate, y=Value, group = 1, color="Inflow"), size=2) +
+  
+    scale_color_manual(" ", values = c("Release" = pReds[7], "Inflow" = pBlues[7])) +
+  scale_x_date( date_breaks = "1 month", date_labels = "%b %Y") +
+  
+     labs(x="", y="Water Volume\n(Acre-feet per day)") +  
+  
+  theme(text = element_text(size=lFontSize), legend.title=element_blank(), legend.text=element_text(size=lFontSize - lFontSizeReduction),
+        panel.background = element_blank(), 
+        legend.key = element_blank(),
+        axis.line = element_line(colour = "black"))
 
 
 ```

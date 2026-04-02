@@ -373,6 +373,29 @@ ggplot() +
         legend.key = element_blank(),
         axis.line = element_line(colour = "black"))
 
+########  
+
+dfResDataDaily$DateAsDate <- ymd(dfResDataDaily$Date)
+##############
+### Figure 9B. Daily Powell Inflow/Release for current year
+
+ggplot() +
+  #Line graph of Powell Release
+  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Release volume", WaterYear >= max(WaterYear)) , aes(x = DateAsDate, y=Value, group = 1, color="Release"), size=2) +
+  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Inflow Volume", WaterYear >= max(WaterYear)), aes(x = DateAsDate, y=Value, group = 1, color="Inflow"), size=2) +
+  
+    scale_color_manual(" ", values = c("Inflow" = pBlues[7], "Release" = pReds[7])) +
+  scale_x_date( date_breaks = "1 month", date_labels = "%b %Y") +
+  
+     labs(x="", y="Water Volume\n(Acre-feet per day)") +  
+  
+  theme(text = element_text(size=20), legend.title=element_blank(), legend.text=element_text(size=18),
+        panel.background = element_blank(), 
+        legend.key = element_blank(),
+        axis.line = element_line(colour = "black"))
+
+
+
 #### Figure 10. Powell Annual Evaporation
 ggplot(data = dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Evaporation")) +
   geom_line(aes(x=WaterYear, y=`AnnualValue`, color=pBlues[7]), size=2) +
