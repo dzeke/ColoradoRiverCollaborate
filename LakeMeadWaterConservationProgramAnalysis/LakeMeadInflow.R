@@ -123,15 +123,24 @@ rm(list = ls())  #Clear history
   # After the installation process completes, we load all packages.
   sapply(load.lib,require,character=TRUE)
 
-# New function interpNA to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
-  interpNA <- function(x, y, xi = x, ...) {
-    yi <- rep(NA, length(xi));
-    sel <- which(xi >= range(x)[1] & xi <= range(x)[2]);
-    yi[sel] <- interp1(x = x, y = y, xi = xi[sel], ...);
-    return(yi);
-  }  
+  here::i_am("HistoricalCurrentReservoirData/LakeMeadStorageICS.r")
   
-#Labels for each method to use in grouping and plotting
+  ## Read in functions to:
+  #     Auto load USBR data
+  #     Interpolate with NAs
+  #     Load Reservoir Bathymetry and Critical Elevations
+  #     Load ICS data
+  source("../AutoReadUSBRData/AutoReadUSBRData.r")
+  
+  # Read in the Reclamation Hydro Data
+  #lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+  lResData <- fReadReclamationHydroData(FromHydroData = FALSE)  
+
+  # Read in the ICS data
+  lICSdata <- fReadICSData()
+  
+  
+  #Labels for each method to use in grouping and plotting
 cMethods <- c("USGS Gages", "USBR API Inflow", "USBR API Back Calc", "USBR Back Calc\nwith Evap from Table", "CRSS", "Wang-Schmidt")
 cColors <- c("Blue", "Red", "Pink", "Purple", "Brown", "Black")
 
@@ -387,9 +396,9 @@ dfUSBR_FromEvapTable <- dfUSBR_API_Agg_BackCalc
 
 dfMeadEvap <- read.csv(file = "EvapData/dfMeadEvap.csv", header = TRUE)
 #Interpolate middle Evaporation from Mead Storage - Evap data
-dfUSBR_FromEvapTable$EvaporationFromTable <- interpNA(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMax/1e6)
+dfUSBR_FromEvapTable$EvaporationFromTable <- interp2(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMax/1e6)
 #Interpolate range of Evap 
-dfUSBR_FromEvapTable$EvaporationRange <- interpNA(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxUp/1e6) - interpNA(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxLo/1e6)
+dfUSBR_FromEvapTable$EvaporationRange <- interp2(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxUp/1e6) - interp2(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxLo/1e6)
 
 dfUSBR_FromEvapTable$MeadInflow <- dfUSBR_FromEvapTable$DeltaStorage +  dfUSBR_FromEvapTable$Release +  dfUSBR_FromEvapTable$EvaporationFromTable
 dfUSBR_FromEvapTable$Method <- cMethods[4]
@@ -496,10 +505,20 @@ dfInflowsToPlot <- dfInflows %>% filter(Method %in% cMethodsToPlot)
 ##### Compare ICS deposits to available water
 #####
 #Load in the ICS data
-dfICSBalanceMelt <- read_csv(file = "dfICSBalanceMelt.csv", col_names = TRUE)
-dfICSDeposit <- read_csv(file = "dfICSDeposit.csv", col_names = TRUE)
-dfICSDepositMelt <- read_csv(file = "dfICSDepositMelt.csv", col_names = TRUE)
 
+
+
+#dfICSBalanceMelt <- read_csv(file = "dfICSBalanceMelt.csv", col_names = TRUE)
+#dfICSDeposit <- read_csv(file = "dfICSDeposit.csv", col_names = TRUE)
+#dfICSDepositMelt <- read_csv(file = "dfICSDepositMelt.csv", col_names = TRUE)
+
+dfICSBalanceMelt <- lICSdata$dfICSBalanceNarrow
+dfICSDepositMelt <- lICSdata$dfICSDepositNarrow
+
+# Turn ICS Deposit to wide
+dfICSDeposit <- pivot_wider(data = dfICSDepositMelt, names_from = variable, values_from = value)
+# Calculate the sum per year
+dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada + dfICSDeposit$Mexico
 
 cColNames <- unique(dfICSBalanceMelt$variable) 
 #Figure  - timeseries of bar plots of ICS balances

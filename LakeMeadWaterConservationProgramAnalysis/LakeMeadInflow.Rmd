@@ -1,12 +1,31 @@
 ---
 title: "Lake Mead Inflow"
 author: "David E. Rosenberg"
-date: "July 26, 2024"
+
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, warning=FALSE, message=FALSE, comment="", include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+rm(list = ls())  #Clear history
+
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "rvest", "zoo", "here")
+# Then we select only the packages that aren't currently installed.
+install.lib <- load.lib[!load.lib %in% installed.packages()]
+# And finally we install the missing packages, including their dependency.
+for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+# After the installation process completes, we load all packages.
+sapply(load.lib,require,character=TRUE)
+
+dYesterday <- today() - 1
+sTodaysDate <- (paste("This report was generated on:",month.name[month(dYesterday)],day(dYesterday),",",year(dYesterday)))
+
+```
+## `r sTodaysDate`
+
+```{r MeadICS2, echo=FALSE, warning=FALSE, message=FALSE}
+
 ```
 
 ## Description

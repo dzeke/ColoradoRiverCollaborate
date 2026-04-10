@@ -1,0 +1,294 @@
+---
+title: "Lake Mead Water Conservation Accounting (ICS) and Storage"
+author: "David E. Rosenberg"
+
+output: pdf_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE, comment="", include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+rm(list = ls())  #Clear history
+
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "rvest", "zoo", "here")
+# Then we select only the packages that aren't currently installed.
+install.lib <- load.lib[!load.lib %in% installed.packages()]
+# And finally we install the missing packages, including their dependency.
+for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+# After the installation process completes, we load all packages.
+sapply(load.lib,require,character=TRUE)
+
+dYesterday <- today() - 1
+sTodaysDate <- (paste("This report was generated on:",month.name[month(dYesterday)],day(dYesterday),",",year(dYesterday)))
+
+```
+## `r sTodaysDate`
+
+```{r MeadICS2, echo=FALSE, warning=FALSE, message=FALSE}
+
+```
+
+## Overview
+
+This is an R Markdown document. The document generates the following 3 plots:
+
+1. ICS account balances by state and year (stacked bar)
+1. Deposits and debits to ICS accounts by state and year (stacked bar)
+1. Stacked line plot that show Lake Mead Storage, Water Conservation Account (ICS) Balance, and reservoir protection elevation over time. The plot also shows a line of the anticipated Lake Mead storage volume were the Water Conservation Program not exist (states continued withdraws at their historical allocations).
+
+## Data wrangling strategy
+
+1. Import the reservoir elevation-volume curves
+1. Import the water conservation account data for Lake Mead
+1. Import historical reservoir storage data
+1. Turn annual ICS data into Monthly, Calculate the Lake Mead Elevation without ICS accounts, and turn reservoir, ICS, and protection volumes into dataframe in narrow format for ploting as a stacked line graph.
+
+
+The plots support the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
+
+This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.Please report bugs/feedback to me (contact info below)
+
+## Requested Citation
+David E. Rosenberg (2026), "Lake Mead Water Conservation Accounting (ICS) and Storage." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/HistoricalCurrentReservoirData.
+
+```{r MeadICS0, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE, comment=""}
+
+
+
+
+here::i_am("HistoricalCurrentReservoirData/LakeMeadStorageICS.r")
+
+## Read in functions to:
+#     Auto load USBR data
+#     Interpolate with NAs
+#     Load Reservoir Bathymetry and Critical Elevations
+#     Load ICS data
+source("../AutoReadUSBRData/AutoReadUSBRData.r")
+
+# Read in the Reclamation Hydro Data
+#lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+
+# Read in the Reservoir Bathymetry and Critical Elevations
+dfBathymtry <- ReadBathymetryCritialElevations()
+dfMeadElevStor <- dfBathymtry$dfMeadBathymtery
+
+# Read in the ICS data
+lICSdata <- fReadICSData()
+
+# Color palettes
+pBlues <- brewer.pal(9,"Blues")
+pReds <- brewer.pal(9,"Reds")
+
+lFontSize <- 14
+
+```
+
+# Figure 1: Lake Mead Water Conservation Account (ICS) Balances
+```{r ICSFig1, echo=FALSE, warning=FALSE, message=FALSE}
+
+cColNamesICSBalance <- colnames(lICSdata$dfICSBalance)
+
+ggplot() +
+  
+  geom_bar(data=lICSdata$dfICSBalanceNarrow %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  
+  #geom_hline(yintercept = nMaxBalance$Total[2]/1e6, size = 2) +
+  geom_hline(yintercept = lICSdata$dfICSLimits$Total[2]/1e6, size = 2) +
+  #geom_line(data=dfMaxBalance, aes(color="Max Balance", y=MaxBal/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
+  scale_color_manual(name="Guide2", values=c("Black")) +
+  
+  #scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
+  scale_x_continuous(breaks=seq(min(lICSdata$dfICSBalanceNarrow$Year),max(lICSdata$dfICSBalanceNarrow$Year),by=2),labels=seq(min(lICSdata$dfICSBalanceNarrow$Year),max(lICSdata$dfICSBalanceNarrow$Year),by=2)) +
+  
+  #Secondary scale with total max balance
+  #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "", breaks = c(nMaxBalance$Total[2])/1e6, labels = c("Max Balance"))) +
+  
+  #Secondary scale with individual state max balances
+  #scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = dfMaxBalanceCum$CumVal/1e6, labels = dfMaxBalanceCum$StateAsChar)) +
+  scale_y_continuous(breaks=seq(0,3,by=1),labels=seq(0,3,by=1), sec.axis = sec_axis(~. +0, name = "Maximum Balance", breaks = lICSdata$dfMaxBalanceCum$CumVal/1e6, labels = lICSdata$dfMaxBalanceCum$StateAsChar)) +
+  
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color=FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Lake Mead Water Conservation\nAccount Balance\n(MAF)") +
+  theme(text = element_text(size=lFontSize),  legend.title = element_blank(), 
+        legend.text=element_text(size=lFontSize - 2),
+        legend.position= c(0.2,0.80))
+
+```
+
+# Figure 2. Lake Mead Water Conservation Account (ICS) Deposits and Withdraws
+
+```{r ICSFig2, echo=FALSE, warning=FALSE, message=FALSE}
+dfICSDepositsWithdraws <- lICSdata$dfICSDepositNarrow
+
+ggplot() +
+  
+  geom_bar(data= dfICSDepositsWithdraws, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+  
+  #geom_line(data=dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
+  geom_line(data=lICSdata$dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
+  geom_line(data=lICSdata$dfMaxAnnualAmounts, aes(color="Max Withdrawal", y=-MaxWithdraw/1e6,x=Year), size=2) +
+  
+  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
+  scale_color_manual(name="Guide2", values=c("Black","Black")) +
+  
+  scale_x_continuous(breaks=seq(min(lICSdata$dfICSDepositNarrow$Year),max(lICSdata$dfICSDepositNarrow$Year),by=2),labels=seq(min(lICSdata$dfICSDepositNarrow$Year),max(lICSdata$dfICSDepositNarrow$Year),by=2)) +
+  scale_y_continuous(sec.axis = sec_axis(~. +0, name = "", breaks = c(lICSdata$dfICSLimits$Total[1],-lICSdata$dfICSLimits$Total[3])/1e6, labels = c("Max Credit","Max Debit"))) +
+  
+  #scale_x_continuous(breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), limits = c(0,as.numeric(dfMaxStor %>% filter(Reservoir %in% c("Mead")) %>% select(Volume))),
+  #                  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfMeadPoolsPlot$stor_maf, labels = dfMeadPoolsPlot$label)) +
+  
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1), color = FALSE) +
+  
+  
+  theme_bw() +
+  
+  labs(x="", y="Credits (+) and Debits (-) to\nLake Mead Water Conservation Accounts\n(MAF per year)") +
+  theme(text = element_text(size=lFontSize - 2),  
+        axis.text.y = element_text(size = lFontSize - 2),
+        legend.title = element_blank(),
+        legend.text=element_text(size=lFontSize - 2),
+        legend.position= c(1.15,0.5))
+
+```
+
+## Figure 3. Lake Mead Storage (black), Water Conservation Account (ICS) Balances (light blue), Storage without the Water Conservation Program (dashed red), and Protection Volume (dark blue) Over Time.
+
+```{r ICSFig3, echo=FALSE, warning=FALSE, message=FALSE, fig.height=5.25}
+
+##############
+### Figure 3. 
+
+dfICSmonths <- lICSdata$dfICSmonths
+nMaxYearResData <- lICSdata$nMaxYearResData
+nMaxYearICSData <- lICSdata$nMaxYearICSData
+
+## Data frame of key elevations
+nMeadProtectElevation <- 1020
+nProtectMead <- interp2(xi = nMeadProtectElevation, x= dfMeadElevStor$`Elevation (ft)`, y=dfMeadElevStor$`Active Storage (ac-ft)`) / 1e6
+nCapacityMead <- 25.9
+
+dfKeyMeadVolumes <- data.frame(Volume = c(nProtectMead, nCapacityMead ), Label = c("Protect","Capacity"))
+
+## Data frame of key dates
+dfKeyDates <- data.frame(Date = as.Date(c("2007-01-01", "2027-01-01")), Label = c("Interim\nGuidelines", "Guidelines\nExpire"))
+
+## Data frame of key Mead traces
+dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Water\nConservation\nAccounts"),
+                               Volume = c(nProtectMead/2, 8, 14), xPosition = c(2012, 2012, 2022),
+                               Size = c(6, 6, 5))
+
+# Read in Lake Mead Storage from the downloaded data
+dfJointStorage <- lResData$dfResMonthly %>% filter(ResName == "Lake Mead", FieldName == "Storage", Year >= 1998)
+dfJointStorage <- dfJointStorage %>% mutate(Storage = MonthlyValue)
+
+### This statement not converting date as string to data as value correctly
+dfJointStorage$DateAsValue <- as.Date(dfJointStorage$Date)
+
+#Left join the ICS data to the joint storage data to get the entire date range
+dfJointStorage <- left_join(dfJointStorage, dfICSmonths, by=c("DateAsValue" = "Date"))
+#Convert NAs to zeros
+dfJointStorage$Year <- dfJointStorage$Year.x
+
+#Allow to go one more year
+dfJointStorageClean <- dfJointStorage %>% filter(Year <= nMaxYearResData, Year >= 1998)
+
+dfJointStorageClean[is.na(dfJointStorageClean)] <- 0
+dfTemp <- dfJointStorage %>% filter(Year <= nMaxYearResData) %>% select(DateAsValue)
+dfJointStorageClean$DateAsValue <- dfTemp$DateAsValue
+dfJointStorageClean$MeadStorage <- dfJointStorageClean$Storage
+dfJointStorageClean$Stor <- dfJointStorageClean$MeadStorage
+
+
+#Add rows for years until 2030 with all zeros
+dfYearsAdd <- data.frame(Year = seq(nMaxYearResData+1, nMaxYearICSData + 10, by = 1))
+#dfJointStorageZeros <- dfJointStorageClean[1,1:(ncol(dfJointStorageClean)-1)]
+dfJointStorageZeros <- dfJointStorageClean[1, ]
+#dfJointStorageZeros <- 0
+dfJointStorageZeros$MeadStorage <- 0
+dfJointStorageZeros$Stor <- 0
+
+dfJointStorageZeros <- as.data.frame(lapply(dfJointStorageZeros,  rep, nrow(dfYearsAdd)))
+dfJointStorageZeros$Year <- dfYearsAdd$Year
+#Calculate a date
+dfJointStorageZeros$DateAsValue <- as.Date(sprintf("%.0f-01-01", dfJointStorageZeros$Year))
+#Bind to the Clean data frame
+dfJointStorageClean <- rbind(dfJointStorageClean, dfJointStorageZeros)
+
+## Data for the stacked plot
+#New data frame for area
+dfMeadStorageStack <- dfJointStorageClean
+
+# Stack as protect => Public Pool => Water Conservation Account balance => Reservoir volume
+dfMeadStorageStack$Protect <- nProtectMead
+dfMeadStorageStack$LowerBasin <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$LowerBasinConserve/1e6, 0)
+dfMeadStorageStack$Mexico <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$MexicoConserve/1e6, 0)
+dfMeadStorageStack$PublicPool <- ifelse(dfMeadStorageStack$Year <= nMaxYearResData, dfMeadStorageStack$MeadStorage - dfMeadStorageStack$Protect - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico, 0)
+
+# If the public pool is less than zero, lower the protect volume
+dfMeadStorageStack$Protect <- ifelse(dfMeadStorageStack$PublicPool < 0, dfMeadStorageStack$Protect + dfMeadStorageStack$PublicPool,dfMeadStorageStack$Protect )
+# Set negative public pool values to 0
+dfMeadStorageStack$PublicPool = ifelse(dfMeadStorageStack$PublicPool < 0, 0,dfMeadStorageStack$PublicPool )
+# Set public pool values for year nMaxYearResData to zero
+dfMeadStorageStack$PublicPool = ifelse(dfMeadStorageStack$Year >= nMaxYearResData, 0, dfMeadStorageStack$PublicPool)
+
+#Calculate the Lake Mead pool level absent the water conservation program
+dfMeadStorageStack$MeadLevelWithoutICS <- dfMeadStorageStack$MeadStorage - dfMeadStorageStack$LowerBasin - dfMeadStorageStack$Mexico
+
+#Melt the data
+dfMeadStorageStackMelt <- melt(dfMeadStorageStack, id.vars = c("DateAsValue"), measure.vars = c("Protect","PublicPool", "LowerBasin", "Mexico"))
+#Specify the order of the variables
+dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, levels=c("Mexico", "LowerBasin", "PublicPool", "Protect"))
+
+#Read in the levels from CSV
+dfMeadBathymetry <- dfBathymtry$dfMeadElevations
+
+
+
+ggplot() +
+  #Lake Mead Storage and Water Conservation Account balances as stacked area plot
+  #As area
+  geom_area(data=dfMeadStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
+  #Reservoir level without ICS program
+  geom_line(data=dfMeadStorageStack %>% filter(Year <= nMaxYearICSData),aes(x=DateAsValue,y=MeadLevelWithoutICS, color="Combined"), size=1, color = pReds[6], linetype = "twodash") +
+  #Reservoir level as line
+  geom_line(data=dfMeadStorageStack %>% filter(Year < nMaxYearResData + 1),aes(x=DateAsValue,y=MeadStorage, color="Combined"), size=1, color = "Black") +
+  
+  #lines for max capacity and protect elevation
+  geom_hline(data=dfKeyMeadVolumes, aes(yintercept = Volume), linetype="longdash", size=1) +
+  #lines for Interim Guidelines and Expiry
+  geom_vline(data=dfKeyDates, aes(xintercept = Date), linetype = "dashed", size=1, color = pReds[9]) +
+  
+  #Labels for the areas
+#  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label != dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 6, fontface="bold") +
+#  geom_text(data=dfKeyMeadTraceLabels %>% filter(Label == dfKeyMeadTraceLabels$Label[3]), aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 5, fontface="bold", color = pBlues[3]) +
+  geom_text(data=dfKeyMeadTraceLabels, aes(x=as.Date(sprintf("%.0f-01-01",xPosition)), y=Volume, label=as.character(Label)), size = 4, fontface="bold") +
+  
+  #Scales
+  scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), date_breaks = "4 year", date_labels = "%Y", sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
+  #Secondary axis as Mead level
+  scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
+  
+  
+  scale_fill_manual(values=c(pBlues[3], pBlues[3], pBlues[5], pBlues[7])) +
+  
+  #    scale_y_continuous(breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]),labels=c(0,5.98,9.6,12.2,dfMaxStor[2,2]),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = c(0,5.98,9.6,12.2,dfMaxStor[2,2]), labels = c(895,1025,1075,1105,1218.8))) +
+  #scale_x_discrete(breaks=cMonths, labels= cMonthsLabels) +
+  #scale_x_continuous(breaks=seq(1960,2020,by=10), labels= seq(1960,2020,by=10)) +
+  
+  
+  #scale_fill_manual(breaks=c(1:6),values = palBlues[2:7]) + #,labels = variable) + 
+  theme_bw() +
+  #coord_fixed() +
+  labs(x="", y="Active Storage\n(MAF)", color = "") +
+  theme(text = element_text(size=lFontSize),  legend.title = element_blank(), 
+        axis.text.y.right = element_text(size = lFontSize - 5),
+        legend.text=element_text(size=lFontSize - 2),
+        legend.position = "none")
