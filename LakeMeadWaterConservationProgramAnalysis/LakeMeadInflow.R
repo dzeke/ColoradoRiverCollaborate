@@ -518,7 +518,8 @@ dfICSDepositMelt <- lICSdata$dfICSDepositNarrow
 # Turn ICS Deposit to wide
 dfICSDeposit <- pivot_wider(data = dfICSDepositMelt, names_from = variable, values_from = value)
 # Calculate the sum per year
-dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada + dfICSDeposit$Mexico
+dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada 
+#dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada + dfICSDeposit$Mexico
 
 cColNames <- unique(dfICSBalanceMelt$variable) 
 #Figure  - timeseries of bar plots of ICS balances
@@ -548,7 +549,7 @@ dfInflowICS <- left_join(dfInflowICS, dfUSBR_API_Agg %>% select(Year, Evaporatio
 dfInflowICS$Arizona <- dfInflowICS$Arizona / 1e6
 dfInflowICS$California <- dfInflowICS$California / 1e6
 dfInflowICS$Nevada <- dfInflowICS$Nevada / 1e6
-dfInflowICS$Mexico <- dfInflowICS$Mexico / 1e6
+#dfInflowICS$Mexico <- dfInflowICS$Mexico / 1e6
 
 #Calculate Total ICS deposits each year (sum of positive values)
 dfInflowICS$TotalDeposit <- ifelse(dfInflowICS$Arizona > 0, dfInflowICS$Arizona, 0) +
