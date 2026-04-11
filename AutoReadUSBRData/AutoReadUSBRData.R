@@ -369,8 +369,7 @@ fReadICSData <- function() {
   dfICSDeposit$Year <- dfICSBalance$Year[1:nrow(dfICSDeposit)]
 
   #Melt the data so state columns become a variable
-  dfICSDepositNarrow <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cColNames[2:4])
-
+  dfICSDepositNarrow <- melt(data = dfICSDeposit,id.vars = "Year", measure.vars = cColNames[2:5])
   
   return(list(dfICSBalance = dfICSBalance, dfICSBalanceNarrow = dfICSBalanceNarrow, dfICSmonths = dfICSmonths, dfMaxBalanceCum = dfMaxBalanceCum, dfICSLimits = dfLimits, dfICSDepositNarrow = dfICSDepositNarrow, dfMaxAnnualAmounts = dfMaxAnnualAmounts, nMaxYearICSData = nMaxYearICSData, nMaxYearResData = nMaxYearResData))
   }

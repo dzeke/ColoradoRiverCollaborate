@@ -549,12 +549,13 @@ dfInflowICS <- left_join(dfInflowICS, dfUSBR_API_Agg %>% select(Year, Evaporatio
 dfInflowICS$Arizona <- dfInflowICS$Arizona / 1e6
 dfInflowICS$California <- dfInflowICS$California / 1e6
 dfInflowICS$Nevada <- dfInflowICS$Nevada / 1e6
-#dfInflowICS$Mexico <- dfInflowICS$Mexico / 1e6
+dfInflowICS$Mexico <- dfInflowICS$Mexico / 1e6
 
 #Calculate Total ICS deposits each year (sum of positive values)
 dfInflowICS$TotalDeposit <- ifelse(dfInflowICS$Arizona > 0, dfInflowICS$Arizona, 0) +
   ifelse(dfInflowICS$California > 0, dfInflowICS$California, 0) +
-  ifelse(dfInflowICS$Nevada > 0, dfInflowICS$Nevada, 0)
+  ifelse(dfInflowICS$Nevada > 0, dfInflowICS$Nevada, 0) +
+  ifelse(dfInflowICS$Mexico > 0, dfInflowICS$Mexico, 0)
 
 #Calculate available water as inflow minus evaporation
 dfInflowICS$AvailableWater <- 0
@@ -604,7 +605,7 @@ fig1 <- ggplot() +
   # ICS counts as stacked bar
   geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=Year),position="stack", stat="identity") +
   
-  scale_fill_manual(name="Guide1",values = c(palGreys[3], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(10, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
+  scale_fill_manual(name="Guide1",values = c(palGreys[3], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(9, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
   ###scale_color_manual(name="Guide2", values=c("Black")) +
   
   scale_color_manual(name="Guide2", values = c(palBlues[9], palBlues[7]), 
