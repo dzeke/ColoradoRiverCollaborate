@@ -80,11 +80,37 @@ lICSdata <- fReadICSData()
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
 
+
+## Calculate current balance, total withdraws and total deposits
+dfICSBalance <- lICSdata$dfICSBalance
+nMaxYear <- max(dfICSBalance$Year)
+nCurrentBalance <-  dfICSBalance %>% filter(Year == nMaxYear) %>% pull(`US+MX`) / 1e6
+
+dfICSDepositNarrow <- lICSdata$dfICSDepositNarrow
+dfICSDepositNarrow$Deposits <- ifelse(dfICSDepositNarrow$value > 0, dfICSDepositNarrow$value, 0)
+dfICSDepositNarrow$Withdraws <- ifelse(dfICSDepositNarrow$value < 0, -dfICSDepositNarrow$value, 0)
+
+nTotalDeposits <- sum(dfICSDepositNarrow$Deposits) / 1e6
+nTotalWithdraws <- sum(dfICSDepositNarrow$Withdraws) / 1e6
+
+sTotalDeposits <- paste("Total Deposits:" , round(nTotalDeposits, digits=1), "million acre-feet")
+sTotalWithdraws <- paste("Total Withdraws:" , round(nTotalWithdraws, digits=1), "million acre-feet")
+sCurrentBalance <- paste("Current Balance:" , round(nCurrentBalance, digits=1), "million acre-feet")     
+
+
 lFontSize <- 14
 
 ```
 
-# Figure 1: Lake Mead Water Conservation Account (ICS) Balances
+## Current Status
+
+`r sTotalDeposits`
+
+`r sTotalWithdraws`
+
+`r sCurrentBalance`
+
+## Figure 1: Lake Mead Water Conservation Account (ICS) Balances
 ```{r ICSFig1, echo=FALSE, warning=FALSE, message=FALSE}
 
 cColNamesICSBalance <- colnames(lICSdata$dfICSBalance)
@@ -123,10 +149,11 @@ ggplot() +
 
 ```
 
-# Figure 2. Lake Mead Water Conservation Account (ICS) Deposits and Withdraws
+## Figure 2. Lake Mead Water Conservation Account (ICS) Deposits and Withdraws
 
 ```{r ICSFig2, echo=FALSE, warning=FALSE, message=FALSE}
-dfICSDepositsWithdraws <- lICSdata$dfICSDepositNarrow
+
+dfICSDepositsWithdraws <- lICSdata$dfICSDepositNarrow %>% filter(variable != "Mexico")
 
 ggplot() +
   

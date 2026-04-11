@@ -56,6 +56,23 @@ dfMeadElevStor <- dfBathymtry$dfMeadBathymtery
 # Read in the ICS data
 lICSdata <- fReadICSData()
 
+# Calculate current total balances, total deposits, and total withdraws
+dfICSBalance <- lICSdata$dfICSBalance
+nMaxYear <- max(dfICSBalance$Year)
+nCurrentBalance <-  dfICSBalance %>% filter(Year == nMaxYear) %>% pull(`US+MX`) / 1e6
+
+dfICSDepositNarrow <- lICSdata$dfICSDepositNarrow
+dfICSDepositNarrow$Deposits <- ifelse(dfICSDepositNarrow$value > 0, dfICSDepositNarrow$value, 0)
+dfICSDepositNarrow$Withdraws <- ifelse(dfICSDepositNarrow$value < 0, -dfICSDepositNarrow$value, 0)
+
+nTotalDeposits <- sum(dfICSDepositNarrow$Deposits) / 1e6
+nTotalWithdraws <- sum(dfICSDepositNarrow$Withdraws) / 1e6
+
+print(paste("Total Deposits:" , round(nTotalDeposits, digits=1), "million acre-feet"))
+print(paste("Total Withdraws:" , round(nTotalWithdraws, digits=1), "million acre-feet"))
+print(paste("Current Balance:" , round(nCurrentBalance, digits=1), "million acre-feet"))      
+
+
 # Color palettes
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
