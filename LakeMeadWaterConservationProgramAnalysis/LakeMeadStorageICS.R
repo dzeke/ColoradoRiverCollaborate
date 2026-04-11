@@ -85,14 +85,18 @@ cColNamesICSBalance <- colnames(lICSdata$dfICSBalance)
 
 ggplot() +
   
-  geom_bar(data=lICSdata$dfICSBalanceNarrow %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+#  geom_bar(data=lICSdata$dfICSBalanceNarrow %>% filter(variable != "Mexico"), aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
+
+  geom_bar(data=lICSdata$dfICSBalanceNarrow, aes(fill=variable,y=value/1e6,x=Year),position="stack", stat="identity") +
   
   #geom_hline(yintercept = nMaxBalance$Total[2]/1e6, size = 2) +
   geom_hline(yintercept = lICSdata$dfICSLimits$Total[2]/1e6, size = 2) +
   #geom_line(data=dfMaxBalance, aes(color="Max Balance", y=MaxBal/1e6,x=Year), size=2) +
   
-  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
-  scale_color_manual(name="Guide2", values=c("Black")) +
+#  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
+  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9], pReds[5]),breaks=cColNamesICSBalance[2:5]) +
+  
+    scale_color_manual(name="Guide2", values=c("Black")) +
   
   #scale_x_continuous(breaks=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2),labels=seq(min(dfICSBalanceMelt$Year),max(dfICSBalanceMelt$Year),by=2)) +
   scale_x_continuous(breaks=seq(min(lICSdata$dfICSBalanceNarrow$Year),max(lICSdata$dfICSBalanceNarrow$Year),by=2),labels=seq(min(lICSdata$dfICSBalanceNarrow$Year),max(lICSdata$dfICSBalanceNarrow$Year),by=2)) +
@@ -128,7 +132,8 @@ ggplot() +
   geom_line(data=lICSdata$dfMaxAnnualAmounts, aes(y=MaxDeposit/1e6,x=Year), size=2) +
   geom_line(data=lICSdata$dfMaxAnnualAmounts, aes(color="Max Withdrawal", y=-MaxWithdraw/1e6,x=Year), size=2) +
   
-  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
+#  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9]),breaks=cColNamesICSBalance[2:4]) +
+  scale_fill_manual(name="Guide1",values = c(pBlues[3],pBlues[6],pBlues[9], pReds[5]),breaks=cColNamesICSBalance[2:5]) +
   scale_color_manual(name="Guide2", values=c("Black","Black")) +
   
   scale_x_continuous(breaks=seq(min(lICSdata$dfICSDepositNarrow$Year),max(lICSdata$dfICSDepositNarrow$Year),by=2),labels=seq(min(lICSdata$dfICSDepositNarrow$Year),max(lICSdata$dfICSDepositNarrow$Year),by=2)) +
