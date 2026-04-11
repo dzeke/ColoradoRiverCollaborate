@@ -85,15 +85,25 @@ rm(list = ls())  #Clear history
   # After the installation process completes, we load all packages.
   sapply(load.lib,require,character=TRUE)
 
-# New function interpNA to return NAs for values outside interpolation range (from https://stackoverflow.com/questions/47295879/using-interp1-in-r)
-  interpNA <- function(x, y, xi = x, ...) {
-    yi <- rep(NA, length(xi));
-    sel <- which(xi >= range(x)[1] & xi <= range(x)[2]);
-    yi[sel] <- interp1(x = x, y = y, xi = xi[sel], ...);
-    return(yi);
-  }  
+  here::i_am("HistoricalCurrentReservoirData/LakeMeadStorageICS.r")
   
-#Labels for each method to use in grouping and plotting
+  ## Read in functions to:
+  #     Auto load USBR data
+  #     Interpolate with NAs
+  #     Load Reservoir Bathymetry and Critical Elevations
+  #     Load ICS data
+  source("../AutoReadUSBRData/AutoReadUSBRData.r") 
+  
+  # Read in the Reclamation Hydro Data
+  #lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+  lResData <- fReadReclamationHydroData(FromHydroData = FALSE)  
+
+  # Read in the ICS data
+  lICSdata <- fReadICSData()
+
+  
+  
+  #Labels for each method to use in grouping and plotting
 cMethods <- c("USGS Gages", "USBR API Inflow", "USBR API Back Calc", "USBR Back Calc\nwith Evap from Table", "CRSS", "Wang-Schmidt")
 cColors <- c("Blue", "Red", "Pink", "Purple", "Brown", "Black")
 
@@ -287,9 +297,9 @@ dfUSBR_FromEvapTable <- dfUSBR_API_Agg_BackCalc
 
 dfMeadEvap <- read.csv(file = "EvapData/dfMeadEvap.csv", header = TRUE)
 #Interpolate middle Evaporation from Mead Storage - Evap data
-dfUSBR_FromEvapTable$EvaporationFromTable <- interpNA(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMax/1e6)
+dfUSBR_FromEvapTable$EvaporationFromTable <- interp2(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMax/1e6)
 #Interpolate range of Evap 
-dfUSBR_FromEvapTable$EvaporationRange <- interpNA(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxUp/1e6) - interpNA(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxLo/1e6)
+dfUSBR_FromEvapTable$EvaporationRange <- interp2(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxUp/1e6) - interp2(xi = dfUSBR_FromEvapTable$Storage, x= dfMeadEvap$Total.Storage..ac.ft./1e6, y=dfMeadEvap$EvapVolMaxLo/1e6)
 
 dfUSBR_FromEvapTable$MeadInflow <- dfUSBR_FromEvapTable$DeltaStorage +  dfUSBR_FromEvapTable$Release +  dfUSBR_FromEvapTable$EvaporationFromTable
 dfUSBR_FromEvapTable$Method <- cMethods[4]
@@ -364,12 +374,23 @@ cMethodsToPlot <- cMethods[1:4]
 cColorsToPlot <- cColors[1:4]
 dfInflowsToPlot <- dfInflows %>% filter(Method %in% cMethodsToPlot)
 
-##### Compare ICS deposits to available water
-#####
-#Load in the ICS data
-dfICSBalanceMelt <- read_csv(file = "dfICSBalanceMelt.csv", col_names = TRUE)
-dfICSDeposit <- read_csv(file = "dfICSDeposit.csv", col_names = TRUE)
-dfICSDepositMelt <- read_csv(file = "dfICSDepositMelt.csv", col_names = TRUE)
+############## Make local copies of the ICS Data
+dfICSBalanceMelt <- lICSdata$dfICSBalanceNarrow
+dfICSDepositMelt <- lICSdata$dfICSDepositNarrow
+
+# Turn ICS Deposit to wide
+dfICSDeposit <- pivot_wider(data = dfICSDepositMelt, names_from = variable, values_from = value)
+
+
+# Calculate the sum per year
+#dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada 
+dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada + dfICSDeposit$Mexico
+
+cColNames <- unique(dfICSBalanceMelt$variable) 
+#Figure  - timeseries of bar plots of ICS balances
+palBlues <- brewer.pal(9, "Blues")
+palReds <- brewer.pal(9, "Reds")
+palGreys <- brewer.pal(9, "Greys")
 
 
 cColNames <- unique(dfICSBalanceMelt$variable) 
@@ -401,9 +422,11 @@ dfInflowICS$Nevada <- dfInflowICS$Nevada / 1e6
 dfInflowICS$Mexico <- dfInflowICS$Mexico / 1e6
 
 #Calculate Total ICS deposits each year (sum of positive values)
+#Calculate Total ICS deposits each year (sum of positive values)
 dfInflowICS$TotalDeposit <- ifelse(dfInflowICS$Arizona > 0, dfInflowICS$Arizona, 0) +
   ifelse(dfInflowICS$California > 0, dfInflowICS$California, 0) +
-  ifelse(dfInflowICS$Nevada > 0, dfInflowICS$Nevada, 0)
+  ifelse(dfInflowICS$Nevada > 0, dfInflowICS$Nevada, 0) +
+  ifelse(dfInflowICS$Mexico > 0, dfInflowICS$Mexico, 0)
 
 #Calculate available water as inflow minus evaporation
 dfInflowICS$AvailableWater <- 0
@@ -453,7 +476,7 @@ fig1 <- ggplot() +
   # ICS counts as stacked bar
   geom_bar(data=dfICSCountMelt, aes(fill=variable,y=-value,x=Year),position="stack", stat="identity") +
   
-  scale_fill_manual(name="Guide1",values = c(palGreys[3], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(10, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
+  scale_fill_manual(name="Guide1",values = c(palGreys[3], palReds[7], palReds[9]),breaks=cNamesInflowICS[c(9, (nNumCols-1):nNumCols)], labels = c("Evaporation", sCreditTotals)) +
   ###scale_color_manual(name="Guide2", values=c("Black")) +
   
   scale_color_manual(name="Guide2", values = c(palBlues[9], palBlues[7]), 

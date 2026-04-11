@@ -518,8 +518,8 @@ dfICSDepositMelt <- lICSdata$dfICSDepositNarrow
 # Turn ICS Deposit to wide
 dfICSDeposit <- pivot_wider(data = dfICSDepositMelt, names_from = variable, values_from = value)
 # Calculate the sum per year
-dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada 
-#dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada + dfICSDeposit$Mexico
+#dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada 
+dfICSDeposit$Total <- dfICSDeposit$Arizona + dfICSDeposit$California + dfICSDeposit$Nevada + dfICSDeposit$Mexico
 
 cColNames <- unique(dfICSBalanceMelt$variable) 
 #Figure  - timeseries of bar plots of ICS balances
