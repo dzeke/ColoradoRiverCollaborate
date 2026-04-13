@@ -65,6 +65,12 @@ dfICSDepositNarrow <- lICSdata$dfICSDepositNarrow
 dfICSDepositNarrow$Deposits <- ifelse(dfICSDepositNarrow$value > 0, dfICSDepositNarrow$value, 0)
 dfICSDepositNarrow$Withdraws <- ifelse(dfICSDepositNarrow$value < 0, -dfICSDepositNarrow$value, 0)
 
+# Calculate total deposits, withdraws and balances by state
+dfICSSummaryByState <- dfICSDepositNarrow %>% group_by(variable) %>% dplyr::summarize(TotalDeposits = sum(Deposits), TotalDebits = sum(Withdraws))
+dfCurrBalance <- lICSdata$dfICSBalanceNarrow %>% filter(Year == nMaxYear)
+
+
+
 nTotalDeposits <- sum(dfICSDepositNarrow$Deposits) / 1e6
 nTotalWithdraws <- sum(dfICSDepositNarrow$Withdraws) / 1e6
 
