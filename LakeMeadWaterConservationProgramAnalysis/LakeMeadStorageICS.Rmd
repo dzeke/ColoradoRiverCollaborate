@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 rm(list = ls())  #Clear history
 
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "rvest", "zoo", "here")
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "rvest", "zoo", "here", "knitr")
 # Then we select only the packages that aren't currently installed.
 install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
@@ -95,10 +95,17 @@ nTotalWithdraws <- sum(dfICSDepositNarrow$Withdraws) / 1e6
 
 sTotalDeposits <- paste("Total Deposits:" , round(nTotalDeposits, digits=1), "million acre-feet")
 sTotalWithdraws <- paste("Total Withdraws:" , round(nTotalWithdraws, digits=1), "million acre-feet")
-sCurrentBalance <- paste("Current Balance:" , round(nCurrentBalance, digits=1), "million acre-feet")     
+sCurrentBalance <- paste("Current Balance:" , round(nCurrentBalance, digits=1), "million acre-feet")    
 
+# Calculate total deposits, withdraws and balances by state
+dfICSSummaryByState <- dfICSDepositNarrow %>% group_by(variable) %>% dplyr::summarize(TotalDeposits = round(sum(Deposits)/1e6, digits = 2), TotalDebits = round(sum(Withdraws)/1e6, digits = 2))
+dfCurrBalance <- lICSdata$dfICSBalanceNarrow %>% filter(Year == nMaxYear)
+dfCurrBalance$Balance <- round(dfCurrBalance$value / 1e6, digits = 2)
+# Pivot so states become columns a
+dfICSSummaryByState <- dfICSSummaryByState %>% inner_join(dfCurrBalance %>% select(variable, Balance), by = "variable")
+# Change variable column name to State/Country
+dfICSSummaryByState <- dfICSSummaryByState %>% dplyr::rename("State/Country" = "variable")
 
-lFontSize <- 14
 
 ```
 
@@ -110,9 +117,22 @@ lFontSize <- 14
 
 `r sCurrentBalance`
 
+## Summary by State and Country (million acre-feet)
+
+``` {r SummaryByState, echo = FALSE}
+
+#knit_print.data.frame <- lemon_print
+
+kable(dfICSSummaryByState, caption = "")
+
+
+```
+
 ## Figure 1: Lake Mead Water Conservation Account (ICS) Balances
+
 ```{r ICSFig1, echo=FALSE, warning=FALSE, message=FALSE}
 
+lFontSize <- 14
 cColNamesICSBalance <- colnames(lICSdata$dfICSBalance)
 
 ggplot() +
