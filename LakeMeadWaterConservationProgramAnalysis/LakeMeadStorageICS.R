@@ -66,10 +66,13 @@ dfICSDepositNarrow$Deposits <- ifelse(dfICSDepositNarrow$value > 0, dfICSDeposit
 dfICSDepositNarrow$Withdraws <- ifelse(dfICSDepositNarrow$value < 0, -dfICSDepositNarrow$value, 0)
 
 # Calculate total deposits, withdraws and balances by state
-dfICSSummaryByState <- dfICSDepositNarrow %>% group_by(variable) %>% dplyr::summarize(TotalDeposits = sum(Deposits), TotalDebits = sum(Withdraws))
+dfICSSummaryByState <- dfICSDepositNarrow %>% group_by(variable) %>% dplyr::summarize(TotalDeposits = round(sum(Deposits)/1e6, digits = 2), TotalDebits = round(sum(Withdraws)/1e6, digits = 2))
 dfCurrBalance <- lICSdata$dfICSBalanceNarrow %>% filter(Year == nMaxYear)
-
-
+dfCurrBalance$Balance <- round(dfCurrBalance$value / 1e6, digits = 2)
+# Pivot so states become columns a
+dfICSSummaryByState <- dfICSSummaryByState %>% inner_join(dfCurrBalance %>% select(variable, Balance), by = "variable")
+# Change variable column name to State/Country
+dfICSSummaryByState <- dfICSSummaryByState %>% dplyr::rename("State/Country" = "variable")
 
 nTotalDeposits <- sum(dfICSDepositNarrow$Deposits) / 1e6
 nTotalWithdraws <- sum(dfICSDepositNarrow$Withdraws) / 1e6
@@ -78,6 +81,7 @@ print(paste("Total Deposits:" , round(nTotalDeposits, digits=1), "million acre-f
 print(paste("Total Withdraws:" , round(nTotalWithdraws, digits=1), "million acre-feet"))
 print(paste("Current Balance:" , round(nCurrentBalance, digits=1), "million acre-feet"))      
 
+knitr::kable(dfICSSummaryByState)
 
 # Color palettes
 pBlues <- brewer.pal(9,"Blues")
