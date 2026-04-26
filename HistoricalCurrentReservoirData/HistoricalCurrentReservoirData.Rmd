@@ -311,7 +311,13 @@ cPowellElevationsConcat <- dfPowellElevations %>%
     select(StorageAboveLabel) %>%
     summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
 
-cPowellElevationsConcat <- paste0("Current storage is:\n", cPowellElevationsConcat)
+cRes <- "Lake Powell"
+nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
+nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
+
+cCurrent <- paste0("Current storage is:\n", nStorage, " maf (", nElevation," feet)")
+
+cPowellElevationsConcat <- paste0(cCurrent,"\n", cPowellElevationsConcat)
 
 ggplot() +
 
@@ -356,8 +362,13 @@ cMeadElevationsConcat <- dfMeadElevations %>%
   select(StorageAboveLabel) %>%
   summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
 
-cMeadElevationsConcat <- paste0("Current storage is:\n", cMeadElevationsConcat)
+cRes <- "Lake Mead"
+nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
+nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
 
+cCurrent <- paste0("Current storage is:\n", nStorage, " maf (", nElevation," feet)")
+
+cMeadElevationsConcat <- paste0(cCurrent,"\n", cMeadElevationsConcat)
 
 ggplot() +
   

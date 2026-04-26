@@ -7372,8 +7372,8 @@
 "7371",2025,4,919,"Lake Powell","Powell",34,"Unregulated Inflow Volume","million acre-feet",0.5829073032,2025,2025-04-01
 "7372",2025,4,919,"Lake Powell","Powell",42,"Total Release","cfs",301641.12737,2025,2025-04-01
 "7373",2025,4,919,"Lake Powell","Powell",43,"Release volume","million acre-feet",0.598296451,2025,2025-04-01
-"7374",2025,4,921,"Lake Mead","Mead",42,"Total Release","cfs",464473.2871,2025,2025-04-01
-"7375",2025,4,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.9212693302,2025,2025-04-01
+"7374",2025,4,921,"Lake Mead","Mead",42,"Total Release","cfs",464291.00358,2025,2025-04-01
+"7375",2025,4,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.9209077761,2025,2025-04-01
 "7376",2025,5,919,"Lake Powell","Powell",25,"Evaporation","million acre-feet",0.017123939006,2025,2025-05-01
 "7377",2025,5,919,"Lake Powell","Powell",29,"Inflow","cfs",351886.02841,2025,2025-05-01
 "7378",2025,5,919,"Lake Powell","Powell",30,"Inflow Volume","million acre-feet",0.6979557587,2025,2025-05-01
@@ -7381,8 +7381,8 @@
 "7380",2025,5,919,"Lake Powell","Powell",34,"Unregulated Inflow Volume","million acre-feet",0.8488252424,2025,2025-05-01
 "7381",2025,5,919,"Lake Powell","Powell",42,"Total Release","cfs",301944.04794,2025,2025-05-01
 "7382",2025,5,919,"Lake Powell","Powell",43,"Release volume","million acre-feet",0.5988972851,2025,2025-05-01
-"7383",2025,5,921,"Lake Mead","Mead",42,"Total Release","cfs",495393.70837,2025,2025-05-01
-"7384",2025,5,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.982599091,2025,2025-05-01
+"7383",2025,5,921,"Lake Mead","Mead",42,"Total Release","cfs",495391.73367,2025,2025-05-01
+"7384",2025,5,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.9825951744,2025,2025-05-01
 "7385",2025,6,919,"Lake Powell","Powell",25,"Evaporation","million acre-feet",0.02771915946,2025,2025-06-01
 "7386",2025,6,919,"Lake Powell","Powell",29,"Inflow","cfs",445316.31449,2025,2025-06-01
 "7387",2025,6,919,"Lake Powell","Powell",30,"Inflow Volume","million acre-feet",0.8832720281,2025,2025-06-01
@@ -7408,8 +7408,8 @@
 "7407",2025,8,919,"Lake Powell","Powell",34,"Unregulated Inflow Volume","million acre-feet",0.0056533331515,2025,2025-08-01
 "7408",2025,8,919,"Lake Powell","Powell",42,"Total Release","cfs",383455.2911,2025,2025-08-01
 "7409",2025,8,919,"Lake Powell","Powell",43,"Release volume","million acre-feet",0.7605724779,2025,2025-08-01
-"7410",2025,8,921,"Lake Mead","Mead",42,"Total Release","cfs",316436.00013,2025,2025-08-01
-"7411",2025,8,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.6276416532,2025,2025-08-01
+"7410",2025,8,921,"Lake Mead","Mead",42,"Total Release","cfs",316433.83263,2025,2025-08-01
+"7411",2025,8,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.627637354,2025,2025-08-01
 "7412",2025,9,919,"Lake Powell","Powell",25,"Evaporation","million acre-feet",0.027774314956,2025,2025-09-01
 "7413",2025,9,919,"Lake Powell","Powell",29,"Inflow","cfs",174499.51384,2025,2025-09-01
 "7414",2025,9,919,"Lake Powell","Powell",30,"Inflow Volume","million acre-feet",0.34611473814,2025,2025-09-01
@@ -7458,30 +7458,30 @@
 "7457",2026,2,919,"Lake Powell","Powell",25,"Evaporation","million acre-feet",0.004120468033,2026,2026-02-01
 "7458",2026,2,919,"Lake Powell","Powell",29,"Inflow","cfs",134099.75621,2026,2026-02-01
 "7459",2026,2,919,"Lake Powell","Powell",30,"Inflow Volume","million acre-feet",0.26598298744,2026,2026-02-01
-"7460",2026,2,919,"Lake Powell","Powell",33,"Unregulated Inflow","cfs",127494.4865,2026,2026-02-01
-"7461",2026,2,919,"Lake Powell","Powell",34,"Unregulated Inflow Volume","million acre-feet",0.25288162612,2026,2026-02-01
+"7460",2026,2,919,"Lake Powell","Powell",33,"Unregulated Inflow","cfs",127494.47906,2026,2026-02-01
+"7461",2026,2,919,"Lake Powell","Powell",34,"Unregulated Inflow Volume","million acre-feet",0.25288161136,2026,2026-02-01
 "7462",2026,2,919,"Lake Powell","Powell",42,"Total Release","cfs",264369.91752,2026,2026-02-01
 "7463",2026,2,919,"Lake Powell","Powell",43,"Release volume","million acre-feet",0.5243700845,2026,2026-02-01
 "7464",2026,2,921,"Lake Mead","Mead",42,"Total Release","cfs",244909.91666,2026,2026-02-01
 "7465",2026,2,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.485771736,2026,2026-02-01
-"7466",2026,3,919,"Lake Powell","Powell",25,"Evaporation","million acre-feet",0.006915172834,2026,2026-03-01
-"7467",2026,3,919,"Lake Powell","Powell",29,"Inflow","cfs",162628.98556,2026,2026-03-01
-"7468",2026,3,919,"Lake Powell","Powell",30,"Inflow Volume","million acre-feet",0.32256988873,2026,2026-03-01
-"7469",2026,3,919,"Lake Powell","Powell",33,"Unregulated Inflow","cfs",180471.49529,2026,2026-03-01
-"7470",2026,3,919,"Lake Powell","Powell",34,"Unregulated Inflow Volume","million acre-feet",0.35795999054,2026,2026-03-01
-"7471",2026,3,919,"Lake Powell","Powell",42,"Total Release","cfs",251949.07163,2026,2026-03-01
-"7472",2026,3,919,"Lake Powell","Powell",43,"Release volume","million acre-feet",0.499733696,2026,2026-03-01
+"7466",2026,3,919,"Lake Powell","Powell",25,"Evaporation","million acre-feet",0.006914819283,2026,2026-03-01
+"7467",2026,3,919,"Lake Powell","Powell",29,"Inflow","cfs",158490.29221,2026,2026-03-01
+"7468",2026,3,919,"Lake Powell","Powell",30,"Inflow Volume","million acre-feet",0.31436091019,2026,2026-03-01
+"7469",2026,3,919,"Lake Powell","Powell",33,"Unregulated Inflow","cfs",176332.80018,2026,2026-03-01
+"7470",2026,3,919,"Lake Powell","Powell",34,"Unregulated Inflow Volume","million acre-feet",0.34975100847,2026,2026-03-01
+"7471",2026,3,919,"Lake Powell","Powell",42,"Total Release","cfs",251960.54497,2026,2026-03-01
+"7472",2026,3,919,"Lake Powell","Powell",43,"Release volume","million acre-feet",0.499756453,2026,2026-03-01
 "7473",2026,3,921,"Lake Mead","Mead",42,"Total Release","cfs",416842.6669,2026,2026-03-01
 "7474",2026,3,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.8267953719,2026,2026-03-01
-"7475",2026,4,919,"Lake Powell","Powell",25,"Evaporation","million acre-feet",0.000369595327,2026,2026-04-01
-"7476",2026,4,919,"Lake Powell","Powell",29,"Inflow","cfs",7420.85568,2026,2026-04-01
-"7477",2026,4,919,"Lake Powell","Powell",30,"Inflow Volume","million acre-feet",0.0147190526,2026,2026-04-01
-"7478",2026,4,919,"Lake Powell","Powell",33,"Unregulated Inflow","cfs",8799.05601,2026,2026-04-01
-"7479",2026,4,919,"Lake Powell","Powell",34,"Unregulated Inflow Volume","million acre-feet",0.0174526731,2026,2026-04-01
-"7480",2026,4,919,"Lake Powell","Powell",42,"Total Release","cfs",8192.495,2026,2026-04-01
-"7481",2026,4,919,"Lake Powell","Powell",43,"Release volume","million acre-feet",0.0162495769,2026,2026-04-01
-"7482",2026,4,921,"Lake Mead","Mead",42,"Total Release","cfs",40408.7639,2026,2026-04-01
-"7483",2026,4,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.0801496143,2026,2026-04-01
+"7475",2026,4,919,"Lake Powell","Powell",25,"Evaporation","million acre-feet",0.009192494296,2026,2026-04-01
+"7476",2026,4,919,"Lake Powell","Powell",29,"Inflow","cfs",168006.50722,2026,2026-04-01
+"7477",2026,4,919,"Lake Powell","Powell",30,"Inflow Volume","million acre-feet",0.33323604751,2026,2026-04-01
+"7478",2026,4,919,"Lake Powell","Powell",33,"Unregulated Inflow","cfs",176396.1381,2026,2026-04-01
+"7479",2026,4,919,"Lake Powell","Powell",34,"Unregulated Inflow Volume","million acre-feet",0.3498766373,2026,2026-04-01
+"7480",2026,4,919,"Lake Powell","Powell",42,"Total Release","cfs",201841.16073,2026,2026-04-01
+"7481",2026,4,919,"Lake Powell","Powell",43,"Release volume","million acre-feet",0.400346104,2026,2026-04-01
+"7482",2026,4,921,"Lake Mead","Mead",42,"Total Release","cfs",389230.9584,2026,2026-04-01
+"7483",2026,4,921,"Lake Mead","Mead",43,"Release volume","million acre-feet",0.7720283474,2026,2026-04-01
 "7484",2026,10,919,"Lake Powell","Powell",25,"Evaporation","million acre-feet",0.019072139779,2025,2025-10-01
 "7485",2026,10,919,"Lake Powell","Powell",29,"Inflow","cfs",279084.14969,2025,2025-10-01
 "7486",2026,10,919,"Lake Powell","Powell",30,"Inflow Volume","million acre-feet",0.55355533816,2025,2025-10-01
@@ -8262,7 +8262,7 @@
 "8261",2026,1,919,"Lake Powell","Powell",17,"Storage","million acre-feet",6.4596801,2026,2026-01-01
 "8262",2026,2,919,"Lake Powell","Powell",17,"Storage","million acre-feet",6.12990759,2026,2026-02-01
 "8263",2026,3,919,"Lake Powell","Powell",17,"Storage","million acre-feet",5.89006466,2026,2026-03-01
-"8264",2026,4,919,"Lake Powell","Powell",17,"Storage","million acre-feet",5.72442921,2026,2026-04-01
+"8264",2026,4,919,"Lake Powell","Powell",17,"Storage","million acre-feet",5.71387964,2026,2026-04-01
 "8265",1964,1,919,"Lake Powell","Powell",49,"Pool Elevation","feet",3409.80005,1964,1964-01-01
 "8266",1964,2,919,"Lake Powell","Powell",49,"Pool Elevation","feet",3414.6001,1964,1964-02-01
 "8267",1964,3,919,"Lake Powell","Powell",49,"Pool Elevation","feet",3414.80005,1964,1964-03-01
@@ -9010,7 +9010,7 @@
 "9009",2026,1,919,"Lake Powell","Powell",49,"Pool Elevation","feet",3540.17,2026,2026-01-01
 "9010",2026,2,919,"Lake Powell","Powell",49,"Pool Elevation","feet",3534.86,2026,2026-02-01
 "9011",2026,3,919,"Lake Powell","Powell",49,"Pool Elevation","feet",3530.89,2026,2026-03-01
-"9012",2026,4,919,"Lake Powell","Powell",49,"Pool Elevation","feet",3528.09,2026,2026-04-01
+"9012",2026,4,919,"Lake Powell","Powell",49,"Pool Elevation","feet",3527.91,2026,2026-04-01
 "9013",1964,1,919,"Lake Powell","Powell",89,"Area","square feet",28013.68,1964,1964-01-01
 "9014",1964,2,919,"Lake Powell","Powell",89,"Area","square feet",28969.61,1964,1964-02-01
 "9015",1964,3,919,"Lake Powell","Powell",89,"Area","square feet",29009.43,1964,1964-03-01
@@ -9758,7 +9758,7 @@
 "9757",2026,1,919,"Lake Powell","Powell",89,"Area","square feet",63080.24,2026,2026-01-01
 "9758",2026,2,919,"Lake Powell","Powell",89,"Area","square feet",61139.48,2026,2026-02-01
 "9759",2026,3,919,"Lake Powell","Powell",89,"Area","square feet",59682.97,2026,2026-03-01
-"9760",2026,4,919,"Lake Powell","Powell",89,"Area","square feet",58640.26,2026,2026-04-01
+"9760",2026,4,919,"Lake Powell","Powell",89,"Area","square feet",58576.94,2026,2026-04-01
 "9761",1937,6,921,"Lake Mead","Mead",17,"Storage","million acre-feet",10.3731125,1937,1937-06-01
 "9762",1937,7,921,"Lake Mead","Mead",17,"Storage","million acre-feet",11.9369095,1937,1937-07-01
 "9763",1937,8,921,"Lake Mead","Mead",17,"Storage","million acre-feet",12.4920781,1937,1937-08-01

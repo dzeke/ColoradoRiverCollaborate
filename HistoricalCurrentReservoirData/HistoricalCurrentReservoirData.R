@@ -34,8 +34,8 @@ here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
 source("../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
-#lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
-lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+#lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 
 # Read in the Reservoir Bathymetry and Critical Elevations
@@ -261,14 +261,24 @@ cPowellElevationsConcat <- dfPowellElevations %>%
     select(StorageAboveLabel) %>%
     summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
 
-cPowellElevationsConcat <- paste0("Current storage is:\n", cPowellElevationsConcat)
+#Format current storage and elevation for listing
+
+cRes <- "Lake Powell"
+nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
+nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
+
+cCurrent <- paste0("Current storage is:\n", nStorage, " maf (", nElevation," feet)")
+
+
 
 ggplot() +
 
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
   geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = pReds[7], size = 4 ) +
   
-   geom_text(aes(x = as.Date("2026-01-01"), y = 15, label = cPowellElevationsConcat), color = pReds[7]) +
+  geom_text(aes(x = as.Date("2026-01-01"), y = 16.5, label = cCurrent), color = pBlues[9]) + 
+  geom_text(aes(x = as.Date("2026-01-01"), y = 13, label = cPowellElevationsConcat), color = pReds[7]) +
+    
     scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
                date_breaks = "5 years", # Major ticks every 10 years
                date_labels = "%Y") +
@@ -301,7 +311,13 @@ cMeadElevationsConcat <- dfMeadElevations %>%
   select(StorageAboveLabel) %>%
   summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
 
-cMeadElevationsConcat <- paste0("Current storage is:\n", cMeadElevationsConcat)
+cRes <- "Lake Mead"
+nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
+nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
+
+cCurrent <- paste0("Current storage is:\n", nStorage, " maf (", nElevation," feet)")
+
+cMeadElevationsConcat <- paste0(cCurrent,"\n", cMeadElevationsConcat)
 
 
 ggplot() +
