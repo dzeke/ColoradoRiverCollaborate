@@ -220,6 +220,11 @@ dfMeadStorageStackMelt$variable <- factor(dfMeadStorageStackMelt$variable, level
 #Read in the levels from CSV
 dfMeadBathymetry <- dfBathymtry$dfMeadElevations
 
+#Filter to remove No ICS Withdraw
+dfMeadBathymetry <- dfMeadBathymetry %>% filter(Description != "No ICS Withdraw")
+
+#Create another key 
+dfMeadBathymetryTrunc <- dfMeadBathymetry %>% filter(`Elevation (feet)` < 1091)
 
 
 ggplot() +
@@ -243,9 +248,13 @@ ggplot() +
   
   #Scales
   scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), date_breaks = "4 year", date_labels = "%Y", sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
-  #Secondary axis as Mead level
-  scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
+  #Left axis as volume in 0, 5, 10, ... maf increments; Secondary axis as Mead level
+#  scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
+
+  scale_y_continuous(limits = c(0, NA),  breaks =dfMeadBathymetryTrunc$ActiveStorageMAF, labels = round(dfMeadBathymetryTrunc$ActiveStorageMAF,1),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
   
+  
+    
   
   scale_fill_manual(values=c(pBlues[3], pBlues[3], pBlues[5], pBlues[7])) +
   
