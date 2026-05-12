@@ -101,7 +101,7 @@ ggplot() +
 ###################
 ## Figure 2. ICS Deposits/Withdraws by Year
 
-dfICSDepositsWithdraws <- lICSdata$dfICSDepositNarrow
+dfICSDepositsWithdraws <- lICSdata$dfICSDepositNarrow %>% filter(variable != "Mexico")
 
 ggplot() +
   
@@ -229,7 +229,7 @@ dfMeadBathymetryTrunc <- dfMeadBathymetry %>% filter(`Elevation (feet)` < 1091)
 cMeadVolBreaks <- c(dfMeadBathymetryTrunc$ActiveStorageMAF, seq(10,25,5))
 cMeadVolLabels <- round(cMeadVolBreaks,1)
 
-ggplot() +
+fig3 <- ggplot() +
   #Lake Mead Storage and Water Conservation Account balances as stacked area plot
   #As area
   geom_area(data=dfMeadStorageStackMelt, aes(x=DateAsValue, y=value, fill=variable, group=variable)) +
@@ -250,11 +250,12 @@ ggplot() +
   
   #Scales
   scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), date_breaks = "4 year", date_labels = "%Y", sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
+  
   #Left axis ticks as volume in 0, 5, 10, ... maf increments; Secondary axis as Mead level
-  #scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
+  scale_y_continuous(limits = c(0, NA),  breaks = seq(0,25,5), sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
   
   #Left axis in volumes that correspond exactly to critical Lake Mead elevations, with ticks above 1,090 feet in 5 maf increments
-  scale_y_continuous(limits = c(0, NA),  breaks = cMeadVolBreaks, labels = cMeadVolLabels,  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
+  #scale_y_continuous(limits = c(0, NA),  breaks = cMeadVolBreaks, labels = cMeadVolLabels,  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
   
   scale_fill_manual(values=c(pBlues[3], pBlues[3], pBlues[5], pBlues[7])) +
   
@@ -272,4 +273,5 @@ ggplot() +
         legend.position = "none",
         panel.grid.minor.y = element_blank())
 
-#ggsave("LakeMeadStorageICS-Figure3.png", fig3)
+fig3
+ggsave("LakeMeadStorageICS-Figure3.png", fig3)
