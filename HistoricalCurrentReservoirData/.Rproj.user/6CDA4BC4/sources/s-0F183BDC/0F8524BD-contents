@@ -1,30 +1,38 @@
-# LakeMeadStorageICS.R
-#
-# Lake Mead Storage and Water Conservation (ICS) program plots.
-#
-# Generates the following 3 plots:
-#  1. ICS account balances by state and year (stacked bar)
-#  2. Deposits and debits to ICS accounts by state and year (stacked bar)
-#  3. Stacked line plot that show Lake Mead Storage, Water Conservation Account (ICS) Balance, and reservoir protection elevation over time.
-#     The plot also shows a line of the anticipated Lake Mead storage volume were the Water Conservation Program not exist (states continued withdraws at their historical allocations).
-#
-# Data wrangling strategy
-# 1. Import the reservoir elevation-volume curves
-# 2. Import the water conservation account data for Lake Mead
-# 3. Import historical reservoir storage data
+---
+title: "Lake Mead Water Conservation Accounting (ICS) and Storage"
+author: "David E. Rosenberg"
+date: "March 29, 2026"
+output: pdf_document
+---
 
-# The plots support the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
-#
-# This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
-# Please report bugs/feedback to me (contact info below)
-#
-# David E. Rosenberg
-# March 29, 2026
-# Utah State University
-# david.rosenberg@usu.edu
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-# Load required libraries in 1 go
-# List of packages
+## Overview
+
+This is an R Markdown document. The document generates the following 3 plots:
+
+1. ICS account balances by state and year (stacked bar)
+1. Deposits and debits to ICS accounts by state and year (stacked bar)
+1. Stacked line plot that show Lake Mead Storage, Water Conservation Account (ICS) Balance, and reservoir protection elevation over time. The plot also shows a line of the anticipated Lake Mead storage volume were the Water Conservation Program not exist (states continued withdraws at their historical allocations).
+
+## Data wrangling strategy
+
+1. Import the reservoir elevation-volume curves
+1. Import the water conservation account data for Lake Mead
+1. Import historical reservoir storage data
+1. Turn annual ICS data into Monthly, Calculate the Lake Mead Elevation without ICS accounts, and turn reservoir, ICS, and protection volumes into dataframe in narrow format for ploting as a stacked line graph.
+
+
+The plots support the analysis of the work: "Lake Mead Water Conservation Accounts: Examples, Successes, Challenges, and Potential Improvements post 2026."
+
+This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.Please report bugs/feedback to me (contact info below)
+
+## Requested Citation
+David E. Rosenberg (2026), "Lake Mead Water Conservation Accounting (ICS) and Storage." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/HistoricalCurrentReservoirData.
+
+```{r MeadICS0, echo=FALSE, warning=FALSE, message=FALSE}
 
 rm(list = ls())  #Clear history
 
@@ -60,9 +68,12 @@ lICSdata <- fReadICSData()
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
 
-########################
-# Figure 1. Timeseries of bar plots of ICS balances 
 lFontSize <- 14
+
+```
+
+# Figure 1: Lake Mead Water Conservation Account (ICS) Balances
+```{r ICSFig1, echo=FALSE, warning=FALSE, message=FALSE}
 
 cColNamesICSBalance <- colnames(lICSdata$dfICSBalance)
 
@@ -98,9 +109,11 @@ ggplot() +
         legend.text=element_text(size=lFontSize - 2),
         legend.position= c(0.2,0.80))
 
-###################
-## Figure 2. ICS Deposits/Withdraws by Year
+```
 
+# Figure 2. Lake Mead Water Conservation Account (ICS) Deposits and Withdraws
+
+```{r ICSFig2, echo=FALSE, warning=FALSE, message=FALSE}
 dfICSDepositsWithdraws <- lICSdata$dfICSDepositNarrow
 
 ggplot() +
@@ -126,12 +139,17 @@ ggplot() +
   theme_bw() +
   
   labs(x="", y="Credits (+) and Debits (-) to\nLake Mead Water Conservation Accounts\n(MAF per year)") +
-  theme(text = element_text(size=lFontSize - 4),  
-        axis.text.y = element_text(size = lFontSize - 4),
+  theme(text = element_text(size=lFontSize - 2),  
+        axis.text.y = element_text(size = lFontSize - 2),
         legend.title = element_blank(),
-        legend.text=element_text(size=lFontSize - 6),
-        legend.position= c(1.075,0.5))
+        legend.text=element_text(size=lFontSize - 2),
+        legend.position= c(1.15,0.5))
 
+```
+
+## Figure 3. Lake Mead Storage (black), Water Conservation Account (ICS) Balances (light blue), Storage without the Water Conservation Program (dashed red), and Protection Volume (dark blue) Over Time.
+
+```{r ICSFig3, echo=FALSE, warning=FALSE, message=FALSE, fig.height=5.25}
 
 ##############
 ### Figure 3. 
@@ -152,7 +170,7 @@ dfKeyDates <- data.frame(Date = as.Date(c("2007-01-01", "2027-01-01")), Label = 
 
 ## Data frame of key Mead traces
 dfKeyMeadTraceLabels <- data.frame(Label = c("Protect", "Public Pool", "Water\nConservation\nAccounts"),
-                               Volume = c(nProtectMead/2, 8, 11.5), xPosition = c(2012, 2012, 2023),
+                               Volume = c(nProtectMead/2, 8, 14), xPosition = c(2012, 2012, 2022),
                                Size = c(6, 6, 5))
 
 # Read in Lake Mead Storage from the downloaded data
@@ -250,11 +268,9 @@ ggplot() +
   
   #Scales
   scale_x_date(limits= c(as.Date("2000-01-01"), as.Date("2026-01-01")), date_breaks = "4 year", date_labels = "%Y", sec.axis = sec_axis(~. +0, name = "", breaks = dfKeyDates$Date, labels = as.character(dfKeyDates$Label))) +
-  #Left axis ticks as volume in 0, 5, 10, ... maf increments; Secondary axis as Mead level
-  #scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
+  #Secondary axis as Mead level
+  scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
   
-  #Left axis in volumes that correspond exactly to critical Lake Mead elevations, with ticks above 1,090 feet in 5 maf increments
-  scale_y_continuous(limits = c(0, NA),  breaks = cMeadVolBreaks, labels = cMeadVolLabels,  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
   
   scale_fill_manual(values=c(pBlues[3], pBlues[3], pBlues[5], pBlues[7])) +
   
@@ -268,8 +284,6 @@ ggplot() +
   #coord_fixed() +
   labs(x="", y="Active Storage\n(MAF)", color = "") +
   theme(text = element_text(size=lFontSize),  legend.title = element_blank(), 
+        axis.text.y.right = element_text(size = lFontSize - 5),
         legend.text=element_text(size=lFontSize - 2),
-        legend.position = "none",
-        panel.grid.minor.y = element_blank())
-
-#ggsave("LakeMeadStorageICS-Figure3.png", fig3)
+        legend.position = "none")
