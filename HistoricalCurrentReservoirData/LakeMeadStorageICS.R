@@ -226,6 +226,8 @@ dfMeadBathymetry <- dfMeadBathymetry %>% filter(Description != "No ICS Withdraw"
 #Create another key 
 dfMeadBathymetryTrunc <- dfMeadBathymetry %>% filter(`Elevation (feet)` < 1091)
 
+cMeadVolBreaks <- c(dfMeadBathymetryTrunc$ActiveStorageMAF, seq(10,25,5))
+cMeadVolLabels <- round(cMeadVolBreaks,1)
 
 ggplot() +
   #Lake Mead Storage and Water Conservation Account balances as stacked area plot
@@ -251,7 +253,7 @@ ggplot() +
   #Left axis as volume in 0, 5, 10, ... maf increments; Secondary axis as Mead level
 #  scale_y_continuous(limits = c(0, NA),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
 
-  scale_y_continuous(limits = c(0, NA),  breaks =dfMeadBathymetryTrunc$ActiveStorageMAF, labels = round(dfMeadBathymetryTrunc$ActiveStorageMAF,1),  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
+  scale_y_continuous(limits = c(0, NA),  breaks = cMeadVolBreaks, labels = cMeadVolLabels,  sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfMeadBathymetry$ActiveStorageMAF, labels = dfMeadBathymetry$Label)) +
   
   
     
@@ -269,6 +271,7 @@ ggplot() +
   labs(x="", y="Active Storage\n(MAF)", color = "") +
   theme(text = element_text(size=lFontSize),  legend.title = element_blank(), 
         legend.text=element_text(size=lFontSize - 2),
-        legend.position = "none")
+        legend.position = "none",
+        panel.grid.minor.y = element_blank())
 
 #ggsave("LakeMeadStorageICS-Figure3.png", fig3)
