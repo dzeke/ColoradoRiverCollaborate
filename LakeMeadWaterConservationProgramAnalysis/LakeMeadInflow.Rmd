@@ -10,11 +10,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 rm(list = ls())  #Clear history
 
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "rvest", "zoo", "here")
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "rvest", "tidy", "dataRetrieval", "zoo", "here")
+
 # Then we select only the packages that aren't currently installed.
 install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
-for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+for(lib in install.lib) install.packages(lib,dependencies=TRUE, repos = "https://cloud.r-project.org")
 # After the installation process completes, we load all packages.
 sapply(load.lib,require,character=TRUE)
 
@@ -73,17 +74,19 @@ David E. Rosenberg (2020). "Lake Mead Inflow". Utah State University. Logan, Uta
 
 ```{r LakeMeadInflow1, echo=FALSE, warning=FALSE, message=FALSE}
 
-rm(list = ls())  #Clear history
+#rm(list = ls())  #Clear history
 
 #Load packages in one go
-  #List of packages
-  load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "rvest", "tidyr", "dataRetrieval")
-# Then we select only the packages that aren't currently installed.
-  install.lib <- load.lib[!load.lib %in% installed.packages()]
-# And finally we install the missing packages, including their dependency.
-  for(lib in install.lib) install.packages(lib,dependencies=TRUE)
-  # After the installation process completes, we load all packages.
-  sapply(load.lib,require,character=TRUE)
+#   #List of packages
+#   load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "rvest", "tidyr", "dataRetrieval", "zoo", "here", "knitr")
+#   
+#  # Then we select only the packages that aren't currently installed.
+#   install.lib <- load.lib[!load.lib %in% installed.packages()]
+# # And finally we install the missing packages, including their dependency.
+#   for(lib in install.lib) install.packages(lib,dependencies=TRUE)
+#   #for(lib in install.lib) install.packages(lib,dependencies=TRUE, repos = "https://cloud.r-project.org")
+#   # After the installation process completes, we load all packages.
+#   sapply(load.lib,require,character=TRUE)
 
   here::i_am("HistoricalCurrentReservoirData/LakeMeadStorageICS.r")
   
@@ -95,8 +98,8 @@ rm(list = ls())  #Clear history
   source("../AutoReadUSBRData/AutoReadUSBRData.r") 
   
   # Read in the Reclamation Hydro Data
-  #lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
-  lResData <- fReadReclamationHydroData(FromHydroData = FALSE)  
+  lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+  #lResData <- fReadReclamationHydroData(FromHydroData = FALSE)  
 
   # Read in the ICS data
   lICSdata <- fReadICSData()

@@ -1,0 +1,28 @@
+{
+    "id": "215243D5",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1780260257598.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "id": "fbaa71cb8c52467785493f06ef98be21",
+        "name": "lICSdata",
+        "title": "lICSdata",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1488561062408,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1780260257598,
+    "read_only": false,
+    "read_only_alternatives": []
+}
