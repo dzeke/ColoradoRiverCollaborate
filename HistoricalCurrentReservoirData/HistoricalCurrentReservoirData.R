@@ -363,7 +363,7 @@ ggplot() +
   
   scale_fill_manual(breaks = cPoolNames, values = c(pReds[3], pReds[5], pReds[7])) + 
     
-  geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[5], linetype = "dashed", size =1.5) +
+  geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[3], linetype = "dashed", size =1.5) +
 
     # Add a label of Catastrophic elevation
   geom_text(data = dfPowellElevations2, aes(x = as.Date("2026-10-01"), y = ActiveStorageMAF, label = PoolLabel), color = pReds[7], size = 6) +
