@@ -290,7 +290,7 @@ ggplot() +
   #Create secondary y axes for Powell Lake Level
    scale_y_continuous(limits = c(0,25), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
   
-  geom_hline(yintercept = dfTemp$dfPowellElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
+  geom_hline(yintercept = dfPowellElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
   theme_bw() +
   
   labs(x="", y="Powell Active Storage (MAF)") +
@@ -306,19 +306,20 @@ ggplot() +
 #Recalculate elevations above for narrower time window
 cPowellElevationsConcatNarrow <- dfPowellElevations %>%
   arrange(desc(`Elevation (feet)`)) %>%  
-  filter(`Elevation (feet)` >= 3514, `Elevation (feet)` <= 3525) %>%
+  filter(`Elevation (feet)` >= 3525, `Elevation (feet)` <= 3525) %>%
   
   select(StorageAboveLabel) %>%
   summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
 
+nCatastrophicVolume <- dfPowellElevations %>% filter(`Elevation (feet)`  == 3514) %>% pull(ActiveStorageMAF)
 
 ggplot() +
   
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
-  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = pReds[7], size = 4 ) +
+  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
   
-  geom_text(aes(x = as.Date("2026-04-01"), y = 7.8, label = cCurrent), fontface = "bold", color = "blue") + 
-  geom_text(aes(x = as.Date("2026-04-01"), y = 7.0, label = cPowellElevationsConcatNarrow), color = pReds[7]) +
+  geom_text(aes(x = as.Date("2026-04-01"), y = 7.8, label = cCurrent), fontface = "bold", color = "blue", size = 5) + 
+  geom_text(aes(x = as.Date("2026-04-01"), y = 7.0, label = cPowellElevationsConcatNarrow), color = pReds[5], size = 5) +
   
   scale_x_date(limits= c(as.Date("2025-03-01"), as.Date("2027-01-01")),
                date_breaks = "6 months", # Major ticks every 10 years
@@ -327,8 +328,16 @@ ggplot() +
   #Create secondary y axes for Powell Lake Level
   scale_y_continuous(limits = c(0,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
   
-  geom_hline(yintercept = dfTemp$dfPowellElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
-  theme_bw() +
+  geom_hline(yintercept = dfPowellElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
+
+  # Add another horizonal line for the Catastrophy Elevation (no hydropower)
+  geom_hline(yintercept = nCatastrophicVolume, color = pReds[3], linetype = "solid", size = 2) +
+  
+    # Add a label of Catastrophic elevation
+  geom_text(aes(x = as.Date("2026-10-01"), y = nCatastrophicVolume, label = "Catastrophic Elevation"), color = pReds[7], size = 7) +
+  
+  
+    theme_bw() +
   
   labs(x="", y="Powell Active Storage (MAF)") +
   theme(text = element_text(size=14), legend.position = "none",
