@@ -274,7 +274,7 @@ nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Eleva
 cCurrent <- paste0("Current storage is:\n", nStorage, " maf (", nElevation," feet)")
 
 
-
+### Plot 5 - Full Powell history back to 1995
 ggplot() +
 
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
@@ -288,7 +288,7 @@ ggplot() +
                date_labels = "%Y") +
   
   #Create secondary y axes for Powell Lake Level
-   scale_y_continuous(limits = c(0,25), breaks = dfTemp$dfPowellElevations$ActiveStorageMAF,labels=round(dfTemp$dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfTemp$dfPowellElevations$ActiveStorageMAF , labels = dfTemp$dfPowellElevations$Label)) +
+   scale_y_continuous(limits = c(0,25), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
   
   geom_hline(yintercept = dfTemp$dfPowellElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
   theme_bw() +
@@ -299,6 +299,45 @@ ggplot() +
         panel.grid.minor = element_blank())
 
  
+### Plot 5B - Powell history back to 2025 and y axis cut at 3,575 feet
+
+# Combine all the current storage above critical elevations to one character string separated by newlines
+
+#Recalculate elevations above for narrower time window
+cPowellElevationsConcatNarrow <- dfPowellElevations %>%
+  arrange(desc(`Elevation (feet)`)) %>%  
+  filter(`Elevation (feet)` >= 3514, `Elevation (feet)` <= 3525) %>%
+  
+  select(StorageAboveLabel) %>%
+  summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
+
+
+ggplot() +
+  
+  geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
+  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = pReds[7], size = 4 ) +
+  
+  geom_text(aes(x = as.Date("2026-04-01"), y = 7.8, label = cCurrent), fontface = "bold", color = "blue") + 
+  geom_text(aes(x = as.Date("2026-04-01"), y = 7.0, label = cPowellElevationsConcatNarrow), color = pReds[7]) +
+  
+  scale_x_date(limits= c(as.Date("2025-03-01"), as.Date("2027-01-01")),
+               date_breaks = "6 months", # Major ticks every 10 years
+               date_labels = "%b\n%Y") +
+  
+  #Create secondary y axes for Powell Lake Level
+  scale_y_continuous(limits = c(0,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
+  
+  geom_hline(yintercept = dfTemp$dfPowellElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
+  theme_bw() +
+  
+  labs(x="", y="Powell Active Storage (MAF)") +
+  theme(text = element_text(size=14), legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank())
+
+
+
+
 ##########
 ## Figure 6. Lake Mead storage/elevation over time
 
