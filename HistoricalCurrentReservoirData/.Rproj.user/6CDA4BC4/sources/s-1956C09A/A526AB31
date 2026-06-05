@@ -12,13 +12,13 @@
     "properties": {
         "expression": "dfResDataDaily",
         "caption": "dfResDataDaily",
-        "totalObservations": "362366",
-        "displayedObservations": "362366",
-        "variables": "15",
-        "cacheKey": "7E4E6011",
+        "totalObservations": "363248",
+        "displayedObservations": "363248",
+        "variables": "16",
+        "cacheKey": "09364278",
         "object": "dfResDataDaily",
         "environment": "",
-        "contentUrl": "grid_resource/gridviewer.html?env=&obj=dfResDataDaily&cache_key=7E4E6011&max_cols=50",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=dfResDataDaily&cache_key=09364278&max_cols=50",
         "preview": "0",
         "source_window_id": "",
         "Source": "Source"

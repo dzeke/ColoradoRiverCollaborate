@@ -34,8 +34,8 @@ here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
 source("../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
-lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
-#lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+#lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 
 # Read in the Reservoir Bathymetry and Critical Elevations
@@ -395,13 +395,21 @@ dfResDataDaily$DateAsDate <- ymd(dfResDataDaily$Date)
 ##############
 ### Figure 9B. Daily Powell Inflow/Release for current year
 
+## Sum inflow and release volumes to date from the start of the water yesr.
+dfCurrentYear <- dfResDataDaily %>% filter(ResName == "Lake Powell", WaterYear >= max(WaterYear), FieldName %in% c("Release volume", "Inflow Volume"))
+
+dfYearToDateVolume <- dfCurrentYear %>% select(FieldName, Value) %>% group_by(FieldName) %>% dplyr::summarize(Total = sum(Value)/1e6)
+# Calculate the labels
+dfYearToDateVolume$FieldNameShort <- word(dfYearToDateVolume$FieldName,1)
+dfYearToDateVolume$Label <- paste0(dfYearToDateVolume$FieldNameShort, "\n(", round(dfYearToDateVolume$Total,digits = 1), " maf)")
+
 ggplot() +
   #Line graph of Powell Release
-  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Release volume", WaterYear >= max(WaterYear)) , aes(x = DateAsDate, y=Value, group = 1, color="Release"), size=2) +
-  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Inflow Volume", WaterYear >= max(WaterYear)), aes(x = DateAsDate, y=Value, group = 1, color="Inflow"), size=2) +
+  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Release volume", WaterYear >= max(WaterYear)) , aes(x = DateAsDate, y=Value, group = 1, color="Release"), size=1) +
+  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Inflow Volume", WaterYear >= max(WaterYear)), aes(x = DateAsDate, y=Value, group = 1, color="Inflow"), size=1) +
   
-    scale_color_manual(" ", values = c("Inflow" = pBlues[7], "Release" = pReds[7])) +
-  scale_x_date( date_breaks = "1 month", date_labels = "%b %Y") +
+    scale_color_manual(" ", labels = c(dfYearToDateVolume$Label[1],dfYearToDateVolume$Label[2] ), values = c("Inflow" = pBlues[7], "Release" = pReds[7])) +
+  scale_x_date( date_breaks = "1 month", date_labels = "%b\n%Y") +
   
      labs(x="", y="Water Volume\n(Acre-feet per day)") +  
   
