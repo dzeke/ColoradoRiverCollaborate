@@ -424,6 +424,9 @@ ggplot() +
   
     scale_color_manual(" ", labels = c(dfYearToDateVolume$Label[1],dfYearToDateVolume$Label[2] ), values = c("Inflow" = pBlues[7], "Release" = pReds[7])) +
   scale_x_date( date_breaks = "1 month", date_labels = "%b\n%Y") +
+
+    #Create secondary y axes for flow in cfs
+  scale_y_continuous(labels = scales::label_comma(), sec.axis = sec_axis(transform = ~ . * 0.504, name = "Average Daily Flow\n(Cubic feet per second)", labels = scales::label_comma())) +
   
      labs(x="", y="Water Volume\n(Acre-feet per day)") +  
   
