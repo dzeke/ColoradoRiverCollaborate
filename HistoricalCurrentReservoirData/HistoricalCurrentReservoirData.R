@@ -177,6 +177,10 @@ ggplot() +
 ################
 # Figure 4. Powell on X and Mead on Y with 1:1
 
+#Filter out a narrow set of Powell Critical elevations
+
+dfPowellElevationsFiltered <- dfTemp$dfPowellElevations %>% filter(`Elevation (feet)` %in% c(3370, 3490, 3525, 3600, 3700))
+
 ggplot() +
   # Plot a 1:1 line to total storage
   geom_abline(intercept = 0, slope = 1, color="1:1 line (by volume)", size=2, linetype="longdash", show.legend = FALSE) +
@@ -220,7 +224,7 @@ ggplot() +
   #Create secondary y axes for Mead Lake Level
   scale_y_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfTemp$dfMeadElevations$ActiveStorageMAF, labels = dfTemp$dfMeadElevations$Label)) +
   #Create secondary x axes for Powell Lake Level
-  scale_x_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), sec.axis = sec_axis(~. +0, name = "Powell Level (feet)", breaks = dfTemp$dfPowellElevations$ActiveStorageMAF , labels = dfTemp$dfPowellElevations$`Elevation (feet)`)) +
+  scale_x_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), sec.axis = sec_axis(~. +0, name = "Powell Level (feet)", breaks = dfPowellElevationsFiltered$ActiveStorageMAF , labels = dfPowellElevationsFiltered$`Elevation (feet)`)) +
   
   theme_bw() +
   coord_fixed() +
