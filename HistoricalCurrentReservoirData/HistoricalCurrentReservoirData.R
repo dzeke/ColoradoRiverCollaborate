@@ -313,34 +313,18 @@ cPowellElevationsConcatNarrow <- dfPowellElevations %>%
 
 nCatastrophicVolume <- dfPowellElevations %>% filter(`Elevation (feet)`  == 3514) %>% pull(ActiveStorageMAF)
 
-dfPowellElevations2 <- dfPowellElevations %>% filter(`Elevation (feet)` %in% c(3514, 3525, 3540))
+dfPowellElevations2 <- dfPowellElevations %>% filter(`Elevation (feet)` %in% c(3514, 3525))
 
 # Calculate storage above catastrophy elevation
 dfPowellElevations2$CatastrophyVolume <- nCatastrophicVolume
 dfPowellElevations2$VolumeAboveCatastraphy <- dfPowellElevations2$ActiveStorageMAF - dfPowellElevations2$CatastrophyVolume
-dfPowellElevations2$PoolLabel <- paste0("Buffer: ", round(dfPowellElevations2$VolumeAboveCatastraphy, digits = 1)," maf")
-dfPowellElevations2$PoolLabel[1] <- "Catastrophic Elevation"
+dfPowellElevations2$PoolLabel <- paste0("Minimum Drawdown Elevation\n(Buffer: ", round(dfPowellElevations2$VolumeAboveCatastraphy, digits = 1)," maf)")
+dfPowellElevations2$PoolLabel[1] <- "Catastrophic Elevation\n(No Hydropower - Vorticies)"
 
+dfPowellElevations2$VerticalAdjustLabel <- c(-0.2, 0.2)
 
 dStartDate <- as.Date("2026-06-01")
 dEndDate <- as.Date("2027-01-01")
-
-dfPools <- data.frame(DateAsDate = c(dStartDate ,dEndDate))
-dfPools$Catastrophy <- nCatastrophicVolume
-dfPools$Buffer3525 <- dfPowellElevations %>% filter(`Elevation (feet)`  == 3525) %>% pull(ActiveStorageMAF)
-dfPools$Buffer3540 <- dfPowellElevations %>% filter(`Elevation (feet)`  == 3540) %>% pull(ActiveStorageMAF)
-
-# Turn narrow
-dfPoolsNarrow <- dfPools %>%  pivot_longer(
-    cols = c(Catastrophy, Buffer3525, Buffer3540), # Columns you want to collapse
-    names_to = "Pool",         # Name for the new text column
-    values_to = "VolumeMAF"            # Name for the new numeric/data column
-  )
-
-cPoolNames <- c("Buffer3540", "Buffer3525", "Catastrophy")
-
-dfPoolsNarrow$PoolAsFactor <- factor(dfPoolsNarrow$Pool, levels = cPoolNames)
-
 
 ggplot() +
   
@@ -365,8 +349,8 @@ ggplot() +
     
   geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[3], linetype = "dashed", size =1.5) +
 
-    # Add a label of Catastrophic elevation
-  geom_text(data = dfPowellElevations2, aes(x = as.Date("2026-10-01"), y = ActiveStorageMAF, label = PoolLabel), color = pReds[7], size = 6) +
+    # Add a label for Minimum Drawdown and Catastropy Elevations
+  geom_text(data = dfPowellElevations2, aes(x = as.Date("2026-10-01"), y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = pReds[7], size = 6) +
   
   
     theme_bw() +
