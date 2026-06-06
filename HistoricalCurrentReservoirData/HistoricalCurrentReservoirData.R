@@ -279,7 +279,6 @@ cCurrent <- paste0("Active storage on ", sYesterdayDate, ":\n", nStorage, " maf 
 ggplot() +
 
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
-  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = pReds[7], size = 4 ) +
   
   geom_text(aes(x = as.Date("2026-01-01"), y = 16.5, label = cCurrent), fontface = "bold", color = "blue") + 
   geom_text(aes(x = as.Date("2026-01-01"), y = 13, label = cPowellElevationsConcat), color = pReds[7]) +
@@ -293,6 +292,9 @@ ggplot() +
   
   geom_hline(yintercept = dfPowellElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
   theme_bw() +
+  
+  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
+  
   
   labs(x="", y="Powell Active Storage (MAF)") +
   theme(text = element_text(size=14), legend.position = "none",
@@ -325,13 +327,9 @@ dfPowellElevations2$PoolLabel[1] <- "Catastrophic Elevation\n(No Hydropower - Vo
 dfPowellElevations2$VerticalAdjustLabel <- c(-0.2, 0.2)
 dfPowellElevations2$LabelColor <- c(7, 9)
 
-dStartDate <- as.Date("2026-06-01")
-dEndDate <- as.Date("2027-01-01")
-
 ggplot() +
   
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
-  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
   
   geom_text(aes(x = as.Date("2026-04-01"), y = 7.8, label = cCurrent), fontface = "bold", color = "blue", size = 5) + 
   geom_text(aes(x = as.Date("2026-04-01"), y = 7.0, label = cPowellElevationsConcatNarrow), color = pReds[5], size = 5) +
@@ -345,6 +343,9 @@ ggplot() +
   
   geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[3], linetype = "dashed", size =1.5) +
 
+  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
+  
+  
     # Add a label for Minimum Drawdown and Catastropy Elevations
   geom_text(data = dfPowellElevations2, aes(x = as.Date("2026-10-01"), y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = pReds[9], size = 6) +
   
