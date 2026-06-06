@@ -23,8 +23,6 @@ dYesterday <- today() - 1
 
 sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(dYesterday))
 
-print(paste0("This report was generated on: ", sYesterdayDate))
-
 sTodaysDate <- print(paste0("This report was generated on: ", sYesterdayDate))
 
 
@@ -52,6 +50,10 @@ David E. Rosenberg (2026), "Lake Powell and Lake Mead Historical and Current Res
 
 ```{r Setup2, echo=FALSE, warning=FALSE, message=FALSE}
 
+#dYesterday <- today() - 1
+
+#sYesterdayDate <- paste(month.name[month(dYesterday)], #day(dYesterday),",",year(dYesterday))
+
 here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
         
 ## Read in functions to:
@@ -61,8 +63,8 @@ here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
 source("../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
-lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
-#lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+#lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 
 # Read in the Reservoir Bathymetry and Critical Elevations
@@ -92,6 +94,7 @@ lFontSize <- 14
 lFontSizeReduction <- 4
 
 ```
+
 
 # Figure 1: Annual Lake Powell Release Compared to 7.5 and 8.23 Targets
 
@@ -296,11 +299,20 @@ ggplot() +
 
 # Figure 5: Lake Powell Storage and Elevation over Time.
 
+
 ```{r ResDataFig5, echo=FALSE, warning=FALSE, message=FALSE}
 ##########
 ## Figure 5. Lake Powell storage/elevation over time
 
+#Calculate date to print
+dYesterday <- today() - 1
+
+sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(dYesterday))
+
 # Calculate volumes from current storage to elevations 3,525, 3,500, and 3490
+
+#print(sYesterdayDate)
+
 dfPowellElevations <- dfTemp$dfPowellElevations
 dfPowellElevations$CurrentStorage <- dfResElevations %>% filter(FieldName == "Storage", ResName == "Lake Powell") %>% pull(Value) / 1e6
 dfPowellElevations$StorageAbove <- dfPowellElevations$CurrentStorage - dfPowellElevations$ActiveStorageMAF
@@ -324,8 +336,8 @@ cRes <- "Lake Powell"
 nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
 nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
 
-cCurrent <- paste0("Active storage yesterday:\n", nStorage, " maf (", nElevation," feet)")
-#cCurrent <- paste0("Active storage on ", sYesterdayDate, ":\n", nStorage, " maf (", nElevation," feet)")
+#cCurrent <- paste0("Active storage yesterday:\n", nStorage, " maf (", nElevation," feet)")
+cCurrent <- paste0("Active storage on ", sYesterdayDate, ":\n", nStorage, " maf (", nElevation," feet)")
 
 
 
@@ -333,9 +345,7 @@ ggplot() +
 
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
 
-    geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = pReds[7], size = 4 ) +
-  
-  geom_text(aes(x = as.Date("2023-01-01"), y = 20.5, label = cCurrent), fontface = "bold", color = "blue", size = 3) +    geom_text(aes(x = as.Date("2023-01-01"), y = 17.5, label = cPowellElevationsConcat), color = pReds[7], size = 3) +
+  geom_text(aes(x = as.Date("2021-01-01"), y = 21.7, label = cCurrent), fontface = "bold", color = "blue", size = 3) +    geom_text(aes(x = as.Date("2021-01-01"), y = 18.5, label = cPowellElevationsConcat), color = pReds[7], size = 3) +
 
   
     scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
@@ -346,7 +356,9 @@ ggplot() +
    scale_y_continuous(limits = c(0,25), breaks = dfTemp$dfPowellElevations$ActiveStorageMAF,labels=round(dfTemp$dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfTemp$dfPowellElevations$ActiveStorageMAF , labels = dfTemp$dfPowellElevations$Label)) +
   
   geom_hline(yintercept = dfTemp$dfPowellElevations$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
-  theme_bw() +
+    geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
+  
+    theme_bw() +
   
   labs(x="", y="Powell Active Storage (MAF)") +
   theme(text = element_text(size=lFontSize), legend.position = "none",
@@ -379,16 +391,15 @@ cRes <- "Lake Mead"
 nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
 nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
 
-cCurrent <- paste0("Current active storage is:\n", nStorage, " maf (", nElevation," feet)")
+cCurrent <- paste0("Active storage on ", sYesterdayDate,":\n", nStorage, " maf (", nElevation," feet)")
 
 
 ggplot() +
   
   geom_line(data = dfResStorageWide, aes(x = as.Date(Date), y = `Lake Mead`), size = 1.5) +
-  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Mead`), color = pReds[7], size = 4 ) +
-  
-  geom_text(aes(x = as.Date("2022-01-01"), y = 19.5, label = cCurrent), fontface = "bold", color = "blue", size = 3) + 
-  geom_text(aes(x = as.Date("2022-01-01"), y = 16, label = cMeadElevationsConcat), color = pReds[7], size = 3) +
+
+  geom_text(aes(x = as.Date("2020-01-01"), y = 20.5, label = cCurrent), fontface = "bold", color = "blue", size = 3) + 
+  geom_text(aes(x = as.Date("2020-01-01"), y = 17, label = cMeadElevationsConcat), color = pReds[7], size = 3) +
   
   
     
@@ -400,6 +411,8 @@ ggplot() +
   scale_y_continuous(limits = c(0,25), breaks = dfMeadElevations$ActiveStorageMAF,labels=round(dfMeadElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Mead Elevation (feet)", breaks = dfMeadElevationsFiltered$ActiveStorageMAF , labels = dfMeadElevationsFiltered$Label)) +
   
   geom_hline(yintercept = dfMeadElevationsFiltered$ActiveStorageMAF, color = pBlues[5], linetype = "dashed") +
+  
+    geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Mead`), color = "blue", size = 4 ) +
   theme_bw() +
   
   labs(x="", y="Mead Active Storage (MAF)") +
