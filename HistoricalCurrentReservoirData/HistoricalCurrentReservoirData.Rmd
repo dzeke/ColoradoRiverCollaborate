@@ -333,7 +333,7 @@ cPowellElevationsConcat <- dfPowellElevations %>%
     summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
 
 cRes <- "Lake Powell"
-nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
+nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 1)
 nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
 
 #cCurrent <- paste0("Active storage yesterday:\n", nStorage, " maf (", nElevation," feet)")
@@ -394,8 +394,9 @@ dfPowellElevations2$VolumeAboveCatastraphy <- dfPowellElevations2$ActiveStorageM
 dfPowellElevations2$PoolLabel <- paste0("Minimum Drawdown Elevation\n(Buffer: ", round(dfPowellElevations2$VolumeAboveCatastraphy, digits = 1)," maf)")
 dfPowellElevations2$PoolLabel[1] <- "Catastrophic Elevation\n(No Hydropower - Vorticies)"
 
-dfPowellElevations2$VerticalAdjustLabel <- c(-0.6, 0.6)
+dfPowellElevations2$VerticalAdjustLabel <- c(-0.5, 0.5)
 dfPowellElevations2$LabelColor <- c(7, 9)
+dfPowellElevations2$DateOffset <- c(270, 0)
 
 dEndDate <- as.Date("2027-01-01")
 
@@ -403,15 +404,15 @@ ggplot() +
   
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
   
-  geom_text(aes(x = as.Date("2026-04-01"), y = 9, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
-  geom_text(aes(x = as.Date("2026-04-01"), y = 8.2, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
+  geom_text(aes(x = as.Date("2026-02-01"), y = 9, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
+  geom_text(aes(x = as.Date("2026-02-01"), y = 8.5, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
 
   scale_x_date(limits= c(as.Date("2024-01-01"), dEndDate),
                date_breaks = "6 months", # Major ticks every 10 years
                date_labels = "%b\n%Y") +
   
   #Create secondary y axes for Powell Lake Level
-  scale_y_continuous(limits = c(0,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
+  scale_y_continuous(limits = c(3,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
   
   geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[4], linetype = "dashed", size =1.5) +
 
@@ -419,11 +420,11 @@ ggplot() +
   
   
     # Add a label for Minimum Drawdown and Catastropy Elevations
-  geom_text(data = dfPowellElevations2, aes(x = as.Date("2024-12-01"), y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = "red", size = nTextSize ) +
+  geom_text(data = dfPowellElevations2, aes(x = as.Date("2024-12-01") + DateOffset, y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = "red", size = nTextSize, fontface = "bold" ) +
   
   theme_bw() +
   
-  labs(x="", y="Powell Active Storage (MAF)") +
+  labs(x="", y="Active Storage (maf)") +
 
   theme(text = element_text(size=lFontSize), legend.position = "none",
         panel.grid.major = element_blank(),
@@ -453,7 +454,7 @@ cMeadElevationsConcat <- dfMeadElevations %>%
   summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
 
 cRes <- "Lake Mead"
-nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
+nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 1)
 nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
 
 cCurrent <- paste0("Active storage on ", sYesterdayDate,":\n", nStorage, " maf (", nElevation," feet)")
