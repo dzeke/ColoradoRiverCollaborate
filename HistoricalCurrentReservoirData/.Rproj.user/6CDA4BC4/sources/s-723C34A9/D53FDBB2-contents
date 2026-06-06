@@ -339,13 +339,13 @@ nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Eleva
 #cCurrent <- paste0("Active storage yesterday:\n", nStorage, " maf (", nElevation," feet)")
 cCurrent <- paste0("Active storage on ", sYesterdayDate, ":\n", nStorage, " maf (", nElevation," feet)")
 
-
+nTextSize <- 3
 
 ggplot() +
 
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
 
-  geom_text(aes(x = as.Date("2021-01-01"), y = 21.7, label = cCurrent), fontface = "bold", color = "blue", size = 3) +    geom_text(aes(x = as.Date("2021-01-01"), y = 18.5, label = cPowellElevationsConcat), color = pReds[7], size = 3) +
+  geom_text(aes(x = as.Date("2021-01-01"), y = 21.7, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) +    geom_text(aes(x = as.Date("2021-01-01"), y = 18.5, label = cPowellElevationsConcat), color = pReds[7], size = nTextSize) +
 
   
     scale_x_date(limits= c(as.Date("1995-01-01"), as.Date("2030-01-01")),
@@ -366,6 +366,71 @@ ggplot() +
         panel.grid.minor = element_blank(),
         axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
 
+```
+
+# Figure 5B: Lake Powell Minimum Drawdown and Catastrophic Elevations
+
+```{r ResDataFig5B, echo=FALSE, warning=FALSE, message=FALSE} 
+
+### Plot 5B - Powell history back to 2025 and y axis cut at 3,575 feet
+
+# Combine all the current storage above critical elevations to one character string separated by newlines
+
+#Recalculate elevations above for narrower time window
+cPowellElevationsConcatNarrow <- dfPowellElevations %>%
+  arrange(desc(`Elevation (feet)`)) %>%  
+  filter(`Elevation (feet)` >= 3525, `Elevation (feet)` <= 3525) %>%
+  
+  select(StorageAboveLabel) %>%
+  summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
+
+nCatastrophicVolume <- dfPowellElevations %>% filter(`Elevation (feet)`  == 3514) %>% pull(ActiveStorageMAF)
+
+dfPowellElevations2 <- dfPowellElevations %>% filter(`Elevation (feet)` %in% c(3514, 3525))
+
+# Calculate storage above catastrophy elevation
+dfPowellElevations2$CatastrophyVolume <- nCatastrophicVolume
+dfPowellElevations2$VolumeAboveCatastraphy <- dfPowellElevations2$ActiveStorageMAF - dfPowellElevations2$CatastrophyVolume
+dfPowellElevations2$PoolLabel <- paste0("Minimum Drawdown Elevation\n(Buffer: ", round(dfPowellElevations2$VolumeAboveCatastraphy, digits = 1)," maf)")
+dfPowellElevations2$PoolLabel[1] <- "Catastrophic Elevation\n(No Hydropower - Vorticies)"
+
+dfPowellElevations2$VerticalAdjustLabel <- c(-0.6, 0.6)
+dfPowellElevations2$LabelColor <- c(7, 9)
+
+dEndDate <- as.Date("2027-01-01")
+
+ggplot() +
+  
+  geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
+  
+  geom_text(aes(x = as.Date("2026-04-01"), y = 9, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
+  geom_text(aes(x = as.Date("2026-04-01"), y = 8.2, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
+
+  scale_x_date(limits= c(as.Date("2024-01-01"), dEndDate),
+               date_breaks = "6 months", # Major ticks every 10 years
+               date_labels = "%b\n%Y") +
+  
+  #Create secondary y axes for Powell Lake Level
+  scale_y_continuous(limits = c(0,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
+  
+  geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[4], linetype = "dashed", size =1.5) +
+
+  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
+  
+  
+    # Add a label for Minimum Drawdown and Catastropy Elevations
+  geom_text(data = dfPowellElevations2, aes(x = as.Date("2024-12-01"), y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = "red", size = nTextSize ) +
+  
+  theme_bw() +
+  
+  labs(x="", y="Powell Active Storage (MAF)") +
+
+  theme(text = element_text(size=lFontSize), legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
+
+ 
 ```
 
 # Figure 6: Lake Mead Storage and Elevation over Time.

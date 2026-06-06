@@ -274,6 +274,7 @@ nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Eleva
 
 cCurrent <- paste0("Active storage on ", sYesterdayDate, ":\n", nStorage, " maf (", nElevation," feet)")
 
+dEndDate <- as.Date("2027-01-01")
 
 ### Plot 5 - Full Powell history back to 1995
 ggplot() +
