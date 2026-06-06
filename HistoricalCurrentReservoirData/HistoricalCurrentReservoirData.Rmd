@@ -20,7 +20,13 @@ for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 sapply(load.lib,require,character=TRUE)
 
 dYesterday <- today() - 1
-sTodaysDate <- (paste("This report was generated on:",month.name[month(dYesterday)],day(dYesterday),",",year(dYesterday)))
+
+sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(dYesterday))
+
+print(paste0("This report was generated on: ", sYesterdayDate))
+
+sTodaysDate <- print(paste0("This report was generated on: ", sYesterdayDate))
+
 
 ```
 ## `r sTodaysDate`
@@ -268,7 +274,7 @@ ggplot() +
   #Create secondary y axes for Mead Lake Level
   scale_y_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25),  sec.axis = sec_axis(~. +0, name = "Mead Level (feet)", breaks = dfMeadElevationsFiltered$ActiveStorageMAF, labels = dfMeadElevationsFiltered$Label)) +
   #Create secondary x axes for Powell Lake Level
-  scale_x_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), sec.axis = sec_axis(~. +0, name = "Powell Level (feet)", breaks = dfPowellElevationsFiltere$ActiveStorageMAF , labels = dfPowellElevationsFiltere$`Elevation (feet)`)) +
+  scale_x_continuous(limits = c(0,25), breaks = c(0,5,10,15,20,25),labels=c(0,5,10,15, 20,25), sec.axis = sec_axis(~. +0, name = "Powell Level (feet)", breaks = dfPowellElevationsFiltered$ActiveStorageMAF , labels = dfPowellElevationsFiltered$`Elevation (feet)`)) +
   
   theme_bw() +
   coord_fixed() +
@@ -318,7 +324,9 @@ cRes <- "Lake Powell"
 nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
 nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
 
-cCurrent <- paste0("Current active storage is:\n", nStorage, " maf (", nElevation," feet)")
+cCurrent <- paste0("Active storage yesterday:\n", nStorage, " maf (", nElevation," feet)")
+#cCurrent <- paste0("Active storage on ", sYesterdayDate, ":\n", nStorage, " maf (", nElevation," feet)")
+
 
 
 ggplot() +

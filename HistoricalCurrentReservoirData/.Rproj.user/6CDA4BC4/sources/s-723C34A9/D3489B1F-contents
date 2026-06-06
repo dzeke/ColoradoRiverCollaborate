@@ -272,7 +272,7 @@ cRes <- "Lake Powell"
 nStorage <- round(dfResValues %>% filter(ResName == cRes) %>% pull(Storage), digits = 2)
 nElevation <- round(dfResValues %>% filter(ResName == cRes) %>% pull(`Pool Elevation`), digits = 1)
 
-cCurrent <- paste0("Storage on ", sYesterdayDate, ":\n", nStorage, " maf (", nElevation," feet)")
+cCurrent <- paste0("Active storage on ", sYesterdayDate, ":\n", nStorage, " maf (", nElevation," feet)")
 
 
 ### Plot 5 - Full Powell history back to 1995
