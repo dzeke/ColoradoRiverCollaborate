@@ -1,11 +1,21 @@
 # AutoReadUSBRData.r
 #
-# This script auto reads USBR Lake Powell and Lake Mead data from Reclamation's HydroData Web portal
-# 
+# This script has 3 functions that:
+
+# 1. fReadReclamationHydroData() - Auto reads USBR Lake Powell and Lake Mead data from Reclamation's HydroData Web portal
 # https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
 #
-# This script also loads Bathymetry data for Lake Powell and Lake Mead
-# This script also loads critical elevations for the two reservoirs
+# 2. ReadBathymetryCritialElevations() - Loads Bathymetry data for:
+#      A. Lake Powell from Bradley, D., and Collins, K. (2022). "Lake Powell 2017 Area and Capacity Tables." ENV-2021-98, Reclamation. https://doi.org/10.5066/P9O3IPG3.
+#			See also the folder **LakePowellNewBathymetry** for the digitized data.
+#      B. Lake Mead from the Lake Mead object in
+#
+#    The function also loads critical elevations for the two reservoirs from the Excel file ReservoirElevationDefinitions.xlsx.
+#    This file contains selected elevations for the two reservoirs such as dead pool, hydropower penstock intakes, protection elevations, capacity, etc.
+#
+# 3. fReadICSDataLoads() - Load Lake Mead Water Conservation Program Data (Account balances) from digitized
+# versions of Reclamation's annual water accounting reports for the Lower Colorado River Basin. The digitized data is
+# collated in the Excel file IntentionallyCreatedSurplus-Summary.xlsx.
 #
 # This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
 # Please report bugs/feedback to me (contact info below)

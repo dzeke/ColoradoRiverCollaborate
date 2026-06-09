@@ -28,4 +28,4 @@ and aggregate that data at the appropriate time spacing to prepare for plotting.
 7. Select all the code in the file (ctrl-A) and click **Run** (row below the file tabs).
 
 ## Recommended Citation
-David E. Rosenberg (2026). "Minimum Drawdown Elevations for Lake Powell". Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/HistoricalCurrentReservoirData
+David E. Rosenberg (2026). "Minimum Drawdown Elevations for Lake Powell". Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/MinimumDrawdownElevations.
