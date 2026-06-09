@@ -10,7 +10,7 @@ See additional documentation for data sources within the folder  **AutoReadUSBRD
 
 ## Overview
 
-Generally the **.r**, **.Rmd, and **.pdf** files in each folder are organized as follows:
+Generally the **.r**, **.Rmd**, and **.pdf** files in each folder are organized as follows:
 
 1. **.r** - Script file with the R code. Run within RStudio to conduct analysis and generate results in the figure window.
 1. **.Rmd** - R markdown file with R code and documentation. Same code as the **.r** file, but when knit, generates a pdf file with embedded doccumentation, analysis, and plots.
