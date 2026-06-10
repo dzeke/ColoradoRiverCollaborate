@@ -31,12 +31,18 @@ https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html.
 ## Directions to Reproduce Results
 
 1. Download and install R and RStudio. See https://rstudio-education.github.io/hopr/starting.html for a tutorial.
-2. In your file explorer, open the subfolder (**MinimumDrawdownElevations**). Open the file **MinimumDrawdownElevations.Rproj**. R studio will open.
-3. Select the file tab **MinimumDrawdownElevations.Rmd**.
-4. Click the **Knit** button (row below the file tabs)
-5. R studio will run the blocks of code and markdown and generate the **MinimumDrawdownElevations.pdf** file.
-6. Alternatively in step 3, select the file tab **MinimumDrawdownElevations.r**
-7. Select all the code in the file (ctrl-A) and click **Run** (row below the file tabs).
+1. Download all the files in the two folders **MinimumDrawdownElevations** and **AutoReadUSBRData** to your local drive. The two folders should be parallel.
+1. In your file explorer, open the subfolder (**MinimumDrawdownElevations**). Open the file **MinimumDrawdownElevations.Rproj**. R studio will open.
+1. Select the file tab **MinimumDrawdownElevations.Rmd**.
+1. Click the **Knit** button (row below the file tabs).
+1. R studio will run the blocks of code and markdown and generate the **MinimumDrawdownElevations.pdf** file.
+1. Alternatively in step 3, select the file tab **MinimumDrawdownElevations.r**
+1. Select all the code in the file (ctrl-A) and click **Run** (row below the file tabs).
+
+## Instructions to use different Minimum Drawdown and Catastrophic Elevations
+
+1. **.Rmd file** - Go to lines 37 to 42 and enter new values.
+1. **.r fil** - Go to lines 60 to 65 and enter new values.
 
 ## Recommended Citation
 David E. Rosenberg (2026). "Minimum Drawdown Elevations for Lake Powell". Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/MinimumDrawdownElevations.
