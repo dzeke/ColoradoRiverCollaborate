@@ -1,11 +1,30 @@
----
-title: "Minimum Drawdown and Catastrophic Elevations for Lake Powell"
-author: "David E. Rosenberg"
+# MinimumDrawdownElevations.r
+# Minimum Drawdown and Catastrophic Elevations for Lake Powell
 
-output: pdf_document
----
+# This document generates a plot showing an example Minimum Drawdown and Catastrophic Elevations for Lake Powell. The plot also includes:
+#   
+# 1. A trace showing Lake Powell storage over time going back to May 2024.
+# 2. A text box listing active storage and elevation on the date before the script was run. Also includes the storage above the 2019 DCP protection elevationh.
+# 3. Horizontal lines showing teh Minimum Drawdown Elevation and the Catastrophic Elevation with buffer volume.
+#
+#
+# This document also generates a Table showing the time to reach Catastrophic elevation for a given annual decrease in Flow.
+############
+##
+## Set the values for the Minimum drawdown and Catastrophic Elevations on lines 60 to 65. Add a text label to add ot the Catastrophic Elevation text label
+##
+#############
 
-```{r Setup1, echo=FALSE, warning=FALSE, message=FALSE, comment="", include=FALSE}
+# ## Data wrangling strategy
+# 
+# A. Import Daily, Monthly, and Annual Lake Powell and Lake Mead data from the Reclamation's HydroData Web portal
+# https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html 
+# B. Import the reservoir elevation-volume curves and critical elevations.
+# C. Filter the reservoir data for monthly Lake Powell storage.
+# D. Filter the daily reservoir data for the current Lake Powell and Lake Mead storage/elevation
+
+# This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of. Please report bugs/feedback to me (contact info below)
+
 
 rm(list = ls())  #Clear history
 
@@ -18,6 +37,12 @@ install.lib <- load.lib[!load.lib %in% installed.packages()]
 for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 # After the installation process completes, we load all packages.
 sapply(load.lib,require,character=TRUE)
+
+dYesterday <- today() - 1
+
+sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(dYesterday))
+
+sTodaysDate <- print(paste0("This report was generated on: ", sYesterdayDate))
 
 here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
         
@@ -44,46 +69,6 @@ sAddTextForCatastrophy <- "\n(No Hydropower - Vorticies)"
 # Let's try plotting the annuall Lake Powell Release
 dfResDataAnnual <- lResData$dfResAnnual
 
-# Calculate the date to show in the plot
-dYesterday <- today() - 1
-sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(dYesterday))
-sTodaysDate <- print(paste0("This report was generated on: ", sYesterdayDate))
-
-```
-## `r sTodaysDate`
-
-## Overview
-
-This is an R Markdown document. The document generates a plot showing an example Minimum Drawdown and Catastrophic Elevations for Lake Powell.
-
-### Minimum Drawdown Elevation: `r nMinDrawdownElevation` feet.
-
-### Catastrophic Elevation: `r nCatastrophicElevation` feet.
-
-(*Set these elevations on lines 38 to 42 in the .Rmd file).
-
-The plot also includes:
-
-1. A trace showing Lake Powell storage over time going back to May 2024.
-1. A text box listing active storage and elevation on the date before the script was run. Also includes the storage above the 2019 DCP protection elevationh.
-1. Horizontal lines showing teh Minimum Drawdown Elevation and the Catastrophic Elevation with buffer volume.
-
-## Data wrangling strategy
-
-1. Import Daily, Monthly, and Annual Lake Powell and Lake Mead data from the Reclamation's HydroData Web portal
-https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html 
-1. Import the reservoir elevation-volume curves and critical elevations.
-1. Filter the reservoir data for monthly Lake Powell storage.
-1. Filter the daily reservoir data for the current Lake Powell and Lake Mead storage/elevation
-
-
-This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of. Please report bugs/feedback to me (contact info below)
-
-## Requested Citation
-David E. Rosenberg (2026), "Minimum Drawdown and Catastrophic Elevations for Lake Powell." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/MinimumDrawdownElevations.
-
-```{r Setup2, echo=FALSE, warning=FALSE, message=FALSE}
-
 #Get the blue color bar
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
@@ -93,6 +78,7 @@ lFontSizeReduction <- 4
 
 #### Spit out the most recent Lake Powell and Lake Mead Pool elevations
 dfResDataDaily <- lResData$dfResDaily
+dfPowellBathymetry <- dfTemp$dfPowellBathymetry
 
 #filter to values for yesterday 
 dYesterday <- today() - 1
@@ -124,11 +110,6 @@ dfResStorageWide <- pivot_wider(  dfResStorage %>% group_by(ResName, Date, Year,
 #Filter to data after 1995
 dfResStorageWide1995 <- dfResStorageWide %>% filter(Year >= 1995)
 
-```
-
-# Figure 1. Lake Powell Minimum Drawdown and Catastrophic Elevations.
-
-```{r MinDrawdownFig1, echo=FALSE, warning=FALSE, message=FALSE}
 ##########
 ## Figure 1. Lake Powell Minimum Drawdown and Catastrophic Elevations
 
@@ -139,7 +120,6 @@ sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(
 
 # Pull out critical Lake Powell elevations
 dfPowellElevations <- dfTemp$dfPowellElevations
-dfPowellBathymetry <- dfTemp$dfPowellBathymetry
 
 # Pull our the current Lake Powell storage.
 dfPowellElevations$CurrentStorage <- dfResElevations %>% filter(FieldName == "Storage", ResName == "Lake Powell") %>% pull(Value) / 1e6
@@ -181,6 +161,7 @@ cPowellElevationsConcatNarrow <- dfPowellElevations %>%
   select(StorageAboveLabel) %>%
   summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
 
+
 # Create a data frame with all the relevant data to plot the horizonal lines and text labels representing the Minimum drawdown and Catastrophic elevations
 dfPowellElevationsMinCatastrophy <- data.frame(ElevationFeet = c(nCatastrophicElevation, nMinDrawdownElevation))
 dfPowellElevationsMinCatastrophy <- dfPowellElevationsMinCatastrophy %>% dplyr::rename("Elevation (feet)" = ElevationFeet)
@@ -189,6 +170,7 @@ dfPowellElevationsMinCatastrophy <- dfPowellElevationsMinCatastrophy %>% dplyr::
 dfPowellElevationsMinCatastrophy$ActiveStorageMAF <- interp2(xi = dfPowellElevationsMinCatastrophy$`Elevation (feet)`, x=dfPowellBathymetry$`ELEVATION (feet)` , y=dfPowellBathymetry$`Active Storage (acre-feet)`, method="linear") / 1e6
 # Pull the catastrophic volume
 nCatastrophicVolume <- dfPowellElevationsMinCatastrophy %>% filter(`Elevation (feet)` == nCatastrophicElevation) %>% pull(ActiveStorageMAF)
+nMinimumDrawdownVolume <- dfPowellElevationsMinCatastrophy %>% filter(`Elevation (feet)` == nMinDrawdownElevation) %>% pull(ActiveStorageMAF)
 
 # Calculate storage above catastrophy elevation
 dfPowellElevationsMinCatastrophy$CatastrophyVolume <- nCatastrophicVolume
@@ -217,12 +199,14 @@ ggplot() +
   #Create secondary y axes for Powell Lake Level
   scale_y_continuous(limits = c(3,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
   
+  #geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[4], linetype = "dashed", size =1.5) +
   geom_hline(yintercept = dfPowellElevationsMinCatastrophy$ActiveStorageMAF, color = pReds[4], linetype = "dashed", size =1.5) +
-
+  
   geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
   
   
     # Add a label for Minimum Drawdown and Catastropy Elevations
+#  geom_text(data = dfPowellElevations2, aes(x = as.Date("2024-12-01") + DateOffset, y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = "red", size = nTextSize, fontface = "bold" ) +
   geom_text(data = dfPowellElevationsMinCatastrophy, aes(x = as.Date("2024-12-01") + DateOffset, y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = "red", size = nTextSize, fontface = "bold" ) +
   
   theme_bw() +
@@ -233,3 +217,24 @@ ggplot() +
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
+
+############
+## Generate Table to show time to reach Catastrophic elevation for a specified change in annual flow
+
+nChangeInAnnualFlow <- 2  #maf per year
+sMinDrawDownElev <- paste0("a. Minimum Drawdown Elevation (", nMinDrawdownElevation, " feet)")
+sCatastrophicElev <- paste0("b. Catastrophic Elevation (", nCatastrophicElevation," feet)")
+sBuffer <- "c. Buffer [a - b]"
+nBuffer <- nMinimumDrawdownVolume - nCatastrophicVolume
+sAnnualDecrease <- "d. Annual decrease in flow"
+sTimeToReact [] <- "e. Time to react [c / d]"
+
+dfTimeToCatastrophy <- data.frame(Attribute = c(sMinDrawDownElev, sCatastrophicElev, sBuffer, sAnnualDecrease, sTimeToReact),
+                                  Value = c(nMinimumDrawdownVolume, nCatastrophicVolume, nBuffer, nChangeInAnnualFlow, nBuffer/nChangeInAnnualFlow),
+                                  Units = c("maf","maf","maf", "maf per year", "years"))
+# Round numbers to one decimal place
+dfTimeToCatastrophy$ValueRound <- round(dfTimeToCatastrophy$Value, digits = 1)
+
+# Reorder the columns
+dfTimeToCatastrophy <- dfTimeToCatastrophy[, c(1,4,3)]
+print(dfTimeToCatastrophy)

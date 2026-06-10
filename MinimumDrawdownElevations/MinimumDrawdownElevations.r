@@ -7,6 +7,8 @@
 # 2. A text box listing active storage and elevation on the date before the script was run. Also includes the storage above the 2019 DCP protection elevationh.
 # 3. Horizontal lines showing teh Minimum Drawdown Elevation and the Catastrophic Elevation with buffer volume.
 #
+#
+# This document also generates a Table showing the time to reach Catastrophic elevation for a given annual decrease in Flow.
 ############
 ##
 ## Set the values for the Minimum drawdown and Catastrophic Elevations on lines 60 to 65. Add a text label to add ot the Catastrophic Elevation text label
@@ -168,6 +170,7 @@ dfPowellElevationsMinCatastrophy <- dfPowellElevationsMinCatastrophy %>% dplyr::
 dfPowellElevationsMinCatastrophy$ActiveStorageMAF <- interp2(xi = dfPowellElevationsMinCatastrophy$`Elevation (feet)`, x=dfPowellBathymetry$`ELEVATION (feet)` , y=dfPowellBathymetry$`Active Storage (acre-feet)`, method="linear") / 1e6
 # Pull the catastrophic volume
 nCatastrophicVolume <- dfPowellElevationsMinCatastrophy %>% filter(`Elevation (feet)` == nCatastrophicElevation) %>% pull(ActiveStorageMAF)
+nMinimumDrawdownVolume <- dfPowellElevationsMinCatastrophy %>% filter(`Elevation (feet)` == nMinDrawdownElevation) %>% pull(ActiveStorageMAF)
 
 # Calculate storage above catastrophy elevation
 dfPowellElevationsMinCatastrophy$CatastrophyVolume <- nCatastrophicVolume
@@ -214,3 +217,24 @@ ggplot() +
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
+
+############
+## Generate Table to show time to reach Catastrophic elevation for a specified change in annual flow
+
+nChangeInAnnualFlow <- 2  #maf per year
+sMinDrawDownElev <- paste0("a. Minimum Drawdown Elevation (", nMinDrawdownElevation, " feet)")
+sCatastrophicElev <- paste0("b. Catastrophic Elevation (", nCatastrophicElevation," feet)")
+sBuffer <- "c. Buffer [a - b]"
+nBuffer <- nMinimumDrawdownVolume - nCatastrophicVolume
+sAnnualDecrease <- "d. Annual decrease in flow"
+sTimeToReact [] <- "e. Time to react [c / d]"
+
+dfTimeToCatastrophy <- data.frame(Attribute = c(sMinDrawDownElev, sCatastrophicElev, sBuffer, sAnnualDecrease, sTimeToReact),
+                                  Value = c(nMinimumDrawdownVolume, nCatastrophicVolume, nBuffer, nChangeInAnnualFlow, nBuffer/nChangeInAnnualFlow),
+                                  Units = c("maf","maf","maf", "maf per year", "years"))
+# Round numbers to one decimal place
+dfTimeToCatastrophy$ValueRound <- round(dfTimeToCatastrophy$Value, digits = 1)
+
+# Reorder the columns
+dfTimeToCatastrophy <- dfTimeToCatastrophy[, c(1,4,3)]
+print(dfTimeToCatastrophy)
