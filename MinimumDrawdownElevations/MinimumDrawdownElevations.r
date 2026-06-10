@@ -6,7 +6,13 @@
 # 1. A trace showing Lake Powell storage over time going back to May 2024.
 # 2. A text box listing active storage and elevation on the date before the script was run. Also includes the storage above the 2019 DCP protection elevationh.
 # 3. Horizontal lines showing teh Minimum Drawdown Elevation and the Catastrophic Elevation with buffer volume.
-# 
+#
+############
+##
+## Set the values for the Minimum drawdown and Catastrophic Elevations on lines 60 to 65. Add a text label to add ot the Catastrophic Elevation text label
+##
+#############
+
 # ## Data wrangling strategy
 # 
 # A. Import Daily, Monthly, and Annual Lake Powell and Lake Mead data from the Reclamation's HydroData Web portal
@@ -36,11 +42,6 @@ sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(
 
 sTodaysDate <- print(paste0("This report was generated on: ", sYesterdayDate))
 
-
-#dYesterday <- today() - 1
-
-#sYesterdayDate <- paste(month.name[month(dYesterday)], #day(dYesterday),",",year(dYesterday))
-
 here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
         
 ## Read in functions to:
@@ -55,6 +56,13 @@ lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 # Read in the Reservoir Bathymetry and Critical Elevations
 dfTemp <- ReadBathymetryCritialElevations()
+
+##################
+## Define the Minimum Drawdown and Catastrophic Elevations to plot as horizonal lines on the figure
+nMinDrawdownElevation <- 3525  #feet
+nCatastrophicElevation <- 3514 #feet
+sAddTextForCatastrophy <- "\n(No Hydropower - Vorticies)"
+####################
 
 # Let's try plotting the annuall Lake Powell Release
 dfResDataAnnual <- lResData$dfResAnnual
@@ -151,13 +159,8 @@ cPowellElevationsConcatNarrow <- dfPowellElevations %>%
   select(StorageAboveLabel) %>%
   summarise(all_text = str_c(as.character(unlist(.)), collapse = "\n"))
 
-##### Define the Minimum Drawdown and Catastrophic Elevations to plot as horizonal lines on the figure
 
-nMinDrawdownElevation <- 3535
-nCatastrophicElevation <- 3525
-sAddTextForCatastrophy <- "\n(No Hydropower - Vorticies)"
-
-# Create a data frame with all the relevant data to plot
+# Create a data frame with all the relevant data to plot the horizonal lines and text labels representing the Minimum drawdown and Catastrophic elevations
 dfPowellElevationsMinCatastrophy <- data.frame(ElevationFeet = c(nCatastrophicElevation, nMinDrawdownElevation))
 dfPowellElevationsMinCatastrophy <- dfPowellElevationsMinCatastrophy %>% dplyr::rename("Elevation (feet)" = ElevationFeet)
 
