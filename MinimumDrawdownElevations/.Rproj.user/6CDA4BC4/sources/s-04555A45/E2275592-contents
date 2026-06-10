@@ -19,44 +19,6 @@ for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 # After the installation process completes, we load all packages.
 sapply(load.lib,require,character=TRUE)
 
-dYesterday <- today() - 1
-
-sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(dYesterday))
-
-sTodaysDate <- print(paste0("This report was generated on: ", sYesterdayDate))
-
-
-```
-## `r sTodaysDate`
-
-## Overview
-
-This is an R Markdown document. The document generates a plot showing an example Minimum Drawdown and Catastrophic Elevations for Lake Powell. The plot also includes:
-
-1. A trace showing Lake Powell storage over time going back to May 2024.
-1. A text box listing active storage and elevation on the date before the script was run. Also includes the storage above the 2019 DCP protection elevationh.
-1. Horizontal lines showing teh Minimum Drawdown Elevation and the Catastrophic Elevation with buffer volume.
-
-## Data wrangling strategy
-
-1. Import Daily, Monthly, and Annual Lake Powell and Lake Mead data from the Reclamation's HydroData Web portal
-https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html 
-1. Import the reservoir elevation-volume curves and critical elevations.
-1. Filter the reservoir data for monthly Lake Powell storage.
-1. Filter the daily reservoir data for the current Lake Powell and Lake Mead storage/elevation
-
-
-This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of. Please report bugs/feedback to me (contact info below)
-
-## Requested Citation
-David E. Rosenberg (2026), "Minimum Drawdown and Catastrophic Elevations for Lake Powell." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/MinimumDrawdownElevations.
-
-```{r Setup2, echo=FALSE, warning=FALSE, message=FALSE}
-
-#dYesterday <- today() - 1
-
-#sYesterdayDate <- paste(month.name[month(dYesterday)], #day(dYesterday),",",year(dYesterday))
-
 here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
         
 ## Read in functions to:
@@ -81,6 +43,46 @@ sAddTextForCatastrophy <- "\n(No Hydropower - Vorticies)"
 
 # Let's try plotting the annuall Lake Powell Release
 dfResDataAnnual <- lResData$dfResAnnual
+
+# Calculate the date to show in the plot
+dYesterday <- today() - 1
+sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(dYesterday))
+sTodaysDate <- print(paste0("This report was generated on: ", sYesterdayDate))
+
+```
+## `r sTodaysDate`
+
+## Overview
+
+This is an R Markdown document. The document generates a plot showing an example Minimum Drawdown and Catastrophic Elevations for Lake Powell.
+
+### Minimum Drawdown Elevation: `r nMinDrawdownElevation` feet.
+
+### Catastrophic Elevation: `r nCatastrophicElevation` feet.
+
+(*Set these elevations on lines 38 to 42 in the .Rmd file).
+
+The plot also includes:
+
+1. A trace showing Lake Powell storage over time going back to May 2024.
+1. A text box listing active storage and elevation on the date before the script was run. Also includes the storage above the 2019 DCP protection elevationh.
+1. Horizontal lines showing teh Minimum Drawdown Elevation and the Catastrophic Elevation with buffer volume.
+
+## Data wrangling strategy
+
+1. Import Daily, Monthly, and Annual Lake Powell and Lake Mead data from the Reclamation's HydroData Web portal
+https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html 
+1. Import the reservoir elevation-volume curves and critical elevations.
+1. Filter the reservoir data for monthly Lake Powell storage.
+1. Filter the daily reservoir data for the current Lake Powell and Lake Mead storage/elevation
+
+
+This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of. Please report bugs/feedback to me (contact info below)
+
+## Requested Citation
+David E. Rosenberg (2026), "Minimum Drawdown and Catastrophic Elevations for Lake Powell." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/MinimumDrawdownElevations.
+
+```{r Setup2, echo=FALSE, warning=FALSE, message=FALSE}
 
 #Get the blue color bar
 pBlues <- brewer.pal(9,"Blues")
@@ -125,10 +127,6 @@ dfResStorageWide1995 <- dfResStorageWide %>% filter(Year >= 1995)
 ```
 
 # Figure 1. Lake Powell Minimum Drawdown and Catastrophic Elevations.
-
-Minimum Drawdown Elevation: `r nMinDrawdownElevation` feet
-
-Catastrophic Elevation: `r nCatastrophicElevation` feet
 
 ```{r MinDrawdownFig1, echo=FALSE, warning=FALSE, message=FALSE}
 ##########
