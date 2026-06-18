@@ -91,7 +91,7 @@ dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","
 # Make the Table easy to Read
 dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
 # Convert storage to million acre-feet
-dfResValues$Storage <- dfResValues$Storage / 1e6
+dfResValues$Storage <- round(dfResValues$Storage / 1e6, digits = 2)
 #dfResValues$`Pool Elevation` <- as.character(round(dfResValues$`Pool Elevation`,digits = 1))
 #dfResValues <- dfResValues %>% mutate(`Pool Elevation` = num(`Pool Elevation`, digits = 1))
 
