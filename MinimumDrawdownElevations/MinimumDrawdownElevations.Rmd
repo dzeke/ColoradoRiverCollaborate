@@ -11,7 +11,7 @@ rm(list = ls())  #Clear history
 
 # Load required libraries in 1 go
 # List of packages
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here")
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here", "knitr")
 # Then we select only the packages that aren't currently installed.
 install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
@@ -28,8 +28,8 @@ here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
 source("../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
-#lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
-lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
+#lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 # Read in the Reservoir Bathymetry and Critical Elevations
 dfTemp <- ReadBathymetryCritialElevations()
@@ -70,6 +70,10 @@ The plot also includes:
 
 This script also generates a Table showing the Time to react before drawing down to catastrophy. This is calculated using the Minimum Drawdown volume, catastrophy volume, buffer volume, and annual decrease in flow.
 
+This work generates Figure 2 and Table 1 in: Brittany Fager, David Rosenberg, Erik Porse (2026). "Why communicating minimum drawdown elevations for Lake Powell and Lake Mead can mitigate risks of volatile Colorado River flow." *Utah State University Digital Commons*. https://doi.org/10.15142/h11w-a657.
+
+
+
 ## Data wrangling strategy
 
 1. Import Daily, Monthly, and Annual Lake Powell and Lake Mead data from the Reclamation's HydroData Web portal
@@ -107,10 +111,13 @@ dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","
 # Make the Table easy to Read
 dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
 # Convert storage to million acre-feet
-dfResValues$Storage <- dfResValues$Storage / 1e6
+dfResValues$Storage <- round(dfResValues$Storage / 1e6, digits = 2)
+#dfResValues$`Pool Elevation`<- as.character(round(dfResValues$`Pool Elevation`, digits = 1))
+#dfResValues <- dfResValues %>% mutate(`Pool Elevation` = num(`Pool Elevation`, digits = 1))
 
 print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
-print(dfResValues)
+#print(dfResValues)
+kable(dfResValues)
 
 
 # Filter the Powell and Mead monthly storages
@@ -148,7 +155,7 @@ dfPowellElevations$CurrentStorage <- dfResElevations %>% filter(FieldName == "St
 # Calculate the storage above the threshold
 dfPowellElevations$StorageAbove <- dfPowellElevations$CurrentStorage - dfPowellElevations$ActiveStorageMAF
 # Format a text string that shows volume above the critical elevation
-dfPowellElevations$StorageAboveLabel <- paste0(round(dfPowellElevations$StorageAbove, digits = 1), " maf above elev. ", format(dfPowellElevations$`Elevation (feet)`,scientific = FALSE, big.mark = ",", trim = TRUE))
+dfPowellElevations$StorageAboveLabel <- paste0(round(dfPowellElevations$StorageAbove, digits = 2), " maf above elev. ", format(dfPowellElevations$`Elevation (feet)`,scientific = FALSE, big.mark = ",", trim = TRUE))
 
 # Filter out the last (most recent entry)
 dfResStorageWide$DateAsDate <- as.Date(dfResStorageWide$Date)
@@ -209,9 +216,12 @@ dEndDate <- as.Date("2027-01-01")
 
 ggplot() +
   
+  # Recent historical reservoir data
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
   
+  # Text box of Active Storage on date
   geom_text(aes(x = as.Date("2026-02-01"), y = 9, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
+  # Text box below of storage to Minimum Drawdown Elevation
   geom_text(aes(x = as.Date("2026-02-01"), y = 8.5, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
 
   scale_x_date(limits= c(as.Date("2024-01-01"), dEndDate),

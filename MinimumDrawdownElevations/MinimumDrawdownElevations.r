@@ -30,7 +30,7 @@ rm(list = ls())  #Clear history
 
 # Load required libraries in 1 go
 # List of packages
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here")
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here", "knitr")
 # Then we select only the packages that aren't currently installed.
 install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
@@ -92,9 +92,11 @@ dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","
 dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
 # Convert storage to million acre-feet
 dfResValues$Storage <- dfResValues$Storage / 1e6
+#dfResValues$`Pool Elevation` <- as.character(round(dfResValues$`Pool Elevation`,digits = 1))
+#dfResValues <- dfResValues %>% mutate(`Pool Elevation` = num(`Pool Elevation`, digits = 1))
 
 print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
-print(dfResValues)
+kable(dfResValues)
 
 
 # Filter the Powell and Mead monthly storages
