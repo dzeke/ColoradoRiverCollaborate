@@ -38,6 +38,7 @@ https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html.
 
 For example:
 		Root |- AutoReadUSBRData
+		
 		     |- MinimumDrawdownElevations
 
 1. In your file explorer, open the subfolder (**MinimumDrawdownElevations**). Open the file **MinimumDrawdownElevations.Rproj**. R studio will open.
