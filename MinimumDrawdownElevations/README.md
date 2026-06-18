@@ -37,7 +37,9 @@ https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html.
 1. Download all the files in the two folders **MinimumDrawdownElevations** (this folder) and **AutoReadUSBRData** to your local drive. The two folders should be parallel.
 
 For example:
+
 	Root
+
 		|- AutoReadUSBRData
 	
 	    |- MinimumDrawdownElevations
