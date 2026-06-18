@@ -4,7 +4,10 @@ This R script downloads reservoir elevation data from the U.S. Bureau of Reclama
 and plots historical Lake Powell elevation along with a Minimum Drawdown and Catastrohpic elevations
 for Lake Powell. The script additionally loads reservoir bathymetry and key reservoir elevations
 to add to the plot. The script additionally calculates the buffer volume
-between the 2 elevati2ons and annotates the two elevations on the plot.
+between the 2 elevations and annotates the two elevations on the plot.
+
+This work generates Figure 2 in:
+Brittany Fager, David Rosenberg, Erik Porse (2026). "Why communicating minimum drawdown elevations for Lake Powell and Lake Mead can mitigate risks of volatile Colorado River flow." *Utah State University Digital Commons*. https://doi.org/10.15142/h11w-a657.
 
 We use data download and aggregate functions in the subfolder **AutoReadUSBRData**.
 
@@ -31,7 +34,12 @@ https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html.
 ## Directions to Reproduce Results
 
 1. Download and install R and RStudio. See https://rstudio-education.github.io/hopr/starting.html for a tutorial.
-1. Download all the files in the two folders **MinimumDrawdownElevations** and **AutoReadUSBRData** to your local drive. The two folders should be parallel.
+1. Download all the files in the two folders **MinimumDrawdownElevations** (this folder) and **AutoReadUSBRData** to your local drive. The two folders should be parallel.
+
+For example:
+		Root |- AutoReadUSBRData
+		     |- MinimumDrawdownElevations
+
 1. In your file explorer, open the subfolder (**MinimumDrawdownElevations**). Open the file **MinimumDrawdownElevations.Rproj**. R studio will open.
 1. Select the file tab **MinimumDrawdownElevations.Rmd**.
 1. Click the **Knit** button (row below the file tabs).
@@ -42,7 +50,7 @@ https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html.
 ## Instructions to use different Minimum Drawdown and Catastrophic Elevations
 
 1. **.Rmd file** - Go to lines 37 to 42 and enter new values.
-1. **.r fil** - Go to lines 60 to 65 and enter new values.
+1. **.r file** - Go to lines 60 to 65 and enter new values.
 
 ## Recommended Citation
 David E. Rosenberg (2026). "Minimum Drawdown Elevations for Lake Powell". Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/MinimumDrawdownElevations.
