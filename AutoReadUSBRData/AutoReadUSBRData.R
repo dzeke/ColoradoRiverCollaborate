@@ -61,7 +61,7 @@ rm(list = ls())  #Clear history
 
 # Load required libraries in 1 go
 # List of packages
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here")
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here", "knitr")
 # Then we select only the packages that aren't currently installed.
 install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
@@ -384,7 +384,27 @@ fReadICSData <- function() {
   return(list(dfICSBalance = dfICSBalance, dfICSBalanceNarrow = dfICSBalanceNarrow, dfICSmonths = dfICSmonths, dfMaxBalanceCum = dfMaxBalanceCum, dfICSLimits = dfLimits, dfICSDepositNarrow = dfICSDepositNarrow, dfMaxAnnualAmounts = dfMaxAnnualAmounts, nMaxYearICSData = nMaxYearICSData, nMaxYearResData = nMaxYearResData))
   }
 
-
+fWriteCurrentReservoirElevations(dfResDataDailyFunc) {
+  
+  #filter to values for yesterday 
+  dYesterday <- today() - 1
+  
+  dMaxDay <- as.character(as.Date(max(dfResDataDailyFunc$DateValue)) - 1)
+  #dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dYesterday) %>% select(ResName, FieldName, Value)
+  dfResElevations <- dfResDataDailyFunc %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dMaxDay) %>% select(ResName, FieldName, Value)
+  
+  
+  # Make the Table easy to Read
+  dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
+  # Convert storage to million acre-feet
+  dfResValues$Storage <- round(dfResValues$Storage / 1e6, digits = 2)
+  #dfResValues$`Pool Elevation` <- as.character(round(dfResValues$`Pool Elevation`,digits = 1))
+  #dfResValues <- dfResValues %>% mutate(`Pool Elevation` = num(`Pool Elevation`, digits = 1))
+  
+  print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
+  kable(dfResValues)
+  
+}
 #dfTemp <- ReadBathymetryCritialElevations()
 
 # Test Trial runs

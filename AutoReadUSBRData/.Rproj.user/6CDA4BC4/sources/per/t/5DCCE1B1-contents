@@ -1,11 +1,21 @@
 # AutoReadUSBRData.r
 #
-# This script auto reads USBR Lake Powell and Lake Mead data from Reclamation's HydroData Web portal
-# 
+# This script has 3 functions that:
+
+# 1. fReadReclamationHydroData() - Auto reads USBR Lake Powell and Lake Mead data from Reclamation's HydroData Web portal
 # https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html
 #
-# This script also loads Bathymetry data for Lake Powell and Lake Mead
-# This script also loads critical elevations for the two reservoirs
+# 2. ReadBathymetryCritialElevations() - Loads Bathymetry data for:
+#      A. Lake Powell from Bradley, D., and Collins, K. (2022). "Lake Powell 2017 Area and Capacity Tables." ENV-2021-98, Reclamation. https://doi.org/10.5066/P9O3IPG3.
+#			See also the folder **LakePowellNewBathymetry** for the digitized data.
+#      B. Lake Mead from the Lake Mead object in
+#
+#    The function also loads critical elevations for the two reservoirs from the Excel file ReservoirElevationDefinitions.xlsx.
+#    This file contains selected elevations for the two reservoirs such as dead pool, hydropower penstock intakes, protection elevations, capacity, etc.
+#
+# 3. fReadICSDataLoads() - Load Lake Mead Water Conservation Program Data (Account balances) from digitized
+# versions of Reclamation's annual water accounting reports for the Lower Colorado River Basin. The digitized data is
+# collated in the Excel file IntentionallyCreatedSurplus-Summary.xlsx.
 #
 # This is a beginning R-programming effort! There could be lurking bugs or basic coding errors that I am not even aware of.
 # Please report bugs/feedback to me (contact info below)
@@ -51,7 +61,7 @@ rm(list = ls())  #Clear history
 
 # Load required libraries in 1 go
 # List of packages
-load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here")
+load.lib <- c("tidyverse", "readxl", "RColorBrewer", "dplyr", "expss", "reshape2", "pracma", "lubridate", "directlabels", "plyr", "stringr", "ggplot2", "ggpubr", "ggrepel", "zoo", "here", "knitr")
 # Then we select only the packages that aren't currently installed.
 install.lib <- load.lib[!load.lib %in% installed.packages()]
 # And finally we install the missing packages, including their dependency.
@@ -374,7 +384,27 @@ fReadICSData <- function() {
   return(list(dfICSBalance = dfICSBalance, dfICSBalanceNarrow = dfICSBalanceNarrow, dfICSmonths = dfICSmonths, dfMaxBalanceCum = dfMaxBalanceCum, dfICSLimits = dfLimits, dfICSDepositNarrow = dfICSDepositNarrow, dfMaxAnnualAmounts = dfMaxAnnualAmounts, nMaxYearICSData = nMaxYearICSData, nMaxYearResData = nMaxYearResData))
   }
 
-
+fWriteCurrentReservoirElevations(dfResDataDailyFunc) {
+  
+  #filter to values for yesterday 
+  dYesterday <- today() - 1
+  
+  dMaxDay <- as.character(as.Date(max(dfResDataDailyFunc$DateValue)) - 1)
+  #dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dYesterday) %>% select(ResName, FieldName, Value)
+  dfResElevations <- dfResDataDailyFunc %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dMaxDay) %>% select(ResName, FieldName, Value)
+  
+  
+  # Make the Table easy to Read
+  dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
+  # Convert storage to million acre-feet
+  dfResValues$Storage <- round(dfResValues$Storage / 1e6, digits = 2)
+  #dfResValues$`Pool Elevation` <- as.character(round(dfResValues$`Pool Elevation`,digits = 1))
+  #dfResValues <- dfResValues %>% mutate(`Pool Elevation` = num(`Pool Elevation`, digits = 1))
+  
+  print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
+  kable(dfResValues)
+  
+}
 #dfTemp <- ReadBathymetryCritialElevations()
 
 # Test Trial runs
