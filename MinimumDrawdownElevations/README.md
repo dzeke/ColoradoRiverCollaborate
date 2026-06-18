@@ -37,9 +37,10 @@ https://www.usbr.gov/uc/water/hydrodata/reservoir_data/site_map.html.
 1. Download all the files in the two folders **MinimumDrawdownElevations** (this folder) and **AutoReadUSBRData** to your local drive. The two folders should be parallel.
 
 For example:
-		Root |- AutoReadUSBRData
-		
-		     |- MinimumDrawdownElevations
+	Root
+		|- AutoReadUSBRData
+	
+	    |- MinimumDrawdownElevations
 
 1. In your file explorer, open the subfolder (**MinimumDrawdownElevations**). Open the file **MinimumDrawdownElevations.Rproj**. R studio will open.
 1. Select the file tab **MinimumDrawdownElevations.Rmd**.
