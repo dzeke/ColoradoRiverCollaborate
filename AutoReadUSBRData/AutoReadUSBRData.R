@@ -297,7 +297,6 @@ ReadBathymetryCritialElevations <- function() {
     }
 
 #### Function: Read in ICS balances and calculate annual contributions
-
 fReadICSData <- function() {
   ## Read in ICS account balance data
   sExcelFile <- 'IntentionallyCreatedSurplus-Summary.xlsx'
@@ -339,11 +338,6 @@ fReadICSData <- function() {
   ##Set values above the max ICS date to zero
   dfICSmonths[dfICSmonths$Year > nMaxYearICSData, c("LowerBasinConserve", "MexicoConserve")] <- 0
 
-
-  
-  
-  
-  
   ##Format Program limits for plotting
   dfLimits <- read_excel(sExcelFile, sheet = "Capacities",  range = "A7:F10")
   cColNamesLimits <- colnames(dfLimits)
@@ -384,34 +378,41 @@ fReadICSData <- function() {
   return(list(dfICSBalance = dfICSBalance, dfICSBalanceNarrow = dfICSBalanceNarrow, dfICSmonths = dfICSmonths, dfMaxBalanceCum = dfMaxBalanceCum, dfICSLimits = dfLimits, dfICSDepositNarrow = dfICSDepositNarrow, dfMaxAnnualAmounts = dfMaxAnnualAmounts, nMaxYearICSData = nMaxYearICSData, nMaxYearResData = nMaxYearResData))
   }
 
-# fWriteCurrentReservoirElevations(dfResDataDailyFunc) {
-#   
-#   #filter to values for yesterday 
-#   dYesterday <- today() - 1
-#   
-#   dMaxDay <- as.character(as.Date(max(dfResDataDailyFunc$DateValue)) - 1)
-#   #dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dYesterday) %>% select(ResName, FieldName, Value)
-#   dfResElevations <- dfResDataDailyFunc %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dMaxDay) %>% select(ResName, FieldName, Value)
-#   
-#   
-#   # Make the Table easy to Read
-#   dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
-#   # Convert storage to million acre-feet
-#   dfResValues$Storage <- round(dfResValues$Storage / 1e6, digits = 2)
-#   #dfResValues$`Pool Elevation` <- as.character(round(dfResValues$`Pool Elevation`,digits = 1))
-#   #dfResValues <- dfResValues %>% mutate(`Pool Elevation` = num(`Pool Elevation`, digits = 1))
-#   
-#   print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
-#   kable(dfResValues)
-#   
-# }
-#dfTemp <- ReadBathymetryCritialElevations()
+###############
+# Function to Read the most recent reservoir elevations and volumes from downloaded USBR reservoir data and print them out into a table.
 
+fWriteCurrentReservoirElevations = function(bUpdateReservoirData) {
+
+  bUpdateReservoirData <- FALSE
+
+  #dfResDailyData <- read.csv(file = "dfResDataDaily.csv", header=TRUE,  sep=",")
+  fDailyData <- here("AutoReadUSBRData","dfResDataDaily.csv")
+  dfResDataDaily <- read.csv(file = fDailyData, header=TRUE,  sep=",")
+
+  #filter to values for yesterday
+  
+  dMaxDay <- as.character(as.Date(max( dfResDataDaily$DateValue)) - 1)
+  #dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dYesterday) %>% select(ResName, FieldName, Value)
+  dfResElevations <-  dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dMaxDay) %>% select(ResName, FieldName, Value)
+
+  # Make the Table easy to Read
+  dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
+  # Convert storage to million acre-feet
+  dfResValues$Storage <- round(dfResValues$Storage / 1e6, digits = 2)
+  #dfResValues$`Pool Elevation` <- as.character(round(dfResValues$`Pool Elevation`,digits = 1))
+  #dfResValues <- dfResValues %>% mutate(`Pool Elevation` = num(`Pool Elevation`, digits = 1))
+
+  print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
+  kable(dfResValues)
+  }
+
+
+########## Trial Runs to test if work
 # Test Trial runs
 # Read the most recently saved csv files
 # lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
-#
 # Read the downloaded data from HydroData
 # lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
 
 lTrialICS <- fReadICSData()
+#fWriteCurrentReservoirElevations(bUpdateReservoirData = FALSE)

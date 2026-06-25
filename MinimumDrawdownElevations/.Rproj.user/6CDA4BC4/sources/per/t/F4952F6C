@@ -1,0 +1,28 @@
+{
+    "id": "F4952F6C",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1782338044883.0,
+    "source_on_save": false,
+    "relative_order": 9,
+    "properties": {
+        "id": "55f75ce1859d43b29c824f6195d3e4b6",
+        "name": "dfTemp",
+        "title": "dfTemp",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 2788606325000,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1782338044883,
+    "read_only": false,
+    "read_only_alternatives": []
+}
