@@ -383,11 +383,13 @@ fReadICSData <- function() {
 
 fWriteCurrentReservoirElevations = function(bUpdateReservoirData) {
 
-  bUpdateReservoirData <- FALSE
+  # Read using prior function
+  dfResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+  dfResDataDaily <- dfResData$dfResDaily
 
-  #dfResDailyData <- read.csv(file = "dfResDataDaily.csv", header=TRUE,  sep=",")
-  fDailyData <- here("AutoReadUSBRData","dfResDataDaily.csv")
-  dfResDataDaily <- read.csv(file = fDailyData, header=TRUE,  sep=",")
+    # Read directly coding csv file for daily data
+  #fDailyData <- here("AutoReadUSBRData","dfResDataDaily.csv")
+  #dfResDataDaily <- read.csv(file = fDailyData, header=TRUE,  sep=",")
 
   #filter to values for yesterday
   
