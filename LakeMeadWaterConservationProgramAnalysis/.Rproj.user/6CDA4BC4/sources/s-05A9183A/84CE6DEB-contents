@@ -83,6 +83,9 @@ print(paste("Current Balance:" , round(nCurrentBalance, digits=1), "million acre
 
 knitr::kable(dfICSSummaryByState)
 
+#Print out the current reservoir elevations and storages
+fWriteCurrentReservoirElevations()
+
 # Color palettes
 pBlues <- brewer.pal(9,"Blues")
 pReds <- brewer.pal(9,"Reds")
