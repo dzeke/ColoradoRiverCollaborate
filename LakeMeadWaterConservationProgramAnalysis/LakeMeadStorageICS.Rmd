@@ -111,6 +111,8 @@ dfICSSummaryByState <- dfICSSummaryByState %>% dplyr::rename("State/Country" = "
 
 ```
 
+\newpage
+
 # Summary of Current Reservoir Elevations and Storages
 
 ``` {r ResElevations, echo = FALSE}
