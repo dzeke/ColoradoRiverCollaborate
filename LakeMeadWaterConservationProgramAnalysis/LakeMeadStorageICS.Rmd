@@ -111,7 +111,16 @@ dfICSSummaryByState <- dfICSSummaryByState %>% dplyr::rename("State/Country" = "
 
 ```
 
-## Current Status
+# Summary of Current Reservoir Elevations and Storages
+
+``` {r ResElevations, echo = FALSE}
+
+#Print out the current reservoir elevations and storages
+fWriteCurrentReservoirElevations(bUpdateReservoirData = FALSE)
+
+```
+
+## Current Water Conservation Account Activity
 
 `r sTotalDeposits`
 
@@ -119,7 +128,7 @@ dfICSSummaryByState <- dfICSSummaryByState %>% dplyr::rename("State/Country" = "
 
 `r sCurrentBalance`
 
-## Summary by State and Country (million acre-feet)
+## Summary by Water Conservation Account Deposits and Balances by State and Country (million acre-feet)
 
 ``` {r SummaryByState, echo = FALSE}
 
