@@ -65,7 +65,7 @@ This is an R Markdown document. The document generates a plot showing an example
 The plot also includes:
 
 1. A trace showing Lake Powell storage over time going back to May 2024.
-1. A text box listing active storage and elevation on the date before the script was run. Also includes the storage above the 2019 DCP protection elevationh.
+1. A text box listing active storage and elevation on the date before the script was run. Also includes the storage above the 2019 DCP protection elevation.
 1. Horizontal lines showing teh Minimum Drawdown Elevation and the Catastrophic Elevation with buffer volume.
 
 This script also generates a Table showing the Time to react before drawing down to catastrophy. This is calculated using the Minimum Drawdown volume, catastrophy volume, buffer volume, and annual decrease in flow.
@@ -88,6 +88,8 @@ This is a beginning R-programming effort! There could be lurking bugs or basic c
 ## Requested Citation
 David E. Rosenberg (2026), "Minimum Drawdown and Catastrophic Elevations for Lake Powell." Utah State University. Logan, Utah. https://github.com/dzeke/ColoradoRiverCollaborate/tree/main/MinimumDrawdownElevations.
 
+## Current Storage and Elevations
+
 ```{r Setup2, echo=FALSE, warning=FALSE, message=FALSE}
 
 #Get the blue color bar
@@ -97,27 +99,32 @@ pReds <- brewer.pal(9,"Reds")
 lFontSize <- 14
 lFontSizeReduction <- 4
 
-#### Spit out the most recent Lake Powell and Lake Mead Pool elevations
-dfResDataDaily <- lResData$dfResDaily
-
 #filter to values for yesterday 
 dYesterday <- today() - 1
 
+
+#Print out the current reservoir elevations and storages
+fWriteCurrentReservoirElevations(bUpdateReservoirData = FALSE)
+
+
+#### Spit out the most recent Lake Powell and Lake Mead Pool elevations
+dfResDataDaily <- lResData$dfResDaily
+
 dMaxDay <- as.character(as.Date(max(dfResDataDaily$DateValue)) - 1)
-#dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dYesterday) %>% select(ResName, FieldName, Value)
+# #dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dYesterday) %>% select(ResName, FieldName, Value)
 dfResElevations <- dfResDataDaily %>% filter(FieldName %in% c("Pool Elevation","Storage"), DateValue == dMaxDay) %>% select(ResName, FieldName, Value)
-
-
-# Make the Table easy to Read
-dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
-# Convert storage to million acre-feet
-dfResValues$Storage <- round(dfResValues$Storage / 1e6, digits = 2)
-#dfResValues$`Pool Elevation`<- as.character(round(dfResValues$`Pool Elevation`, digits = 1))
-#dfResValues <- dfResValues %>% mutate(`Pool Elevation` = num(`Pool Elevation`, digits = 1))
-
-print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
-#print(dfResValues)
-kable(dfResValues)
+#
+#
+# # Make the Table easy to Read
+ dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from = FieldName,   values_from = Value)
+ # Convert storage to million acre-feet
+ dfResValues$Storage <- round(dfResValues$Storage / 1e6, digits = 2)
+ #dfResValues$`Pool Elevation`<- as.character(round(dfResValues$`Pool Elevation`, digits = 1))
+ #dfResValues <- dfResValues %>% mutate(`Pool Elevation` = num(`Pool Elevation`, digits = 1))
+# 
+# print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
+# #print(dfResValues)
+# kable(dfResValues)
 
 
 # Filter the Powell and Mead monthly storages
@@ -135,7 +142,7 @@ dfResStorageWide1995 <- dfResStorageWide %>% filter(Year >= 1995)
 
 ```
 
-# Figure 1. Lake Powell Minimum Drawdown and Catastrophic Elevations.
+## Figure 2. Lake Powell Minimum Drawdown and Catastrophic Elevations.
 
 ```{r MinDrawdownFig1, echo=FALSE, warning=FALSE, message=FALSE}
 ##########
@@ -251,7 +258,7 @@ ggplot() +
 
 ```
 
-# Table 1. Time to react.
+## Table 1. Time to react.
 
 ```{r TimeToCatastrophy, echo=FALSE, warning=FALSE, message=FALSE}
 
