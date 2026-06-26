@@ -96,11 +96,11 @@ lFontSizeReduction <- 4
 ```
 
 
-# Figure 1: Annual Lake Powell Release Compared to 7.5 and 8.23 Targets
+## Figure 1: Annual Lake Powell Release Compared to 7.5 and 8.23 Targets
 
 ```{r ResDataFig1, echo=FALSE, warning=FALSE, message=FALSE}
 
-#### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
+##### Figure 1. Annual Powell Release compared to 7.5 and 8.23 targets
 #Pivot the Wide format to Longer for Plotting with different colors
 dfPowellAnnualLong <- pivot_longer(data = dfPowellAnnual, cols = c(AnnualValue, OneYearTarget, OneYearTarget82), names_to = "DataType", values_to = "Flow")
 dfPowellAnnualLong$DataTypeFactor <- factor(dfPowellAnnualLong$DataType, levels = c("AnnualValue", "OneYearTarget82", "OneYearTarget") )
@@ -120,10 +120,10 @@ ggplot(data = dfPowellAnnualLong %>% filter(WaterYear >= 1995), aes(x = WaterYea
 
 ```
 
-# Figure 1: Ten-Year Powell Release Compared to 10-year Targets
+## Figure 1: Ten-Year Powell Release Compared to 10-year Targets
 
 ```{r ResDataFig2, echo=FALSE, warning=FALSE, message=FALSE}
-#### Figure 2. Ten-Year Powell Release compared to 10-year targets
+##### Figure 2. Ten-Year Powell Release compared to 10-year targets
 
 #Pivot the Wide format to Longer for Plotting with different colors
 dfPowellTenYearLong <- pivot_longer(data = dfPowellAnnual, cols = c(TenYearRelease, TenYearTarget, TenYearTarget82), names_to = "DataType", values_to = "Flow")
@@ -147,10 +147,16 @@ write.csv(dfPowellAnnual,"dfPowellAnnual.csv" )
 
 ```
 
-# Table 1: Current Storage and Elevations
+## Table 1: Current Storage and Elevations
 
 ```{r ResDataTab1, echo=FALSE, warning=FALSE, message=FALSE, comment=""}
 #### Spit out the most recent Lake Powell and Lake Mead Pool elevations
+
+#Print out the current reservoir elevations and storages
+fWriteCurrentReservoirElevations(bUpdateReservoirData = FALSE)
+####
+
+
 dfResDataDaily <- lResData$dfResDaily
 
 #filter to values for yesterday 
@@ -166,12 +172,12 @@ dfResValues <- pivot_wider(  dfResElevations %>% group_by(ResName),  names_from 
 # Convert storage to million acre-feet
 dfResValues$Storage <- dfResValues$Storage / 1e6
 
-print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
-print(dfResValues)
+# print(paste("Reservoir Data on:",month.name[month(dMaxDay)],day(dMaxDay),",",year(dMaxDay)))
+# print(dfResValues)
 
 ```
 
-# Figure 3: Lake Powell, Lake Mead, and Combined Storage
+## Figure 3: Lake Powell, Lake Mead, and Combined Storage
 
 ```{r ResDataFig3, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -223,11 +229,11 @@ ggplot() +
 
 ```
 
-# Figure 4: Lake Powell Storage vs Lake Mead Storage
+## Figure 4: Lake Powell Storage vs Lake Mead Storage
 
 ```{r ResDataFig4, echo=FALSE, warning=FALSE, message=FALSE}
 ################
-# Figure 4. Powell on X and Mead on Y with 1:1
+## Figure 4. Powell on X and Mead on Y with 1:1
 
 dfMeadElevationsFiltered <- dfTemp$dfMeadElevations %>% filter(`Elevation (feet)` != 1025)
 
@@ -297,12 +303,12 @@ ggplot() +
 
 ```
 
-# Figure 5: Lake Powell Storage and Elevation over Time.
+## Figure 5: Lake Powell Storage and Elevation over Time.
 
 
 ```{r ResDataFig5, echo=FALSE, warning=FALSE, message=FALSE}
 ##########
-## Figure 5. Lake Powell storage/elevation over time
+### Figure 5. Lake Powell storage/elevation over time
 
 #Calculate date to print
 dYesterday <- today() - 1
@@ -368,7 +374,7 @@ ggplot() +
 
 ```
 
-# Figure 5B: Lake Powell Minimum Drawdown and Catastrophic Elevations
+## Figure 5B: Lake Powell Minimum Drawdown and Catastrophic Elevations
 
 ```{r ResDataFig5B, echo=FALSE, warning=FALSE, message=FALSE} 
 
@@ -434,11 +440,11 @@ ggplot() +
  
 ```
 
-# Figure 6: Lake Mead Storage and Elevation over Time.
+## Figure 6: Lake Mead Storage and Elevation over Time.
 
 ```{r ResDataFig6, echo=FALSE, warning=FALSE, message=FALSE} 
 ##########
-## Figure 6. Lake Mead storage/elevation over time
+### Figure 6. Lake Mead storage/elevation over time
 
 dfMeadElevations <- dfTemp$dfMeadElevations
 dfMeadElevations$CurrentStorage <- dfResElevations %>% filter(FieldName == "Storage", ResName == "Lake Mead") %>% pull(Value) / 1e6
@@ -494,10 +500,10 @@ dfResDataDaily$DateAsDate <- ymd(dfResDataDaily$Date)
 
 ```
 
-# Figure 6B: Lake Powell Daily Inflow and Release Water Year to Date
+## Figure 6B: Lake Powell Daily Inflow and Release Water Year to Date
 ```{r ResDataFig9B, echo=FALSE, warning=FALSE, message=FALSE} 
 ##############
-### Figure 9B. Daily Powell Inflow/Release for current year
+#### Figure 9B. Daily Powell Inflow/Release for current year
 
 ## Sum inflow and release volumes to date from the start of the water yesr.
 dfCurrentYear <- dfResDataDaily %>% filter(ResName == "Lake Powell", WaterYear >= max(WaterYear), FieldName %in% c("Release volume", "Inflow Volume"))
@@ -546,11 +552,11 @@ ggplot() +
 
 ```
 
-# Figure 7: Frequency of Annual Lake Powell Release Volumes.
+## Figure 7: Frequency of Annual Lake Powell Release Volumes.
 
 ```{r ResDataFig7, echo=FALSE, warning=FALSE, message=FALSE} 
 ##################
-## Figure 7
+### Figure 7
 
 #Histogram -- frequency of annual Release volumes
 ggplot(dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Release volume"), aes(x=AnnualValue)) +
@@ -566,11 +572,11 @@ ggplot(dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Releas
 
 ```
 
-# Figure 8: Frequency of Annual Lake Powell Inflow Volumes.
+## Figure 8: Frequency of Annual Lake Powell Inflow Volumes.
 
 ```{r ResDataFig8, echo=FALSE, warning=FALSE, message=FALSE} 
 #################
-# Figure 8. Histogram -- frequency of annual inflow volumes
+## Figure 8. Histogram -- frequency of annual inflow volumes
 ggplot(dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Inflow Volume"), aes(x=AnnualValue)) +
   geom_histogram(color="darkmagenta", fill="magenta", binwidth = 2) +
   
@@ -583,11 +589,11 @@ ggplot(dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Inflow
 
 ```
 
-# Figure 9: Lake Powell Inflows and Releases.
+## Figure 9: Lake Powell Inflows and Releases.
 
 ```{r ResDataFig9, echo=FALSE, warning=FALSE, message=FALSE} 
 ##############
-### Figure 9. As mixed bar (inflow) line (release) plot
+#### Figure 9. As mixed bar (inflow) line (release) plot
 
 ggplot() +
   #Bar graph of Powell Inflow
@@ -605,10 +611,10 @@ ggplot() +
 
 ```
 
-# Figure 10: Annual Lake Powell Evaporation.
+## Figure 10: Annual Lake Powell Evaporation.
 
 ```{r ResDataFig10, echo=FALSE, warning=FALSE, message=FALSE} 
-#### Figure 10. Powell Annual Evaporation
+##### Figure 10. Powell Annual Evaporation
 ggplot(data = dfResDataAnnual %>% filter(ResName == "Lake Powell", FieldName == "Evaporation")) +
   geom_line(aes(x=WaterYear, y=`AnnualValue`, color=pBlues[7]), size=2) +
 
