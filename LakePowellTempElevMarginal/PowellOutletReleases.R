@@ -217,29 +217,38 @@ ggplot(dfDailyTemp, aes(x = Difference)) +
 ###### Read in Flow and Temperature data from Grand Canyon Monitoring and Research Center
 ####
 
-cLocations <- c("Above Little Colorado River", "Colorado River - RM 30", "Below Glen Canyon Dam")
+cLocations <- c("Colorado River - Above Little Colorado River", "Colorado River - RM 30", "Colorado River - Lees Ferry")
 
+### Colorado River above Little Colorado River
 dfLCR <- read.csv(file = "Data/gcmrcLittleColorado.tsv", sep = "\t")
 colnames(dfLCR) <- c("DateTime", "FlowCFS", "TemperatureC")
 dfLCR$Location <- cLocations[1]
 
+## Colorado River at River Mile 30
 dfCR30 <- read.csv(file = "Data/gcmrcColoradoRiverRM30.tsv", sep = "\t")
 colnames(dfCR30) <- c("DateTime", "FlowCFS", "TemperatureC")
 dfCR30$Location <- cLocations[2]
 
+## Colorado River at Lees Ferry (coerse into same format as above data frames)
+## Colorado River at River Mile 30
+dfLeesFerry <- read.csv(file = "Data/gcmrcLeesFerry.tsv", sep = "\t")
+colnames(dfLeesFerry) <- c("DateTime", "FlowCFS", "TemperatureC")
+dfLeesFerry$Location <- cLocations[3]
+
+
 #combine into 1 dataframe
-dfCombinedData <- rbind(dfLCR, dfCR30)
+dfCombinedData <- rbind(dfLCR, dfCR30, dfLeesFerry)
 
 # Filter for top of the hour (00:00)
 dfCombinedData$Minute <- minute(dfCombinedData$DateTime)
 dfCombinedData <- dfCombinedData %>% filter(Minute == 0)
-dfCombinedData$TemperatureCRound <- round(dfCombinedData$TemperatureC, 1)
+#dfCombinedData$TemperatureCRound <- round(dfCombinedData$TemperatureC, 1)
 dfCombinedData$TemperatureC <- na_if(dfCombinedData$TemperatureC, -999)
 #Convert DateTime to POSIXct
 dfCombinedData$DateTimePos <- as.POSIXct(as.character(dfCombinedData$DateTime), format = "%Y-%m-%d %H:%M:%S")
 dfCombinedData <- na.omit(dfCombinedData)
 
-dfDataToUse <- dfCombinedData %>% filter(Location == cLocations[2])
+dfDataToUse <- dfCombinedData %>% filter(Location == cLocations[3])
 # Convert to xts
 dfXtsDataToUse <- xts(cbind(dfDataToUse$FlowCFS,  dfDataToUse$TemperatureC), order.by = dfDataToUse$DateTimePos)
 
@@ -251,3 +260,37 @@ dygraph(dfXtsDataToUse) %>% dyRangeSelector() %>%
   
   dySeries("V1", label = "Flow") %>%
   dySeries("V2", label = "Temperature", axis = "y2", strokeWidth = 3)
+
+## Compare Temperatures at each location
+dfTemperatureCompare <- dfCombinedData %>% select(DateTime, TemperatureC, Location, DateTimePos) %>% pivot_wider(names_from = Location, values_from = TemperatureC)
+
+dfXtsTemperatureCompare <- xts(cbind(dfTemperatureCompare$`Colorado River - Lees Ferry`,  dfTemperatureCompare$`Colorado River - RM 30`, dfTemperatureCompare$`Colorado River - Above Little Colorado River`), order.by = dfTemperatureCompare$DateTimePos)
+#dfXtsTemperatureCompare <- xts(cbind(dfCombinedData %>% filter(Location == cLocations[1]),  dfCombinedData %>% filter(Location == cLocations[2]), dfCombinedData %>% filter(Location == cLocations[3]), order.by = dfCombinedData %>% filter(Location == cLocations[1]) %>% select(DateTimePos)))
+
+
+#Plot the Release - Temperature dygraph
+dygraph(dfXtsTemperatureCompare) %>% dyRangeSelector() %>%
+  dyAxis("y", label = "Temperature (oC") %>%
+ 
+  dySeries("V1", label = "Lees Ferry", strokeWidth = 2) %>%
+  dySeries("V2", label = "River Mile 30",strokeWidth = 2) %>%
+  dySeries("V3", label = "Above Little Colorado River",strokeWidth = 2)
+
+
+#Compare Flow at each location
+## Compare Temperatures at each location
+dfFlowCompare <- dfCombinedData %>% select(DateTime, FlowCFS, Location, DateTimePos) %>% pivot_wider(names_from = Location, values_from = FlowCFS)
+
+dfXtsFlowCompare <- xts(cbind(dfFlowCompare$`Colorado River - Lees Ferry`,  dfFlowCompare$`Colorado River - RM 30`, dfFlowCompare$`Colorado River - Above Little Colorado River`), order.by = dfFlowCompare$DateTimePos)
+#dfXtsTemperatureCompare <- xts(cbind(dfCombinedData %>% filter(Location == cLocations[1]),  dfCombinedData %>% filter(Location == cLocations[2]), dfCombinedData %>% filter(Location == cLocations[3]), order.by = dfCombinedData %>% filter(Location == cLocations[1]) %>% select(DateTimePos)))
+
+
+#Plot the Release - Temperature dygraph
+dygraph(dfXtsFlowCompare) %>% dyRangeSelector() %>%
+  dyAxis("y", label = "Temperature (oC") %>%
+  
+  dySeries("V1", label = "Lees Ferry", strokeWidth = 2) %>%
+  dySeries("V2", label = "River Mile 30",strokeWidth = 2) %>%
+  dySeries("V3", label = "Above Little Colorado River",strokeWidth = 2)
+
+
