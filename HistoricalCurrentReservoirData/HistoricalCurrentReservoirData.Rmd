@@ -498,9 +498,35 @@ ggplot() +
         panel.grid.minor = element_blank(),
         axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
  
+```
 
+## Table 2. Time Until Powell Elevations
 
+```{r ResDataTablTimeUnit, echo=FALSE, warning=FALSE, message=FALSE} 
 
+##########
+## Figure 5C - Calculating average change of Powell storage per day and per week (slope)
+
+# Date of recent maximum to start
+dLocalMaxDay <- as.Date("2026-06-03")
+
+# Pull storage for local max and end date
+dLocalMaxStorage <- dfResStorageDailyWide %>% filter(DateAsDate == dLocalMaxDay) %>% pull(`Lake Powell`)
+dCurrStorage <- dfResValues %>% filter(ResName == "Lake Powell") %>% pull(Storage)
+
+dStorageChangePerDay <- (dLocalMaxStorage - dCurrStorage) / as.numeric(dYesterday - dLocalMaxDay)
+dStorageChangePerWeek <- dStorageChangePerDay * 7
+
+# Number of Days until 3514
+
+dfPowellElevations$DaysUntilVolume <- round(dfPowellElevations$StorageAbove / dStorageChangePerDay, digits = 0)
+dfPowellElevations$WeeksUntilVolume <- round(dfPowellElevations$StorageAbove / dStorageChangePerWeek, digits = 0)
+
+# Select Columns for Print out to table
+dfPowellElevationsPrint <- dfPowellElevations %>% select(Label, ActiveStorageMAF, DaysUntilVolume, WeeksUntilVolume)
+dfPowellElevationsPrint$ActiveStorageMAF <- round(dfPowellElevationsPrint$ActiveStorageMAF, digits = 2)
+
+kable(dfPowellElevationsPrint)
 
 
 ```
