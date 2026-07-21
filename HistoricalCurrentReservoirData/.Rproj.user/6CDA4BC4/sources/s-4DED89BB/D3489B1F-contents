@@ -329,34 +329,34 @@ nTextSize <- 5
 lFontSize <- 16
 lFontSizeReduction <- 2
 
-ggplot() +
-  
-  geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
-  
-  geom_text(aes(x = as.Date("2026-04-01"), y = 7.8, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
-  geom_text(aes(x = as.Date("2026-04-01"), y = 7.0, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
-
-  scale_x_date(limits= c(as.Date("2025-03-01"), dEndDate),
-               date_breaks = "6 months", # Major ticks every 10 years
-               date_labels = "%b\n%Y") +
-  
-  #Create secondary y axes for Powell Lake Level
-  scale_y_continuous(limits = c(0,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
-  
-  geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[3], linetype = "dashed", size =1.5) +
-
-  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
-  
-  
-    # Add a label for Minimum Drawdown and Catastropy Elevations
-  geom_text(data = dfPowellElevations2, aes(x = as.Date("2026-10-01"), y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = pReds[9], size = 6) +
-  
-  theme_bw() +
-  
-  labs(x="", y="Powell Active Storage (MAF)") +
-  theme(text = element_text(size=lFontSize), legend.position = "none",
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank())
+# ggplot() +
+#   
+#   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
+#   
+#   geom_text(aes(x = as.Date("2026-04-01"), y = 7.8, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
+#   geom_text(aes(x = as.Date("2026-04-01"), y = 7.0, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
+# 
+#   scale_x_date(limits= c(as.Date("2025-03-01"), dEndDate),
+#                date_breaks = "6 months", # Major ticks every 10 years
+#                date_labels = "%b\n%Y") +
+#   
+#   #Create secondary y axes for Powell Lake Level
+#   scale_y_continuous(limits = c(0,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Powell Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
+#   
+#   geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[3], linetype = "dashed", size =1.5) +
+# 
+#   geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
+#   
+#   
+#     # Add a label for Minimum Drawdown and Catastropy Elevations
+#   geom_text(data = dfPowellElevations2, aes(x = as.Date("2026-10-01"), y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = pReds[9], size = 6) +
+#   
+#   theme_bw() +
+#   
+#   labs(x="", y="Powell Active Storage (MAF)") +
+#   theme(text = element_text(size=lFontSize), legend.position = "none",
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank())
 
 
 ### Plot 5C - Powell history back to 2025 and y axis cut at 3,575 feet
@@ -366,6 +366,10 @@ dStartDate <- as.Date("2024-01-01")
 dfResDataDaily <- lResData$dfResDaily
 #Filter the Powell and Mead storages
 dfResStorageDaily <- dfResDataDaily %>% filter(ResName %in% c("Lake Powell", "Lake Mead"), FieldName == "Storage")
+
+# Convert to million acre-feet
+dfResStorageDaily$Value <- dfResStorageDaily$Value / 1e6
+
 #Turn narrow into wide so separate columns for Lake Powell and Lake Mead
 dfResStorageDailyWide <- pivot_wider(  dfResStorageDaily %>% group_by(ResName, DateValue, Year, Month) %>% select(ResName, DateValue, Year, Month, Value),   names_from = ResName,   values_from = Value)
 #Filter to data after 1995
@@ -381,7 +385,7 @@ dEndDate <- as.Date("2027-01-01")
 
 ggplot() +
   
-  geom_line(data = dfResStorageDailyWide, aes(x = DateAsDate, y = `Lake Powell`/ 1e6), size = 1.5) +
+  geom_line(data = dfResStorageDailyWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
   
   geom_text(aes(x = as.Date("2026-02-01"), y = 9, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
   geom_text(aes(x = as.Date("2026-02-01"), y = 8.5, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
@@ -395,7 +399,7 @@ ggplot() +
   
   geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[4], linetype = "dashed", size =1.5) +
   
-  geom_point(data = dfLastDateDaily, aes(x = DateAsDate, y = `Lake Powell` / 1e6), color = "blue", size = nTextSize - 1 ) +
+  geom_point(data = dfLastDateDaily, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = nTextSize - 1 ) +
   
   
   # Add a label for Minimum Drawdown and Catastropy Elevations
@@ -411,7 +415,25 @@ ggplot() +
         axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
 
 
+##########
+## Figure 5C - Calculating average change of Powell storage per day and per week (slope)
 
+# Date of recent maximum to start
+dLocalMaxDay <- as.Date("2026-06-03")
+
+# Pull storage for local max and end date
+dLocalMaxStorage <- dfResStorageDailyWide %>% filter(DateAsDate == dLocalMaxDay) %>% pull(`Lake Powell`)
+dCurrStorage <- dfResValues %>% filter(ResName == "Lake Powell") %>% pull(Storage)
+
+dStorageChangePerDay <- (dLocalMaxStorage - dCurrStorage) / as.numeric(dYesterday - dLocalMaxDay)
+dStorageChangePerWeek <- dStorageChangePerDay * 7
+
+#Number of Days until 3514
+
+dfPowellElevations$DaysUntilVolume <- round(dfPowellElevations$StorageAbove / dStorageChangePerDay, digits = 0)
+dfPowellElevations$WeeksUntilVolume <- round(dfPowellElevations$StorageAbove / dStorageChangePerWeek, digits = 0)
+
+print(dfPowellElevations %>% select(Label, ActiveStorageMAF, DaysUntilVolume, WeeksUntilVolume))
 
 
 ##########

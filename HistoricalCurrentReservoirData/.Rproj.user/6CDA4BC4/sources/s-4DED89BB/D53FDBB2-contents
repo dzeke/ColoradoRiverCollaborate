@@ -369,13 +369,13 @@ ggplot() +
         panel.grid.minor = element_blank(),
         axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
 
-```
+#```
 
 ## Figure 5B: No Longer Use
 
 
 
-```{r ResDataFig5B, echo=FALSE, warning=FALSE, message=FALSE} 
+#```{r ResDataFig5B, echo=FALSE, warning=FALSE, message=FALSE} 
 
 # Lake Powell Minimum Drawdown and Catastrophic Elevations - Monthly Data
 
@@ -441,17 +441,19 @@ dEndDate <- as.Date("2027-01-01")
  
 ```
 
-## Figure 5C: Lake Powell Minimum Drawdown and Catastrophic Elevations - Daily Data
+## Figure 5B: Lake Powell Minimum Drawdown and Catastrophic Elevations - Daily Data
 
 ```{r ResDataFig5C, echo=FALSE, warning=FALSE, message=FALSE} 
 
-### Plot 5C - Powell history back to 2025 and y axis cut at 3,575 feet
+### Plot 5B - Powell history back to 2025 and y axis cut at 3,575 feet at daily time step
 
 dStartDate <- as.Date("2024-01-01")
 
 dfResDataDaily <- lResData$dfResDaily
 #Filter the Powell and Mead storages
 dfResStorageDaily <- dfResDataDaily %>% filter(ResName %in% c("Lake Powell", "Lake Mead"), FieldName == "Storage")
+# Convert to million acre-feet
+dfResStorageDaily$Value <- dfResStorageDaily$Value / 1e6
 #Turn narrow into wide so separate columns for Lake Powell and Lake Mead
 dfResStorageDailyWide <- pivot_wider(  dfResStorageDaily %>% group_by(ResName, DateValue, Year, Month) %>% select(ResName, DateValue, Year, Month, Value),   names_from = ResName,   values_from = Value)
 #Filter to data after 1995
@@ -467,7 +469,7 @@ dEndDate <- as.Date("2027-01-01")
 
 ggplot() +
   
-  geom_line(data = dfResStorageDailyWide, aes(x = DateAsDate, y = `Lake Powell`/ 1e6), size = 1.5) +
+  geom_line(data = dfResStorageDailyWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
   
   geom_text(aes(x = as.Date("2026-02-01"), y = 9, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
   geom_text(aes(x = as.Date("2026-02-01"), y = 8.5, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
@@ -481,7 +483,7 @@ ggplot() +
   
   geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[4], linetype = "dashed", size =1.5) +
   
-  geom_point(data = dfLastDateDaily, aes(x = DateAsDate, y = `Lake Powell` / 1e6), color = "blue", size = nTextSize - 1 ) +
+  geom_point(data = dfLastDateDaily, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = nTextSize - 1 ) +
   
   
   # Add a label for Minimum Drawdown and Catastropy Elevations
@@ -496,6 +498,11 @@ ggplot() +
         panel.grid.minor = element_blank(),
         axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
  
+
+
+
+
+
 ```
 
 ## Figure 6: Lake Mead Storage and Elevation over Time.
