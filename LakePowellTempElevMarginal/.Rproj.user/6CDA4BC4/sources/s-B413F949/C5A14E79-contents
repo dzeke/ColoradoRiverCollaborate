@@ -212,3 +212,42 @@ ggplot(dfDailyTemp, aes(x = Difference)) +
   theme(text = element_text(size=20)) #, legend.title = element_text("Annual Release\nMAF"), legend.text=element_text(size=14), axis.text.x = element_text(size=12))
 
    
+################## Plot Dygraph for Colorado River Flow and Temperature just Above Little Colorado River
+
+###### Read in Flow and Temperature data from Grand Canyon Monitoring and Research Center
+####
+
+cLocations <- c("Above Little Colorado River", "Colorado River - RM 30", "Below Glen Canyon Dam")
+
+dfLCR <- read.csv(file = "Data/gcmrcLittleColorado.tsv", sep = "\t")
+colnames(dfLCR) <- c("DateTime", "FlowCFS", "TemperatureC")
+dfLCR$Location <- cLocations[1]
+
+dfCR30 <- read.csv(file = "Data/gcmrcColoradoRiverRM30.tsv", sep = "\t")
+colnames(dfCR30) <- c("DateTime", "FlowCFS", "TemperatureC")
+dfCR30$Location <- cLocations[2]
+
+#combine into 1 dataframe
+dfCombinedData <- rbind(dfLCR, dfCR30)
+
+# Filter for top of the hour (00:00)
+dfCombinedData$Minute <- minute(dfCombinedData$DateTime)
+dfCombinedData <- dfCombinedData %>% filter(Minute == 0)
+dfCombinedData$TemperatureCRound <- round(dfCombinedData$TemperatureC, 1)
+dfCombinedData$TemperatureC <- na_if(dfCombinedData$TemperatureC, -999)
+#Convert DateTime to POSIXct
+dfCombinedData$DateTimePos <- as.POSIXct(as.character(dfCombinedData$DateTime), format = "%Y-%m-%d %H:%M:%S")
+dfCombinedData <- na.omit(dfCombinedData)
+
+dfDataToUse <- dfCombinedData %>% filter(Location == cLocations[2])
+# Convert to xts
+dfXtsDataToUse <- xts(cbind(dfDataToUse$FlowCFS,  dfDataToUse$TemperatureC), order.by = dfDataToUse$DateTimePos)
+
+#Plot the Release - Temperature dygraph
+dygraph(dfXtsDataToUse) %>% dyRangeSelector() %>%
+  dyAxis("y", label = "Flow (cfs)") %>%
+  #dyAxis("y2", label = "Temperature (oC)", independentTicks = TRUE, axisLabelFormatter = htmlwidgets::JS("function(value) {return value.toFixed(1);")) %>% ## Round to 1 decimal places for y2-axis) %>%
+  dyAxis("y2", label = "Temperature (oC)", independentTicks = TRUE) %>%
+  
+  dySeries("V1", label = "Flow") %>%
+  dySeries("V2", label = "Temperature", axis = "y2", strokeWidth = 3)
