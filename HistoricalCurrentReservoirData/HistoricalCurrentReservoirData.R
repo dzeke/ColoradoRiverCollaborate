@@ -21,11 +21,6 @@ for(lib in install.lib) install.packages(lib,dependencies=TRUE)
 # After the installation process completes, we load all packages.
 sapply(load.lib,require,character=TRUE)
 
-dYesterday <- today() - 1
-
-sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(dYesterday))
-print(paste0("This report was generated on: ", sYesterdayDate))
-
 here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
         
 ## Read in functions to:
@@ -33,6 +28,11 @@ here::i_am("HistoricalCurrentReservoirData/HistoricalCurrentReservoirData.r")
 #     Interpolate with NAs
 #     Load Reservoir Bathymetry and Critical Elevations
 source("../AutoReadUSBRData/AutoReadUSBRData.r")
+
+dYesterday <- today() - 1
+
+sYesterdayDate <- paste(month.name[month(dYesterday)], day(dYesterday),",",year(dYesterday))
+print(paste0("This report was generated on: ", sYesterdayDate))
 
 # Read in the Reclamation Hydro Data
 #lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
@@ -135,15 +135,11 @@ print(dfResValues)
 # Combined, Powell, and Mead on one plot
 
 # Filter the Powell and Mead monthly storages
-
 dfResDataMonthly <- lResData$dfResMonthly
-
 #Filter the Powell and Mead storages
 dfResStorage <- dfResDataMonthly %>% filter(ResName %in% c("Lake Powell", "Lake Mead"), FieldName == "Storage")
-
 #Turn narrow into wide so separate columns for Lake Powell and Lake Mead
 dfResStorageWide <- pivot_wider(  dfResStorage %>% group_by(ResName, Date, Year, Month) %>% select(ResName, Date, Year, Month, MonthlyValue),   names_from = ResName,   values_from = MonthlyValue)
-
 #Filter to data after 1995
 dfResStorageWide1995 <- dfResStorageWide %>% filter(Year >= 1995)
 
@@ -325,15 +321,20 @@ dfPowellElevations2$VolumeAboveCatastraphy <- dfPowellElevations2$ActiveStorageM
 dfPowellElevations2$PoolLabel <- paste0("Minimum Drawdown Elevation\n(Buffer: ", round(dfPowellElevations2$VolumeAboveCatastraphy, digits = 1)," maf)")
 dfPowellElevations2$PoolLabel[1] <- "Catastrophic Elevation\n(No Hydropower - Vorticies)"
 
+dfPowellElevations2$DateOffset <- c(270, 0)
+
 dfPowellElevations2$VerticalAdjustLabel <- c(-0.2, 0.2)
 dfPowellElevations2$LabelColor <- c(7, 9)
+nTextSize <- 5
+lFontSize <- 16
+lFontSizeReduction <- 2
 
 ggplot() +
   
   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
   
-  geom_text(aes(x = as.Date("2026-04-01"), y = 7.8, label = cCurrent), fontface = "bold", color = "blue", size = 5) + 
-  geom_text(aes(x = as.Date("2026-04-01"), y = 7.0, label = cPowellElevationsConcatNarrow), color = pReds[5], size = 5) +
+  geom_text(aes(x = as.Date("2026-04-01"), y = 7.8, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
+  geom_text(aes(x = as.Date("2026-04-01"), y = 7.0, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
 
   scale_x_date(limits= c(as.Date("2025-03-01"), dEndDate),
                date_breaks = "6 months", # Major ticks every 10 years
@@ -353,9 +354,62 @@ ggplot() +
   theme_bw() +
   
   labs(x="", y="Powell Active Storage (MAF)") +
-  theme(text = element_text(size=14), legend.position = "none",
+  theme(text = element_text(size=lFontSize), legend.position = "none",
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank())
+
+
+### Plot 5C - Powell history back to 2025 and y axis cut at 3,575 feet
+
+dStartDate <- as.Date("2024-01-01")
+
+dfResDataDaily <- lResData$dfResDaily
+#Filter the Powell and Mead storages
+dfResStorageDaily <- dfResDataDaily %>% filter(ResName %in% c("Lake Powell", "Lake Mead"), FieldName == "Storage")
+#Turn narrow into wide so separate columns for Lake Powell and Lake Mead
+dfResStorageDailyWide <- pivot_wider(  dfResStorageDaily %>% group_by(ResName, DateValue, Year, Month) %>% select(ResName, DateValue, Year, Month, Value),   names_from = ResName,   values_from = Value)
+#Filter to data after 1995
+#dfResStorageWide1995 <- dfResStorageWide %>% filter(Year >= 1995)
+
+# Filter out the last (most recent entry)
+dfResStorageDailyWide$DateAsDate <- as.Date(dfResStorageDailyWide$DateValue)
+dfResStorageDailyWide <- dfResStorageDailyWide %>% filter(DateAsDate >= dStartDate)
+dfLastDateDaily <- dfResStorageDailyWide %>% arrange(DateAsDate)
+dfLastDateDaily <- dfLastDateDaily[nrow(dfLastDateDaily),] 
+
+dEndDate <- as.Date("2027-01-01")
+
+ggplot() +
+  
+  geom_line(data = dfResStorageDailyWide, aes(x = DateAsDate, y = `Lake Powell`/ 1e6), size = 1.5) +
+  
+  geom_text(aes(x = as.Date("2026-02-01"), y = 9, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
+  geom_text(aes(x = as.Date("2026-02-01"), y = 8.5, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
+  
+  scale_x_date(limits= c(dStartDate, dEndDate),
+               date_breaks = "6 months", # Major ticks every 10 years
+               date_labels = "%b\n%Y") +
+  
+  #Create secondary y axes for Powell Lake Level
+  scale_y_continuous(limits = c(3,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
+  
+  geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[4], linetype = "dashed", size =1.5) +
+  
+  geom_point(data = dfLastDateDaily, aes(x = DateAsDate, y = `Lake Powell` / 1e6), color = "blue", size = nTextSize - 1 ) +
+  
+  
+  # Add a label for Minimum Drawdown and Catastropy Elevations
+  geom_text(data = dfPowellElevations2, aes(x = as.Date("2024-12-01") + DateOffset, y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = "red", size = nTextSize, fontface = "bold" ) +
+  
+  theme_bw() +
+  
+  labs(x="", y="Active Storage (maf)") +
+  
+  theme(text = element_text(size=lFontSize), legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
+
 
 
 
