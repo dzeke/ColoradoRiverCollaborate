@@ -64,7 +64,7 @@ source("../AutoReadUSBRData/AutoReadUSBRData.r")
 
 # Read in the Reclamation Hydro Data
 #lResData <- fReadReclamationHydroData(FromHydroData = TRUE)
-ResData <- fReadReclamationHydroData(FromHydroData = FALSE)
+lResData <- fReadReclamationHydroData(FromHydroData = FALSE)
 
 
 # Read in the Reservoir Bathymetry and Critical Elevations
@@ -371,9 +371,13 @@ ggplot() +
 
 ```
 
-## Figure 5B: Lake Powell Minimum Drawdown and Catastrophic Elevations - Monthly Data
+## Figure 5B: No Longer Use
+
+
 
 ```{r ResDataFig5B, echo=FALSE, warning=FALSE, message=FALSE} 
+
+# Lake Powell Minimum Drawdown and Catastrophic Elevations - Monthly Data
 
 ### Plot 5B - Powell history back to 2025 and y axis cut at 3,575 feet
 
@@ -403,36 +407,36 @@ dfPowellElevations2$DateOffset <- c(270, 0)
 
 dEndDate <- as.Date("2027-01-01")
 
-ggplot() +
-  
-  geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
-  
-  geom_text(aes(x = as.Date("2026-02-01"), y = 9, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
-  geom_text(aes(x = as.Date("2026-02-01"), y = 8.5, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
-
-  scale_x_date(limits= c(as.Date("2024-01-01"), dEndDate),
-               date_breaks = "6 months", # Major ticks every 10 years
-               date_labels = "%b\n%Y") +
-  
-  #Create secondary y axes for Powell Lake Level
-  scale_y_continuous(limits = c(3,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
-  
-  geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[4], linetype = "dashed", size =1.5) +
-
-  geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
-  
-  
-    # Add a label for Minimum Drawdown and Catastropy Elevations
-  geom_text(data = dfPowellElevations2, aes(x = as.Date("2024-12-01") + DateOffset, y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = "red", size = nTextSize, fontface = "bold" ) +
-  
-  theme_bw() +
-  
-  labs(x="", y="Active Storage (maf)") +
-
-  theme(text = element_text(size=lFontSize), legend.position = "none",
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
+# ggplot() +
+#   
+#   geom_line(data = dfResStorageWide, aes(x = DateAsDate, y = `Lake Powell`), size = 1.5) +
+#   
+#   geom_text(aes(x = as.Date("2026-02-01"), y = 9, label = cCurrent), fontface = "bold", color = "blue", size = nTextSize) + 
+#   geom_text(aes(x = as.Date("2026-02-01"), y = 8.5, label = cPowellElevationsConcatNarrow), color = pReds[5], size = nTextSize) +
+# 
+#   scale_x_date(limits= c(as.Date("2024-01-01"), dEndDate),
+#                date_breaks = "6 months", # Major ticks every 10 years
+#                date_labels = "%b\n%Y") +
+#   
+#   #Create secondary y axes for Powell Lake Level
+#   scale_y_continuous(limits = c(3,10), breaks = dfPowellElevations$ActiveStorageMAF,labels=round(dfPowellElevations$ActiveStorageMAF, digits = 1), sec.axis = sec_axis(~. +0, name = "Elevation (feet)", breaks = dfPowellElevations$ActiveStorageMAF , labels = dfPowellElevations$Label)) +
+#   
+#   geom_hline(yintercept = dfPowellElevations2$ActiveStorageMAF, color = pReds[4], linetype = "dashed", size =1.5) +
+# 
+#   geom_point(data = dfLastDate, aes(x = DateAsDate, y = `Lake Powell`), color = "blue", size = 4 ) +
+#   
+#   
+#     # Add a label for Minimum Drawdown and Catastropy Elevations
+#   geom_text(data = dfPowellElevations2, aes(x = as.Date("2024-12-01") + DateOffset, y = ActiveStorageMAF + VerticalAdjustLabel, label = PoolLabel), color = "red", size = nTextSize, fontface = "bold" ) +
+#   
+#   theme_bw() +
+#   
+#   labs(x="", y="Active Storage (maf)") +
+# 
+#   theme(text = element_text(size=lFontSize), legend.position = "none",
+#         panel.grid.major = element_blank(),
+#         panel.grid.minor = element_blank(),
+#         axis.text.y.right = element_text(size = lFontSize - lFontSizeReduction))
 
  
 ```
