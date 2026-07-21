@@ -246,7 +246,7 @@ ggplot() +
 dfPowellElevations <- dfTemp$dfPowellElevations
 dfPowellElevations$CurrentStorage <- dfResElevations %>% filter(FieldName == "Storage", ResName == "Lake Powell") %>% pull(Value) / 1e6
 dfPowellElevations$StorageAbove <- dfPowellElevations$CurrentStorage - dfPowellElevations$ActiveStorageMAF
-dfPowellElevations$StorageAboveLabel <- paste0(round(dfPowellElevations$StorageAbove, digits = 1), " maf above elev. ", format(dfPowellElevations$`Elevation (feet)`,scientific = FALSE, big.mark = ",", trim = TRUE))
+dfPowellElevations$StorageAboveLabel <- paste0(round(dfPowellElevations$StorageAbove, digits = 2), " maf above elev. ", format(dfPowellElevations$`Elevation (feet)`,scientific = FALSE, big.mark = ",", trim = TRUE))
 
 # Filter out the last (most recent entry)
 dfResStorageWide$DateAsDate <- as.Date(dfResStorageWide$Date)
