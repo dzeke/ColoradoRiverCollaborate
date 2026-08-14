@@ -57,7 +57,7 @@
 # Utah State University
 # david.rosenberg@usu.edu
 
-rm(list = ls())  #Clear history
+#rm(list = ls())  #Clear history
 
 # Load required libraries in 1 go
 # List of packages
