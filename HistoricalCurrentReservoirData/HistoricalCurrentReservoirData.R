@@ -546,8 +546,8 @@ dfYearToDateVolume$Label <- paste0(dfYearToDateVolume$FieldNameShort, "\n(", rou
 
 ggplot() +
   #Line graph of Powell Release
-  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Release volume", WaterYear >= max(WaterYear)) , aes(x = DateAsDate, y=Value, group = 1, color="Release"), size=1) +
-  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Inflow Volume", WaterYear >= max(WaterYear)), aes(x = DateAsDate, y=Value, group = 1, color="Inflow"), size=1) +
+  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Release volume", WaterYear >= max(WaterYear) - 1) , aes(x = DateAsDate, y=Value, group = 1, color="Release"), size=1) +
+  geom_line(data = dfResDataDaily %>% filter(ResName == "Lake Powell", FieldName == "Inflow Volume", WaterYear >= max(WaterYear) - 1), aes(x = DateAsDate, y=Value, group = 1, color="Inflow"), size=1) +
   
     scale_color_manual(" ", labels = c(dfYearToDateVolume$Label[1],dfYearToDateVolume$Label[2] ), values = c("Inflow" = pBlues[7], "Release" = pReds[7])) +
   scale_x_date( date_breaks = "1 month", date_labels = "%b\n%Y") +
